@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="showEditLayout"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.auction.IncrementalRule" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.IncrementRuleRvHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:visibility="@{safeUnbox(showEditLayout) ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.from}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="0" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/borderColor" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.to}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="90" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/borderColor" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.price}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="25" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="@{safeUnbox(showEditLayout) ? View.VISIBLE : View.GONE}">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                android:gravity="start|center_vertical"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@={data.from}"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/text_size_small"
+                tools:text="0" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/borderColor" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                android:gravity="start|center_vertical"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@={data.to}"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/text_size_small"
+                tools:text="0" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/borderColor" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                android:gravity="start|center_vertical"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@={data.price}"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/text_size_small"
+                tools:text="0" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/borderColor" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_weight="0.5"
+                android:onClick="@{()->handler.onClickDeleteItem(position)}"
+                app:srcCompat="@drawable/ic_delete_cart_accent_color" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="id"
+            type="String" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SelectedCategoriesHandler" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        android:background="@color/color_whiteBlack"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/remove_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_whiteBlack"
+            android:gravity="start|center_vertical"
+            android:padding="@dimen/spacing_normal"
+            android:text="@{name}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="Category 1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/contextual_icon_dimens"
+            android:layout_height="match_parent"
+            android:background="@color/color_whiteBlack"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{()-> handler.onClickDeleteItem(id,name)}"
+            android:padding="@dimen/spacing_normal"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_vector_remove" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

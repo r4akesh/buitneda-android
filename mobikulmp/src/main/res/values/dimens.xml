@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="border_height">1dp</dimen>
+    <dimen name="material_drawer_item_profile_icon">50dp</dimen>
+    <dimen name="profile_pic_small">64dp</dimen>
+
+</resources>

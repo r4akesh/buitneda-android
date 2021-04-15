@@ -1,0 +1,104 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.homepage.Category" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.ItemCategoryFragmentHandler" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{isSelected ? @color/space_color : @color/color_background}"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{()->handler.onClickCategoryItem(data,position)}"
+        android:orientation="vertical"
+        >
+
+
+        <View
+            android:layout_width="@dimen/spacing_generic"
+            android:layout_height="@dimen/spacing_generic"
+            android:background="@{isSelected ? @color/colorPrimaryDark : @color/color_background}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="@dimen/spacing_generic"
+                android:layout_height="match_parent"
+                android:background="@{isSelected ? @color/colorPrimaryDark : @color/color_background}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:layout_marginRight="@dimen/card_elevation_medium"
+            android:background="@color/color_background"
+            android:onClick="@{()->handler.onClickCategoryItem(data,position)}"
+            android:scaleType="fitXY"
+            app:imageUrl="@{data.icon}"
+            app:placeholder="@{data.thumbnailDominantColor}"
+            tools:layout_width="200dp"
+            tools:src="@drawable/placeholder" />
+
+        </LinearLayout>
+<!--
+        <View
+            android:layout_width="5dp"
+            android:layout_height="20dp"
+            android:background="@{isSelected ? @color/colorPrimaryDark : @color/color_background}" />
+-->
+
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="@dimen/spacing_generic"
+                android:layout_height="match_parent"
+                android:background="@{isSelected ? @color/colorPrimaryDark : @color/color_background}" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/category_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:paddingLeft="@dimen/card_elevation_low"
+            android:paddingRight="@dimen/card_elevation_low"
+            android:text="@{data.name}"
+            android:textStyle="bold"
+            android:textColor="@color/product_price_color"
+            android:textSize="@dimen/text_size_tiny"
+            android:paddingBottom="@dimen/card_elevation_medium"
+            tools:text="Automotive" />
+         </LinearLayout>
+
+    </LinearLayout>
+</layout>

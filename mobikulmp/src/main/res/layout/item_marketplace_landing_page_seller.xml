@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.landingpage.SellersData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.MarketplaceLandingPageSellerHandler" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v)->handler.onClickViewSellerProfile(data.sellerId, data.shopTitle)}"
+            app:cardBackgroundColor="@color/color_whiteBlack"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="1dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_horizontal_margin">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/profile_pic_small"
+                    android:layout_height="@dimen/profile_pic_small"
+                    android:layout_gravity="center"
+                    app:civ_border_color="@color/grey_500"
+                    app:civ_border_width="1dp"
+                    app:imageUrl="@{data.logo}"
+                    tools:src="@drawable/customer_profile_placeholder" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:text="@{data.shopTitle}"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="FOOTWEAR STORE" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{data.productCount}"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="1 Product" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_normal"
+                    android:background="@drawable/shape_rect_extra_round_cnr_accent_bg_accent_border_1dp"
+                    android:onClick="@{(v)->handler.onClickViewSellerCollection(data.sellerId, data.shopTitle)}"
+                    android:padding="@dimen/spacing_generic"
+                    android:text="@string/view_all"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/seller_product_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_horizontal_scroller_product_view" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

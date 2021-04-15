@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/bottom_category"
+        android:icon="@drawable/bottom_category1"
+        android:title="@string/menu"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/bottom_auction"
+        android:icon="@drawable/bottom_auction1"
+        android:title="@string/auction"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/bottom_home"
+        android:title=""
+       />
+
+
+
+    <item
+        android:id="@+id/bottom_cart"
+        android:icon="@drawable/bottom_cart1"
+        android:title="@string/cart"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/bottom_profile"
+        android:icon="@drawable/profile1"
+        android:title="@string/account"
+        app:showAsAction="always" />
+
+</menu>

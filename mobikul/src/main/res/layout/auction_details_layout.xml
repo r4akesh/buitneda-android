@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isWon"
+            type="Boolean" />
+
+        <variable
+            name="auctionFinish"
+            type="Boolean" />
+
+        <variable
+            name="showAuctionDetails"
+            type="Boolean" />
+
+        <variable
+            name="showCurrentAuctionPrice"
+            type="Boolean" />
+
+        <variable
+            name="nextMinEditTextAmount"
+            type="String" />
+        <variable
+            name="auctionTitle"
+            type="String" />
+
+        <variable
+            name="days"
+            type="String" />
+
+        <variable
+            name="hours"
+            type="String" />
+
+        <variable
+            name="minutes"
+            type="String" />
+
+        <variable
+            name="seconds"
+            type="String" />
+
+        <variable
+            name="bidAmount"
+            type="String" />
+
+        <variable
+            name="bidCount"
+            type="String" />
+
+        <variable
+            name="minQty"
+            type="String" />
+
+        <variable
+            name="maxQty"
+            type="String" />
+
+        <variable
+            name="openAmount"
+            type="String" />
+
+        <variable
+            name="winningMessage"
+            type="String" />
+
+        <variable
+            name="auctionDetails"
+            type="com.webkul.mobikul.models.auction.AuctionDetails" />
+
+        <variable
+            name="auctionPriceData"
+            type="com.webkul.mobikul.models.auction.AuctionPriceData" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_generic">
+
+        <TextView
+            android:id="@+id/auction_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{auctionTitle}"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:textColor="@color/text_color_primary"
+            tools:text="Bid on wwwwwwwwwwwwwwww" />
+
+        <LinearLayout
+            android:id="@+id/timer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:orientation="horizontal"
+            android:visibility="@{auctionFinish ? View.GONE : View.VISIBLE}">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end_in"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="Ends in" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_tiny"
+                    android:layout_marginRight="@dimen/spacing_tiny"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_generic">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timer_days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{days}"
+                            android:textSize="@dimen/text_size_large"
+                            android:textColor="@color/text_color_primary"
+                            android:textStyle="bold"
+                            tools:text="11" />
+
+                        <TextView
+                            android:id="@+id/timer_days_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_primary"
+                            android:text="@string/days"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timer_hours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{hours}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold"
+                            tools:text="6" />
+
+                        <TextView
+                            android:id="@+id/timer_hours_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_primary"
+                            android:text="@string/hours"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/colon"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timer_minutes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{minutes}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold"
+                            tools:text="13" />
+
+                        <TextView
+                            android:id="@+id/timer_minutes_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_primary"
+                            android:text="@string/minutes"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/colon"
+                        android:textSize="@dimen/text_size_large"
+                        android:textColor="@color/text_color_primary"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timer_seconds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{seconds}"
+                            android:textSize="@dimen/text_size_large"
+                            android:textColor="@color/text_color_primary"
+                            android:textStyle="bold"
+                            tools:text="59" />
+
+                        <TextView
+                            android:id="@+id/timer_seconds_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_primary"
+                            android:text="@string/seconds"
+                            android:textSize="@dimen/text_size_small" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_bid_amount"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/text_color_primary"
+                    android:visibility="@{showCurrentAuctionPrice ? View.VISIBLE : View.GONE}"
+                    tools:text="Current Bid Amount" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{bidAmount}"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    android:visibility="@{showCurrentAuctionPrice ? View.VISIBLE : View.GONE}"
+                    tools:text="$125.00" />
+
+                <TextView
+                    android:id="@+id/bids_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:text="@{bidCount}"
+                    android:textColor="@color/text_color_link"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="@{showAuctionDetails &amp;&amp; showCurrentAuctionPrice ? View.VISIBLE : View.GONE}"
+                    tools:text="1 Bids" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:orientation="horizontal"
+            android:visibility="@{showAuctionDetails &amp;&amp; !auctionFinish  ? View.GONE : View.GONE}">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{@string/minimum_qty_x(minQty)}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="@string/minimum_qty_x" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{@string/maximum_qty_x(maxQty)}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="@string/maximum_qty_x" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{isWon ? View.VISIBLE: View.GONE}"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{@string/open_bid_amt_x(openAmount)}"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="@{showAuctionDetails &amp;&amp; !auctionFinish ? View.VISIBLE : View.GONE}"
+                tools:text="@string/open_bid_amt_x" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{@string/next_min_bid_amt_x(auctionPriceData.unformattedNextMinAmount)}"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="@{showCurrentAuctionPrice &amp;&amp; !auctionFinish &amp;&amp; auctionPriceData.unformattedNextMinAmount != null ? View.VISIBLE : View.GONE}"
+                tools:text="@string/next_min_bid_amt_x" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{winningMessage}"
+                android:textColor="@color/place_order_btn_color"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="italic"
+                android:visibility="@{winningMessage != null ? View.VISIBLE : View.GONE}"
+                tools:text="congrats you win. Now, you can get it in $220.00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="@{isWon || auctionFinish ? View.GONE : View.VISIBLE}">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/bid_amount_et"
+                android:editable="false"
+                android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                android:hint="@string/enter_bid_amount"
+                android:inputType="none"
+                android:padding="@dimen/spacing_generic"
+                android:text="@{nextMinEditTextAmount}"
+                android:textSize="@dimen/text_size_small"
+                tools:hint="Enter Bid Amount" />
+
+            <Button
+                android:id="@+id/bid_now_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingStart="@dimen/spacing_generic"
+                android:text="@string/bid_now"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Bid now" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/auto_bid_cb"
+            android:checked="@={auctionPriceData.placeAsAuto}"
+            android:text="@string/place_bid_as_auto"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="@string/place_bid_as_auto" />
+
+    </LinearLayout>
+
+</layout>

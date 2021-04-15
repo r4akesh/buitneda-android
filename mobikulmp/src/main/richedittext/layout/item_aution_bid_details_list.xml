@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.auction.BidList" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingStart="@dimen/spacing_generic"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:text="@{data.bidderName}"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Ratnesh Kumar" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/borderColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingStart="@dimen/spacing_generic"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:text="@{data.bidAmount}"
+            android:textSize="@dimen/text_size_small"
+            tools:text="$30.00" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/borderColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingStart="@dimen/spacing_generic"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:text="@{data.bidDate}"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Apr 20, 2018, 4:46:20 AM" />
+
+    </LinearLayout>
+</layout>

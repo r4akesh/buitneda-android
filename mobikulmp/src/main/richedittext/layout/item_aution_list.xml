@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.auction.AuctionList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.AuctionListRvHandler" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/auction_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp"
+            android:minWidth="200dp"
+            android:onClick="@{()->handler.onClickAuction(data.auctionId, data.selectionModeOn)}"
+            android:padding="@dimen/category_item_layout_padding">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/product_image_iv"
+                android:layout_width="@dimen/product_image_height"
+                android:layout_height="@dimen/product_image_height">
+
+                <ImageView
+                    android:layout_width="@dimen/product_image_height"
+                    android:layout_height="@dimen/product_image_height"
+                    app:imageUrl="@{data.thumbNail}"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/placeholder" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <LinearLayout
+                android:id="@+id/product_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/product_image_iv"
+                android:layout_toRightOf="@id/product_image_iv"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingLeft="@dimen/spacing_generic"
+                android:paddingRight="@dimen/spacing_generic"
+                android:paddingStart="@dimen/spacing_generic">
+
+                <TextView
+                    android:id="@+id/product_name_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:clickable="@{data.isLinkable}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:maxLines="2"
+                    android:onClick="@{()->handler.onClickProduct(data.id, data.name)}"
+                    android:text="@{data.name}"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/text_color_link"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:text="Flatiron Tablet Sleeve, Flatiron Tablet Sleeve" />
+
+                <TextView
+                    android:id="@+id/start_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@{@string/starting_price_x(data.startingPrice)}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="Starting Price: $40.00" />
+
+                <TextView
+                    android:id="@+id/resever_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@{@string/reserve_price_x(data.reservePrice)}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="Reserve Price: $40.00" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/quantity"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/min_x(data.minQty)}"
+                            tools:text="Min: 2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/max_x(data.maxQty)}"
+                            tools:text="Max: 2" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".6"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/options"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/increment_x(data.incrementalStatus)}"
+                            tools:text="Increment : Disabled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/auto_bid_X(data.autoBidStatus)}"
+                            tools:text="@string/auto_bid_X" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_name_layout"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auction_status"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_tiny"
+                        android:layout_marginRight="@dimen/spacing_tiny"
+                        android:text="@string/colon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.auctionStatus}"
+                        tools:text="Canceled by owner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/product_sold"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_tiny"
+                        android:layout_marginRight="@dimen/spacing_tiny"
+                        android:text="@string/colon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.isProductSold}"
+                        tools:text="Canceled by owner" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/auction_date"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/start_x(data.startTime)}"
+                    tools:text="Start : 4/11/2018 18:20:20" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/stop_x(data.stopTime)}"
+                    tools:text="Stop : 4/11/2018 18:20:20" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_auction_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:onClick="@{()->handler.onClickEditAuction(data.id, data.auctionId)}"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingStart="@dimen/spacing_generic"
+                android:text="@string/edit" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/auction_container"
+            android:layout_alignTop="@id/auction_container"
+            android:background="@{data.selected ? @drawable/shape_rectangular_transparent_white_bg_and_border_1_dp : null}"
+            android:clickable="true"
+            android:visibility="@{data.selectionModeOn ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
+</layout>

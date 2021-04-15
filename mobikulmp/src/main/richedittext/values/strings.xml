@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_text_here">Insert text here...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fill_all_req_option">fill all required option</string>
+    <string name="auction_options">auction options</string>
+    <string name="but_it_now">but it now</string>
+    <string name="starting_price">starting price</string>
+    <string name="reserve_price">reserve price</string>
+    <string name="start_auction_time">start auction time</string>
+    <string name="stop_auction_time">stop auction time</string>
+
+    <string name="number_of_days_till_winner_can_buy">Number of Days Till Winner Can Buy *</string>
+    <string name="minimum_quantity">Minimum Quantity *</string>
+    <string name="maximum_quantity">Maximum Quantity *</string>
+    <string name="automatic_option">Automatic Option</string>
+    <string name="increment_option">Increment Option</string>
+    <string name="show_admin_increment_bid_rule">Show Admin Increment Bid Rule</string>
+    <string name="increment_bid_rule_set_by_admin">Increment bid rule set by admin</string>
+    <string name="you_can_add_your_increment_bid_rule_otherwise_admin_increment_bid_rule_will_apply">You can add your Increment bid rule otherwise admin Increment bid rule will apply</string>
+    <string name="save_auction">Save Auction</string>
+    <string name="add">Add</string>
+    <string name="disable">Disable</string>
+    <string name="cancel_auction">Cancel Auction</string>
+    <string name="aution_bid_details_activity_title">Auction Bid Details</string>
+    <string name="bidder_name">Bidder Name</string>
+    <string name="bid_amount">Bid Amount</string>
+    <string name="time_stamp">Time Stamp</string>
+    <string name="action">Action</string>
+    <string name="you_have_no_bid_records">You have no bid records.</string>
+    <string name="you_have_no_auto_bid_records">You have no auto bid records.</string>
+    <string name="nav_menu_my_communication_history">My Communication History</string>
+    <string name="nav_menu_seller_manage_slider_images">Manage Slider Images</string>
+    <string name="manage_slider_images_activity_title">Add Images For Slider</string>
+    <string name="edit_url">Edit Url</string>
+    <string name="url_error">Please enter a valid URL. Protocol is required (http://, https:// or ftp://)</string>
+    <string name="nav_menu_manage_mp_qa">Manage MPQA</string>
+    <string name="activity_title_manage_mp_qa">Questions</string>
+    <string name="nav_menu_size_chart">Size Chart</string>
+    <string name="activity_title_size_chart">Size Chart Templates</string>
+    <string name="code_x">Code: %s</string>
+    <string name="no_templates_found">No Templates Found</string>
+    <string name="activity_title_edit_size_chart_template">Edit Template</string>
+    <string name="activity_title_add_size_chart_template">Add Template</string>
+    <string name="continue_text">Continue</string>
+    <string name="add_custom_price">Add Custom Price</string>
+    <string name="select_option">Select Option:</string>
+    <string name="nav_menu_seller_daily_deal">Daily Deal</string>
+    <string name="add_deal_tab_label">Add Deal On Product</string>
+    <string name="deal_product_list_tab_label">Deal Product List</string>
+    <string name="cancel_text">Cancel</string>
+
+    <string name="deal_status_x">Deal Status: %s</string>
+    <string name="deal_price_x">Deal Price: %s</string>
+    <string name="add_deal_on_product_activity_title">Add Deal On Product</string>
+    <string name="cancel_deal">Cancel Deal</string>
+    <string name="websites">Websites</string>
+    <string name="customer_groups">Customer Group</string>
+    <string name="nav_menu_seller_asign_product">Assign Product</string>
+    <string name="nav_menu_seller_asign_product_list">Assign Product List</string>
+    <string name="assign_product_activity_title">Assign Product</string>
+    <string name="search_for_products">Search For Product</string>
+    <string name="sell_yours">Sell Yours</string>
+    <string name="no_results_found_try_different_search">No Results Found \n Try some different keywords..</string>
+    <string name="custom_options">Custom Options</string>
+    <string name="option_title">Option Title</string>
+    <string name="input_type">Input Type</string>
+    <string name="required">Required</string>
+    <string name="price_type">Price Type</string>
+    <string name="max_char">Max Char</string>
+    <string name="compat_file_ext">Compat. File Ext.</string>
+    <string name="maximum_image_size">Maximum Image Size</string>
+    <string name="please_leave_blank_if_it_is_not_an_image">Please leave blank if it is not an image.</string>
+    <string name="nav_menu_seller_marketplace_rma">Marketplace RMA</string>
+    <string name="daily_deals_activity_title">Daily Deals</string>
+    <string name="no_history_available">No Communication History Available</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="enter_the_product_name">enter the product name</string>
+    <string name="add_auction_tab_label">Add Auction</string>
+    <string name="normal_bid_list">normal bid list</string>
+    <string name="automatic_bid_list">automatic bid list</string>
+    <string name="options">options</string>
+    <string name="auction_status">auction status</string>
+    <string name="product_sold">product solid</string>
+    <string name="auction_date">auction data</string>
+    <string name="invalid_number">invalid number</string>
+    <string name="ivalid_reserve_price">invalid reserve price</string>
+    <string name="invalid_max_qty">invalid max qty</string>
+
+
+</resources>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerTransactionListResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerTransactionsListActivityHandler" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:fitsSystemWindows="false">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            app:elevation="0dp">
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{data==null ? View.GONE : View.VISIBLE}"
+                app:cardBackgroundColor="@color/color_whiteBlack"
+                app:cardElevation="0dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/basic_information_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/border_height"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{()->handler.onClickBasicDetailsBtn()}"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/payment_summary"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_payment_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        tools:visibility="visible">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/border_height"
+                            android:background="@color/divider_color" />
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_normal"
+                            android:background="@color/color_whiteBlack">
+
+                            <TableRow>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/total_sale"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:gravity="center"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/colon"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:text=":" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@{data.totalSale}"
+                                    android:textColor="@color/text_color_primary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold"
+                                    tools:text="$1000.0000" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/total_tax"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:gravity="center"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/colon"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@{data.totalTax}"
+                                    android:textColor="@color/text_color_primary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold"
+                                    tools:text="$1000.0000" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/total_commission"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:gravity="center"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/colon"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@{data.totalCommission}"
+                                    android:textColor="@color/text_color_primary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold"
+                                    tools:text="$1000.0000" />
+
+                            </TableRow>
+
+
+                            <TableRow>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/remaining_transactions"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:gravity="center"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@string/colon"
+                                    android:textColor="@color/text_color_secondary"
+                                    android:textSize="@dimen/text_size_small"
+                                    tools:text=":" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:padding="@dimen/spacing_generic"
+                                    android:text="@{data.remainingTransactionAmount}"
+                                    android:textColor="@color/text_color_primary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold"
+                                    tools:text="$1000.0000" />
+
+                            </TableRow>
+                        </TableLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/border_height"
+                            android:background="@color/divider_color" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/button_make_withdraw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/spacing_tiny"
+                            android:background="@android:color/transparent"
+                            android:drawableStart="@drawable/ic_vector_account_balance_wallet_wrapper"
+                            android:drawablePadding="@dimen/spacing_generic"
+                            android:gravity="center"
+                            android:onClick="@{(v)->handler.onClickMakeWithdrawal(v)}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/request_withdrawal"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:visibility="@{data.unformattedRemainingPayout >0 ? View.VISIBLE : View.GONE}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/border_height"
+                            android:background="@color/divider_color" />
+
+                    </LinearLayout>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:background="@color/color_background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_background"
+                android:visibility="@{data.totalCount == 0 ? View.GONE : View.VISIBLE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_seller_transaction" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/no_transactions_to_display"
+                android:textColor="@color/text_color_primary"
+                android:visibility="@{data.totalCount == 0 &amp;&amp; !loading ? View.VISIBLE : View.GONE}" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+

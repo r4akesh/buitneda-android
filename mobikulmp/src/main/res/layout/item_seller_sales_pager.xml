@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="imageUrl"
+            type="String" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_whiteBlack"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_tiny">
+
+        <com.webkul.mobikul.customviews.ZoomImageView
+            android:id="@+id/stats_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/spacing_generic"
+            android:background="@color/color_background"
+            app:imageUrl="@{imageUrl}"
+            app:layout_height="@{((Utils.getScreenWidth()) / 2)+ 140}"
+            tools:layout_height="200dp"
+            tools:placeholder="@drawable/placeholder" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

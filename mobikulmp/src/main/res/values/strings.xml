@@ -1,0 +1,456 @@
+<resources>
+    <string name="app_name" translatable="false">Buitanda</string>
+
+    <!-- Seller Account Menus Related Strings -->
+    <string name="seller_account">Seller Account</string>
+    <string name="seller_dashboard">Seller Dashboard</string>
+    <string name="seller_profile">Seller Profile</string>
+    <string name="seller_orders">Seller Orders</string>
+    <string name="attributes">Attributes</string>
+    <string name="add_new_product">Add New Product</string>
+    <string name="seller_products">Seller Products</string>
+    <string name="transactions">Transactions</string>
+    <string name="product_reviews">Product Reviews</string>
+    <string name="invoice_print_template">Invoice Print Template</string>
+    <string name="chat_with_admin">Chat with Admin</string>
+    <string name="ask_questions">Ask Questions</string>
+    <string name="activity_title_ask_admin">Ask Admin</string>
+    <string name="nav_seller_pending_status">Your Seller Account is under Approval by the Admin</string>
+    <string name="become_seller">Become Seller</string>
+    <string name="marketplace">Marketplace</string>
+
+    <!--Facebook Login App Ids -->
+    <string name="facebook_app_id" translatable="false">dummy</string>
+    <string name="fb_login_protocol_scheme" translatable="false">dummy</string>
+
+    <string name="auction_product_list_tab_label">Auction Product List</string>
+    <string name="auto_bid_X">Auto Bid : %s</string>
+    <string name="x_selected_count">%d selected</string>
+    <string name="reserve_price_x">Reserve Price: %s</string>
+    <string name="starting_price_x">Starting Price: %s</string>
+    <string name="max_x">Max: %s</string>
+    <string name="min_x">Min: %s</string>
+    <string name="increment_x">Increment : %s</string>
+    <string name="start_x">Start : %s</string>
+    <string name="stop_x">Stop : %s</string>
+    <!--Ask Questions-->
+    <string name="subject">Subject</string>
+    <string name="query">Query</string>
+    <string name="submit">Submit</string>
+    <string name="msg_this_is_a_required_field">This is a required field.</string>
+    <string name="query_submitted">Query Submitted</string>
+
+    <!--Become Seller-->
+    <string name="is_require_text">is required !</string>
+    <string name="sign_up_as_seller">Do you want to become Seller/Vendor?</string>
+    <string name="shop_url">Shop URL</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="shop_url_desc">(This will be used to display your public profile)</string>
+    <string name="waiting_for_approval_from_admin_your_application_current_status_is_pending">Waiting for approval from admin, your application current status is Pending</string>
+
+    <!--Create Attribute-->
+    <string name="create_attribute">Create Attribute</string>
+    <string name="default_store_view">Default Store View</string>
+    <string name="position">Position</string>
+    <string name="mark_as_default">Mark as default</string>
+    <string name="remove">Remove</string>
+    <string name="attribute_label">Attribute Label</string>
+    <string name="attribute_code">Attribute Code</string>
+    <string name="attribute_values">Attribute Values</string>
+    <string name="value_required">Value Required</string>
+    <string name="add_values">Add Values</string>
+    <string name="add_another_value">Add Another Value</string>
+    <string name="basic">Basic</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure">Are you sure?</string>
+
+    <!--Edit Seller Profile-->
+
+    <string name="save_profile">Save Profile</string>
+    <string name="shop_title">Shop Title</string>
+    <string name="contact_no">Contact No.</string>
+    <string name="tax_vat_number">Tax/Vat Number</string>
+    <string name="shop_locality">Shop Locality</string>
+    <string name="country">Country</string>
+    <string name="description">Description</string>
+    <string name="image_and_theme">Image &amp; Theme</string>
+    <string name="background_color">Background Color</string>
+    <string name="cover_banner">Cover Banner</string>
+    <string name="change_color">Change Color</string>
+    <string name="add_banner">Add Banner</string>
+    <string name="logo">Logo</string>
+    <string name="add_logo">Add Logo</string>
+    <string name="social_profiles">Social Profiles</string>
+    <string name="profile_link">Profile Link</string>
+    <string name="facebook">FaceBook</string>
+    <string name="activated">Activated</string>
+    <string name="deactivated">Deactivated</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="youtube">Youtube</string>
+    <string name="vimeo">Vimeo</string>
+    <string name="pinterest">Pinterest</string>
+    <string name="seo">SEO</string>
+    <string name="meta_description">Meta Description</string>
+    <string name="meta_keyword">Meta Keyword</string>
+    <string name="payment_info">Payment Info</string>
+    <string name="payment_details">Payment Details</string>
+    <string name="policies">Policies</string>
+    <string name="shipping_policy">Shipping Policy</string>
+    <string name="return_policy">Return Policy</string>
+    <string name="choose_color">Choose Color</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_you_want_to_delete_this_banner">Are you sure you want to delete this banner?</string>
+    <string name="are_you_sure_you_want_to_delete_this_logo">Are you sure you want to delete this logo?</string>
+    <string name="country_colon">Country :</string>
+    <string name="enter_meta_keywords_comma_separated">Enter Meta Keywords Comma(\',\') Separated..</string>
+    <string name="select_country">Select Country</string>
+
+
+    <!--Invoice Print Template-->
+    <string name="pdf_header_info">PDF Header Info</string>
+    <string name="save_information">Save Information</string>
+    <string name="edit_pdf_header">Edit PDF Header</string>
+    <string name="please_fill_the_information">Please fill the information</string>
+
+    <!--Chat with Admin-->
+    <string name="chat_with_sellers">Chat With Sellers</string>
+    <string name="search_seller">Search Sellers</string>
+    <string name="no_sellers_were_found">No sellers were found.</string>
+    <string name="new_message_from_admin">New message from admin</string>
+
+    <!--Add/Edit Product-->
+    <string name="edit_product">Edit Product</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="short_description">Short Description</string>
+    <string name="special_price_from">Special Price From</string>
+    <string name="special_price_to">Special Price To</string>
+    <string name="special_price">Special Price ($)</string>
+    <string name="special_price_currency">Special Price (%s)</string>
+    <string name="price_currency">Price (%s)</string>
+    <string name="sku">SKU</string>
+    <string name="product_category">Product Category</string>
+    <string name="product_purchase_limit">Product Purchase Limit</string>
+    <string name="stock">Stock</string>
+    <string name="weight">Weight</string>
+    <string name="images">Images</string>
+    <string name="downloadable">Downloadable</string>
+    <string name="related_products">Related Products</string>
+    <string name="upsell_products">Upsell Products</string>
+    <string name="cross_sell_products">Cross-Sell Products</string>
+    <string name="stock_count">Stock Count</string>
+    <string name="meta_title">Meta Title</string>
+    <string name="yes_limited_purchase_only">Yes limited purchase only</string>
+    <string name="purchase_limit">Purchase Limit</string>
+    <string name="does_this_have_a_weight">Does this have a weight?</string>
+    <string name="weight_x">Weight (%1$s)</string>
+    <string name="is_this_downloadable_product">Is this downloadable Product?</string>
+    <string name="please_select_visibility">--Please  select visibility--</string>
+    <string name="select_category">Select Category</string>
+    <string name="msg_no_filter_option_available">No filter options available for the results !</string>
+    <string name="related_product_title">Related Products</string>
+    <string name="upsell_product">Up-Sell Products</string>
+    <string name="cross_sell_product">Cross-Sell Products</string>
+    <string name="your_email_address">Your Email Address</string>
+    <string name="add_another_link">Add Another Link</string>
+    <string name="title">Title</string>
+    <string name="file_type_file_link">File Type - Link</string>
+    <string name="file_type_file_upload">File Type - Upload</string>
+    <string name="sample_type_file_link">Sample Type - Link</string>
+    <string name="sample_type_file_upload">Sample Type - Upload</string>
+    <string name="upload">Upload</string>
+    <string name="sample">Sample</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="max_downloads">Max downloads</string>
+    <string name="warning_are_you_sure">Are you sure ?</string>
+    <string name="delete_warning">You want to delete this?</string>
+    <string name="price">Price</string>
+    <string name="url">URL</string>
+    <string name="file">File</string>
+    <string name="sample_url">Sample URL</string>
+    <string name="sample_file">Sample File</string>
+    <string name="title_of_sample">Title of sample</string>
+    <string name="add_another_sample">Add Another Sample</string>
+    <string name="attribute_set_x">Attribute Set: %s</string>
+    <string name="status_x">Status: %s</string>
+    <string name="type_x">Status: %s</string>
+    <string name="sku_x">SKU: %s</string>
+    <string name="title_of_link_s">Title of link(s)</string>
+    <string name="alt_text">Alt Text</string>
+    <string name="role">Role</string>
+    <string name="hide_from_product_page">Hide from Product Page</string>
+    <string name="edit_image_info">Edit Image Info</string>
+    <string name="we_couldn_t_find_any_records">We could not find any records.</string>
+    <string name="disable_product">Disable Product</string>
+    <string name="enable_product">Enable Product</string>
+    <string name="base">Base</string>
+    <string name="product_type_not_found">Product type not found.</string>
+    <string name="stock_availability_colon">Stock Availability:</string>
+    <string name="visibility_colon">Visibility:</string>
+    <string name="tax_class_colon">Tax Class:</string>
+    <string name="attribute_set_colon">Attribute Set:</string>
+    <string name="product_type_colon">Product Type:</string>
+
+    <!--ORDER STATUS CODES-->
+    <string name="order_status_all" translatable="false"></string>
+    <string name="order_status_canceled" translatable="false">canceled</string>
+    <string name="order_status_closed" translatable="false">closed</string>
+    <string name="order_status_complete" translatable="false">complete</string>
+    <string name="order_status_fraud" translatable="false">fraud</string>
+    <string name="order_status_holded" translatable="false">holded</string>
+    <string name="order_status_payment_review" translatable="false">payment_review</string>
+    <string name="order_status_paypal_canceled_reversal" translatable="false">paypal_canceled_reversal</string>
+    <string name="order_status_paypal_reversed" translatable="false">paypal_reversed</string>
+    <string name="order_status_pending" translatable="false">pending</string>
+    <string name="order_status_pending_payment" translatable="false">pending_payment</string>
+    <string name="order_status_pending_paypal" translatable="false">pending_paypal</string>
+    <string name="order_status_processing" translatable="false">processing</string>
+
+    <!--Seller Products-->
+    <string name="no_products_to_display">No products to display</string>
+    <string name="type_colon">Type : </string>
+    <string name="status_colon">Status : </string>
+    <string name="qty_sold_colon">Qty Sold : </string>
+    <string name="qty_confirmed_colon">Qty Confirmed: </string>
+    <string name="qty_pending_colon">Qty Pending: </string>
+    <string name="earned_amount_colon">Earned Amount: </string>
+    <string name="more_info">More Info</string>
+    <string name="category_colon">Category&#x20;:&#x20;</string>
+    <string name="tax_colon">Tax&#x20;:&#x20;</string>
+    <string name="from_colon">From&#x20;:&#x20;</string>
+    <string name="to_colon">To&#x20;:&#x20;</string>
+    <string name="special_price_colon">Special Price&#x20;:&#x20;</string>
+    <string name="less_info">Less Info</string>
+    <string name="sku_colon">SKU : </string>
+    <string name="qty_colon">Qty :</string>
+    <string name="total_sales_colon">Total Sales : </string>
+    <string name="of_toast_for_no_of_item">of</string>
+    <string name="edit">Edit</string>
+    <string name="are_you_sure_you_want_to_delete_this_product">Are you sure you want to delete this product?</string>
+    <string name="please_select_from_date">Please select from date</string>
+    <string name="search_product">Search Product</string>
+    <string name="product_creation_date">Product Creation Date</string>
+    <string name="to_date">To Date</string>
+    <string name="from_date">From Date</string>
+    <string name="product_status">Product status</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="all">All</string>
+    <string name="filters">Filters</string>
+    <string name="error_please_try_again">There is an unknown error. Please try again!</string>
+    <string name="add_images">Add Images</string>
+    <string name="links_can_be_purchased_separately">Links can be purchased separately</string>
+
+
+    <!--Seller Dashboard-->
+    <string name="stats_not_found">Stats not found</string>
+    <string name="total_payout">Total Payout</string>
+    <string name="remaining_amount">Remaining Amount</string>
+    <string name="total_sales">Total Sales</string>
+    <string name="top_5_product">Top 5 Product</string>
+    <string name="total_sales_qty">Total Sales(Qty) -</string>
+    <string name="top_5_category">Top 5 category</string>
+    <string name="latest_orders">Latest Orders</string>
+    <string name="view_all_orders">View All Orders</string>
+    <string name="view_all_reviews">View All reviews</string>
+    <string name="recent_reviews">Recent Reviews</string>
+    <string name="sales_map">Sales Map</string>
+    <string name="sales_graph">Sales Graph</string>
+    <string name="time_range">Time Range</string>
+    <string name="order_id_x"># %s</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="this_week">This Week</string>
+    <string name="this_month">This Month</string>
+    <string name="this_year">This Year</string>
+
+    <!-- Seller Transaction List -->
+    <string name="no_transactions_to_display">No transactions to display</string>
+    <string name="search_transaction">Search Transaction</string>
+    <string name="transaction_id">Transaction ID</string>
+    <string name="transaction_date">Transaction Date</string>
+    <string name="transaction_remark">Transaction Remark</string>
+    <string name="total_commission">Total Commission</string>
+    <string name="total_tax">Total Tax</string>
+    <string name="total_sale">Total Sale</string>
+    <string name="remaining_transactions">Remaining Transactions</string>
+
+
+    <!-- Seller Transaction Details -->
+    <string name="transaction_id_x">Transaction - #%s</string>
+    <string name="paid">Paid</string>
+    <string name="type">Type :</string>
+    <string name="method">Method :</string>
+    <string name="remark">Remark</string>
+    <string name="transaction_order_info">Transaction Order Info</string>
+    <string name="order_x">Order #%s</string>
+    <string name="total_price_colon">Total Price:</string>
+    <string name="total_tax_colon">Total Tax:</string>
+    <string name="total_discount_colon">Total Discount:</string>
+    <string name="total_shipping_colon">Total Shipping:</string>
+    <string name="commission_colon">Commission:</string>
+    <string name="order_total_base_x">Order Total (Base): %s</string>
+    <string name="order_total_purchased_x">Order Total (Purchased): %s</string>
+    <string name="view_all_sellers">View All Sellers</string>
+    <string name="add_related_products">Add Related Products</string>
+    <string name="add_upsell_products">Add Upsell Products</string>
+    <string name="add_cross_sell_products">Add Cross-Sell Products</string>
+    <string name="add_related_product">Add Related Product</string>
+
+    <!-- Seller Order List -->
+    <string name="no_orders_to_display">No orders to display</string>
+    <string name="search_order">Search Order</string>
+    <string name="order_date">Order Date</string>
+    <string name="order_status">Order Status</string>
+
+    <!-- Seller Order Details -->
+    <string name="buyer_info">Buyer Info</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="ship_items">Ship Items</string>
+    <string name="create_invoice">Create Invoice</string>
+    <string name="credit_memo">Credit Memo</string>
+    <string name="carrier">Carrier</string>
+    <string name="tracking_number">Tracking Number</string>
+    <string name="admin_commission_colon">Admin Commission:</string>
+    <string name="vendor_total_colon">Vendor Total:</string>
+    <string name="all_sellers">All Sellers</string>
+    <string name="confirm_email_send">Are you sure you want to send order email to customer?</string>
+    <string name="confirm_invoice_email_send">Are you sure you want to send invoice email to customer?</string>
+    <string name="shipping_confirm_message">Are you sure you want to create shipment?</string>
+    <string name="create_invoice_confirm_message">Are you sure you want to create invoice?</string>
+    <string name="cancel_order_confirm_message">Are you sure you want to cancel this order?</string>
+    <string name="send_tracking_information">Send Tracking Information</string>
+    <string name="print_shipment">Print Shipment</string>
+    <string name="shipment_confirmation">Are you sure you want to send shipment email to customer?</string>
+
+    <!--All Sellers List-->
+    <string name="search_sellers_by_shop_name">Search Sellers by shop name</string>
+
+
+    <!--Marketplace Landing page-->
+    <string name="landing_page_layout2_dummy_text">Open your own online shop &amp; explore a new world of marketplace with more and millions of shopers</string>
+    <string name="marketplace_landingpage_layout2_headinglabel1">Huge Buyers</string>
+    <string name="marketplace_landingpage_layout2_label1">Get your product showcased to a huge range of customers, as everyday many user shops from us.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel2">Got Stuck? Ask Questions</string>
+    <string name="marketplace_landingpage_layout2_label2">If you ever get stuck, let us know and we will help you with the best we have in minimum possible time.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel3">Quick Payments</string>
+    <string name="marketplace_landingpage_layout2_label3">Once goods have been successfully delivered to respective customers, you can request for payout.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel4">Manage Your Orders</string>
+    <string name="marketplace_landingpage_layout2_label4">Manage your orders at maximum ease and help customers to have a better shopping experience.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel5">Earn Badges</string>
+    <string name="marketplace_landingpage_layout2_label5">Once you climb a milestone you get awarded with a badge, which make you look like more pro.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel6">Get Yourself Verified</string>
+    <string name="marketplace_landingpage_layout2_label6">Add a verified brooch to your profile by providing very necessary some business details and documents.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel7">Customize Profile</string>
+    <string name="marketplace_landingpage_layout2_label7">Customize your profile with information like profile logo, shop location, shipping and refund policies.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel8">Create Your Own Collection</string>
+    <string name="marketplace_landingpage_layout2_label8">Add verious products and create your own product collection that will be visible to customers.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel9">Add Media</string>
+    <string name="marketplace_landingpage_layout2_label9">Embed video YouTube to make your account more genuine and stand out in the queue.</string>
+    <string name="marketplace_landingpage_layout2_headinglabel10">Add Unlimited Products</string>
+    <string name="marketplace_landingpage_layout2_label10">Add unlimited products which you want and fulfill your customers need.</string>
+    <string name="marketplace_landingpage_layout2_create_sell_and_earn_label">Sell your Products and Earn Points</string>
+    <string name="marketplace_landingpage_layout2_heading2">REALLY EASY TO SETUP AND CUSTOMIZE</string>
+    <string name="marketplace_landingpage_layout2_create_account_label">Create An Account</string>
+    <string name="marketplace_landingpage_layout2_create_profile_label">Create your Profile</string>
+    <string name="marketplace_landingpage_layout2_create_add_details_label">Add Your Details</string>
+    <string name="marketplace_landingpage_layout2_create_add_product_listing_label">Add Your Product Listing</string>
+    <string name="open_your_shop">Open your shop</string>
+    <string name="no_seller_available">NO SELLER AVAILABLE</string>
+
+    <!-- Seller Profile-->
+    <string name="about">About</string>
+    <string name="products">Products</string>
+    <string name="reviews">Reviews</string>
+    <string name="more">More</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="write_to_us">Write to us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="your_name">Your Name</string>
+    <string name="policy_not_found">Policy not found.</string>
+    <string name="seller_reviews">Seller Reviews</string>
+    <string name="store_rating">Store Rating</string>
+    <string name="add_your_review">Add your review</string>
+    <string name="based_on">Based on</string>
+    <string name="average_price_rating">Average Price Rating(%d)</string>
+    <string name="value_colon">Value:</string>
+    <string name="quality_colon">Quality</string>
+    <string name="products_X">Products: %d</string>
+    <string name="reviews_X">Reviews: %d </string>
+    <string name="orders_X">Orders: %d</string>
+    <string name="review_by">Review by -</string>
+    <string name="average_rating">Average Rating(%d)</string>
+    <string name="average_value_rating">Average Value Rating(%d)</string>
+    <string name="average_quality_rating">Average Quality Rating(%d)</string>
+    <string name="no_review_found_be_the_first_one">No review found. Be the first one to review!</string>
+    <string name="write_your_review">Write Your Review</string>
+    <string name="how_do_you_rate_this_store">How do you rate this Store?</string>
+    <string name="value">Value</string>
+    <string name="nickname">Nickname</string>
+    <string name="summary_of_your_review">Summary of Your Review</string>
+    <string name="review">Review</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="this_is_a_required_field">This is a required field.</string>
+    <string name="x_positive_feedback">% positive feedback</string>
+    <string name="recently_added">Recently Added</string>
+
+
+    <!-- Create Credit Memo -->
+    <string name="activity_create_credit_memo_title">New Credit Memo</string>
+    <string name="qty">Qty</string>
+    <string name="return_to_stock">Return To Stock</string>
+    <string name="qty_to_refund">Qty to Refund</string>
+    <string name="subtotal">subtotal</string>
+    <string name="tax_amt">Tax Amount</string>
+    <string name="discount_amt">Discount Amount</string>
+    <string name="row_total">Row Total</string>
+    <string name="label_subtotal">Subtotal</string>
+    <string name="item_name">Item Name</string>
+    <string name="refund_totals_heading">Refund Totals</string>
+    <string name="payment_summary">Payment Summary</string>
+    <string name="request_withdrawal">Request Withdrawal</string>
+    <string name="is_featured_product">Is Featured Product:</string>
+    <string name="average_rating_0">Average Rating (0)</string>
+    <string name="sold_by">Sold By</string>
+    <string name="contact_seller">Contact Seller</string>
+    <string name="products_x">%s Products</string>
+    <string name="top_selling_category">Top Selling Category</string>
+
+
+    <!--Customer List-->
+    <string name="customer_list">Customer List</string>
+    <string name="select_gender">-Select Gender-</string>
+    <string name="no_user_found">No user Found</string>
+    <string name="order_count">Order Count</string>
+    <string name="name_">Name -</string>
+    <string name="email_">Email -</string>
+    <string name="contact_no_">Contact No -</string>
+    <string name="gender_">Gender -</string>
+    <string name="base_total_">Base Total -</string>
+    <string name="address_">Address -</string>
+    <string name="customers">Customers</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="google_plus">Google Plus</string>
+
+    <string name="by_default_10_qty_will_be_allowed_for_customer_to_add_in_cart">By default 10 qty will be allowed for customer to add in cart.</string>
+    <string name="shareable_yes">Shareable-Yes</string>
+    <string name="shareable_no">Shareable-No</string>
+    <string name="are_you_sure_you_want_to_edit_this_product">Are you sure you want to edit this product ?</string>
+
+    <string name="report_product">Report Product</string>
+    <string name="report_seller">Report Seller</string>
+    <string name="write_a_reason_to_flag_this_product">Write a reason to flag this product.</string>
+    <string name="write_a_reason_to_flag_the_seller">Write a reason to flag the seller</string>
+
+    <string name="reset">Reset</string>
+    <string name="choose_an_appropriate_reason_for_the_flag">Choose an appropriate reason for the flag:</string>
+    <string name="other">Other</string>
+    <string name="to_report">to report</string>
+    <string name="reason">Reason</string>
+    <string name="thank_you">Thank you.</string>
+    <string name="report_product_message">Your report against %s has been submitted.\nWe will re-verify the product Information and see if it violates any of our policy or selling guidelines.</string>
+    <string name="report_seller_message">Your report against %s has been submitted.\nWe will re-verify the seller Information and see if it violates any of our policy or selling guidelines</string>
+
+</resources>

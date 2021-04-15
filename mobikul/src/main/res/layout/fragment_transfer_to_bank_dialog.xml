@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.TransferToBankModel" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.TransferToBankDialogFragmentHandler" />
+
+        <variable
+            name="currencyCode"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_whiteBlack">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_normal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_generic"
+                android:text="@string/enter_transfer_details"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_xlarge" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amount"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@{@string/amount + '('+currencyCode+')'}"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:textColorHint="@color/text_color_secondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:text="@={data.amount}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_generic"
+                android:visibility="gone"
+                android:text="@string/account_details"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_small" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/empty_account_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_generic"
+                android:text="@string/please_configure_account_details"
+                android:textColor="@color/red_600"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/account_details"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:textColorHint="@color/text_color_secondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/account_details"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:text="@={data.accountDetails}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:visibility="gone"
+                android:id="@+id/account_details_sp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="@dimen/spacing_generic"
+                android:background="@drawable/shape_rect_round_cnr_white_bg_gray_border_1dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/note"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:textColorHint="@color/text_color_secondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/note"
+                    android:inputType="textMultiLine|textCapWords"
+                    android:maxLines="10"
+                    android:minLines="4"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:scrollbars="vertical"
+                    android:text="@={data.note}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/submit_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> handler.onClickSubmit()}"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/submit"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> handler.onClickReset()}"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/reset"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+    </RelativeLayout>
+</layout>

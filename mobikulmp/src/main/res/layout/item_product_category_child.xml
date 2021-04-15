@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.CustomCategoryData" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_generic">
+
+            <CheckBox
+                android:id="@+id/item_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/checkboxColor"
+                android:checked="@={data.checked}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nav_drawer_parent_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|start"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@{data.name}"
+                android:textColor="@color/text_color_primary"
+                android:textDirection="anyRtl"
+                tools:ignore="RtlSymmetry"
+                tools:targetApi="jelly_bean_mr1"
+                tools:text="Some drawer text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

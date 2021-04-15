@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Delivery Boy Status -->
+    <color name="colorOnline">#35cd42</color>
+    <color name="colorOffline">#fd1717</color>
+    <color name="borderColor">#ececec</color>
+    <color name="red_600">#E53935</color><!--canceled order-->
+
+
+</resources>

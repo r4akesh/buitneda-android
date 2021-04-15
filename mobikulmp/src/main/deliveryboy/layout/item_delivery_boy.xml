@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="selected"
+            type="Boolean" />
+        <import type="com.webkul.mobikul.helpers.AppSharedPref"/>
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.deliveryboy.models.DeliveryBoyList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.deliveryboy.handlers.DeliveryBoyListRvHandler" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="@{!selected}"
+        android:background="@drawable/shape_rect_white_bg_gray_border_half_dp"
+        android:onClick="@{(v)->handler.onClickDeliveryBoy(v, data)}">
+
+        <LinearLayout
+            android:id="@+id/item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_normal">
+
+            <RelativeLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="1dp"
+                    app:srcCompat="@drawable/customer_profile_placeholder"
+                    tools:src="@drawable/customer_profile_placeholder" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/online_indicator"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@{data.status == 1 &amp;&amp; data.availabilityStatus ? @color/colorOnline : @color/colorOffline}"
+                    android:visibility="@{data.status == 1 ? View.VISIBLE : View.GONE}"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="2dp"
+                    tools:src="#35cd42" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@{data.name}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:text="John Smith" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@{@string/x_orders(data.orderCount)}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    tools:text="2 Orders" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@{AppSharedPref.getStoreCode(context).equals(&quot;ar&quot;) ? @drawable/ic_left_arrow_grey_wrapper : @drawable/ic_right_arrow_grey_wrapper}"
+               tools:srcCompat="@drawable/ic_right_arrow_grey_wrapper"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_layout"
+            android:layout_alignTop="@id/item_layout"
+            android:background="#99FFFFFF"
+            android:visibility="@{data.status == 0 ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_layout"
+            android:layout_alignTop="@id/item_layout"
+            android:background="#99FFFFFF"
+            android:visibility="@{selected ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
+    </RelativeLayout>
+
+</layout>

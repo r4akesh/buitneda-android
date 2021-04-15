@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="seller"
+            type="com.webkul.mobikulmp.models.chat.ChatSellerData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.ChatSellerHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_generic"
+        app:cardBackgroundColor="@color/color_whiteBlack"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="@{(v)->handler.onClickSeller(v,seller.name,seller.customerToken,seller.token,seller.profileImage)}">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/seller_chat_iv"
+                android:layout_width="@dimen/contextual_icon_dimens"
+                android:layout_height="@dimen/contextual_icon_dimens"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:src="@drawable/ic_seller_icon_placeholder_wrapper"
+                app:imageUrl="@{seller.profileImage}" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/spacing_generic"
+                android:layout_toEndOf="@id/seller_chat_iv"
+                android:layout_toRightOf="@id/seller_chat_iv"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/seller_chat_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{seller.name}"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:text="seller_name" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/seller_chat_email_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{seller.sellerEmail}"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="seller_name" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

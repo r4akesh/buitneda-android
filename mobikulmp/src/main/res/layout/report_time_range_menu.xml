@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="selectedDay"
+            type="String" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerSalesPagerItemHandler" />
+    </data>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_generic"
+        android:background="@drawable/shape_rect_round_cnr_white_bg_white_border_1dp"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_generic"
+            android:background="@android:color/transparent"
+            android:gravity="start"
+            android:text="@{selectedDay}"
+            android:textColor="@color/text_color_primary"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/spacing_generic"
+            app:cardBackgroundColor="@color/color_whiteBlack"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="3dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@android:color/transparent"
+                    android:gravity="start"
+                    android:onClick="@{(v) -> handler.onClickDayBtn(v)}"
+                    android:text="@string/today"
+                    android:textColor="@color/text_color_secondary"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@android:color/transparent"
+                    android:gravity="start"
+                    android:onClick="@{(v) -> handler.onClickMonthBtn(v)}"
+                    android:text="@string/yesterday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@android:color/transparent"
+                    android:gravity="start"
+                    android:onClick="@{(v) -> handler.onClickWeekBtn(v)}"
+                    android:text="@string/this_week"
+                    android:textColor="@color/text_color_secondary"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@android:color/transparent"
+                    android:gravity="start"
+                    android:onClick="@{(v) -> handler.onClickMonthBtn(v)}"
+                    android:text="@string/this_month"
+                    android:textColor="@color/text_color_secondary"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@android:color/transparent"
+                    android:gravity="start"
+                    android:onClick="@{(v) -> handler.onClickYearBtn(v)}"
+                    android:text="@string/this_year"
+                    android:textColor="@color/text_color_secondary"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

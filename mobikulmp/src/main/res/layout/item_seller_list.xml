@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.SellerListData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerListItemHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal"
+        android:onClick="@{(v)->handler.onClickViewSellerProfile(data.sellerId,data.shopTitle)}"
+        app:cardBackgroundColor="@color/color_whiteBlack"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/banner_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/featured_category_image_size"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{data.bannerImage}"
+                app:layout_constraintBottom_toBottomOf="@+id/seller_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/banner_image_foreground"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/black_alpha_20"
+                android:scaleType="fitXY"
+                app:blurBackgroundImageUrl="@{data.bannerImage}"
+                app:layout_constraintBottom_toBottomOf="@+id/banner_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/banner_image" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/featured_category_image_size"
+                android:background="@drawable/gradient_bg"
+                app:layout_constraintBottom_toBottomOf="@+id/seller_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/seller_icon"
+                android:layout_width="@dimen/profile_pic_small"
+                android:layout_height="@dimen/profile_pic_small"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/spacing_huge"
+                android:layout_marginTop="@dimen/spacing_huge"
+                app:imageUrl="@{data.sellerIcon}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/customer_profile_placeholder" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/shop_title"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:maxLines="2"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:text="@{data.shopTitle}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/seller_icon"
+                app:layout_constraintTop_toTopOf="@+id/seller_icon"
+                tools:text="FOOTWEAR STORE" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/company_locality"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:text="@{data.companyLocality}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/seller_icon"
+                app:layout_constraintTop_toBottomOf="@+id/shop_title"
+                tools:text="Noida" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/seller_product_count"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/spacing_generic"
+                android:paddingRight="@dimen/spacing_generic"
+                android:text="@{data.sellerProductCount}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/company_locality"
+                app:layout_constraintTop_toBottomOf="@+id/company_locality"
+                tools:text="1 Product" />
+
+
+            <Button
+                android:id="@+id/button_seller_collection"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/spacing_generic"
+                android:background="@android:color/transparent"
+                android:onClick="@{(v)->handler.onClickViewSellerCollection(data.sellerId, data.shopTitle)}"
+                android:padding="@dimen/spacing_normal"
+                android:text="@string/view_all"
+                android:textAllCaps="true"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/banner_image"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.SellerListResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerListActivityHandler" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.core.widget.NestedScrollView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{data.showBanner ? View.VISIBLE : View.GONE}">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="@{data.banner == null ? View.GONE : View.VISIBLE}">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY"
+                                android:visibility="@{data.banner == null ? View.GONE : View.VISIBLE}"
+                                app:imageUrl="@{data.banner}"
+                                tools:src="@drawable/placeholder" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/black_alpha_20"
+                                tools:src="@drawable/placeholder" />
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:visibility="@{data.bannerContent.isEmpty() &amp;&amp; data.buttonLabel.isEmpty() ? View.GONE : View.VISIBLE}">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:padding="@dimen/activity_vertical_margin"
+                                android:visibility="@{data.buttonLabel.isEmpty() ? View.GONE : View.VISIBLE}">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:onClick="@{()->handler.onClickOpenYourShop()}"
+                                    android:text="@{data.buttonLabel}"
+                                    android:textAllCaps="true"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@android:color/white"
+                                    android:textStyle="bold"
+                                    android:visibility="@{data.buttonLabel.isEmpty() ? View.GONE : View.VISIBLE}"
+                                    app:underline="@{true}"
+                                    tools:text="Register Now" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="@dimen/activity_vertical_margin"
+                                android:textColor="@android:color/white"
+                                android:visibility="@{data.bannerContent.isEmpty() ? View.GONE : View.VISIBLE}"
+                                app:loadHtmlText="@{data.bannerContent}"
+                                tools:text="Lorem ipsum dolor sit amet, consectetur" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </FrameLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="vertical"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:visibility="@{data.success ? View.VISIBLE :View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_generic"
+                            android:gravity="center"
+                            android:text="@{data.topLabel}"
+                            android:textAllCaps="true"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/text_color_primary"
+                            android:textStyle="bold"
+                            android:visibility="@{data.topLabel.isEmpty() ? View.GONE :View.VISIBLE}"
+                            tools:text="The Brand Maker" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                            android:visibility="@{data.success ? View.VISIBLE :View.GONE}">
+
+                            <EditText
+                                android:id="@+id/search_seller_et"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:hint="@string/search_sellers_by_shop_name"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:padding="@dimen/spacing_generic"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="?attr/colorAccent"
+                                android:onClick="@{()->handler.onClickSearchSeller()}"
+                                android:padding="@dimen/spacing_small"
+                                android:text="@string/search"
+                                android:textAllCaps="true"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/seller_list_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:background="@color/color_whiteBlack"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{data.sellerList.size() > 0 ? View.VISIBLE :View.GONE}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:targetApi="lollipop" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:background="@color/color_whiteBlack"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="@string/no_seller_available"
+                        android:textColor="@color/remove_color"
+                        android:visibility="@{data==null||data.sellerList.size() > 0 ? View.GONE :View.VISIBLE}" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="vertical"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:visibility="@{data.success ? View.VISIBLE :View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="@dimen/activity_horizontal_margin"
+                            android:text="@{data.bottomLabel}"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/text_color_primary"
+                            android:textStyle="bold"
+                            android:visibility="@{data.bottomLabel.isEmpty() ? View.GONE :View.VISIBLE}"
+                            tools:text="More then 500 shop owners have joined us last month" />
+
+
+                        <Button
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:background="@drawable/shape_rect_white_bg_black_border_1_dp"
+                            android:onClick="@{()->handler.onClickOpenYourShop()}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@{data.buttonLabel}"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:visibility="@{data.buttonLabel.isEmpty() ? View.GONE :View.VISIBLE}"
+                            tools:text="Start Your Store" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/spacing_infinity"
+                android:background="@drawable/progress_bar_bg"
+                android:indeterminate="true"
+                android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</layout>

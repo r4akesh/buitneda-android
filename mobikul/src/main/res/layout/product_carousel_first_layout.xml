@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.homepage.Carousel" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.HomePageProductCarouselHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        android:background="@color/color_background"
+        app:backgroundColor="@{data.color}">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/carousel_background_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/color_background"
+            android:contentDescription="background_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tiledBackgroundImageUrl="@{data.image}"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:id="@+id/carousel_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/carousel_label"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
+                android:padding="@dimen/spacing_generic"
+                android:text="@{data.label}"
+                android:textAllCaps="true"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_medium_"
+                tools:text="Featured Products" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stamp_tv"
+                android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
+                android:text="@string/end_in"
+                android:textAllCaps="true"
+                android:layout_marginEnd="5dp"
+                android:visibility="@{data.timerTimeStamp &gt; 0 ? View.VISIBLE : View.GONE}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_tiny"
+                tools:text="end in" />
+
+            <TextView
+                android:id="@+id/day_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@android:color/holo_red_dark"
+                android:padding="@dimen/card_elevation_low"
+                android:layout_marginRight="@dimen/spacing_tiny"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/spacing_small"
+                tools:text="3" />
+
+
+            <TextView
+                android:id="@+id/hour_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/card_elevation_low"
+                android:visibility="gone"
+                android:background="@android:color/holo_red_dark"
+                android:padding="@dimen/card_elevation_low"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/spacing_small"
+                tools:text="3" />
+
+            <TextView
+                android:id="@+id/minute_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/card_elevation_low"
+                android:visibility="gone"
+                android:background="@android:color/holo_red_dark"
+                android:padding="@dimen/card_elevation_low"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/spacing_small"
+                tools:text="3" />
+
+            <TextView
+                android:id="@+id/seconds_tv"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark"
+                android:layout_marginRight="@dimen/card_elevation_low"
+                android:padding="@dimen/card_elevation_low"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/spacing_small"
+                tools:text="3" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:layout_height="1dp" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_round_cnr_gray_bg_gray_border_1dp"
+                android:onClick="@{()->handler.onClickViewAllBtn(data.label, data.id)}"
+                android:paddingStart="@dimen/button_corner_radius"
+                android:paddingEnd="@dimen/spacing_small"
+                android:text="@string/view_all"
+                android:textAllCaps="true"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="@{data.id.isEmpty() || data.productList.size() &lt; 3? View.GONE : View.VISIBLE}" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/products_carousel_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carousel_heading"
+            tools:layout_height="100dp"
+            tools:targetApi="lollipop" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

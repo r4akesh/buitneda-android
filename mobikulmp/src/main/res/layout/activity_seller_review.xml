@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerReviewListData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerReviewListHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/review_count_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{data.totalCount == 0 ? View.GONE : View.VISIBLE}"
+            app:cardBackgroundColor="@color/color_whiteBlack"
+            app:cardElevation="5dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_generic"
+                android:text="@{@string/x_results_found(data.totalCount)}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_scrollFlags="scroll|enterAlways"
+                tools:text="150+ Result found" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/seller_feedback_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/review_count_tv"
+            android:fitsSystemWindows="true"
+            android:visibility="@{data.reviewList.size() == 0 ? View.GONE : View.VISIBLE}" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_max"
+            android:indeterminate="true"
+            android:visibility="@{loading ? View.VISIBLE :View.GONE}" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:onClick="@{()->handler.onClickMakeSellerReview()}"
+            app:srcCompat="@drawable/ic_write_review" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:text="@string/no_review_found_be_the_first_one"
+            android:visibility="@{data.reviewList.size() == 0 ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+
+</layout>

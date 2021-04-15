@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.ManageWalletAmountResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.ManageWalletAmountActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_whiteBlack"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_whiteBlack"
+            android:orientation="vertical"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small">
+
+                <ImageView
+                    android:id="@+id/wallet_icon_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:contentDescription="Wallet Icon"
+                    app:imageUrl="@{data.logo}"
+                    tools:ignore="HardcodedText"
+                    tools:src="@drawable/placeholder" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/wallet_icon_iv"
+                    android:layout_alignBottom="@id/wallet_icon_iv"
+                    android:layout_marginStart="@dimen/spacing_generic"
+                    android:layout_toEndOf="@id/wallet_icon_iv"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@{data.walletSummaryHeading}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_large"
+                        tools:text="Wallet Details" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@{data.walletAmount + &quot; (&quot; + data.currencyCode + &quot;)&quot;}"
+                        android:textColor="@color/green_400"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="$1,468.00(USD)" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@{data.walletSummarySubHeading}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_small"
+
+                        tools:text="Your wallet Balance" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                app:cardBackgroundColor="@color/color_whiteBlack"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_small"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.rechargeFieldLabel}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+
+                        tools:text="Enter Amount to be Added in wallet" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/amount_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/amount_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="start"
+                                android:inputType="numberDecimal"
+                                android:maxLines="1"
+                                android:text="@={data.amount}"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/text_color_secondary"
+                                android:textColorHint="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_medium" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight=".3"
+                            android:text="@{&quot; [&quot; + data.currencyCode + &quot;]&quot;}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="@dimen/text_size_medium"
+
+                            tools:text="[USD]" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:onClick="@{()->handler.onClickAddToWallet(data.amount, data.walletProductId)}"
+                            android:padding="@dimen/spacing_generic"
+                            android:text="@{data.buttonLabel}"
+                            tools:text="Add Money To Wallet" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:onClick="@{()->handler.onClickTransferAmountToBank()}"
+                android:padding="@dimen/spacing_generic"
+                android:text="@string/transfer_amount_to_bank_account"
+
+
+                tools:text="Transfer Amount to Bank Account" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@{data.mainHeading}"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+
+                tools:text="Last Transactions" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@string/no_records_found"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+
+                android:visibility="@{data.transactionList.size() == 0 ? View.VISIBLE : View.GONE}"
+                tools:text="No records found!" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:background="@color/color_whiteBlack"
+                android:orientation="horizontal"
+                android:visibility="@{data.transactionList.size() == 0 ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="@dimen/spacing_tiny"
+                    android:text="@{data.subHeading[0]}"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+
+                    tools:text="Reference" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:text="@{data.subHeading[1] + &quot;/&quot; + data.subHeading[2]}"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+
+                    tools:text="Debit/Credit" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:text="@{data.subHeading[3]}"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+
+                    tools:text="Status" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactions_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_weight="1"
+                android:visibility="@{data.transactionList.size() == 0 ? View.GONE : View.VISIBLE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:layout_height="100dp"
+                tools:listitem="@layout/item_transaction"
+                tools:targetApi="lollipop" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+
+</layout>

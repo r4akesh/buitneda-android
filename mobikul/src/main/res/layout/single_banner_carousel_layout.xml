@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="themeType"
+            type="Integer" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.homepage.Carousel" />
+
+     <variable
+         name="handler"
+         type="com.webkul.mobikul.handlers.HomePageBannerVpHandler" />
+
+    </data>
+
+
+
+<!--
+        <TextView
+            android:id="@+id/carousel_label"
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
+            android:padding="@dimen/spacing_generic"
+            android:text="@string/offers_for_you"
+            android:textAllCaps="true"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small" />
+-->
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/banner_image"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/spacing_generic"
+        android:paddingEnd="@dimen/spacing_generic"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        android:onClick="@{()->handler.onClickBanner(data.cmsType, data.label, data.categoryId, data.color)}"
+        android:layout_height="@dimen/spacing_infinite"
+        android:background="@color/color_background"
+        android:scaleType="centerCrop"
+        app:imageUrl="@{data.imagePath}"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/placeholder" />
+
+</layout>

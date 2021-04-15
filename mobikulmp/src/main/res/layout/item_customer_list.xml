@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.CustomerList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.CustomerListHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:background="@color/color_whiteBlack"
+        android:onClick="@{()->handler.onClickCustomerItem(data)}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/order_count_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/order_count"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_medium" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/order_count_aptv"
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/order_count_label_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_toEndOf="@+id/order_count_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerOrderCount}"
+            android:textColor="@color/text_color_link"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            tools:text="1" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/order_count_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/name_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/name_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_toEndOf="@+id/name_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerName}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Deepak" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/email_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/email_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/email_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/email_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_toEndOf="@+id/email_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerEmail}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Deepak@gmail.com" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/phone_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/contact_no_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/phone_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/phone_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_toEndOf="@+id/phone_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerTelephone}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="8444583984" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gender_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phone_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/gender_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gender_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/gender_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_toEndOf="@+id/gender_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerGender}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Male" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/base_total_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gender_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/base_total_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_medium" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/base_total_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/base_total_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_toEndOf="@+id/base_total_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerBaseTotal}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="23234" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/address_label_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/base_total_aptv"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@string/address_"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/address_aptv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/address_label_aptv"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_toEndOf="@+id/address_label_aptv"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.customerAddress}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Rishikesh" />
+
+    </RelativeLayout>
+
+</layout>

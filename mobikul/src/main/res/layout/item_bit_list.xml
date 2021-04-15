@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.auction.BidList" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_generic">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/bidder_name"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Bidder Name:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.bidderName}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="R****** K****" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/bid_amount"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Bid Amount:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.bidAmount}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="$20.00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/time_stamp"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Time Stamp:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.bidDate}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Apr 9, 2018, 12:10:09 AM" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="flagImageUrl"
+            type="String" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerProfileFormResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerProfileEditActivityHandler" />
+
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{data==null ? View.GONE: View.VISIBLE}">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/basic_information_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickBasicDetailsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/basic"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/basic_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shop_title_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shop_title_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/shop_title"
+                            android:inputType="text"
+                            android:text="@={data.shopTitle}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/contact_no_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contact_no_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:gravity="start"
+                            android:hint="@string/contact_no"
+                            android:imeActionLabel="Next"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:text="@={data.contactNumber}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tax_vat_number_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tax_vat_number_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/tax_vat_number"
+                            android:inputType="number"
+                            android:text="@={data.taxvat}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shop_locality_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shop_locality_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/shop_locality"
+                            android:inputType="text"
+                            android:text="@={data.companyLocality}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/country_colon" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/country_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_tiny" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                        android:padding="1dp"
+                        app:imageUrl="@{flagImageUrl}"
+                        app:layout_height="@{(Utils.getScreenWidth()) / 3}"
+                        tools:minWidth="200dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/description" />
+
+                    <include
+                        android:id="@+id/rich_layout"
+                        layout="@layout/rich_edit_text_layout"
+                        app:tag="@{@string/short_description}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:padding="@dimen/spacing_tiny" />
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        android:id="@+id/description_til"-->
+                    <!--                        style="@style/CustomTilStyle"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_margin="@dimen/spacing_normal">-->
+
+                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                            android:id="@+id/description_et"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:textColor="@color/text_color_primary"-->
+                    <!--                            android:gravity="start"-->
+                    <!--                            android:hint="@string/description"-->
+                    <!--                            android:inputType="textMultiLine|textCapWords|textLongMessage"-->
+                    <!--                            android:maxLines="15"-->
+                    <!--                            android:minLines="8"-->
+                    <!--                            android:scrollbars="vertical"-->
+                    <!--                            android:text="@={data.companyDescription}"-->
+                    <!--                            android:textAlignment="viewStart"-->
+                    <!--                            android:textSize="@dimen/text_size_small" />-->
+
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/image_and_theme_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickImageAndThemeBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/image_and_theme"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/image_and_theme_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/background_color_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/background_color"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/spacing_normal"
+                        android:paddingRight="@dimen/spacing_normal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/background_color_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:padding="@dimen/spacing_normal"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            app:backgroundColor="@{data.backgroundColor}" />
+
+                        <Button
+                            android:id="@+id/change_color_btn"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.2"
+                            android:background="@color/color_whiteBlack"
+                            android:drawableStart="@drawable/ic_color_lens_wrapper"
+                            android:onClick="@{() -> handler.onClickPickColorBtn(data.backgroundColor)}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/change_color"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/cover_banner_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/cover_banner"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:layout_marginRight="@dimen/spacing_normal"
+                        android:background="@drawable/cover_banner_background"
+                        tools:layout_height="50dp">
+
+                        <Button
+                            android:id="@+id/add_banner_btn"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:background="@android:color/transparent"
+                            android:drawableStart="@drawable/ic_image_wrapper"
+                            android:drawablePadding="@dimen/spacing_normal"
+                            android:onClick="@{() -> handler.onClickBrowseBtn(&quot;banner&quot;)}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/add_banner"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:visibility="@{data.bannerImage.isEmpty() ? View.VISIBLE : View.GONE}" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/banner_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{() -> handler.onClickBrowseBtn(&quot;banner&quot;)}"
+                            android:scaleType="fitXY"
+                            android:visibility="@{data.bannerImage.isEmpty() ? View.GONE : View.VISIBLE}"
+                            app:imageUrl="@{data.bannerImage}"
+                            tools:minWidth="200dp" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:onClick="@{() -> handler.onClickDeleteBtn(&quot;banner&quot;)}"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingLeft="@dimen/spacing_generic"
+                            android:paddingBottom="@dimen/spacing_generic"
+                            android:tint="@android:color/holo_red_dark"
+                            android:visibility="@{data.bannerImage.isEmpty() ? View.GONE : View.VISIBLE}"
+                            app:srcCompat="@drawable/ic_vector_close" />
+
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/logo_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/logo"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:layout_marginRight="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/cover_banner_background">
+
+                        <Button
+                            android:id="@+id/add_logo_btn"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:background="@android:color/transparent"
+                            android:drawableTop="@drawable/ic_add_wrapper"
+                            android:onClick="@{() -> handler.onClickBrowseBtn(&quot;logo&quot;)}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/add_logo"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            android:visibility="@{data.profileImage.isEmpty() ? View.VISIBLE : View.GONE}" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/logo_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                            android:onClick="@{() -> handler.onClickBrowseBtn(&quot;logo&quot;)}"
+                            android:visibility="@{data.profileImage.isEmpty() ? View.GONE : View.VISIBLE}"
+                            app:imageUrl="@{data.profileImage}"
+                            app:layout_height="@{(Utils.getScreenWidth()) / 3}"
+                            app:layout_width="@{(Utils.getScreenWidth()) / 3}"
+                            tools:minWidth="100dp" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_alignEnd="@+id/logo_iv"
+                            android:layout_alignRight="@+id/logo_iv"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{() -> handler.onClickDeleteBtn(&quot;logo&quot;)}"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingLeft="@dimen/spacing_generic"
+                            android:paddingBottom="@dimen/spacing_generic"
+                            android:tint="@android:color/holo_red_dark"
+                            android:visibility="@{data.profileImage.isEmpty() ? View.GONE : View.VISIBLE}"
+                            app:srcCompat="@drawable/ic_vector_close" />
+
+                    </RelativeLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/social_profiles_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickSocialProfilesBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/social_profiles"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/social_profiles_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/facebook_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/facebook"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.facebookActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.facebookActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/facebook_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/facebook_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.facebookId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/twitter_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/twitter"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.twitterActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.twitterActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/twitter_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/twitter_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.twitterId}"
+                            android:textAlignment="viewStart"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/instagram_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/instagram"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.instagramActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.instagramActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/instagram_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/instagram_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.instagramId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/google_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/google_plus"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.googleplusActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.googleplusActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/google_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/google_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.googleplusId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/youtube_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/youtube"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.youtubeActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.youtubeActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/youtube_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/youtubeet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.youtubeId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/vimeo_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/vimeo"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.vimeoActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.vimeoActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/vimeo_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/vimeo_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.vimeoId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/pinterest_heading"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/pinterest"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.pinterestActive}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.pinterestActive ? @string/activated :@string/deactivated}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pinterest_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pinterest_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/profile_link"
+                            android:inputType="text"
+                            android:text="@={data.pinterestId}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/seo_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickSeoBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/seo"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/seo_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/meta_keyword_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/meta_keyword_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/meta_keyword"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.metaKeyword}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:text="@string/enter_meta_keywords_comma_separated"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/meta_description_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/meta_description_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/meta_description"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.metaDescription}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/payment_info_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickPaymentInfoBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/payment_info"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/payment_info_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/payment_info_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/payment_info_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/payment_details"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.paymentDetails}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/policies_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickPoliciesBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/policies"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/policies_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/return_policy_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/return_policy_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/return_policy"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.returnPolicy}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shipping_policy_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shipping_policy_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/shipping_policy"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.shippingPolicy}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/privacy_policy_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/privacy_policy_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/privacy_policy"
+                            android:inputType="textMultiLine"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:overScrollMode="always"
+                            android:scrollbarStyle="insideInset"
+                            android:scrollbars="vertical"
+                            android:text="@={data.privacyPolicy}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/save_profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_huge"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/save_profile_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        android:background="@color/colorAccent"
+                        android:onClick="@{() -> handler.onClickSaveProfileBtn()}"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/save_profile"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}"
+            tools:visibility="visible" />
+    </RelativeLayout>
+</layout>

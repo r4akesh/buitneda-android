@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.AppSharedPref" />
+
+        <variable
+            name="isSorted"
+            type="Boolean" />
+
+        <variable
+            name="isFiltered"
+            type="Boolean" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.AddProductFieldProductCollectionData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerSelectProductsHandler" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_whiteBlack"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_background"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_color" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/products_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/filter_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_filter_wrapper"
+                        android:drawablePadding="@dimen/spacing_tiny"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_generic"
+                        android:paddingBottom="@dimen/spacing_normal"
+                        android:text="@string/filter"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_centerVertical="true"
+                        android:visibility="@{safeUnbox(isFiltered) ? View.VISIBLE : View.GONE}"
+                        app:srcCompat="@drawable/ic_red_dot" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/switcher_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableStart="@{AppSharedPref.getViewType(context) == 1 ? @drawable/ic_list_view_wrapper : @drawable/ic_grid_view_wrapper}"
+                        android:drawablePadding="@dimen/spacing_tiny"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{AppSharedPref.getViewType(context) == 1 ? @string/list : @string/grid}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary" />
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/products_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{data.productCollectionData.size() > 0 ? View.VISIBLE : View.GONE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_whiteBlack"
+            android:orientation="vertical"
+            android:visibility="@{data==null||data.productCollectionData.size() == 0 ? View.GONE : View.VISIBLE}">
+
+            <Button
+                android:id="@+id/submit_btn"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@color/colorAccent"
+                android:enabled="@{!safeUnbox(loading)}"
+                android:onClick="@{()->handler.onClickAddProduct()}"
+                android:padding="@dimen/spacing_normal"
+                android:text="@string/add_product"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/we_couldn_t_find_any_records"
+            android:textColor="@color/orderStatusClosedColor"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE :View.GONE}" />
+
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,131 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.CustomerList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.PayeeRvHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_whiteBlack">
+
+        <LinearLayout
+            android:id="@+id/data_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/spacing_generic">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/nick_name + &quot;: &quot;}"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    tools:text="Nick Name: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.name}"
+                    android:textColor="@color/text_color_secondary"
+                    tools:text="John Doe" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/email_address + &quot;: &quot;}"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    tools:text="Email address: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.email}"
+                    android:textColor="@color/text_color_secondary"
+
+                    tools:text="John@webkul.com" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/status + &quot;: &quot;}"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    tools:text="Status: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.status}"
+                    android:textColor="@color/text_color_secondary"
+
+                    tools:text="John Doe" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/data_container"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="-8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onClickEditBtn(data)}"
+                app:srcCompat="@drawable/ic_edit_accent"
+                tools:src="@drawable/ic_edit_accent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:onClick="@{() -> handler.onClickDeleteBtn(data.id)}"
+                app:srcCompat="@drawable/ic_close_accent"
+                tools:src="@drawable/ic_close_accent" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/data_container"
+            android:background="@color/divider_color" />
+    </RelativeLayout>
+</layout>

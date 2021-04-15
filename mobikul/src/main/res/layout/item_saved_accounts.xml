@@ -1,0 +1,122 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.SavedAccountsList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.SavedAccountsRvHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/spacing_generic">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/a_c_holder_name + &quot;: &quot;}"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold"
+                tools:text="A/C Holder Name: " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.holdername}"
+                tools:text="John Doe" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/bank_name + &quot;: &quot;}"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold"
+                tools:text="Bank Name: " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.bankname}"
+                tools:text="John Doe" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/bank_code + &quot;: &quot;}"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold"
+                tools:text="Bank Code: " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.bankcode}"
+                tools:text="John Doe" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/additional_information + &quot;: &quot;}"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold"
+                tools:text="Additional Information: " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.additional}"
+                tools:text="John Doe" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> handler.onClickRequestDelete(data.id)}"
+            android:paddingBottom="@dimen/spacing_generic"
+            android:text="@string/request_delete"
+            android:textColor="@color/text_color_link"
+            tools:text="John Doe" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

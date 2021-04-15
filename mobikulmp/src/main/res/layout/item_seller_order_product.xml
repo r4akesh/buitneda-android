@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerOrderProductList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerOrderProductHandler" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="@{()->handler.viewProduct()}"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.name}"
+            android:textColor="?attr/colorAccent"
+            tools:text="Park Row Throw" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:paddingLeft="@dimen/spacing_tiny"
+            android:paddingEnd="@dimen/spacing_tiny"
+            android:paddingRight="@dimen/spacing_tiny"
+            android:text="x"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.qty}"
+            tools:text="2" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

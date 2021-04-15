@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.model.auction.AuctionFormData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.AddAuctionOnProductActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_generic">
+
+                <TextView
+                    android:id="@+id/auction_options_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auction_options"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <CheckBox
+                    android:id="@+id/buy_it_now_cb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={data.butItNow}"
+                    android:text="@string/but_it_now"
+                    android:textSize="@dimen/text_size_small" />
+
+                <CheckBox
+                    android:id="@+id/auction_cb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={data.auction}"
+                    android:text="@string/auction"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/starting_price_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/starting_price"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/starting_price_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:gravity="start|center_vertical"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.startingPrice}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/reserve_price_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/reserve_price"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/reserve_price_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:gravity="start|center_vertical"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.reservePrice}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/start_auction_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/start_auction_time"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/start_auction_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="start|center_vertical"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:onClick="@{(v)->handler.onClickSelectAuctionTime(data,v)}"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.startTimeAdjust}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/stop_auction_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/stop_auction_time"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/stop_action_time_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="start|center_vertical"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:onClick="@{(v)->handler.onClickSelectAuctionTime(data,v)}"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.stopTimeAdjust}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/no_of_days_till_buy_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/number_of_days_till_winner_can_buy"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/no_of_days_till_buy_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:gravity="start|center_vertical"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.noOfDaysTillBuy}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/min_qty_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/minimum_quantity"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/min_qty_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:gravity="start|center_vertical"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.minQty}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/max_qty_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/maximum_quantity"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <EditText
+                    android:id="@+id/max_qty_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                    android:gravity="start|center_vertical"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:padding="@dimen/edit_text_padding"
+                    android:text="@={data.maxQty}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:checked="@={data.autoAuction}"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/automatic_option"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.isAutoAuctionEnable ? View.VISIBLE : View.GONE}" />
+
+                <Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:checked="@={data.incrementAuction}"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/increment_option"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.isIncrementalAuctionEnable ? View.VISIBLE : View.GONE}" />
+
+                <LinearLayout
+                    android:id="@+id/increment_options_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:orientation="vertical"
+                    android:visibility="@{data.incrementAuction ? View.VISIBLE : View.GONE}">
+
+                    <Switch
+                        android:id="@+id/show_admin_increment_rule_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="@={data.showAdminIncrementBidRule}"
+                        android:gravity="start|center_vertical"
+                        android:text="@string/show_admin_increment_bid_rule"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="@{data.adminIncrementalRule.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:text="@string/increment_bid_rule_set_by_admin"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="@{data.showAdminIncrementBidRule ? View.VISIBLE : View.GONE}" />
+
+                    <LinearLayout
+                        android:id="@+id/admin_increment_bid_rules_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                        android:orientation="vertical"
+                        android:padding="1dp"
+                        android:visibility="@{data.showAdminIncrementBidRule ? View.VISIBLE : View.GONE}">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/from"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/borderColor" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/to"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/borderColor" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/price"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/borderColor" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/admin_increment_bid_rules_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:layout_height="100dp"
+                            tools:listitem="@layout/item_increment_rule_list"
+                            tools:targetApi="lollipop" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:text="@string/you_can_add_your_increment_bid_rule_otherwise_admin_increment_bid_rule_will_apply"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <LinearLayout
+                        android:id="@+id/seller_increment_bid_rules_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                        android:orientation="vertical"
+                        android:padding="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_tiny"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/from"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/borderColor" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_tiny"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/to"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/borderColor" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_tiny"
+                                android:layout_weight="1"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/price"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/borderColor" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/spacing_tiny"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:padding="@dimen/spacing_tiny"
+                                android:text="@string/action"
+                                android:textSize="@dimen/text_size_small"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/borderColor" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/seller_increment_bid_rules_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:layout_height="100dp"
+                            tools:listitem="@layout/item_increment_rule_list"
+                            tools:targetApi="lollipop" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{()->handler.onClickAddAnother()}"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:text="@string/add" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/featured_category_grid_image_size"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:onClick="@{()->handler.onClickSaveAuction(data)}"
+                    android:text="@string/save_auction"
+                    android:textAllCaps="true" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+</layout>

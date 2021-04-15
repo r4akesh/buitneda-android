@@ -1,0 +1,106 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+<import type="com.webkul.mobikul.helpers.AppSharedPref"/>
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerTransactionList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.ItemSellerTransactionListHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_generic"
+        android:background="@color/color_whiteBlack"
+        app:cardBackgroundColor="@color/color_whiteBlack"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> handler.onClickItem(data.id)}"
+            android:padding="@dimen/spacing_normal">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{&quot;#&quot; + data.transactionId}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    tools:text="#000000037" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@{data.date}"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    tools:text="December 27, 2018" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@{data.amount}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    tools:text="$453.00" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> handler.onClickTransactionRemark(v)}"
+                    android:text="@string/transaction_remark"
+                    android:textColor="@color/text_color_link"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/comment_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@{data.comment}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone"
+                    tools:text="Appropriately reintermediate B2B vortals through rev olutionary e-business. Compellingly harness fric tion less infomediaries for plug-and-play information. Dra m atically target client-centered expertise rather than end-to-end." />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/spacing_huge"
+                app:srcCompat="@{AppSharedPref.getStoreCode(context).equals(&quot;ar&quot;) ? @drawable/ic_left_arrow_grey : @drawable/ic_right_arrow_grey}"
+                tools:srcCompat="@drawable/ic_right_arrow_grey" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

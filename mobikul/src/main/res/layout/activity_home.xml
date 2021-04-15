@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.HomeActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+
+            <!--<androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                android:visibility="gone"/>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <FrameLayout
+                    android:id="@+id/main_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/color_background"
+                    android:fitsSystemWindows="true" />
+
+
+
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/bottom_app_cl"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_bar_layout_size"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimaryDark"
+                android:visibility="visible">
+
+                <com.google.android.material.bottomappbar.BottomAppBar
+                    android:id="@+id/bottom_app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@color/colorPrimaryDark"
+                    app:fabCradleMargin="@dimen/spacing_large"
+                    app:fabCradleRoundedCornerRadius="@dimen/spacing_large">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey_300" />
+
+                        <com.google.android.material.bottomnavigation.BottomNavigationView
+                            android:id="@+id/bottom_nav_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            app:itemBackground="@android:color/white"
+                            app:itemIconSize="30dp"
+                            app:itemIconTint="@drawable/btm_nav_item_selector"
+                            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+                            app:itemTextAppearanceInactive="@style/BottomNavigationView"
+                            app:itemTextColor="@drawable/bottom_nav_text"
+                            app:labelVisibilityMode="labeled"
+                            app:menu="@menu/bottom_nav_menu" />
+                    </LinearLayout>
+                </com.google.android.material.bottomappbar.BottomAppBar>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()->handler.onClickBackToTop()}"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@android:color/white"
+                    android:backgroundTint="@android:color/white"
+                    android:src="@drawable/bottom_home"
+                    app:borderWidth="0dp"
+                    app:elevation="@dimen/spacing_zero"
+                    app:layout_anchorGravity="center"
+                    app:maxImageSize="@dimen/floating_button_size" />
+
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </LinearLayout>
+    </RelativeLayout>
+</layout>

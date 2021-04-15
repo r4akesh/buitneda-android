@@ -1,0 +1,369 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.LinkDatum" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerProductLinksRvHandler" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/heading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:onClick="@{()->handler.onClickShowHide(position)}"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_tiny">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="@dimen/spacing_generic"
+                android:layout_marginRight="@dimen/spacing_generic"
+                android:padding="@dimen/spacing_tiny"
+                app:srcCompat="@drawable/ic_drag_handle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{data.title}"
+                tools:text="Link" />
+
+
+            <ImageView
+                android:layout_width="@dimen/contextual_icon_dimens"
+                android:layout_height="@dimen/contextual_icon_dimens"
+                android:background="@color/color_whiteBlack"
+                android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{()->handler.onClickDeleteItem(position)}"
+                android:padding="@dimen/spacing_tiny"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_vector_remove" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_tiny"
+            android:visibility="@{data.expended ? View.VISIBLE : View.GONE}"
+            tools:visibility="visible">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/title_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/title"
+                    android:inputType="text"
+                    android:text="@={data.title}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/price_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/price_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/price"
+                    android:inputType="numberDecimal"
+                    android:text="@={data.price}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/file_type_spinner"
+                    style="@style/Widget.AppCompat.Spinner.DropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_color_primary"
+                    android:entries="@array/file_type"
+                    android:padding="@dimen/spacing_generic"
+                    android:selectedItemPosition="@={data.fileTypeSelected}" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ink_url_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:visibility="@{data.linkType.equals(&quot;url&quot;) ? View.VISIBLE : View.GONE}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/link_url_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/url"
+                    android:inputType="textUri|textWebEditText"
+                    android:text="@={data.linkUrl}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/shape_rect_white_bg_black_border_2_dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="1dp"
+                android:visibility="@{data.linkType.equals(&quot;file&quot;) ? View.VISIBLE : View.GONE}">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/link_type_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="start"
+                    android:hint="@string/file"
+                    android:inputType="text"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@={data.fileSave.file}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:layout_width="@dimen/contextual_icon_dimens"
+                    android:layout_height="@dimen/contextual_icon_dimens"
+                    android:background="@color/color_whiteBlack"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="@dimen/spacing_tiny"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/icon_vector_delete_red"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:enabled="@{data.linkType.equals(&quot;file&quot;)}"
+                    android:onClick="@{()->handler.onClickAddFile(position, &quot;links&quot;)}"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:text="@string/upload"
+                    android:textColor="@android:color/white" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/sample_type_spinner"
+                    style="@style/Widget.AppCompat.Spinner.DropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_color_primary"
+                    android:entries="@array/file_type_sample"
+                    android:padding="@dimen/spacing_generic"
+                    android:selectedItemPosition="@={data.sampleTypeSelected}" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sample_url_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:visibility="@{data.sampleType.equals(&quot;url&quot;) ? View.VISIBLE : View.GONE}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sample_url_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/sample_url"
+                    android:inputType="textUri|textWebEditText"
+                    android:text="@={data.sampleUrl}"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/shape_rect_white_bg_black_border_2_dp"
+                android:orientation="horizontal"
+                android:padding="1dp"
+                android:visibility="@{data.sampleType.equals(&quot;file&quot;) ? View.VISIBLE : View.GONE}">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/samle_link_type_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="start"
+                    android:hint="@string/sample_file"
+                    android:inputType="text"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@{data.sampleFileSave.file}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:layout_width="@dimen/contextual_icon_dimens"
+                    android:layout_height="@dimen/contextual_icon_dimens"
+                    android:background="@color/color_whiteBlack"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="@dimen/spacing_tiny"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/icon_vector_delete_red"
+                    tools:visibility="visible" />
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:enabled="@{data.sampleType.equals(&quot;file&quot;)}"
+                    android:onClick="@{()->handler.onClickAddFile(position, &quot;link_samples&quot;)}"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:text="@string/upload"
+                    android:textColor="@android:color/white" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/shareable_spinner"
+                    style="@style/Widget.AppCompat.Spinner.DropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/text_color_primary"
+                    android:entries="@array/shareable_label"
+                    android:padding="@dimen/spacing_generic"
+                    android:selectedItemPosition="@={data.shareable}" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal">
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@={data.unlimited}"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal"
+                    android:text="@string/unlimited"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/max_downloads_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/max_downloads_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:enabled="@{!data.unlimited}"
+                    android:gravity="start"
+                    android:hint="@string/max_downloads"
+                    android:inputType="number"
+                    android:text="@={data.numberOfDownloads}"
+                    android:textColor="@color/text_color_primary"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

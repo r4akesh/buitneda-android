@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.webkul.mobikulmp.activity.BecomeSellerActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="incrementId"
+            type="String" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.CreditMemoFormResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.CreateCreditMemoActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{@string/order_x(incrementId)}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:background="@color/divider_color" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_normal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/placed_on"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.orderDate}"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:text="@{data.status}"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold"
+                            app:orderStatusBackground="@{data.status}" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/buyer_info"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="@string/buyer_info" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:background="@color/divider_color" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:text="@{data.customerName}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="Veronica Castello" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:text="@{data.customerEmail}"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="roni_costa@example.com" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.orderInfoHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:background="@color/divider_color" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.shippingAddressHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.shippingAddress.trim().isEmpty() ? View.GONE : View.VISIBLE}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_primary"
+                        android:visibility="@{data.shippingAddress.trim().isEmpty() ? View.GONE : View.VISIBLE}"
+                        app:loadHtmlText="@{data.shippingAddress}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.billingAddressHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.billingAddress.trim().isEmpty() ? View.GONE : View.VISIBLE}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_primary"
+                        android:visibility="@{data.billingAddress.trim().isEmpty() ? View.GONE : View.VISIBLE}"
+                        app:loadHtmlText="@{data.billingAddress}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.shippingMethodHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.shippingMethod.trim().isEmpty() ? View.GONE : View.VISIBLE}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_primary"
+                        android:visibility="@{data.shippingMethod.trim().isEmpty() ? View.GONE : View.VISIBLE}"
+                        app:loadHtmlText="@{data.shippingMethod}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.paymentMethodHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.paymentMethod.trim().isEmpty() ? View.GONE : View.VISIBLE}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_primary"
+                        android:visibility="@{data.paymentMethod.trim().isEmpty() ? View.GONE : View.VISIBLE}"
+                        app:loadHtmlText="@{data.paymentMethod}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@{data.itemsRefundHeading}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:background="@color/divider_color" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/refund_order_items_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.paidAmount !=null &amp;&amp; !data.paidAmount.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.paidAmountHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textStyle="bold"
+                            tools:text="Paid Amount	" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.paidAmount}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_secondary"
+                        android:visibility="@{ data.refundAmount !=null &amp;&amp; !data.refundAmount.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.refundAmountHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textStyle="bold"
+                            tools:text="Refund Amount" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.refundAmount}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_secondary"
+                        android:visibility="@{ data.shippingAmount !=null &amp;&amp; !data.shippingAmount.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.shippingAmountHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textStyle="bold"
+                            tools:text="Shipping Amount" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.shippingAmount}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:textColor="@color/text_color_secondary"
+                        android:visibility="@{ data.shippingRefund !=null &amp;&amp; !data.shippingRefund.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.shippingRefundHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textStyle="bold"
+                            tools:text="Shipping Refund" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.shippingRefund}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.orderGrandTotal !=null &amp;&amp; !data.orderGrandTotal.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.orderGrandTotalHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            android:textStyle="bold"
+                            tools:text="Order Grand Total" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.orderGrandTotal}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/comment_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/credit_memo_comment_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_generic"
+                        android:hint="@{data.creditMemoCommentHeading}"
+                        android:textColor="@color/text_color_primary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine"
+                            android:lines="6"
+                            android:maxLines="1"
+                            android:text="@={data.creditMemoComment}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/refund_totals_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.subTotal !=null &amp;&amp; !data.subTotal.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.subtotalHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="Subtotal" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.subTotal}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.discount !=null &amp;&amp; !data.discount.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.discountHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="Discount" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.discount}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.totalTax !=null &amp;&amp; !data.totalTax.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.totalTaxHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="Total Tax" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.totalTax}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.refundShippingHeading !=null &amp;&amp; !data.refundShippingHeading.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.refundShippingHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="Refund Shipping" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                            android:gravity="end"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:paddingEnd="@dimen/spacing_tiny"
+                            android:text="@={data.refundShipping}"
+                            android:textColor="@color/grey_700"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.adjustmentRefundHeading !=null &amp;&amp; !data.adjustmentRefundHeading.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{data.adjustmentRefundHeading}"
+                            android:textColor="@color/text_color_secondary"
+                            tools:text="Adjustment Refund" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                            android:gravity="end"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:paddingEnd="@dimen/spacing_tiny"
+                            android:text="@={data.adjustmentRefund}"
+                            android:textColor="@color/grey_700"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingTop="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_generic"
+                        android:visibility="@{ data.adjustmentFeeHeading !=null &amp;&amp; !data.adjustmentFeeHeading.isEmpty() ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@{data.adjustmentFeeHeading}"
+                            tools:text="Adjustment Fee" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/colon" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/spacing_generic"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                            android:gravity="end"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:paddingEnd="@dimen/spacing_tiny"
+                            android:text="@={data.adjustmentFee}"
+                            android:textColor="@color/grey_700"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:text="subtotal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:buttonTint="@color/text_color_primary"
+                    android:checked="@={data.appendComment}"
+                    android:enabled="@{data.emailCopyOfCreditMemo}"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@{data.appendCommentsHeading}"
+                    android:textColor="@color/text_color_secondary"
+                    tools:text="Append Comments" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:buttonTint="@color/text_color_primary"
+                    android:checked="@={data.visibleInFrontend}"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@{data.visibleOnFrontendHeading}"
+                    android:textColor="@color/text_color_secondary"
+                    tools:text="Visible on Frontend" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:buttonTint="@color/text_color_primary"
+                    android:checked="@={data.emailCopyOfCreditMemo}"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@{data.emailCopyHeading}"
+                    android:textColor="@color/text_color_secondary"
+                    tools:text="Email Copy of Credit Memo" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_background"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_generic">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/spacing_generic"
+                        android:onClick="@{()->handler.onClickRefundBtn(0)}"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@{data.refundOnlineButtonHeading}"
+                        android:visibility="@{data.refundOnlineEnableFlag ? View.VISIBLE : View.GONE}"
+                        tools:text="Refund" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:onClick="@{()->handler.onClickRefundBtn(1)}"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@{data.refundOfflineButtonHeading}"
+                        tools:text="Refund Offline" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+    </RelativeLayout>
+</layout>
+

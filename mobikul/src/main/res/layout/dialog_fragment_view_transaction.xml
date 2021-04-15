@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.ViewTransactionResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.ViewTransactionDialogHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_whiteBlack"
+            android:orientation="vertical"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/spacing_small"
+                android:text="@string/view_transaction"
+                android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.amount.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Amount" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.amount.value}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="$1.00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.action.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Action" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.action.value}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Debit" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp"
+                    android:visibility="@{data.transactionData.type == null ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.type.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Type" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.type.value}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Transfer To Customer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp"
+                    android:visibility="@{data.transactionData.bankDetails == null || data.transactionData.bankDetails.label.isEmpty() ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.bankDetails.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="Bank Details" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.bankDetails.value}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="000000012" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp"
+                    android:visibility="@{data.transactionData.order == null || data.transactionData.order.label.isEmpty() ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.order.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="Order" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:onClick="@{() -> handler.onClickOrderId(data.transactionData.order.value)}"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.order.value}"
+                        android:textColor="@color/text_color_link"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="000000012" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp"
+                    android:visibility="@{data.transactionData.receiver.label.isEmpty() ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.receiver.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="Receiver" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.receiver.value}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+
+                        tools:text="Test test" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.date.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+                        android:textStyle="bold"
+                        tools:text="Transaction At" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.date.value}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="7:04am On Saturday 7th October 2017" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:orientation="horizontal"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.note.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+                        android:textStyle="bold"
+                        tools:text="Transaction Note" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.note.value}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="This is your birthday gift my friend. Enjoy!!!" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:padding="1dp"
+                    android:visibility="@{data.transactionData.status == null ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@color/grey_200"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingBottom="@dimen/spacing_small"
+                        android:text="@{data.transactionData.status.label}"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/text_color_secondary"
+                        android:textStyle="bold"
+                        tools:text="Transaction Status" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@{data.transactionData.status.value}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="Approved" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+
+</layout>

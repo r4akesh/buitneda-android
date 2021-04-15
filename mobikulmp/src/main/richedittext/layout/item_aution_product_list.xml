@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.auction.ProductList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.AuctionProductListRvHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="@{data.isLinkable}"
+        android:foreground="?attr/selectableItemBackground"
+        android:minHeight="150dp"
+        android:minWidth="200dp"
+        android:onClick="@{()->handler.onClickProduct(data.id, data.name)}"
+        android:padding="@dimen/category_item_layout_padding">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/product_image_iv"
+            android:layout_width="@dimen/product_image_height"
+            android:layout_height="@dimen/product_image_height">
+
+            <ImageView
+                android:layout_width="@dimen/product_image_height"
+                android:layout_height="@dimen/product_image_height"
+                app:imageUrl="@{data.thumbNail}"
+                tools:ignore="ContentDescription" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/product_image_iv"
+            android:layout_toRightOf="@id/product_image_iv"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingLeft="@dimen/spacing_generic"
+            android:paddingRight="@dimen/spacing_generic"
+            android:paddingStart="@dimen/spacing_generic">
+
+            <TextView
+                android:id="@+id/product_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:maxLines="2"
+                android:text="@{data.name}"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="Flatiron Tablet Sleeve, Flatiron Tablet Sleeve" />
+
+            <TextView
+                android:id="@+id/price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@{data.price}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_small"
+                tools:text="$410.00" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_auction_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="@{()->handler.onClickAddAuction(data.id)}"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingStart="@dimen/spacing_generic"
+            android:text="@string/add_auction_tab_label" />
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerReviewList" />
+    </data>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_generic">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.summary}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="@{data.summary != null ? View.VISIBLE : View.GONE}"
+            tools:text="One of the best product" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/price_colon"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_star_wrapper"
+                android:drawablePadding="@dimen/spacing_tiny"
+                android:gravity="center"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingTop="@dimen/spacing_tiny"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_tiny"
+                android:text="@{data.priceRatingString}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:ratingColor="@{data.priceRatingString}"
+                tools:text="2.07" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/value_colon"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_star_wrapper"
+                android:drawablePadding="@dimen/spacing_tiny"
+                android:gravity="center"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingTop="@dimen/spacing_tiny"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_tiny"
+                android:text="@{data.valueRatingString}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:ratingColor="@{data.valueRatingString}"
+                tools:text="2.07" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/quality_colon"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_star_wrapper"
+                android:drawablePadding="@dimen/spacing_tiny"
+                android:gravity="center"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingTop="@dimen/spacing_tiny"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_tiny"
+                android:text="@{data.qualityRatingString}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:ratingColor="@{data.qualityRatingString}"
+                tools:text="2.07" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_generic"
+            android:padding="@dimen/spacing_tiny"
+            android:text="@{data.comment}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="@{data.comment != null ? View.VISIBLE : View.GONE}"
+            tools:text="As soon as I put this shirt on I feel ready to hit the gym, even on my laziest days. Something about the way it feels just gets me psyched up!" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/review_by"
+                android:textSize="@dimen/text_size_small" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.name}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Cletus" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.date}"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_small"
+                tools:text="25 November 2018" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

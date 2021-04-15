@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.wallet.models.wallet.TransactionList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.TransactionListHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:onClick="@{(v)->handler.onClickOrder(v, data.viewId)}"
+            android:padding="@dimen/spacing_small"
+            android:text="@{data.description}"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Order id: #000000004" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:gravity="center"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:text="@{data.debit.isEmpty() ? data.credit : data.debit}"
+            android:textColor="@{data.debit.isEmpty() ? @color/green_400 : @android:color/holo_red_light}"
+            android:textSize="@dimen/text_size_small"
+
+            tools:text="$32.0000" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:gravity="center"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:text="@{data.status}"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/text_color_secondary"
+            tools:text="Applied" />
+
+    </LinearLayout>
+
+</layout>

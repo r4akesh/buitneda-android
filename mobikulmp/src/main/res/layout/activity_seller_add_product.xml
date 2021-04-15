@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.AppSharedPref" />
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="productId"
+            type="Integer" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="baseImagePosition"
+            type="Integer" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerAddProductResponseData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerAddProductActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/layout_save_btn"
+            android:visibility="@{data == null ? View.GONE :View.VISIBLE}">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/basic_information_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickBasicDetailsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/basic"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/basic_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        app:textWithAsterisk="@{@string/attribute_set_colon}"
+                        tools:text="@string/attribute_set_colon" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/attribute_set_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="@dimen/spacing_generic" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:visibility="@{productId==0 ?  View.VISIBLE : View.GONE}"
+                        app:textWithAsterisk="@{@string/product_type_colon}"
+                        tools:text="@string/product_type_colon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp"
+                        android:visibility="@{productId==0 ?  View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/product_type_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/actionBarItemsColor"
+                            android:padding="@dimen/spacing_generic"
+                            android:popupBackground="@color/color_background" />
+                    </LinearLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/product_name_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        app:hintWithAsterisk="@{@string/product_name}"
+                        tools:hint="@string/product_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/product_name_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="text"
+                            android:text="@={data.productData.name}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:id="@+id/description_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/description" />
+
+                    <include
+                        android:id="@+id/rich_layout_discription"
+                        layout="@layout/rich_edit_text_layout"
+                        app:tag="@{@string/description}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:padding="@dimen/spacing_tiny" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/description_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:paddingStart="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_generic"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="gone" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/short_description" />
+
+                    <include
+                        android:id="@+id/rich_layout_short_description"
+                        layout="@layout/rich_edit_text_layout"
+                        app:tag="@{@string/short_description}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:padding="@dimen/spacing_tiny" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/short_description_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:paddingStart="@dimen/spacing_generic"
+                        android:paddingEnd="@dimen/spacing_generic"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="gone" />
+
+                   <!-- <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/description_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        app:hintWithAsterisk="@{@string/description}"
+                        tools:hint="@string/description">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/description_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="10"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.productData.description}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/short_description_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/short_description_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/short_description"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="8"
+                            android:minLines="6"
+                            android:scrollbars="vertical"
+                            android:text="@={data.productData.shortDescription}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/sku_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        android:visibility="@{data.skuType.equals(&quot;static&quot;) ? View.VISIBLE : View.GONE}"
+                        app:hintWithAsterisk="@{@string/sku}"
+                        tools:hint="@string/sku">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/sku_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="text"
+                            android:text="@={data.productData.sku}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/price_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        app:hintWithAsterisk="@{@string/price_currency(data.currencySymbol)}"
+                        tools:hint="@string/price_currency">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/price_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="numberDecimal"
+                            android:text="@={data.productData.price}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/special_price_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        android:hint="@{@string/special_price_currency(data.currencySymbol)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/special_price_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="numberDecimal"
+                            android:text="@={data.productData.specialPrice}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/special_price_from_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/special_price_from_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:gravity="start"
+                            android:hint="@string/special_price_from"
+                            android:inputType="date"
+                            android:onClick="@{(v) -> handler.onClickOpenCalender(v)}"
+                            android:text="@={data.productData.specialFromDate}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/special_price_to_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/special_price_to_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="false"
+                            android:gravity="start"
+                            android:hint="@string/special_price_to"
+                            android:inputType="date"
+                            android:onClick="@{(v) -> handler.onClickOpenCalender(v)}"
+                            android:text="@={data.productData.specialToDate}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/status_colon"
+                        android:textColor="@color/text_color_secondary"
+                        android:visibility="@{productId>0 ?  View.VISIBLE : View.GONE}" />
+
+                    <RadioGroup
+                        android:id="@+id/status_rb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:visibility="@{productId>0 ?  View.VISIBLE : View.GONE}"
+                        tools:visibility="visible">
+
+                        <RadioButton
+                            android:id="@+id/status_radio_btn_yes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/actionBarItemsColor"
+                            android:checked="@{data.productData.status==1}"
+                            android:text="@string/enable_product"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                        <RadioButton
+                            android:id="@+id/status_radio_btn_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/actionBarItemsColor"
+                            android:checked="@{data.productData.status==2}"
+                            android:text="@string/disable_product"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+                    </RadioGroup>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="@string/is_featured_product" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/mobikul_feature_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/actionBarItemsColor"
+                            android:padding="@dimen/spacing_generic"
+                            android:popupBackground="@color/color_background"
+                            android:selectedItemPosition="@={data.productData.featuredProduct}" />
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_category_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickProductCategoryBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/product_category"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/product_category_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_background"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/category_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_background"
+                        android:nestedScrollingEnabled="false"
+                        tools:targetApi="lollipop"
+                        tools:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/change_color_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableStart="@drawable/ic_vector_add_category_wrapper"
+                        android:drawablePadding="@dimen/spacing_small"
+                        android:onClick="@{()->handler.onClickSelectCategory()}"
+                        android:padding="@dimen/spacing_large"
+                        android:text="@string/select_category"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_purchase_limit_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickProductPurchaseLimitBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/product_purchase_limit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.addProductLimitStatus ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/product_purchase_limit_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:visibility="@{data.addProductLimitStatus ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/purchase_limit_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginRight="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/purchase_limit_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:gravity="start"
+                            android:hint="@string/purchase_limit"
+                            android:inputType="number"
+                            android:text="@={data.productData.mpProductCartLimit}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:text="@string/by_default_10_qty_will_be_allowed_for_customer_to_add_in_cart"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_tiny" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stock_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickStockBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/stock"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/stock_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/stock_count_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        app:hintWithAsterisk="@{@string/stock_count}"
+                        tools:hint="@string/stock_count">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/stock_count_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:inputType="number"
+                            android:text="@={data.productData.qty}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        app:textWithAsterisk="@{@string/stock_availability_colon}"
+                        tools:text="@string/stock_availability_colon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/stock_availability_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/actionBarItemsColor"
+                            android:padding="@dimen/spacing_generic"
+                            android:popupBackground="@color/color_background" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        app:textWithAsterisk="@{@string/visibility_colon}"
+                        tools:text="@string/visibility_colon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/visibility_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/actionBarItemsColor"
+                            android:padding="@dimen/spacing_generic"
+                            android:popupBackground="@color/color_background" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        app:textWithAsterisk="@{@string/tax_class_colon}"
+                        tools:text="@string/tax_class_colon" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_1_dp">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/tax_class_sp"
+                            style="@style/Widget.AppCompat.Spinner.DropDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/actionBarItemsColor"
+                            android:padding="@dimen/spacing_generic"
+                            android:popupBackground="@color/color_background" />
+                    </LinearLayout>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/weight_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickWeightBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/weight"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/weight_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Switch
+                            android:id="@+id/weight_switch_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:checked="@={data.productData.productHasWeight}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/does_this_have_a_weight"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/weight_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        app:hintWithAsterisk="@{@string/weight_x(data.weightUnit)}"
+                        tools:hint="@string/weight_x">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/weight_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{data.productData.productHasWeight}"
+                            android:gravity="start"
+                            android:inputType="numberDecimal"
+                            android:text="@={data.productData.weight}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/images_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickImagesBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/images"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/images_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/product_image_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_add_product_image" />
+
+                    <Button
+                        android:id="@+id/add_images_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableStart="@drawable/ic_vector_add_image_wrapper"
+                        android:drawablePadding="@dimen/spacing_small"
+                        android:onClick="@{()->handler.onClickAddImage()}"
+                        android:padding="@dimen/spacing_large"
+                        android:text="@string/add_images"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/downloadable_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickDownloadableBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/downloadable"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/downloadable_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_whiteBlack"
+                        android:padding="@dimen/spacing_normal">
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/color_background"
+                            android:checked="@={data.productData.downloadableProduct}"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/spacing_normal"
+                            android:layout_marginRight="@dimen/spacing_normal"
+                            android:text="@string/is_this_downloadable_product"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="vertical"
+                        android:visibility="@{data.productData.downloadableProduct? View.VISIBLE :View.GONE}">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/title_of_link_til"
+                            style="@style/CustomTilStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_normal">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/title_of_link_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:hint="@string/title_of_link_s"
+                                android:inputType="text"
+                                android:text="@={data.productData.linksTitle}"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_small" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/links_can_be_purchased_separately"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:visibility="visible" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_normal">
+
+                            <Switch
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={data.productData.purchasedSeparatelyBoolean}"
+                                android:textSize="@dimen/text_size_medium" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/spacing_normal"
+                                android:layout_marginRight="@dimen/spacing_normal"
+                                android:text="@string/yes"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_medium" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/links_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:layout_height="100dp"
+                            tools:listitem="@layout/item_seller_product_link"
+                            tools:targetApi="lollipop" />
+
+                        <Button
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_normal"
+                            android:background="@drawable/shape_rect_white_bg_black_border_2_dp"
+                            android:onClick="@{() -> handler.onClickAddLinkBtn()}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/add_another_link"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/title_of_sample_til"
+                            style="@style/CustomTilStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_normal">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/title_of_sample_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:hint="@string/title_of_sample"
+                                android:inputType="number"
+                                android:text="@={data.productData.samplesTitle}"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_small" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/samples_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:layout_height="100dp"
+                            tools:listitem="@layout/item_seller_product_sample"
+                            tools:targetApi="lollipop" />
+
+
+                        <Button
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/spacing_normal"
+                            android:background="@drawable/shape_rect_white_bg_black_border_2_dp"
+                            android:onClick="@{() -> handler.onClickAddSampleBtn()}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/add_another_sample"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/seo_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onSeoBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/seo"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/seo_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/meta_title_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/meta_title_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/meta_title"
+                            android:inputType="text"
+                            android:lines="1"
+                            android:text="@={data.productData.metaTitle}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/meta_keyword_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/meta_keyword_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/meta_keyword"
+                            android:inputType="textMultiLine"
+                            android:lines="6"
+                            android:scrollbars="vertical"
+                            android:text="@={data.productData.metaKeyword}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/meta_description_til"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/meta_description_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:hint="@string/meta_description"
+                            android:inputType="textMultiLine|textCapWords|textLongMessage"
+                            android:maxLines="15"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:text="@={data.productData.metaDescription}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/related_products_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickRelatedProductsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/related_products"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.addRelatedProductStatus ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/related_products_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <Button
+                        android:id="@+id/related_prod_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableStart="@drawable/ic_vector_add_image_wrapper"
+                        android:drawablePadding="@dimen/spacing_small"
+                        android:onClick="@{()->handler.onClickSelectFromProductCollection(&quot;related&quot;)}"
+                        android:padding="@dimen/spacing_large"
+                        android:text="@string/add_related_products"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/upsell_products_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickUpSellProductsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/upsell_products"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.addUpsellProductStatus ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/upsell_products_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <Button
+                        android:id="@+id/crosssell_prod_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableStart="@drawable/ic_vector_add_image_wrapper"
+                        android:drawablePadding="@dimen/spacing_small"
+                        android:onClick="@{()->handler.onClickSelectFromProductCollection(&quot;upsell&quot;)}"
+                        android:padding="@dimen/spacing_large"
+                        android:text="@string/add_upsell_products"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/cross_sell_products_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickCrossSellProductsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/cross_sell_products"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.addCrosssellProductStatus ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/cross_sell_products_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <Button
+                        android:id="@+id/upsell_prod_btn"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/color_whiteBlack"
+                        android:drawableStart="@drawable/ic_vector_add_image_wrapper"
+                        android:drawablePadding="@dimen/spacing_small"
+                        android:onClick="@{()->handler.onClickSelectFromProductCollection(&quot;crosssell&quot;)}"
+                        android:padding="@dimen/spacing_large"
+                        android:text="@string/add_cross_sell_products"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE :View.GONE}" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_whiteBlack"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/submit_btn"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@color/colorAccent"
+                android:enabled="@{!safeUnbox(loading)}"
+                android:onClick="@{()->handler.onClickSaveBtn(data.productData)}"
+                android:padding="@dimen/spacing_normal"
+                android:text="@string/save"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                android:visibility="@{data == null ? View.GONE :View.VISIBLE}" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+</layout>

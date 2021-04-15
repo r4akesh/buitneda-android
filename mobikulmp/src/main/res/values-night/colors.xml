@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="remove_color">#FE6C6C</color>
+    <color name="background">#050505</color>
+    <color name="color_background">#1a1a1a</color>
+    <color name="color_whiteBlack">@android:color/black</color>
+    <color name="black_alpha_20">#66000000</color>
+    <color name="blue_a200">@color/orderStatusNewColor</color>
+    <color name="marketplace_landing_page_layout3_card_bg_color">#DCF2F5</color>
+
+</resources>

@@ -1,0 +1,72 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.Brandlist" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        android:layout_marginBottom="@dimen/card_elevation_low"
+        android:onClick="@{()->handler.onClickCategory(data.label, data.id)}"
+        app:cardBackgroundColor="@color/color_whiteBlack"
+        app:cardCornerRadius="48dp"
+        app:cardElevation="@dimen/card_elevation_medium">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background"
+            android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="@dimen/spacing_max"
+                android:layout_height="@dimen/spacing_max">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/spacing_max"
+                    android:layout_height="@dimen/spacing_max"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/color_background"
+                    android:onClick="@{()->handler.onClickCategory(data.label, data.id)}"
+                    app:civ_border_color="#00000000"
+                    app:civ_border_width="1dp"
+                    app:imageUrl="@{data.image}"
+                    tools:ignore="TooDeepLayout"
+                    tools:src="@drawable/placeholder" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/category_label"
+                android:visibility="gone"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingTop="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_generic"
+                android:text="@{data.label}"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Fitness Equipment" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.wallet.handlers.WalletActivityHandler" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_whiteBlack"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginTop="@dimen/spacing_huge"
+            android:layout_marginEnd="@dimen/spacing_generic"
+            android:layout_marginBottom="@dimen/spacing_generic"
+            android:onClick="@{() -> handler.onClickManageAmount()}"
+            android:padding="@dimen/spacing_normal"
+            android:text="@string/manage_wallet_amount"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_size_medium" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_generic"
+            android:onClick="@{() -> handler.onClickTransferAmount()}"
+            android:padding="@dimen/spacing_normal"
+            android:text="@string/transfer_wallet_amount"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+        <!-- <androidx.appcompat.widget.AppCompatButton
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="@dimen/spacing_generic"
+             android:onClick="@{() -> handler.onClickAddAccount()}"
+             android:padding="@dimen/spacing_normal"
+             android:text="@string/add_account_details"
+             android:textAllCaps="true"
+             android:textSize="@dimen/text_size_medium" />-->
+
+    </LinearLayout>
+</layout>

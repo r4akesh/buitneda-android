@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.SellerProductsListActivity">
+
+    <item
+        android:id="@+id/menu_item_csv"
+        android:icon="@drawable/ic_vector_download_csv_file_wrapper"
+        android:title="@string/download"
+        android:visible="false"
+        app:showAsAction="always|collapseActionView"
+        tools:visible="true" />
+    <item
+        android:id="@+id/menu_item_filter"
+        android:icon="@drawable/ic_filter_wrapper"
+        android:title="@string/filters"
+        android:visible="false"
+        app:showAsAction="always|collapseActionView"
+        tools:visible="true" />
+</menu>

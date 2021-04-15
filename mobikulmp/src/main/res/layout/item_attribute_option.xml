@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.AttributeOptionItemData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.AttributeOptionItemHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        app:cardBackgroundColor="@color/color_background"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/remove_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/ic_vector_remove"
+                android:onClick="@{(v)-> handler.onClickDeleteItem(v)}"
+                android:text="@string/remove"
+                android:textAllCaps="true"
+                android:textColor="@color/remove_color"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/admin_til"
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                app:error="@{data.validAdmin ? ``: @string/msg_this_is_a_required_field}"
+                app:errorEnabled="@{!data.validAdmin}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/admin"
+                    android:inputType="textWebEditText"
+                    android:scrollbars="vertical"
+                    android:text="@={data.admin}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/default_store_view"
+                    android:inputType="textWebEditText"
+                    android:scrollbars="vertical"
+                    android:text="@={data.defaultStoreView}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/position"
+                    android:inputType="textWebEditText"
+                    android:scrollbars="vertical"
+                    android:text="@={data.position}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:buttonTint="@color/actionBarItemsColor"
+                android:checked="@={data.setToDefault}"
+                android:text="@string/mark_as_default"
+                android:textColor="@color/text_color_primary"
+                android:textStyle="bold" />
+
+            <!-- <androidx.appcompat.widget.LinearLayoutCompat
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
+
+                 <androidx.appcompat.widget.AppCompatTextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:paddingLeft="@dimen/spacing_tiny"
+                     android:paddingRight="@dimen/spacing_tiny"
+                     android:text="@string/admin"
+                     android:textColor="@android:color/black"
+                     android:textSize="@dimen/text_size_medium"
+                     tools:text="Admin" />
+
+                 <ImageView
+                     android:id="@+id/delete_iv"
+                     android:layout_width="@dimen/contextual_icon_dimens"
+                     android:layout_height="@dimen/contextual_icon_dimens"
+                     android:foreground="?attr/selectableItemBackground"
+                     android:onClick="@{(v)-> handler.onClickDeleteItem(v)}"
+                     android:padding="@dimen/spacing_tiny"
+                     app:srcCompat="@drawable/ic_vector_close_bg"
+                     tools:ignore="ContentDescription" />
+
+             </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+             <EditText
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="start"
+                 android:layout_marginLeft="@dimen/spacing_tiny"
+                 android:layout_marginRight="@dimen/spacing_tiny"
+                 android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                 android:gravity="start|center_vertical"
+                 android:inputType="text"
+                 android:maxLines="1"
+                 android:padding="@dimen/edit_text_padding"
+                 android:text="@={data.admin}"
+                 android:textAlignment="viewStart"
+                 android:textSize="@dimen/text_size_small" />
+
+             <androidx.appcompat.widget.AppCompatTextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:paddingLeft="@dimen/spacing_tiny"
+                 android:paddingRight="@dimen/spacing_tiny"
+                 android:paddingTop="@dimen/spacing_tiny"
+                 android:text="@string/default_store_view"
+                 android:textColor="@android:color/black"
+                 android:textSize="@dimen/text_size_medium"
+                 tools:text="Default Store View" />
+
+             <EditText
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="start"
+                 android:layout_marginLeft="@dimen/spacing_tiny"
+                 android:layout_marginRight="@dimen/spacing_tiny"
+                 android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                 android:gravity="start|center_vertical"
+                 android:inputType="text"
+                 android:maxLines="1"
+                 android:padding="@dimen/edit_text_padding"
+                 android:text="@={data.defaultStoreView}"
+                 android:textAlignment="viewStart"
+                 android:textSize="@dimen/text_size_small" />
+
+             <androidx.appcompat.widget.LinearLayoutCompat
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:baselineAligned="false"
+                 android:orientation="horizontal"
+                 android:paddingTop="@dimen/spacing_tiny">
+
+                 <androidx.appcompat.widget.LinearLayoutCompat
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight=".7"
+                     android:orientation="vertical">
+
+                     <androidx.appcompat.widget.AppCompatTextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingLeft="@dimen/spacing_tiny"
+                         android:paddingRight="@dimen/spacing_tiny"
+                         android:text="@string/position"
+                         android:textColor="@android:color/black"
+                         android:textSize="@dimen/text_size_medium"
+                         tools:text="Position" />
+
+                     <EditText
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="start"
+                         android:layout_marginLeft="@dimen/spacing_tiny"
+                         android:layout_marginRight="@dimen/spacing_tiny"
+                         android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                         android:gravity="start|center_vertical"
+                         android:inputType="number"
+                         android:maxLines="1"
+                         android:padding="@dimen/edit_text_padding"
+                         android:text="@={data.position}"
+                         android:textAlignment="viewStart"
+                         android:textSize="@dimen/text_size_small" />
+
+                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                 <androidx.appcompat.widget.LinearLayoutCompat
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight=".3"
+                     android:gravity="center_horizontal"
+                     android:orientation="vertical">
+
+                     <androidx.appcompat.widget.AppCompatTextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingLeft="@dimen/spacing_tiny"
+                         android:paddingRight="@dimen/spacing_tiny"
+                         android:text="@string/is_default"
+                         android:textColor="@android:color/black"
+                         android:textSize="@dimen/text_size_medium"
+                         tools:text="Is Default" />
+
+                     <CheckBox
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:checked="@={data.setToDefault}" />
+                 </androidx.appcompat.widget.LinearLayoutCompat>
+             </androidx.appcompat.widget.LinearLayoutCompat>-->
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerAddProductsFilterFragHandler" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:onClick="@{()->handler.onClickOutsideFilter()}" />
+        <!--
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/spacing_generic"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="@string/title_seller_order_filter"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <androidx.core.widget.NestedScrollView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/activity_horizontal_margin">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:id="@+id/filter_options_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" />
+
+                            <android.support.v7.widget.AppCompatButton
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:onClick="@{()->handler.applyFilters()}"
+                                android:padding="@dimen/activity_horizontal_margin"
+                                android:text="@string/apply_filters"
+                                android:textColor="?attr/colorAccent" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.core.widget.NestedScrollView
+        >
+                </androidx.appcompat.widget.LinearLayoutCompat>-->
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

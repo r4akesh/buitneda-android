@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "632494746595",
+    "firebase_url": "https://buitanda-75c27-default-rtdb.firebaseio.com",
+    "project_id": "buitanda-75c27",
+    "storage_bucket": "buitanda-75c27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632494746595:android:0383de75c51a0df4764ed6",
+        "android_client_info": {
+          "package_name": "com.buitanda.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632494746595-7k2sv6sppj0j0ntl86b3iq32lhgnapim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqMfg6HJylMXfPQtINmC_IURLbymVBviA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632494746595-7k2sv6sppj0j0ntl86b3iq32lhgnapim.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "632494746595-vih7fdiu1m90llg1e1d1gi7579fesphe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.test.webkul"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

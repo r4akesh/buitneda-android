@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerProfileData" />
+
+        <import type="com.webkul.mobikul.helpers.AppSharedPref" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerStoreReviewHandler" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingBottom="@dimen/spacing_normal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:background="@color/colorAccent"
+                        android:drawableEnd="@drawable/ic_star_wrapper"
+                        android:drawablePadding="@dimen/spacing_tiny"
+                        android:paddingStart="@dimen/spacing_generic"
+                        android:paddingTop="@dimen/spacing_tiny"
+                        android:paddingEnd="@dimen/spacing_generic"
+                        android:paddingBottom="@dimen/spacing_tiny"
+                        android:text="@{data.averageRatingValue}"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_small"
+                        app:ratingColor="@{data.averageRatingValue}"
+                        tools:text="2.07" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/spacing_generic"
+                        android:paddingTop="@dimen/spacing_tiny"
+                        android:paddingEnd="@dimen/spacing_generic"
+                        android:paddingBottom="@dimen/spacing_tiny"
+                        android:text="@{@string/average_rating(data.feedbackCount)}"
+                        android:textColor="@color/text_color_secondary"
+                        tools:text="Average Rating (0)" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{data.averageRatingPercent + @string/x_positive_feedback}"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="@dimen/text_size_medium"
+                        tools:text="0% positive feedback" />
+
+                    <Button
+                        android:id="@+id/write_review_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:background="@android:color/black"
+                        android:onClick="@{()->handler.onClickMakeSellerReview(data.sellerId, data.shopUrl)}"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/write_your_review"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/login_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:background="@android:color/black"
+                        android:gravity="center"
+                        android:onClick="@{()->handler.onClickLogin()}"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/please_login_to_write_reviews"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.GONE : View.VISIBLE}"
+                        tools:visibility="visible" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/border_height"
+                    android:background="@color/divider_color" />
+
+                <!--store rating-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/store_rating_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickStoreRating()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/store_rating"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.reviewList.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/store_rating_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.averagePriceRating==0 &amp;&amp; data.averageQualityRating==0&amp;&amp; data.averageValueRating==0? View.VISIBLE : View.GONE}">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/empty_pie_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/review_cart_marking"
+                                app:layout_width="@{(Utils.screenWidth / 4)-35}" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:background="@color/color_background" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_normal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableEnd="@drawable/ic_star_wrapper"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_generic"
+                                android:paddingTop="@dimen/spacing_tiny"
+                                android:paddingEnd="@dimen/spacing_generic"
+                                android:paddingBottom="@dimen/spacing_tiny"
+                                android:text="0"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_small"
+                                tools:text="2.07" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:maxLines="1"
+                                android:text="@string/based_on"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_tiny" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:text="@string/average_rating_0"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_medium"
+                                tools:text="@string/average_rating_0" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:layout_weight="1"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="bottom"
+                                android:text="@string/add_your_review"
+                                android:textAllCaps="true"
+                                android:textColor="@color/text_color_link"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="gone"
+                                tools:text="@string/add_your_review" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.averagePriceRating==0 ? View.GONE : View.VISIBLE}">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/review_pie_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/review_cart_marking"
+                                app:layout_width="@{(Utils.screenWidth / 4)-35}" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:background="@color/color_background"
+                            android:visibility="@{data.averagePriceRating==0 ? View.GONE : View.VISIBLE}" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_normal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableEnd="@drawable/ic_star_wrapper"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_generic"
+                                android:paddingTop="@dimen/spacing_tiny"
+                                android:paddingEnd="@dimen/spacing_generic"
+                                android:paddingBottom="@dimen/spacing_tiny"
+                                android:text="@{data.averagePriceRating+``}"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{data.averagePriceRating==0 ? View.GONE : View.VISIBLE}"
+                                tools:text="2.07" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:maxLines="1"
+                                android:text="@string/based_on"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:text="@{@string/average_price_rating(data.feedbackCount)}"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_medium"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}"
+                                tools:text="Average Price Rating (2)" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:layout_weight="1"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="bottom"
+                                android:text="@string/add_your_review"
+                                android:textAllCaps="true"
+                                android:textColor="@color/text_color_link"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="gone"
+                                tools:text="@string/add_your_review" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.averageValueRating==0 ? View.GONE : View.VISIBLE}">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/value_review_pie_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/review_cart_marking"
+                                app:layout_width="@{(Utils.screenWidth / 4)-35}" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:background="@color/color_background" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_normal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableEnd="@drawable/ic_star_wrapper"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_generic"
+                                android:paddingTop="@dimen/spacing_tiny"
+                                android:paddingEnd="@dimen/spacing_generic"
+                                android:paddingBottom="@dimen/spacing_tiny"
+                                android:text="@{data.averageValueRating+``}"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{data.averageValueRating==0 ? View.GONE : View.VISIBLE}"
+                                tools:text="2.07" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:maxLines="1"
+                                android:text="@string/based_on"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:text="@{@string/average_value_rating(data.feedbackCount)}"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_medium"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}"
+                                tools:text="Average Value Rating(2)" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:layout_weight="1"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="bottom"
+                                android:text="@string/add_your_review"
+                                android:textAllCaps="true"
+                                android:textColor="@color/text_color_link"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="gone"
+                                tools:text="@string/add_your_review" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:background="@color/color_whiteBlack"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.averageQualityRating==0 ? View.GONE : View.VISIBLE}">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/quality_review_pie_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/review_cart_marking"
+                                app:layout_width="@{(Utils.screenWidth / 4)-35}" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:background="@color/color_background" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/spacing_normal"
+                            android:layout_marginBottom="@dimen/spacing_normal"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_normal">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableEnd="@drawable/ic_star_wrapper"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_generic"
+                                android:paddingTop="@dimen/spacing_tiny"
+                                android:paddingEnd="@dimen/spacing_generic"
+                                android:paddingBottom="@dimen/spacing_tiny"
+                                android:text="@{data.averageQualityRating+``}"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{data.averageQualityRating==0 ? View.GONE : View.VISIBLE}"
+                                tools:text="2.07" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:maxLines="1"
+                                android:text="@string/based_on"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:text="@{@string/average_quality_rating(data.feedbackCount)}"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="@dimen/text_size_medium"
+                                android:visibility="@{data.feedbackCount != 0 ? View.VISIBLE : View.GONE}"
+                                tools:text="Average Quality Rating(2)" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="@dimen/spacing_generic"
+                                android:layout_weight="1"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="bottom"
+                                android:text="@string/add_your_review"
+                                android:textAllCaps="true"
+                                android:textColor="@color/text_color_link"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="gone"
+                                tools:text="@string/add_your_review" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <!--store rating-->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/seller_reviews_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickSellerRating()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/seller_reviews"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.reviewList.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/seller_reviews_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_whiteBlack"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recent_seller_feedback_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="@{data.reviewList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_seller_feedback"
+                        tools:targetApi="lollipop" />
+
+                    <Button
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/spacing_normal"
+                        android:background="@drawable/shape_rect_white_bg_black_border_2_dp"
+                        android:onClick="@{()->handler.onClickViewSellerReview(data.sellerId, data.reviewList.size(), data.shopUrl)}"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/view_all_reviews"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="@{data.reviewList.size() > 0 ? View.VISIBLE : View.GONE}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="order_status_code">
+        <item>@string/order_status_all</item>
+        <item>@string/order_status_canceled</item>
+        <item>@string/order_status_closed</item>
+        <item>@string/order_status_complete</item>
+        <item>@string/order_status_fraud</item>
+        <item>@string/order_status_holded</item>
+        <item>@string/order_status_payment_review</item>
+        <item>@string/order_status_paypal_canceled_reversal</item>
+        <item>@string/order_status_paypal_reversed</item>
+        <item>@string/order_status_pending</item>
+        <item>@string/order_status_pending_payment</item>
+        <item>@string/order_status_pending_paypal</item>
+        <item>@string/order_status_processing</item>
+    </string-array>
+
+    <string-array name="product_status_label">
+        <item>@string/all</item>
+        <item>@string/enabled</item>
+        <item>@string/disabled</item>
+    </string-array>
+
+    <string-array name="time_range">
+        <item>@string/today</item>
+        <item>@string/this_week</item>
+        <item>@string/this_month</item>
+        <item>@string/this_year</item>
+    </string-array>
+    <string-array name="file_type">
+        <item>@string/file_type_file_link</item>
+        <item>@string/file_type_file_upload</item>
+    </string-array>
+    <string-array name="file_type_sample">
+        <item>@string/sample_type_file_link</item>
+        <item>@string/sample_type_file_upload</item>
+    </string-array>
+
+    <string-array name="shareable_label">
+        <item>@string/shareable_yes</item>
+        <item>@string/shareable_no</item>
+        <item>@string/sample</item>
+    </string-array>
+
+
+    <string-array name="mobikul_feature">
+        <item>@string/no</item>
+        <item>@string/yes</item>
+    </string-array>
+
+
+    <string-array name="gender">
+        <item>@string/select_gender </item>
+        <item>@string/male </item>
+        <item>@string/female </item>
+        <item>@string/not_specified </item>
+    </string-array>
+</resources>

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerDashboardData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerDashboardActivityHandler" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:fitsSystemWindows="true"
+        tools:context=".activities.SellerDashboardActivity">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{data==null ? View.GONE : View.VISIBLE}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/spacing_normal">
+
+                <!-- Seller Stats -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/stats_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_height="@{((Utils.getScreenWidth()) / 2) + 140}"
+                        tools:layout_height="200dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider_color" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/stats_tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_whiteBlack"
+                        app:elevation="@dimen/card_elevation_low"
+                        app:tabIndicatorGravity="top"
+                        app:tabIndicatorHeight="2dp"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/colorAccent"
+                        app:tabTextAppearance="@style/DashboardViewPagerTabsAppearance"
+                        app:tabTextColor="@color/text_color_secondary" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <!--Payout details-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:gravity="center_vertical"
+                    tools:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/logo_total_payout"
+                        android:layout_width="@dimen/contextual_icon_dimens"
+                        android:layout_height="@dimen/contextual_icon_dimens"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_generic"
+                        app:srcCompat="@drawable/ic_vector_payout_wrapper" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/total_payout_lebel"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/logo_total_payout"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@string/total_payout"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/total_payout_lebel"
+                        android:layout_toEndOf="@+id/logo_total_payout"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingEnd="@dimen/spacing_tiny"
+                        android:text="@{data.totalPayout}"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        tools:text="$453.00" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:background="@color/color_whiteBlack"
+                    android:gravity="center_vertical"
+                    tools:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/logo_remaining_amount"
+                        android:layout_width="@dimen/contextual_icon_dimens"
+                        android:layout_height="@dimen/contextual_icon_dimens"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_generic"
+                        app:srcCompat="@drawable/ic_vector_remaininig_wrapper" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/remaining_amount_lebel"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/logo_remaining_amount"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@string/remaining_amount"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/remaining_amount_lebel"
+                        android:layout_toEndOf="@+id/logo_remaining_amount"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingEnd="@dimen/spacing_tiny"
+                        android:text="@{data.remainingAmount}"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        tools:text="$453.00" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:background="@color/color_whiteBlack"
+                    android:gravity="center_vertical"
+                    tools:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/logo_total_sales"
+                        android:layout_width="@dimen/contextual_icon_dimens"
+                        android:layout_height="@dimen/contextual_icon_dimens"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/spacing_generic"
+                        app:srcCompat="@drawable/ic_vector_sales_wrapper" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/total_sales_lebel"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/logo_total_sales"
+                        android:padding="@dimen/spacing_tiny"
+                        android:text="@string/total_sales"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/total_sales_lebel"
+                        android:layout_toEndOf="@+id/logo_total_sales"
+                        android:paddingStart="@dimen/spacing_tiny"
+                        android:paddingEnd="@dimen/spacing_tiny"
+                        android:text="@{data.lifetimeSale}"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        tools:text="$453.00" />
+
+
+                </RelativeLayout>
+                <!--Top products  -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/top_5_product_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_down_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickTop5ProductBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/top_5_product"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.topSellingProducts.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/top_5_product_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_background"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_products_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_background"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_top_selling_product"
+                        tools:targetApi="lollipop" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <!--Top Categories  -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/top_5_category_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_up_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickTop5CategoriesBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/top_5_category"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.topSellingCategories.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/top_5_category_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:background="@color/color_background"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_category_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/item_top_selling_product"
+                        tools:targetApi="lollipop" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <!--Orders and Reviews layout -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/latest_orders_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_down_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickLatestOrdersBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/latest_orders"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.recentOrderList.size()==0? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/latest_orders_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_latest_orders"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/item_seller_order"
+                        tools:targetApi="lollipop" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:background="@color/color_whiteBlack"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->handler.viewSellerOrders()}"
+                        android:padding="@dimen/spacing_normal"
+                        android:text="@string/view_all_orders"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="@{data.recentOrderList.size()>3 ? View.VISIBLE : View.GONE}"
+                        tools:visibility="visible" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/recent_reviews_heading"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:background="@color/color_whiteBlack"
+                    android:drawableEnd="@drawable/ic_down_arrow_grey_wrapper"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{()->handler.onClickRecentReviewsBtn()}"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="@string/recent_reviews"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{data.sellerReviewList.size()==0? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/recent_reviews_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/border_height"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/seller_review_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_seller_feedback"
+                        tools:targetApi="lollipop" />
+
+
+                    <!--    <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_generic"
+    android:background="@color/color_whiteBlack"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:onClick="@{()->handler.viewSellerReviews()}"
+                            android:padding="@dimen/spacing_normal"
+                            android:text="@string/view_all_reviews"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_medium"
+                            tools:visibility="visible" />
+    -->
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE :View.GONE}" />
+    </RelativeLayout>
+</layout>

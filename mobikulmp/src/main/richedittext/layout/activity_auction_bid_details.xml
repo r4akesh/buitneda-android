@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.auction.AuctionBidDetailsData" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:orientation="vertical"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/normal_bid_list"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/borderColor" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/you_have_no_bid_records"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="@{data.normalBidList.size() > 0 ? View.GONE : View.VISIBLE}"
+                        tools:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.normalBidList.size() > 0 ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/bidder_name"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/borderColor" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.35"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/bid_amount"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/borderColor" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.65"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/time_stamp"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/borderColor"
+                        android:visibility="@{data.normalBidList.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/normal_bit_list_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="@{data.normalBidList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_aution_bid_details_list" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_generic"
+                    android:layout_marginEnd="@dimen/spacing_generic"
+                    android:layout_marginStart="@dimen/spacing_generic"
+                    android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+                    android:orientation="vertical"
+                    android:padding="1dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/automatic_bid_list"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/borderColor" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_generic"
+                        android:text="@string/you_have_no_auto_bid_records"
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="@{data.autoBidList.size() > 0 ? View.GONE : View.VISIBLE}"
+                        tools:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="@{data.autoBidList.size() > 0 ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/bidder_name"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/borderColor" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.35"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/bid_amount"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/borderColor" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.65"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:text="@string/time_stamp"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/borderColor"
+                        android:visibility="@{data.autoBidList.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/auto_bit_list_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:visibility="@{data.autoBidList.size() > 0 ? View.VISIBLE : View.GONE}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_aution_bid_details_list" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE :View.GONE}" />
+
+    </RelativeLayout>
+</layout>

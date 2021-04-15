@@ -1,0 +1,42 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="position"
+            type="Integer" />
+
+        <import type="com.webkul.mobikul.helpers.Utils"/>
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.product.ProductTileData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.ProductTileHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/product_card_view"
+        android:layout_width="@dimen/product_horizontal_carousel_item_width"
+        app:layout_width="@{(Utils.screenWidth / 2) - 40}"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        app:cardBackgroundColor="@color/color_background"
+        app:cardElevation="@dimen/card_elevation_high">
+
+        <include
+            layout="@layout/item_product_grid_view"
+            app:data="@{data}"
+            app:handler="@{handler}"
+            app:position="@{position}" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/product_horizontal_carousel_item_width"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

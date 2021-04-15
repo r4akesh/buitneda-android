@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="com.webkul.mobikul.helpers.AppSharedPref"/>
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerInfoHandler" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.sellerinfo.ProductDetailsPageModelExtended" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:background="@color/color_whiteBlack"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_normal">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sold_by"
+            android:textColor="@color/text_color_secondary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_generic"
+            android:drawablePadding="@dimen/spacing_generic"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickProfile(data.sellerInfo.sellerId,data.sellerInfo.shoptitle)}"
+            android:textColor="@color/text_color_primary"
+            android:textStyle="bold"
+            android:visibility="@{data.sellerInfo.shoptitle==null||data.sellerInfo.shoptitle.empty ? View.GONE :View.VISIBLE}"
+            app:loadHtmlText="@{data.sellerInfo.shoptitle}"
+            tools:text="The Toy Factory" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_generic"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickProfile(data.sellerInfo.sellerId,data.sellerInfo.shoptitle)}"
+            android:text="@{data.sellerInfo.location}"
+            android:textColor="@color/text_color_primary"
+            android:visibility="@{data.sellerInfo.location==null || data.sellerInfo.location.empty ? View.GONE : View.VISIBLE}"
+            tools:text="Noida, India, Noida" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:background="@color/colorAccent"
+            android:drawableEnd="@drawable/ic_star_wrapper"
+            android:drawablePadding="@dimen/spacing_tiny"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickProfile(data.sellerInfo.sellerId,data.sellerInfo.shoptitle)}"
+            android:paddingStart="@dimen/spacing_generic"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:paddingEnd="@dimen/spacing_generic"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:text="@{data.sellerInfo.sellerAverageRating}"
+            android:textColor="@color/color_whiteBlack"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="@{data.sellerInfo.sellerAverageRating==null ||data.sellerInfo.sellerAverageRating.equals(`0`)?View.GONE :View.VISIBLE}"
+            app:ratingColor="@{data.sellerInfo.sellerAverageRating}"
+            tools:text="2.07" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@{data.sellerInfo.reviewDescription}"
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="@{data.sellerInfo.reviewDescription==null||data.sellerInfo.reviewDescription.isEmpty()||data.sellerInfo.sellerAverageRating==null ||data.sellerInfo.sellerAverageRating.equals(`0`)?View.GONE :View.VISIBLE}"
+            tools:text="0% positive feedback (0 clasificaci\u00f3n) " />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_vector_cube"
+            android:drawablePadding="@dimen/spacing_tiny"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:onClick="@{()->handler.onClickProfile(data.sellerInfo.sellerId,data.sellerInfo.shoptitle)}"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:paddingBottom="@dimen/spacing_generic"
+            android:text="@{@string/products_x(data.sellerInfo.sellerProductCount)}"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="@dimen/text_size_small"
+            tools:text="6 Products"
+            android:visibility="@{data.sellerInfo.sellerProductCount==null ||data.sellerInfo.sellerProductCount.isEmpty() ? View.GONE : View.VISIBLE}"
+            android:focusable="true" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="@dimen/spacing_tiny"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickContactUs(data.sellerInfo.sellerId, data.id)}"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:paddingBottom="@dimen/spacing_generic"
+            android:text="@string/contact_seller"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="@{data.sellerInfo.sellerId.equals(`0`) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:drawableStart="@drawable/flag_accent_color"
+            android:drawablePadding="@dimen/spacing_tiny"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickReportProduct(data.reportData, data.id,data.name)}"
+            android:paddingTop="@dimen/spacing_tiny"
+            android:paddingBottom="@dimen/spacing_generic"
+            android:text="@{data.reportData.productReportLabel}"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_small"
+            tools:text="Report Product"
+            android:visibility="@{data.reportData.showReportProduct &amp;&amp; (data.reportData.guestCanReport ? true : AppSharedPref.isLoggedIn(context)) ? View.VISIBLE : View.GONE}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_generic"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+
+</layout>

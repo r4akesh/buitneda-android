@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.CreditMemoFormItemList" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_tiny">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/product_name"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.productName}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="john test" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/price"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.price}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/qty"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/qty_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/return_to_stock"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:buttonTint="@color/text_color_primary"
+                android:checked="@={data.returnToStock}"
+                android:gravity="end"
+                android:layoutDirection="rtl"
+                android:padding="@dimen/spacing_tiny"
+                android:textColor="@color/text_color_secondary" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/qty_to_refund"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
+                android:gravity="center_vertical|end"
+                android:inputType="number"
+                android:maxLines="1"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@={data.qtyToRefund}"
+                android:textColor="@color/grey_700"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/subtotal"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.subTotal}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/tax_amt"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.totalTax}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/discount_amt"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.discount}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/row_total"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text=":"
+                android:textColor="@color/text_color_secondary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_generic"
+                android:layout_marginLeft="@dimen/spacing_generic"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.rowTotal}"
+                android:textColor="@color/text_color_secondary"
+                tools:text="Federal Express" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

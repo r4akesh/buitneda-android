@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delivery_boy_not_available">Delivery boy not available</string>
+    <string name="delivery_boy_list">Delivery boy list</string>
+    <string name="delivery_boy">Delivery Boy</string>
+    <string name="choose_delivery_boy">Choose delivery boy</string>
+</resources>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <import type="com.webkul.mobikul.helpers.AppSharedPref" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerProfileData" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerProfileActivityHandler" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:fitsSystemWindows="false"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:visibility="@{data==null? View.GONE :View.VISIBLE}"
+            app:layout_height="@{((2 * Utils.getScreenWidth()) / 3+120)}">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    tools:visibility="visible">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            app:imageUrl="@{data.bannerImage}"
+                            app:placeholder="@{data.sellerBannerDomiinantColor}"
+                            tools:srcCompat="@drawable/customer_banner_placeholder" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/black_alpha_20" />
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/profile_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_generic">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/seller_profile_iv"
+                            android:layout_width="@dimen/profile_pic_small"
+                            android:layout_height="@dimen/profile_pic_small"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/spacing_huge"
+                            android:layout_marginBottom="@dimen/spacing_generic"
+                            android:src="@drawable/customer_profile_placeholder"
+                            app:civ_border_color="@color/grey_500"
+                            app:civ_border_width="1dp"
+                            app:imageUrl="@{data.profileImage}"
+                            app:placeholder="@{data.sellerProfileDominantColor}"
+                            tools:src="@drawable/customer_profile_placeholder" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="true"
+                            android:textColor="@{data.shopTitle.empty ? @color/text_color_primary : @android:color/white}"
+                            android:textStyle="bold"
+                            app:loadHtmlText="@{data.shopTitle}"
+                            tools:text="The footwear store"
+                            tools:textColor="@android:color/white" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_vector_location"
+                            android:drawablePadding="@dimen/spacing_tiny"
+                            android:gravity="center"
+                            android:onClick="@{()->handler.onClickViewLargeMap()}"
+                            android:text="@{data.location}"
+                            android:textColor="@{data.location.empty ? @color/text_color_primary : @android:color/white}"
+                            tools:text="Noida, India, Noida, India Noida, India"
+                            tools:textColor="@android:color/white" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:background="@color/colorAccent"
+                            android:drawableEnd="@drawable/ic_star_wrapper"
+                            android:drawablePadding="@dimen/spacing_tiny"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:text="@{data.averageRatingValue}"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small"
+                            app:ratingColor="@{data.averageRatingValue}"
+                            tools:text="2.07" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:drawableStart="@drawable/flag"
+                            android:drawablePadding="@dimen/spacing_tiny"
+                            android:gravity="center"
+                            android:onClick="@{()->handler.onClickReportProduct(data.reportData, data.sellerId,data.shopTitle)}"
+                            android:paddingStart="@dimen/spacing_generic"
+                            android:paddingTop="@dimen/spacing_tiny"
+                            android:paddingEnd="@dimen/spacing_generic"
+                            android:paddingBottom="@dimen/spacing_tiny"
+                            android:text="@{data.reportData.productReportLabel}"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_small"
+                            tools:text="Report Seller"
+                            android:visibility="@{data.reportData.showReportProduct &amp;&amp; (data.reportData.guestCanReport ? true : AppSharedPref.isLoggedIn(context)) ? View.VISIBLE : View.GONE}" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/social_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/profile_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.facebookId,1)}"
+                            android:visibility="@{data.isFacebookActive? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_facebook_" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.twitterId,2)}"
+                            android:visibility="@{data.isTwitterActive? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_twitter" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.instagramId,3)}"
+                            android:visibility="@{data.isInstagramActive ? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_instagram" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.pinterestId,4)}"
+                            android:visibility="@{data.isPinterestActive ? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_pintrest" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.youtubeId,5)}"
+                            android:visibility="@{data.isYoutubeActive ? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_youtube" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.googleplusId,6)}"
+                            android:visibility="@{data.isgoogleplusActive ? View.VISIBLE :View.GONE}"
+                            app:srcCompat="@drawable/ic_vector_google_plus_wrapper" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/contextual_icon_dimens"
+                            android:layout_height="@dimen/contextual_icon_dimens"
+                            android:layout_margin="@dimen/spacing_generic"
+                            android:onClick="@{(v)->handler.onClickSocialMedia(v,data.vimeoId,7)}"
+                            android:visibility="@{data.isVimeoActive ? View.VISIBLE :View.GONE }"
+                            app:srcCompat="@drawable/ic_vector_vimeo_wrapper" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/social_container"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="@dimen/spacing_generic"
+                        android:layout_marginBottom="@dimen/spacing_generic"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/products_X(data.productCount)}"
+                            android:textColor="@android:color/white"
+                            tools:text="@string/products_X" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_normal"
+                            android:layout_marginEnd="@dimen/spacing_normal"
+                            android:text="@{@string/reviews_X(data.feedbackCount)}"
+                            android:textColor="@android:color/white"
+                            tools:text="@string/reviews_X" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/orders_X(data.orderCount)}"
+                            android:textColor="@android:color/white"
+                            tools:text="@string/orders_X" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                    app:title=" " />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:backgroundColor="@{data.backgroundColor}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:visibility="gone">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background"
+                app:elevation="@dimen/card_elevation_low"
+                app:tabIndicatorHeight="2dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextAppearance="@style/DashboardViewPagerTabsAppearance"
+                app:tabTextColor="@color/text_color_secondary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_color" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/spacing_infinity"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE :View.GONE}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
+
+
+

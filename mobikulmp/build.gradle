@@ -1,0 +1,137 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    compileSdkVersion compile_sdk_version
+
+    /*signingConfigs {
+        LiveServerConfigurationMobikulMP {
+            try {
+                keyAlias 'live_key'
+                storeFile file(keystore_path)
+                keyPassword key_password
+                storePassword keystore_password
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties. \n" + ex.getMessage());
+            }
+        }
+    }*/
+
+    defaultConfig {
+
+        multiDexEnabled true
+
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+
+        versionCode version_code
+        versionName version_name
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            firebaseCrashlytics {
+                // If you don't need crash reporting for your debug build,
+                // you can speed up your build by disabling mapping file uploading.
+                mappingFileUploadEnabled false
+            }
+        }
+        release {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    bundle {
+        density {
+            // Different APKs are generated for devices with different screen densities; true by default.
+            enableSplit true
+        }
+        abi {
+            // Different APKs are generated for devices with different CPU architectures; true by default.
+            enableSplit true
+        }
+        language {
+            // This is disabled so that the App Bundle does NOT split the APK for each language.
+            // We're gonna use the same APK for all languages.
+            enableSplit false
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    flavorDimensions 'default'
+    productFlavors {
+        mobikul {
+            applicationId "com.buitanda.android"
+            dimension 'default'
+//            signingConfig signingConfigs.LiveServerConfigurationMobikulMP
+        }
+    }
+
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin'
+            res.srcDirs =
+                    ['src/main/richedittext', 'src/main/res','src/main/deliveryboy']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':mobikul')
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+
+    api 'com.github.QuadFlask:colorpicker:0.0.13'
+    // Expandable Recyclerview
+    api "com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1"
+    //richerText Box
+    implementation 'jp.wasabeef:richeditor-android:1.2.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+apply plugin: 'com.google.gms.google-services'

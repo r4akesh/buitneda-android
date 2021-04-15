@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.CustomerListResponse" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.CustomerListFilterHandler" />
+
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customerList_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:visibility="@{data.customerList.size()==0 ? View.GONE :View.VISIBLE}"
+            tools:listitem="@layout/item_customer_list" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/progress_bar_bg"
+            android:indeterminate="true"
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_user_found"
+            android:textColor="@color/text_color_primary"
+            android:visibility="@{data!=null &amp;&amp;data.customerList.size()==0 ? View.VISIBLE :View.GONE}" />
+    </RelativeLayout>
+</layout>

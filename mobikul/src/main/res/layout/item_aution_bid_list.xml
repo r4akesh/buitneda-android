@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.auction.AuctonBidList" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.AuctionBidListRvHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(v)->handler.onClickOpenProduct( data.productId, data.productName)}"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_generic">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/product_name_bid"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Product Name:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v)->handler.onClickOpenProduct( data.productId, data.productName)}"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.productName}"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Joust Duffle Bag" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/bidding_price_bid"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Bidding Price:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.biddingPrice}"
+                android:textSize="@dimen/text_size_small"
+                tools:text=" $20.00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="@{data.winningPrice == null ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/winning_price_bid"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Bidding Price:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.winningPrice}"
+                android:textSize="@dimen/text_size_small"
+                tools:text=" $20.00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/bid_status_bid"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Bid Status:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.biddingStatus}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Complete" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@string/winning_status_bid"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="Winning Status:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.winningStatus}"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Winner" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

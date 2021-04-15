@@ -1,0 +1,112 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.TopSellingProduct" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.TopSellingProductsHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        android:background="@color/color_whiteBlack"
+        android:clickable="@{data.openable}"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(v) -> handler.onClickItem(v, data.id, data.name)}"
+        app:cardBackgroundColor="@color/color_whiteBlack"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="1dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_generic"
+            android:background="@color/color_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/featured_category_image_size"
+                android:layout_height="@dimen/featured_category_image_size"
+                android:layout_gravity="center"
+                android:padding="@dimen/spacing_tiny"
+                app:imageUrl="@{data.thumbNail}"
+                tools:src="@drawable/placeholder" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_generic">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_name"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.name}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="Gray Coat" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/product_rating"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/product_name"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:background="@color/colorAccent"
+                    android:drawableEnd="@drawable/ic_star_wrapper"
+                    android:drawablePadding="@dimen/spacing_tiny"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:text="@{data.rating}"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.GONE : View.VISIBLE}"
+                    tools:text="2.07" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/total_sale_lebel"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_rating"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:text="@string/total_sales_qty"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_rating"
+                    android:layout_marginTop="@dimen/spacing_generic"
+                    android:layout_toEndOf="@+id/total_sale_lebel"
+                    android:paddingLeft="@dimen/spacing_tiny"
+                    android:paddingRight="@dimen/spacing_tiny"
+                    android:text="@{data.salesQty}"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="12 Sales" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

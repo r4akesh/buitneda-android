@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.webkul.mobikul.helpers.AppSharedPref"/>
+
+        <import
+            alias="View"
+            type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikulmp.models.seller.SellerOrderData" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikulmp.handlers.SellerOrderItemRecyclerHandler" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_generic"
+        android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(v)->handler.viewOrderDetails(v, data.incrementId)}"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/order_id_x(data.incrementId)}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                tools:text="#000000037" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.status}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:orderStatusBackground="@{data.status}"
+                tools:background="@color/orderStatusCompleteColor"
+                tools:text="DEFAULT STATUS" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/product_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_tiny"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_generic"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.customerDetails.name}"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="@{data.customerDetails.name == null ? View.GONE : View.VISIBLE}"
+                tools:text="John Doe" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{data.customerDetails.getFormattedDate()}"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="@{data.customerDetails.getFormattedDate() == null ? View.GONE : View.VISIBLE}"
+                tools:text="Date: 10/13/17" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{@string/order_total_base_x(data.customerDetails.baseTotal)}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="@{data.customerDetails.baseTotal == null ? View.GONE : View.VISIBLE}"
+                tools:text="Order Total (Base):" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_tiny"
+                android:text="@{@string/order_total_purchased_x(data.customerDetails.purchaseTotal)}"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="@{data.customerDetails.purchaseTotal == null ? View.GONE : View.VISIBLE}"
+                tools:text="Order Total (Purchased):" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            app:srcCompat="@{AppSharedPref.getStoreCode(context).equals(&quot;ar&quot;) ? @drawable/ic_left_arrow_grey : @drawable/ic_right_arrow_grey}"
+            tools:srcCompat="@drawable/ic_right_arrow_grey" />
+    </RelativeLayout>
+</layout>
