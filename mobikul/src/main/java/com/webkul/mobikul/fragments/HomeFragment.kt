@@ -46,6 +46,8 @@ import io.github.inflationx.calligraphy3.TypefaceUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -134,9 +136,13 @@ import kotlin.collections.ArrayList
         if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null) {
             (context as HomeActivity).mHomePageDataModel = arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
 
-            activity?.runOnUiThread({
+           /* activity?.runOnUiThread({
                 onSuccessfulResponse(arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
-            })
+            })*/
+
+            GlobalScope.launch{
+                onSuccessfulResponse(arguments?.getParcelable(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
+            }
 
 //            Handler().postDelayed(Runnable {
 //
@@ -212,7 +218,7 @@ import kotlin.collections.ArrayList
         mHomePageDataModel = homePageDataModel
         if (homePageDataModel != null && context != null) {
 //            (context as HomeActivity).mHomePageDataModel = homePageDataModel
-            activity?.runOnUiThread({
+           /* activity?.runOnUiThread({
                 setAppSharedPrefConfigDetails()
             })
 
@@ -222,7 +228,15 @@ import kotlin.collections.ArrayList
 
             activity?.runOnUiThread({
                 (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-            })
+            })*/
+
+               activity?.runOnUiThread {
+                   setAppSharedPrefConfigDetails()
+                   initLayout()
+                   (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
+               }
+
+
 //            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
             if ((activity as HomeActivity).mTopSellingHomePageDataModel == null)
                 TopCategoriesListRv()
@@ -310,7 +324,10 @@ import kotlin.collections.ArrayList
 
 //        setupCategoriesRv()
         /* Init Carousel Layout */
-        setupCarouselsLayout()
+        activity?.runOnUiThread {
+            setupCarouselsLayout()
+        }
+
 
         /* Init Recently Viewed Carousel Layout */
 //        setupRecentlyViewedCarouselsLayout()
@@ -348,7 +365,10 @@ import kotlin.collections.ArrayList
         mHomePageDataModel.carousel?.add(bannerImage)
 
 //top banner with search
-        setupOfferBannerRv(bannerImage)
+       activity?.runOnUiThread {
+           setupOfferBannerRv(bannerImage)
+       }
+
 
 /* val category = Carousel()
 category.id = "brandlist"
@@ -500,7 +520,10 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     private fun addProductCarousel(carousel: Carousel) {
-        loadCarouselFirstLayout(carousel)
+        activity?.runOnUiThread({
+            loadCarouselFirstLayout(carousel)
+        })
+
 
     }
 
@@ -828,7 +851,7 @@ setupFeaturesCategoriesRv(category)*/
         internal var firstTime = true
 
         override fun run() {
-            try {
+           /* try {
                 activity?.runOnUiThread {
                     if (mViewPager.currentItem == mBannerSize - 1) {
                         mViewPager.currentItem = 0
@@ -843,6 +866,17 @@ setupFeaturesCategoriesRv(category)*/
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+            }*/
+
+            if (mViewPager.currentItem == mBannerSize - 1) {
+                mViewPager.currentItem = 0
+            } else {
+                if (firstTime) {
+                    mViewPager.currentItem = mViewPager.currentItem
+                    firstTime = false
+                } else {
+                    mViewPager.currentItem = mViewPager.currentItem + 1
+                }
             }
         }
     }
