@@ -79,16 +79,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="todoDialogLight" parent="Theme.AppCompat.Light.Dialog">
-
-        <!-- Used for the buttons -->
-        <item name="colorAccent">#f00</item>
-        <item name="android:textStyle">bold</item>
-        <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">#000</item>
-
-    </style>
-
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlHighlight">#faad43</item>
         <item name="colorControlNormal">#D0D0D0</item>

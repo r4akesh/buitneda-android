@@ -17,6 +17,15 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
+
+    /*buildFeatures {
+        buildConfig = true
+    }*/
+    viewBinding {
+        enabled true
+    }
+
+    
     compileSdkVersion compile_sdk_version
 
 //    signingConfigs {
@@ -54,6 +63,7 @@ android {
             debuggable true
             minifyEnabled false
             shrinkResources false
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
             if (!is_marketplace_app) {
                 firebaseCrashlytics {
                     // If you don't need crash reporting for your debug build,
@@ -63,6 +73,8 @@ android {
             }
         }
         release {
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+
             if (!is_marketplace_app) {
                 debuggable false
                 minifyEnabled true
@@ -226,6 +238,7 @@ dependencies {
 
     // For image cropping
     api "com.theartofdev.edmodo:android-image-cropper:$image_cropper"
+    api 'com.github.dhaval2404:imagepicker:1.8'
 
     // To change font
     api 'io.github.inflationx:calligraphy3:3.1.1'
@@ -248,8 +261,8 @@ dependencies {
     implementation project(':locationpicker')
 
     // Mobikul Social Login
-//    implementation project(':mobikulsociallogin')
-    
+    implementation project(':mobikulsociallogin')
+
     //QR code scanner
 //    implementation project(':mobikulscanner')
 }

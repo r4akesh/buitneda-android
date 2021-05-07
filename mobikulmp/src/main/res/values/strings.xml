@@ -20,8 +20,8 @@
     <string name="marketplace">Marketplace</string>
 
     <!--Facebook Login App Ids -->
-    <string name="facebook_app_id" translatable="false">dummy</string>
-    <string name="fb_login_protocol_scheme" translatable="false">dummy</string>
+    <string name="facebook_app_id" translatable="false">488983255076998</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb488983255076998</string>
 
     <string name="auction_product_list_tab_label">Auction Product List</string>
     <string name="auto_bid_X">Auto Bid : %s</string>
@@ -43,7 +43,7 @@
     <!--Become Seller-->
     <string name="is_require_text">is required !</string>
     <string name="sign_up_as_seller">Do you want to become Seller/Vendor?</string>
-    <string name="shop_url">Shop URL</string>
+    <string name="shop_url">NIF Number</string>
     <string name="shop_name">Shop Name</string>
     <string name="shop_url_desc">(This will be used to display your public profile)</string>
     <string name="waiting_for_approval_from_admin_your_application_current_status_is_pending">Waiting for approval from admin, your application current status is Pending</string>

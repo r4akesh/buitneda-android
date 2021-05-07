@@ -21,6 +21,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.drawable.LayerDrawable
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -101,6 +102,20 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
             }
             R.id.menu_item_search -> {
                 openMaterialSearchView()
+            }
+            R.id.menu_item_whatsapp -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setPackage("com.whatsapp")
+                intent.data = Uri.parse("https://api.whatsapp.com/send?phone=${this.getString(R.string.whats_app_number)}")
+                if (this.packageManager.resolveActivity(intent, 0) != null) {
+                    startActivity(intent)
+                } else {
+                    ToastHelper.showToast(this, this.getString(R.string.please_install_whatsapp))
+                    val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
             }
             R.id.menu_item_notification -> {
                 NotificationBottomSheetFragment().show(supportFragmentManager, NotificationBottomSheetFragment::class.java.simpleName)

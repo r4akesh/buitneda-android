@@ -41,8 +41,8 @@
             android:id="@+id/carousel_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_generic"
+            android:layout_marginEnd="@dimen/spacing_generic"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,10 +50,16 @@
             <TextView
                 android:id="@+id/carousel_label"
                 fontPath="fonts/Montserrat-SemiBold.ttf"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:drawableLeft="@drawable/fire"
+                android:drawablePadding="5dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
-                android:padding="@dimen/spacing_generic"
+                android:paddingTop="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_generic"
                 android:text="@{data.label}"
                 android:textAllCaps="true"
                 android:textColor="@color/text_color_primary"
@@ -67,12 +73,13 @@
                 android:id="@+id/stamp_tv"
                 android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
                 android:text="@string/end_in"
+                android:paddingEnd="@dimen/spacing_tiny"
                 android:textAllCaps="true"
-                android:layout_marginEnd="5dp"
-                android:visibility="@{data.timerTimeStamp &gt; 0 ? View.VISIBLE : View.GONE}"
+                android:visibility="gone"
                 android:textColor="@color/text_color_primary"
                 android:textSize="@dimen/text_size_tiny"
                 tools:text="end in" />
+<!--            android:visibility="@{data.timerTimeStamp &gt; 0 ? View.VISIBLE : View.GONE}"-->
 
             <TextView
                 android:id="@+id/day_tv"
@@ -127,11 +134,11 @@
                 android:textSize="@dimen/spacing_small"
                 tools:text="3" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:layout_height="1dp" />
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                tools:layout_height="1dp" />-->
 
 
             <Button
@@ -140,7 +147,7 @@
                 android:background="@drawable/shape_rect_round_cnr_gray_bg_gray_border_1dp"
                 android:onClick="@{()->handler.onClickViewAllBtn(data.label, data.id)}"
                 android:paddingStart="@dimen/button_corner_radius"
-                android:paddingEnd="@dimen/spacing_small"
+                android:paddingEnd="@dimen/button_corner_radius"
                 android:text="@string/view_all"
                 android:textAllCaps="true"
                 android:textColor="@color/text_color_primary"

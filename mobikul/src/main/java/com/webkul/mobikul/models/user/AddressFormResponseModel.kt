@@ -202,7 +202,7 @@ class AddressFormResponseModel() : BaseModel() {
             addEditAddressActivity.mContentViewBinding.state.error = null
         }
 
-        /* Checking PostCode */
+/*         Checking PostCode
         if (!countryData[getSelectedCountryPosition()].isZipOptional && addressData.postcode?.trim().isNullOrBlank()) {
             isFormValidated = false
             addEditAddressActivity.mContentViewBinding.zip.error = addEditAddressActivity.getString(R.string.zip_postal_code) + " " + addEditAddressActivity.getString(R.string.is_required)
@@ -211,7 +211,7 @@ class AddressFormResponseModel() : BaseModel() {
         } else {
             addEditAddressActivity.mContentViewBinding.zip.isErrorEnabled = false
             addEditAddressActivity.mContentViewBinding.zip.error = null
-        }
+        }*/
 
         /* Checking City */
         if (addressData.city?.trim().isNullOrBlank()) {

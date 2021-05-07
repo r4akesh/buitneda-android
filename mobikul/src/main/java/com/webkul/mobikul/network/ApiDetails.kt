@@ -27,6 +27,7 @@ import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_COMPARE_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_HOME_PAGE_DATA
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_PRODUCT_PAGE_DATA
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_PRODUCT_REVIEW_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_PROMOTION_DATA
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_RATING_FORM_DATA
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_REMOVE_FROM_COMPARE_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_SUB_CATEGORY
@@ -58,6 +59,7 @@ import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_LOGIN
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_MY_DOWNLOADS_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_ORDER_DETAIL
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_ORDER_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_PRODUCT_NOT_FOUND
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_REMOVE_FROM_WISH_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_REORDER
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CUSTOMER_REVIEW_DETAIL
@@ -99,6 +101,7 @@ import com.webkul.mobikul.models.checkout.*
 import com.webkul.mobikul.models.extra.*
 import com.webkul.mobikul.models.homepage.Category
 import com.webkul.mobikul.models.homepage.HomePageDataModel
+import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.models.product.ProductDetailsPageModel
 import com.webkul.mobikul.models.product.ProductRatingFormDataModel
 import com.webkul.mobikul.models.product.ReviewListData
@@ -129,6 +132,10 @@ interface ApiDetails {
                         @Query("isFromUrl") isFromUrl: Int,
                         @Query("url") url: String):
             Observable<HomePageDataModel>
+
+    @GET(MOBIKUL_CATALOG_PROMOTION_DATA)
+    fun getPromotionData():
+            Observable<PromotionBanner>
 
 
     @GET(MOBIKUL_DELIVERY_TOP_PRODUCT_LIST)
@@ -441,6 +448,19 @@ interface ApiDetails {
                            @Query("customerToken") customerToken: String,
                            @Query("addressId") addressId: String):
             Observable<AddressFormResponseModel>
+
+
+
+    @Multipart
+    @POST(MOBIKUL_CUSTOMER_PRODUCT_NOT_FOUND)
+    fun saveProductNotFoundData(@Part file: MultipartBody.Part,
+                                @Part("title") title: RequestBody,
+                                @Part("email") email: RequestBody,
+                                @Part("subject") subject: RequestBody,
+                                @Part("message") message: RequestBody,
+    ):
+            Observable<BaseModel>
+
 
     @FormUrlEncoded
     @POST(MOBIKUL_CUSTOMER_SAVE_ADDRESS)
@@ -940,13 +960,6 @@ interface ApiDetails {
     @POST(MOBIKUL_ADD_BID)
     fun addBid(
             @Field("logParams") logParams: Int, @Field("logResponse") logResponse: Int, @Field("storeId") storeId: String, @Field("customerToken") customerToken: String?, @Field("proName") pro_name: String?, @Field("entityId") entity_id: String?, @Field("productId") product_id: String?, @Field("biddingAmount") bidding_amount: String?, @Field("autoAuctionOpt") auto_auction_opt: Int, @Field("autoBidAllowed") auto_bid_allowed: String?, @Field("stopAuctionTimeStamp") stop_auction_time_stamp: String?
-    ): Observable<BaseModel>
-
-
-    @FormUrlEncoded
-    @POST(ConstantsHelper.MOBIKUL_UPLOAD_FCM_ADMIN)
-    fun uploadFCMForAdmin(@Field("device_id") device_id: String, @Field("fcm") fcm: String
-
     ): Observable<BaseModel>
 
 }

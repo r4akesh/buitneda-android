@@ -153,7 +153,7 @@
                         android:text="@{data.formattedPrice}"
                         android:textColor="@color/grey_400"
                         android:textSize="@dimen/text_size_tiny"
-                        android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{data.hasSpecialPrices() ? View.VISIBLE : View.GONE}"
                         tools:text="$310.00" />
 
                     <TextView

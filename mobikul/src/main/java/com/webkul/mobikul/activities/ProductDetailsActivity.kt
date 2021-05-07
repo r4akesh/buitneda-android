@@ -16,7 +16,6 @@ package com.webkul.mobikul.activities
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.app.PendingIntent.getActivity
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -34,7 +33,6 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.text.*
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.*
@@ -77,7 +75,6 @@ import com.webkul.mobikul.helpers.ConstantsHelper.RC_WRITE_TO_EXTERNAL_STORAGE
 import com.webkul.mobikul.helpers.DownloadHelper.Companion.downloadFile
 import com.webkul.mobikul.helpers.ToastHelper.Companion.showToast
 import com.webkul.mobikul.models.BaseModel
-import com.webkul.mobikul.models.auction.GetAutoBidListResponseData
 import com.webkul.mobikul.models.catalog.CartItem
 import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.models.product.Attribute
@@ -92,12 +89,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.auction_details_layout.view.*
-import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.HttpException
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -581,11 +577,11 @@ open class ProductDetailsActivity : BaseActivity() {
             }
         } else {
 //            if (!mProductDetailsPageModel.won && mProductDetailsPageModel.remainingTime.equals(0) && mProductDetailsPageModel.winning?.remainingTime == 0) {
-                mContentViewBinding.auctionTv.visibility=View.VISIBLE
+            mContentViewBinding.auctionTv.visibility = View.VISIBLE
             mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
             mContentViewBinding.staticAddToCartBtn.visibility = View.GONE
 //            }
-                mContentViewBinding.auctionDetailsContainer.visibility = View.GONE
+            mContentViewBinding.auctionDetailsContainer.visibility = View.GONE
 
         }
     }
@@ -605,24 +601,21 @@ open class ProductDetailsActivity : BaseActivity() {
                 if (days > 0) {
                     auctionDetailsLayoutBinding.days = String.format("%02d", days)
 //                    mContentViewBinding.carouselsLayout.day_tv.setText(String.format("%02d", days) + " d")
-                }
-                else
+                } else
                     auctionDetailsLayoutBinding.days = String.format("%02d", days)
 
                 if (hours > 0) {
                     auctionDetailsLayoutBinding.hours = String.format("%02d", hours)
 
 //                    mContentViewBinding.carouselsLayout.hour_tv.setText(String.format("%02d", hours) + " h")
-                }
-                else
+                } else
                     auctionDetailsLayoutBinding.hours = String.format("%02d", hours)
 
                 if (minutes > 0) {
                     auctionDetailsLayoutBinding.minutes = String.format("%02d", minutes)
 
 //                    mContentViewBinding.carouselsLayout.minute_tv.setText(String.format("%02d", minutes) + " m")
-                }
-                else
+                } else
                     auctionDetailsLayoutBinding.minutes = String.format("%02d", minutes)
                 if (seconds > 0) {
                     auctionDetailsLayoutBinding.seconds = String.format("%02d", seconds)
@@ -1979,17 +1972,23 @@ open class ProductDetailsActivity : BaseActivity() {
         }
 
         price += updatedFinalPrice - finalPrice
-
+/*
         val pattern = AppSharedPref.getPattern(this)
         val precision = AppSharedPref.getPrecision(this)
         val precisionFormat = "%." + precision + "f"
         val formattedFinalPrice = String.format(Locale.US, precisionFormat, updatedFinalPrice)
         val formattedPrice = String.format(Locale.US, precisionFormat, price)
         val newFormattedFinalPrice = pattern.replace("%s", formattedFinalPrice)
-        val newFormattedPrice = pattern.replace("%s", formattedPrice)
+        val newFormattedPrice = pattern.replace("%s", formattedPrice)*/
+
+        val format: NumberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
+        format.currency = Currency.getInstance(AppSharedPref.getCurrencyCode(this))
+        val newFormattedFinalPrice1 = format.format(updatedFinalPrice).replace(AppSharedPref.getCurrencyCode(this),AppSharedPref.getCurrencyCode(this)+" ")
+
+        val newFormattedPrice1 = format.format(price)
         if (mContentViewBinding.data!!.typeId != "configurable" || noOfSelectedOptions == mContentViewBinding.data!!.configurableData.attributes?.size) {
-            mContentViewBinding.productPriceTv.text = newFormattedFinalPrice
-            mContentViewBinding.productSpecialPriceTv.setText(newFormattedPrice)
+            mContentViewBinding.productPriceTv.text = newFormattedFinalPrice1
+            mContentViewBinding.productSpecialPriceTv.setText(newFormattedPrice1)
         } else {
 
         }

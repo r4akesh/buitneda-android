@@ -534,6 +534,7 @@
                     android:id="@+id/zip"
                     style="@style/CustomTilStyle"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_generic">
 

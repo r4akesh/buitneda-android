@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="last_update_time_label">Última hora de atualização de localização</string>
+    <string name="start_updates">Iniciar atualizações</string>
+    <string name="stop_updates">Parar atualizações</string>
+    <string name="location_settings_inadequate_warning">
+As configurações de localização no dispositivo não são adequado para executar esta amostra. Corrigir em Configurações.
+</string>
+    <string name="permission_rationale">
+A permissão de localização é necessária para a funcionalidade principal
+</string>
+    <string name="permission_denied_explanation">
+A permissão foi negada, mas é necessária para o núcleo Funcionalidade.
+</string>
+    <string name="settings">Configurações</string>
+    <string name="pick_address">Escolher endereço</string>
+    <string name="please_enable_location_from_settings">
+Por favor, habilite a localização a partir de configurações
+</string>
+    <string name="enable">Permitir</string>
+    <string name="search">Busca</string>
+    <string name="select_this_location">Selecione este local</string>
+    <string name="search_for_a_location">Procure um local</string>
+    <string name="address_not_found">Endereço não encontrado</string>
+    <string name="waiting_for_location">Esperando por localização</string>
+</resources>

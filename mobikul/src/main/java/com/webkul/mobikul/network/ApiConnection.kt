@@ -29,6 +29,7 @@ import com.webkul.mobikul.models.checkout.*
 import com.webkul.mobikul.models.extra.*
 import com.webkul.mobikul.models.homepage.Category
 import com.webkul.mobikul.models.homepage.HomePageDataModel
+import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.models.product.ProductDetailsPageModel
 import com.webkul.mobikul.models.product.ProductRatingFormDataModel
 import com.webkul.mobikul.models.product.ReviewListData
@@ -58,6 +59,11 @@ class ApiConnection {
                     , Utils.screenDensity
                     , if (isFromUrl) 1 else 0
                     , url)
+        }
+
+        /*OfferBanner*/
+        fun getOfferData(context: Context): Observable<PromotionBanner> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java).getPromotionData()
         }
 
         fun getTopSellingProducts(context: Context, pageNumber: Int): Observable<HomePageDataModel> {
@@ -399,6 +405,13 @@ class ApiConnection {
                     , AppSharedPref.getCustomerToken(context)
                     , addressId
                     , addressData)
+        }
+
+        fun saveProductNotFoundData(context: Context,multipartFileBody: MultipartBody.Part, title: RequestBody, email: RequestBody,subject: RequestBody, message: RequestBody): Observable<BaseModel> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java).saveProductNotFoundData(
+                    multipartFileBody,
+                     title
+                    , email, subject, message)
         }
 
         fun addAllToCart(context: Context, qty: JSONObject): Observable<BaseModel> {
@@ -903,9 +916,5 @@ class ApiConnection {
             )
         }
 
-
-        fun uploadFCMForAdmin(fcm: String, uniqueID: String): Observable<BaseModel> {
-            return ApiClient.getClient()!!.create(ApiDetails::class.java).uploadFCMForAdmin(uniqueID, fcm)
-        }
     }
 }

@@ -23,6 +23,7 @@ object ConstantsHelper {
 
     /* Catalog */
     const val MOBIKUL_CATALOG_HOME_PAGE_DATA = "mobikulhttp/catalog/homepagedata"
+    const val MOBIKUL_CATALOG_PROMOTION_DATA = "rest/V1/promotion-banner"
     const val MOBIKUL_CATALOG_SUB_CATEGORY = "mobikulhttp/catalog/categoryPageData"
     const val MOBIKUL_CATALOG_CATEGORY_LIST = "mobikulhttp/catalog/getCategoryList"
     const val MOBIKUL_CATALOG_CATEGORY_PRODUCT_LIST = "mobikulhttp/catalog/productCollection"
@@ -56,6 +57,7 @@ object ConstantsHelper {
     const val MOBIKUL_CUSTOMER_REMOVE_FROM_WISH_LIST = "mobikulhttp/customer/removefromWishlist"
     const val MOBIKUL_CUSTOMER_WISHLIST_TO_CART = "mobikulhttp/customer/wishlisttoCart"
     const val MOBIKUL_CUSTOMER_ADDRESS_FORM_DATA = "mobikulhttp/customer/addressformData"
+    const val MOBIKUL_CUSTOMER_PRODUCT_NOT_FOUND = "/rest/V1/suggestion-product"
     const val MOBIKUL_CUSTOMER_SAVE_ADDRESS = "mobikulhttp/customer/saveAddress"
     const val MOBIKUL_CUSTOMER_ADD_ALL_TO_CART = "mobikulhttp/sales/alltocart"
     const val MOBIKUL_CUSTOMER_SHARE_WISH_LIST = "mobikulhttp/sales/sharewishlist"
@@ -128,8 +130,6 @@ object ConstantsHelper {
     const val MOBIKUL_AUCTION_BID_LIST = "mobikulmpauction/api/AuctionbidList"
     const val MOBIKUL_AUTO_BID_LIST = "mobikulmpauction/api/AutobidList"
     const val MOBIKUL_ADD_BID = "mobikulmpauction/api/addbid"
-    const val MOBIKUL_UPLOAD_FCM_ADMIN = "NotificationApi.php"
-
     /************************************************************
      *
      * Request Code Constants

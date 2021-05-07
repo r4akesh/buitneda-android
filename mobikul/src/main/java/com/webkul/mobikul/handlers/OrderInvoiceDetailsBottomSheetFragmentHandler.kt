@@ -37,11 +37,16 @@ class OrderInvoiceDetailsBottomSheetFragmentHandler(private var mFragmentContext
         val incrementId: String? = mFragmentContext.arguments?.getString(BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID)
         val invoiceId: String? = mFragmentContext.arguments?.getString(BundleKeysHelper.BUNDLE_KEY_INVOICE_ID)
                 ?: ""
+        val language : String? = if(AppSharedPref.getStoreId(mFragmentContext.context!!).equals("1")) "en_US" else "pt_PT"
+//        val mUrl = ApplicationConstants.BASE_URL +
+//                "/mobikulmphttp/marketplace/printInvoice?storeId=" + AppSharedPref.getStoreId(mFragmentContext.context!!) +
+//                "&customerToken=" + AppSharedPref.getCustomerToken(mFragmentContext.context!!) +
+//                "&incrementId=" + incrementId +
+//                "&invoiceId=" + invoiceId
         val mUrl = ApplicationConstants.BASE_URL +
-                "/mobikulmphttp/marketplace/printInvoice?storeId=" + AppSharedPref.getStoreId(mFragmentContext.context!!) +
-                "&customerToken=" + AppSharedPref.getCustomerToken(mFragmentContext.context!!) +
-                "&incrementId=" + incrementId +
-                "&invoiceId=" + invoiceId
+                "/rest/V1/invoiceapi/post?increment_id=" + incrementId +"&language="+language
+//        val mUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+
         Log.d("Tag", "printRequest: $mUrl")
         val mFileName = "Invoice$invoiceId.pdf"
         val mMimeType = "application/pdf"

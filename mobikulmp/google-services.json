@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "632494746595-auk0i7np8qd95i4hs4rhk566csc4ihib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.buitanda.android",
+            "certificate_hash": "4ddd28a5a7cf236ccd10f586793a367bf0be5c9f"
+          }
+        },
+        {
           "client_id": "632494746595-7k2sv6sppj0j0ntl86b3iq32lhgnapim.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -32,10 +40,46 @@
               "client_type": 3
             },
             {
-              "client_id": "632494746595-vih7fdiu1m90llg1e1d1gi7579fesphe.apps.googleusercontent.com",
+              "client_id": "632494746595-ptb9q7881k7g74gad51qf3tv62vtla52.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.test.webkul"
+                "bundle_id": "com.buitanda.iOS"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632494746595:android:39807f8adc009abe764ed6",
+        "android_client_info": {
+          "package_name": "com.optimalsolutions.Buitandagit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632494746595-7k2sv6sppj0j0ntl86b3iq32lhgnapim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqMfg6HJylMXfPQtINmC_IURLbymVBviA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632494746595-7k2sv6sppj0j0ntl86b3iq32lhgnapim.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "632494746595-ptb9q7881k7g74gad51qf3tv62vtla52.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.buitanda.iOS"
               }
             }
           ]

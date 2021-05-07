@@ -4,6 +4,7 @@
 
     <!-- Maps API key-->
     <string name="maps_api_key" translatable="false"></string>
+    <string name="whats_app_number" translatable="false">+244923474222</string>
 
     <!-- Drawer related strings (No need to translate)-->
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
@@ -124,9 +125,11 @@
 
     <!-- Sign Up Activity -->
     <string name="name_prefix">Name Prefix</string>
-    <string name="first_name">First Name</string>
+    <string name="first_name">First Name </string>
+    <string name="first_name_company">Company Name</string>
     <string name="middle_name">Middle Name/Initial</string>
     <string name="last_name">Last Name</string>
+    <string name="your_name">Your Name</string>
     <string name="name_suffix">Name Suffix</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="tax_vat_number">Tax/VAT number</string>
@@ -570,7 +573,8 @@
 
     <!--Become Seller-->
     <string name="sign_up_as_seller">Do you want to become Seller/Vendor?</string>
-    <string name="shop_url">Shop URL</string>
+    <string name="shop_url">Shop Url</string>
+    <string name="nif_number">NIF Number</string>
     <string name="shop_name">Shop Name</string>
     <string name="shop_url_desc">(This will be used to display your public profile)</string>
 
@@ -694,6 +698,9 @@
     <string name="in_stock">In stock</string>
     <string name="out_stock_error_message">Product is OUT OF STOCK in this area</string>
     <string name="auction_time_over">the auction time is over</string>
+    <string name="whats_app">whatsApp</string>
+    <string name="it_may_be_you_do_not_have_whats_app_number">it may be you do not have whats app number</string>
+    <string name="please_install_whatsapp">please install whatsApp</string>
 
 
 </resources>

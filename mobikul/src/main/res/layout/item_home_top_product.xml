@@ -22,18 +22,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_tiny"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.AppCompatTextView
             fontPath="fonts/Montserrat-SemiBold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/top_selling_tv"
             android:layout_marginBottom="@dimen/spacing_small"
+
             android:text="@string/you_may_also_like"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/text_size_medium"
              />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_products_rv"

@@ -277,7 +277,7 @@
                     android:paddingStart="@dimen/spacing_small"
                     android:paddingTop="@dimen/spacing_normal"
                     android:paddingEnd="@dimen/spacing_small"
-
+                    android:text="@{@string/app_version(BuildConfig.VERSION_NAME)}"
                     android:textColor="@color/text_color_secondary"
                     android:textSize="@dimen/text_size_small" />
 

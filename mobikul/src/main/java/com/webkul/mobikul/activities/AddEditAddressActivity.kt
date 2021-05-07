@@ -84,6 +84,7 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+
     private fun callApi() {
         mContentViewBinding.loading = true
         mHashIdentifier = Utils.getMd5String("getAddressFormData" + AppSharedPref.getStoreId(this) + AppSharedPref.getCustomerToken(this) + mAddressId)

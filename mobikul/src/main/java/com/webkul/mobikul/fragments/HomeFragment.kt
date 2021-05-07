@@ -1,19 +1,25 @@
-package com.webkul.mobikul.fragments
+    package com.webkul.mobikul.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.text.SpannableString
 import android.text.Spanned
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,7 +27,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.google.gson.Gson
 import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.activities.HomeActivity
@@ -42,12 +47,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
 import retrofit2.HttpException
-import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class HomeFragment : Fragment() {
+    class HomeFragment : Fragment() {
 
     lateinit var mContentViewBinding: FragmentHomeBinding
     private var mBannerSwitcherTimerList: ArrayList<Timer> = ArrayList()
@@ -85,11 +89,34 @@ class HomeFragment : Fragment() {
         var title = SpannableString(getString(R.string.activity_title_home))
         title.setSpan(CalligraphyTypefaceSpan(TypefaceUtils.load((activity as AppCompatActivity).assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD)), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         (activity as AppCompatActivity).supportActionBar?.title = title
-//        supportActionBar?.setLogo(R.drawable.logo)
-//        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-//        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val drawable = resources.getDrawable(R.drawable.whatsapp)
+        val bitmap = (drawable as BitmapDrawable).bitmap
+        val newdrawable: Drawable = BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(newdrawable);
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setPackage("com.whatsapp")
+                intent.data = Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
+                if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                    startActivity(intent)
+                } else {
+                    ToastHelper.showToast(context!!, context!!.getString(R.string.please_install_whatsapp))
+                    val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+//                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
     private fun initSwipeRefresh() {
 
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
@@ -235,9 +262,7 @@ class HomeFragment : Fragment() {
                         DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                             dialogInterface.dismiss()
                             Utils.logoutAndGoToHome(context!!)
-                        }
-                        , ""
-                        , null)
+                        }, "", null)
             }
             else -> {
                 ToastHelper.showToast(context!!, response.message)
@@ -260,9 +285,7 @@ class HomeFragment : Fragment() {
                         dialogInterface.dismiss()
                         mContentViewBinding.swipeRefreshLayout.isRefreshing = true
                         callApi()
-                    }
-                    , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    }, getString(R.string.dismiss), DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
             })
         }
@@ -484,7 +507,7 @@ setupFeaturesCategoriesRv(category)*/
     private fun addFlashDealProduct(carousel: Carousel) {
         val productCarouselFirstLayoutBinding = DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(layoutInflater, R.layout.product_carousel_first_layout, mContentViewBinding.carouselsLayout, false)
         productCarouselFirstLayoutBinding.data = carousel
-        Log.d("asasas",carousel.label.toString())
+        Log.d("asasas", carousel.label.toString())
         productCarouselFirstLayoutBinding.handler = HomePageProductCarouselHandler(activity as BaseActivity)
         if (carousel.timerTimeStamp != 0)
             startTimer(carousel.timerTimeStamp * 1000)
@@ -503,7 +526,12 @@ setupFeaturesCategoriesRv(category)*/
         productCarouselFirstLayoutBinding.handler = HomePageProductCarouselHandler(activity as BaseActivity)
         if (carousel.timerTimeStamp != 0)
             startTimer(carousel.timerTimeStamp * 1000)
-        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)//GridLayoutManager(context!!,4)
+        var layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+        if (carousel.productList!!.size >= 3){
+            layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().getDisplayMetrics().widthPixels / 4)
+        }
+//        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)//GridLayoutManager(context!!,4)
+        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = layoutManager //GridLayoutManager(context!!,4)
 
         productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
         productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt()))
@@ -565,6 +593,11 @@ setupFeaturesCategoriesRv(category)*/
             val productCarouselFirstLayoutBinding = DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(layoutInflater, R.layout.product_carousel_first_layout, mContentViewBinding.carouselsLayout, false)
             productCarouselFirstLayoutBinding.data = carousel
             productCarouselFirstLayoutBinding.handler = HomePageProductCarouselHandler(activity as BaseActivity)
+            if (carousel.productList!!.size >= 3){
+                var layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().getDisplayMetrics().widthPixels / 4)
+                productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = layoutManager
+            }
             if (carousel.productList!!.size > 4)
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = GridLayoutManager(context!!, 4)
             productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)

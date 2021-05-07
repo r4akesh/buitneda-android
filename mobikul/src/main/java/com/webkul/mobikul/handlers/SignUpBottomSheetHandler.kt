@@ -15,10 +15,12 @@ package com.webkul.mobikul.handlers
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.view.View
 import com.google.android.material.textfield.TextInputEditText
 import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.BaseActivity
+import com.webkul.mobikul.activities.HomeActivity
 import com.webkul.mobikul.activities.LoginAndSignUpActivity
 import com.webkul.mobikul.activities.OrderPlacedActivity
 import com.webkul.mobikul.fragments.SignUpBottomSheetFragment
@@ -56,8 +58,12 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
                                 FirebaseAnalyticsHelper.logSignUpEvent(signUpResponseModel.customerName, signUpResponseModel.customerEmail)
                                 AppSharedPref.setCustomerCachedNewAddress(mFragmentContext.context!!, AddressDetailsData())
                                 updateSharedPref(signUpResponseModel)
-                                if (mFragmentContext.context is LoginAndSignUpActivity)
+                                if (mFragmentContext.context is LoginAndSignUpActivity) {
                                     (mFragmentContext.context as LoginAndSignUpActivity).finishActivity()
+                                    val intent = Intent(mFragmentContext.context, HomeActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    mFragmentContext.context!!.startActivity(intent)
+                                }
                                 else if (mFragmentContext.context is OrderPlacedActivity) {
                                     (mFragmentContext.context as OrderPlacedActivity).onCreateAccountSuccess()
                                     mFragmentContext.dismiss()
@@ -110,6 +116,10 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
     fun onClickLogin() {
         mFragmentContext.dismiss()
         (mFragmentContext.context as LoginAndSignUpActivity).mContentViewBinding.handler!!.onClickLogin()
+    }
+
+
+    fun onSplitTypeChanged() {
     }
 
     fun onClickDatePicker(v: View, selectedDate: String, dateFormat: String) {

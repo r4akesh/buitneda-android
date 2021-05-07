@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.webkul.mobikul">
 
-    <!-- Permissions -->
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries> <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,10 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
-
-    <!-- Features -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- Features -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -30,8 +29,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
+
         <activity
             android:name=".activities.BaseActivity"
             android:screenOrientation="portrait"
@@ -45,9 +46,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -55,9 +53,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="161.97.110.25"
+                    android:host="18.158.155.18"
                     android:pathPrefix="/"
-                    android:scheme="http" />
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -71,6 +69,11 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.MyOrdersActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.ProductNotFound"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
@@ -118,12 +121,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"  />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AuctionFragmentActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AddEditAddressActivity"
             android:launchMode="singleTop"
@@ -236,12 +239,10 @@
             android:name=".activities.DeliveryChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!-- Image Cropping Activity -->
+            android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- Image Cropping Activity -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
         <activity
             android:name=".wallet.activities.WalletActivity"
             android:launchMode="singleTop"
@@ -262,7 +263,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <!--
             *******************************************************************************
 
@@ -270,8 +270,6 @@
 
             ********************************************************************************
         -->
-
-
         <!-- [START firebase_service] -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -287,30 +285,23 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-        <!-- [END firebase_service] -->
-
+        </service> <!-- [END firebase_service] -->
         <!-- Google Places API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_api_key" />
-
-        <!-- Goolge MAP API Key -->
-        <!--        <meta-data
+            android:value="@string/maps_api_key" /> <!-- Goolge MAP API Key -->
+        <!--
+        <meta-data
                     android:name="com.google.android.maps.v2.API_KEY"
-                    android:value="@string/maps_api_key" />-->
-
+                    android:value="@string/maps_api_key" />
+        -->
         <!-- AR Core -->
         <meta-data
             android:name="com.google.ar.core"
-            android:value="optional" />
-
-        <!-- Abandoned Cart Alarm start -->
+            android:value="optional" /> <!-- Abandoned Cart Alarm start -->
         <receiver
             android:name=".broadcast_receivers.AbandonedCartAlarmReceiver"
-            android:process=":remote" />
-        <!-- Abandoned Cart Alarm end -->
-
+            android:process=":remote" /> <!-- Abandoned Cart Alarm end -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

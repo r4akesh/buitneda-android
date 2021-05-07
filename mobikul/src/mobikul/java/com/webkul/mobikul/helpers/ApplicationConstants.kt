@@ -18,13 +18,14 @@ object ApplicationConstants {
     /* Server Configurations */
 
 
-//    const val BASE_URL = "http://161.97.110.25" //M2MP new live instance
-//const val BASE_URL = "http://18.158.155.18" //M2MP new live instance
-    const val BASE_URL = "http://buitanda.ezxdemo.com" //M2MP new live instance
+    //    const val BASE_URL = "http://161.97.110.25"
+//    const val BASE_URL = "http://18.158.155.18"
+//    const val BASE_URL = "https://buitanda.com" //Live instance
+    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
     const val API_USER_NAME = "mobikul"
     const val API_PASSWORD = "#uU=T{t{m~Tv2PxG"
 
- 
+
     const val DEMO_USERNAME = ""
     const val DEMO_PASSWORD = ""
 
@@ -64,12 +65,13 @@ object ApplicationConstants {
 
     /* Configuration Constants */
     const val DEFAULT_WEBSITE_ID = "1"
-    const val DEFAULT_STORE_ID = "1"
-    const val DEFAULT_STORE_CODE = "en"
+    const val DEFAULT_STORE_ID = "19"
+    const val DEFAULT_STORE_CODE = "pt"
     const val DEFAULT_CURRENCY_CODE = ""
 
- const val LOG_PARAMS = 0
- const val LOG_RESPONSE = 0
+    const val LOG_PARAMS = 0
+    const val LOG_RESPONSE = 0
+
     /* Miscellaneous Constants */
     const val DEFAULT_TIME_TO_SWITCH_BANNER_IN_MILLIS = 5 * 1000
     const val DEFAULT_OS = "android"

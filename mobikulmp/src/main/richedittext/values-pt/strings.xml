@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_text_here">Insira texto aqui...</string>
+    <string name="hello_blank_fragment">Olá fragmento em branco</string>
+    <string name="fill_all_req_option">preencher todas as opções necessárias</string>
+    <string name="auction_options">opções de leilão</string>
+    <string name="but_it_now">mas agora</string>
+    <string name="starting_price">preço inicial</string>
+    <string name="reserve_price">preço de reserva</string>
+    <string name="start_auction_time">iniciar o tempo de leilão</string>
+    <string name="stop_auction_time">parar o tempo de leilão</string>
+    <string name="number_of_days_till_winner_can_buy">Número de dias até que o vencedor possa comprar *</string>
+    <string name="minimum_quantity">Quantidade Mínima *</string>
+    <string name="maximum_quantity">Quantidade Máxima *</string>
+    <string name="automatic_option">Opção automática</string>
+    <string name="increment_option">Opção de incremento</string>
+    <string name="show_admin_increment_bid_rule">
+Mostrar regra de licitação de incremento de administração
+</string>
+    <string name="increment_bid_rule_set_by_admin">
+Regra de licitação de incremento definida pelo administrador
+</string>
+    <string name="you_can_add_your_increment_bid_rule_otherwise_admin_increment_bid_rule_will_apply">
+Você pode adicionar sua regra de lance incremento caso contrário a regra de licitação do administrador Incremento será aplicada
+</string>
+    <string name="save_auction">Leilão de salvamento</string>
+    <string name="add">Adicionar</string>
+    <string name="disable">Desativar</string>
+    <string name="cancel_auction">Cancelar Leilão</string>
+    <string name="aution_bid_details_activity_title">Detalhes do lance do leilão</string>
+    <string name="bidder_name">Nome do licitante</string>
+    <string name="bid_amount">Valor da Oferta</string>
+    <string name="time_stamp">Carimbo de tempo</string>
+    <string name="action">Ação</string>
+    <string name="you_have_no_bid_records">Você não tem registros de lances.</string>
+    <string name="you_have_no_auto_bid_records">Você não tem registros de lances automáticos.</string>
+    <string name="nav_menu_my_communication_history">Meu Histórico de Comunicação</string>
+    <string name="nav_menu_seller_manage_slider_images">Gerenciar imagens deslizantes</string>
+    <string name="manage_slider_images_activity_title">Adicionar imagens para controle deslizante</string>
+    <string name="edit_url">Editar url</string>
+    <string name="url_error">
+Por favor, digite uma URL válida. Protocolo é necessário (http://, https:// ou ftp://)
+</string>
+    <string name="nav_menu_manage_mp_qa">Gerenciar o MPQA</string>
+    <string name="activity_title_manage_mp_qa">Perguntas</string>
+    <string name="nav_menu_size_chart">Gráfico de tamanho</string>
+    <string name="activity_title_size_chart">Modelos de gráfico de tamanho</string>
+    <string name="code_x">Código: %s</string>
+    <string name="no_templates_found">Sem modelos encontrados</string>
+    <string name="activity_title_edit_size_chart_template">Editar modelo</string>
+    <string name="activity_title_add_size_chart_template">Adicionar modelo</string>
+    <string name="continue_text">Continuar</string>
+    <string name="add_custom_price">Adicionar preço personalizado</string>
+    <string name="select_option">Selecione opção:</string>
+    <string name="nav_menu_seller_daily_deal">Oferta Diária</string>
+    <string name="add_deal_tab_label">Adicionar deal no produto</string>
+    <string name="deal_product_list_tab_label">Lista de produtos de negócios</string>
+    <string name="cancel_text">Cancelar</string>
+    <string name="deal_status_x">Status do negócio: %s</string>
+    <string name="deal_price_x">Preço do negócio: %s</string>
+    <string name="add_deal_on_product_activity_title">Adicionar deal no produto</string>
+    <string name="cancel_deal">Cancelar oferta</string>
+    <string name="websites">Sites</string>
+    <string name="customer_groups">Grupo de Clientes</string>
+    <string name="nav_menu_seller_asign_product">Atribuir produto</string>
+    <string name="nav_menu_seller_asign_product_list">Atribuir lista de produtos</string>
+    <string name="assign_product_activity_title">Atribuir produto</string>
+    <string name="search_for_products">Busca por produto</string>
+    <string name="sell_yours">Venda o Seu</string>
+    <string name="no_results_found_try_different_search">
+Sem resultados encontrados \n Tente algumas palavras-chave diferentes..
+</string>
+    <string name="custom_options">Opções personalizadas</string>
+    <string name="option_title">Título de opção</string>
+    <string name="input_type">Tipo de entrada</string>
+    <string name="required">Necessário</string>
+    <string name="price_type">Tipo de preço</string>
+    <string name="max_char">Max Char</string>
+    <string name="compat_file_ext">Compat. Ramal de arquivo.</string>
+    <string name="maximum_image_size">Tamanho máximo da imagem</string>
+    <string name="please_leave_blank_if_it_is_not_an_image">Por favor, deixe em branco se não for uma imagem.</string>
+    <string name="nav_menu_seller_marketplace_rma">Marketplace RMA</string>
+    <string name="daily_deals_activity_title">Ofertas Diárias</string>
+    <string name="no_history_available">Sem histórico de comunicação disponível</string>
+    <string name="from">De</string>
+    <string name="to">Para</string>
+    <string name="enter_the_product_name">digitar o nome do produto</string>
+    <string name="add_auction_tab_label">Adicionar leilão</string>
+    <string name="normal_bid_list">lista de lances normais</string>
+    <string name="automatic_bid_list">lista de lances automáticos</string>
+    <string name="options">Opções</string>
+    <string name="auction_status">status de leilão</string>
+    <string name="product_sold">produto sólido</string>
+    <string name="auction_date">dados do leilão</string>
+    <string name="invalid_number">número inválido</string>
+    <string name="ivalid_reserve_price">preço de reserva inválido</string>
+    <string name="invalid_max_qty">qty max inválido</string>
+</resources>

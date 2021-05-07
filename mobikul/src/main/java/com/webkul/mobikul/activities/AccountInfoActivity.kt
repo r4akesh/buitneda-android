@@ -19,7 +19,8 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.util.*
 
-/**
+/*
+*
  * Webkul Software.
  *
  * Kotlin
@@ -30,7 +31,7 @@ import java.util.*
  * @copyright 2010-2018 Webkul Software Private Limited (https://webkul.com)
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
- */
+*/
 
 class AccountInfoActivity : BaseActivity() {
 

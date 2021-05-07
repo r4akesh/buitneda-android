@@ -369,7 +369,7 @@
                 android:paddingTop="@dimen/spacing_normal"
                 android:paddingEnd="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_normal"
-
+                android:text="@{@string/app_version(BuildConfig.VERSION_NAME)}"
                 android:textColor="@color/text_color_secondary"
                 android:textSize="@dimen/text_size_small" />
         </androidx.appcompat.widget.LinearLayoutCompat>

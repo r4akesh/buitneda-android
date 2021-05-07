@@ -426,8 +426,33 @@
                         android:text="@string/notify_me_when_this_product_is_in_stock"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_size_small"
-                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}"
+                        android:visibility="gone"
                         tools:text="Notify me when this product is in stock" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
+                        android:padding="@dimen/spacing_small"
+                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}"
+                        >
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableStart="@drawable/ic_notification"
+                            android:drawablePadding="@dimen/spacing_tiny"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Notify me"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -495,20 +520,21 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:foreground="?attr/selectableItemBackground"
-                            android:onClick="@{()->handler.onClickAddToCompareListBtn()}"
+                            android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
                             android:padding="@dimen/spacing_small"
-                            android:visibility="@{ApplicationConstants.ENABLE_COMPARE_PRODUCTS ? View.VISIBLE : View.GONE}">
+                            android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.GONE : View.VISIBLE}"
+                            >
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 fontPath="fonts/Montserrat-SemiBold.ttf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:drawableStart="@drawable/ic_compare_product_wrapper"
+                                android:drawableStart="@drawable/ic_notification"
                                 android:drawablePadding="@dimen/spacing_tiny"
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
-                                android:text="@string/compare"
+                                android:text="Notify me"
                                 android:textAllCaps="true"
                                 android:textColor="@color/text_color_primary"
                                 android:textSize="@dimen/text_size_small" />

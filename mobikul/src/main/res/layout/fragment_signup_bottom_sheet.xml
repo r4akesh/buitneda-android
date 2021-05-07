@@ -94,6 +94,50 @@
                     android:background="@color/color_background"
                     android:orientation="vertical">
 
+                    <RadioGroup
+                        android:id="@+id/toggle"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="10dp"
+
+                        android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}"
+                        android:background="@drawable/pink_out_line"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:layout_marginLeft="1dp"
+                            android:id="@+id/search"
+                            android:checked="@={!data.signUpAsSeller}"
+                            android:background="@drawable/toggle_widget_background"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="Individual"
+                            android:textColor="@color/mdtp_white" />
+
+                        <RadioButton
+                            android:layout_marginRight="1dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:id="@+id/offer"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:checked="@={data.signUpAsSeller}"
+                            android:background="@drawable/toggle_widget_background"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="Company"
+                            android:textColor="@color/mdtp_white" />
+                    </RadioGroup>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/prefix_heading"
                         android:layout_width="match_parent"
@@ -158,7 +202,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        app:hintWithAsterisk="@{@string/first_name}">
+                        app:hintWithAsterisk="@{data.signUpAsSeller ? @string/first_name_company : @string/first_name}">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -180,7 +224,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.middlenameVisible ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{data.middlenameVisible &amp;&amp; !data.signUpAsSeller ? View.VISIBLE : View.GONE}"
                         app:hintWithAsterisk="@{@string/middle_name}">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -203,7 +247,8 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        app:hintWithAsterisk="@{@string/last_name}">
+                        app:hintWithAsterisk="@{!data.signUpAsSeller ? @string/last_name : @string/your_name}"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -385,7 +430,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.mobileVisible ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{data.mobileVisible ? View.VISIBLE : View.VISIBLE}"
                         app:hintWithAsterisk="@{@string/mobile}">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -399,6 +444,33 @@
                             android:textSize="@dimen/text_size_small" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shop_url"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
+                        app:hintWithAsterisk="@{@string/nif_number}">
+
+<!--                        app:helperText="@string/shop_url_desc"-->
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shop_url_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textWebEditText"
+                            android:maxLines="1"
+                            android:text="@={data.shopURL}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/actionBarItemsColor"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/password"
@@ -472,21 +544,21 @@
                     </LinearLayout>
 
 
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/sign_up_as_seller_check"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_normal"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:layout_marginEnd="@dimen/spacing_normal"
-                        android:checked="@={data.signUpAsSeller}"
-                        android:ellipsize="end"
-                        android:lines="2"
-                        android:text="@string/sign_up_as_seller"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}" />
+<!--                    <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:id="@+id/sign_up_as_seller_check"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/spacing_normal"-->
+<!--                        android:layout_marginTop="@dimen/spacing_normal"-->
+<!--                        android:layout_marginEnd="@dimen/spacing_normal"-->
+<!--                        android:checked="@={data.signUpAsSeller}"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:lines="2"-->
+<!--                        android:text="@string/sign_up_as_seller"-->
+<!--                        android:textAlignment="viewStart"-->
+<!--                        android:textColor="@color/text_color_primary"-->
+<!--                        android:textSize="@dimen/text_size_small"-->
+<!--                        android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}" />-->
 
                     <!--         <android.support.design.widget.TextInputLayout
                                  android:id="@+id/shop_name"
@@ -510,30 +582,7 @@
 
                              </android.support.design.widget.TextInputLayout>-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/shop_url"
-                        style="@style/CustomTilStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_normal"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
-                        app:helperText="@string/shop_url_desc"
-                        app:hintWithAsterisk="@{@string/shop_url}">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/shop_url_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textWebEditText"
-                            android:maxLines="1"
-                            android:text="@={data.shopURL}"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/actionBarItemsColor"
-                            android:textSize="@dimen/text_size_small" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
 
                     <Button

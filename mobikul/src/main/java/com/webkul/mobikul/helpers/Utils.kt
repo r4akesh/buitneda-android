@@ -25,7 +25,6 @@ import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.net.NetworkInterface
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.text.SimpleDateFormat
@@ -132,7 +131,6 @@ class Utils {
             }
             return ""
         }*/
-
         fun getMd5String(stringToConvert: String): String {
             try {
 // Create MD5 Hash
@@ -284,28 +282,5 @@ class Utils {
             val matcher = pattern.matcher(phone)
             return matcher.matches()
         }
-
-
-        val macAddress: String
-            get() {
-                var res1 = StringBuilder()
-                try {
-                    val all: List<NetworkInterface> = Collections.list(NetworkInterface.getNetworkInterfaces())
-                    for (nif in all) {
-                        if (!nif.name.equals("p2p0", ignoreCase = true)) continue
-                        val macBytes = nif.hardwareAddress ?: continue
-                        res1 = StringBuilder()
-                        for (b in macBytes) {
-                            res1.append(String.format("%02X:", b))
-                        }
-                        if (res1.isNotEmpty()) {
-                            res1.deleteCharAt(res1.length - 1)
-                        }
-                    }
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-                return res1.toString()
-            }
     }
 }

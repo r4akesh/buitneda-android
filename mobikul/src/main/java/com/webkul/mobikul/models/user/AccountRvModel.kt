@@ -26,6 +26,8 @@ class AccountRvModel(var type: Int, var name: String = "", var drawableId: Int =
         const val QR_CODE_LOGIN = 108
         const val LOG_IN = 109
         const val WALLET = 110
+        const val WHATS_APP = 111
+        const val SUGGESTION = 222
 
     }
 

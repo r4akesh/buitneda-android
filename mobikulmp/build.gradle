@@ -8,20 +8,16 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
+
+    buildFeatures {
+        buildConfig = true
+    }
+   
     compileSdkVersion compile_sdk_version
 
-    /*signingConfigs {
-        LiveServerConfigurationMobikulMP {
-            try {
-                keyAlias 'live_key'
-                storeFile file(keystore_path)
-                keyPassword key_password
-                storePassword keystore_password
-            } catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties. \n" + ex.getMessage());
-            }
-        }
-    }*/
+//                keyAlias buitanda
+//                keyPassword admin123
+//                storePassword admin123
 
     defaultConfig {
 
@@ -89,7 +85,7 @@ android {
         main {
             java.srcDirs += 'src/main/kotlin'
             res.srcDirs =
-                    ['src/main/richedittext', 'src/main/res','src/main/deliveryboy']
+                    ['src/main/richedittext', 'src/main/res', 'src/main/deliveryboy']
         }
     }
 

@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Buitanda</string>
+    <string name="seller_account">Conta do vendedor</string>
+    <string name="seller_dashboard">Painel do vendedor</string>
+    <string name="seller_profile">Perfil do vendedor</string>
+    <string name="seller_orders">Ordens do Vendedor</string>
+    <string name="attributes">Atributos</string>
+    <string name="add_new_product">Adicionar novo produto</string>
+    <string name="seller_products">Produtos vendedores</string>
+    <string name="transactions">Transações</string>
+    <string name="product_reviews">Avaliações de produtos</string>
+    <string name="invoice_print_template">Modelo de impressão da fatura</string>
+    <string name="chat_with_admin">Converse com o administrador</string>
+    <string name="ask_questions">Faça perguntas</string>
+    <string name="activity_title_ask_admin">Pergunte ao Administrador</string>
+    <string name="nav_seller_pending_status">
+Sua conta vendedora está sob aprovação do administrador
+</string>
+    <string name="become_seller">Torne-se Vendedor</string>
+    <string name="marketplace">Mercado</string>
+    <string name="facebook_app_id">488983255076998</string>
+    <string name="fb_login_protocol_scheme">fb488983255076998</string>
+    <string name="auction_product_list_tab_label">Lista de produtos de leilão</string>
+    <string name="auto_bid_X">Auto Bid : %s</string>
+    <string name="x_selected_count">%d selecionado</string>
+    <string name="reserve_price_x">Preço de reserva: %s</string>
+    <string name="starting_price_x">Preço inicial: %s</string>
+    <string name="max_x">Max: %s</string>
+    <string name="min_x">Min: %s</string>
+    <string name="increment_x">Incremento : %s</string>
+    <string name="start_x">Início : %s</string>
+    <string name="stop_x">Stop : %s</string>
+    <string name="subject">Assunto</string>
+    <string name="query">Consulta</string>
+    <string name="submit">Enviar</string>
+    <string name="msg_this_is_a_required_field">Este é um campo obrigatório.</string>
+    <string name="query_submitted">Consulta submetida</string>
+    <string name="is_require_text">é necessário!</string>
+    <string name="sign_up_as_seller">Deseja se tornar Vendedor/Fornecedor?</string>
+    <string name="shop_url">URL de loja</string>
+    <string name="shop_name">Nome da loja</string>
+    <string name="shop_url_desc">(Isso será usado para exibir seu perfil público)</string>
+    <string name="waiting_for_approval_from_admin_your_application_current_status_is_pending">
+À espera da aprovação do administrador, seu status atual de aplicação está pendente
+</string>
+    <string name="create_attribute">Criar atributo</string>
+    <string name="default_store_view">Exibição padrão da loja</string>
+    <string name="position">Posição</string>
+    <string name="mark_as_default">Marque como padrão</string>
+    <string name="remove">Remover</string>
+    <string name="attribute_label">Rótulo de atributo</string>
+    <string name="attribute_code">Código de atributo</string>
+    <string name="attribute_values">Valores de atributo</string>
+    <string name="value_required">Valor necessário</string>
+    <string name="add_values">Adicionar valores</string>
+    <string name="add_another_value">Adicionar outro valor</string>
+    <string name="basic">Basic</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="are_you_sure">Tem certeza?</string>
+    <string name="save_profile">Salvar perfil</string>
+    <string name="shop_title">Título da loja</string>
+    <string name="contact_no">Contato Nº.</string>
+    <string name="tax_vat_number">Número de impostos/impostos</string>
+    <string name="shop_locality">Shop Localidade</string>
+    <string name="country">País</string>
+    <string name="description">Descrição</string>
+    <string name="image_and_theme"/>
+    <string name="background_color">Cor de fundo</string>
+    <string name="cover_banner">Banner de cobertura</string>
+    <string name="change_color">Alterar cor</string>
+    <string name="add_banner">Adicionar banner</string>
+    <string name="logo">Logotipo</string>
+    <string name="add_logo">Adicionar logotipo</string>
+    <string name="social_profiles">Perfis Sociais</string>
+    <string name="profile_link">Link de perfil</string>
+    <string name="facebook">Facebook</string>
+    <string name="activated">Ativado</string>
+    <string name="deactivated">Desativado</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="youtube">Youtube</string>
+    <string name="vimeo">Vimeo</string>
+    <string name="pinterest">Pinterest</string>
+    <string name="seo">Seo</string>
+    <string name="meta_description">Meta Descrição</string>
+    <string name="meta_keyword">Meta Palavra-chave</string>
+    <string name="payment_info">Informações de pagamento</string>
+    <string name="payment_details">Detalhes de pagamento</string>
+    <string name="policies">Políticas</string>
+    <string name="shipping_policy">Política de envio</string>
+    <string name="return_policy">Política de Devolução</string>
+    <string name="choose_color">Escolher a cor</string>
+    <string name="delete">Excluir</string>
+    <string name="are_you_sure_you_want_to_delete_this_banner">Tem certeza que deseja excluir este banner?</string>
+    <string name="are_you_sure_you_want_to_delete_this_logo">Tem certeza que quer excluir esse logotipo?</string>
+    <string name="country_colon">País:</string>
+    <string name="enter_meta_keywords_comma_separated">Enter Meta Keywords Comma (\',\') Separado..</string>
+    <string name="select_country">Selecionar país</string>
+    <string name="pdf_header_info">Informações sobre cabeçalho pdf</string>
+    <string name="save_information">Salvar informações</string>
+    <string name="edit_pdf_header">Editar cabeçalho PDF</string>
+    <string name="please_fill_the_information">Por favor, preencha as informações</string>
+    <string name="chat_with_sellers">Bate-papo com vendedores</string>
+    <string name="search_seller">Vendedores de pesquisa</string>
+    <string name="no_sellers_were_found">Nenhum vendedor foi encontrado.</string>
+    <string name="new_message_from_admin">Nova mensagem do administrador</string>
+    <string name="edit_product">Editar produto</string>
+    <string name="add_product">Adicionar produto</string>
+    <string name="product_name">Nome do produto</string>
+    <string name="short_description">Descrição curta</string>
+    <string name="special_price_from">Preço especial de</string>
+    <string name="special_price_to">Preço especial para</string>
+    <string name="special_price">Preço Especial ($)</string>
+    <string name="special_price_currency">Preço Especial (%s)</string>
+    <string name="price_currency">Preço (%s)</string>
+    <string name="sku">Sku</string>
+    <string name="product_category">Categoria do Produto</string>
+    <string name="product_purchase_limit">Limite de compra do produto</string>
+    <string name="stock">Estoque</string>
+    <string name="weight">Peso</string>
+    <string name="images">Imagens</string>
+    <string name="downloadable">Download</string>
+    <string name="related_products">Produtos Relacionados</string>
+    <string name="upsell_products">Produtos upsell</string>
+    <string name="cross_sell_products">Produtos cross-sell</string>
+    <string name="stock_count">Contagem de Ações</string>
+    <string name="meta_title">Meta Título</string>
+    <string name="yes_limited_purchase_only">Apenas uma compra limitada sim</string>
+    <string name="purchase_limit">Limite de compra</string>
+    <string name="does_this_have_a_weight">Isso tem um peso?</string>
+    <string name="weight_x">Peso (%1$s)</string>
+    <string name="is_this_downloadable_product">Este produto é para download?</string>
+    <string name="please_select_visibility">--Selecione a visibilidade--</string>
+    <string name="select_category">Selecionar categoria</string>
+    <string name="msg_no_filter_option_available">
+Não há opções de filtro disponíveis para os resultados !
+</string>
+    <string name="related_product_title">Produtos Relacionados</string>
+    <string name="upsell_product">Produtos up-sell</string>
+    <string name="cross_sell_product">Produtos cross-sell</string>
+    <string name="your_email_address">Seu endereço de e-mail</string>
+    <string name="add_another_link">Adicionar outro link</string>
+    <string name="title">Título</string>
+    <string name="file_type_file_link">Tipo de arquivo - Link</string>
+    <string name="file_type_file_upload">Tipo de arquivo - Upload</string>
+    <string name="sample_type_file_link">Tipo de amostra - Link</string>
+    <string name="sample_type_file_upload">Tipo de amostra - Upload</string>
+    <string name="upload">Carregar</string>
+    <string name="sample">Amostra</string>
+    <string name="unlimited">Ilimitado</string>
+    <string name="max_downloads">Max downloads</string>
+    <string name="warning_are_you_sure">Tem certeza?</string>
+    <string name="delete_warning">Quer apagar isso?</string>
+    <string name="price">Preço</string>
+    <string name="url">Url</string>
+    <string name="file">Arquivo</string>
+    <string name="sample_url">URL de amostra</string>
+    <string name="sample_file">Arquivo de amostra</string>
+    <string name="title_of_sample">Título da amostra</string>
+    <string name="add_another_sample">Adicionar outra amostra</string>
+    <string name="attribute_set_x">Conjunto de atributos: %s</string>
+    <string name="status_x">Status: %s</string>
+    <string name="type_x">Status: %s</string>
+    <string name="sku_x">SKU: %s</string>
+    <string name="title_of_link_s">Título de link(s)</string>
+    <string name="alt_text">Alt Text</string>
+    <string name="role">Papel</string>
+    <string name="hide_from_product_page">Ocultar-se da página do produto</string>
+    <string name="edit_image_info">Editar informações de imagem</string>
+    <string name="we_couldn_t_find_any_records">Não encontramos nenhum registro.</string>
+    <string name="disable_product">Produto desabilitar</string>
+    <string name="enable_product">Habilitar o produto</string>
+    <string name="base">Base</string>
+    <string name="product_type_not_found">Tipo de produto não encontrado.</string>
+    <string name="stock_availability_colon">Disponibilidade de estoque:</string>
+    <string name="visibility_colon">Visibilidade:</string>
+    <string name="tax_class_colon">Classe Fiscal:</string>
+    <string name="attribute_set_colon">Conjunto de atributos:</string>
+    <string name="product_type_colon">Tipo de produto:</string>
+    <string name="order_status_all"/>
+    <string name="order_status_canceled">Cancelado</string>
+    <string name="order_status_closed">Fechado</string>
+    <string name="order_status_complete">Completa</string>
+    <string name="order_status_fraud">Fraude</string>
+    <string name="order_status_holded">realizada</string>
+    <string name="order_status_payment_review">payment_review</string>
+    <string name="order_status_paypal_canceled_reversal">PayPal_canceled_reversal</string>
+    <string name="order_status_paypal_reversed">PayPal_reversed</string>
+    <string name="order_status_pending">Pendente</string>
+    <string name="order_status_pending_payment">pending_payment</string>
+    <string name="order_status_pending_paypal">pendente_PayPal</string>
+    <string name="order_status_processing">Processamento</string>
+    <string name="no_products_to_display">Sem produtos para exibir</string>
+    <string name="type_colon">Tipo: </string>
+    <string name="status_colon">Status: </string>
+    <string name="qty_sold_colon">Qty Vendido: </string>
+    <string name="qty_confirmed_colon">Qty confirmado: </string>
+    <string name="qty_pending_colon">Qty Pendente: </string>
+    <string name="earned_amount_colon">Valor ganho: </string>
+    <string name="more_info">Mais informações</string>
+    <string name="category_colon">Categoria: </string>
+    <string name="tax_colon">Imposto: </string>
+    <string name="from_colon">De: </string>
+    <string name="to_colon">Para: </string>
+    <string name="special_price_colon">Preço especial : </string>
+    <string name="less_info">Menos informações</string>
+    <string name="sku_colon">Sku: </string>
+    <string name="qty_colon">Qty:</string>
+    <string name="total_sales_colon">Vendas Totais : </string>
+    <string name="of_toast_for_no_of_item">De</string>
+    <string name="edit">Editar</string>
+    <string name="are_you_sure_you_want_to_delete_this_product">Tem certeza que deseja excluir este produto?</string>
+    <string name="please_select_from_date">Selecione a partir da data</string>
+    <string name="search_product">Produto de pesquisa</string>
+    <string name="product_creation_date">Data de criação do produto</string>
+    <string name="to_date">Até hoje</string>
+    <string name="from_date">A partir de date</string>
+    <string name="product_status">Status do produto</string>
+    <string name="enabled">Habilitado</string>
+    <string name="disabled">Desativado</string>
+    <string name="all">Todos</string>
+    <string name="filters">Filtros</string>
+    <string name="error_please_try_again">Há um erro desconhecido. Por favor, tente de novo!</string>
+    <string name="add_images">Adicionar imagens</string>
+    <string name="links_can_be_purchased_separately">Links podem ser comprados separadamente</string>
+    <string name="stats_not_found">Estatísticas não encontradas</string>
+    <string name="total_payout">Pagamento Total</string>
+    <string name="remaining_amount">Quantidade Restante</string>
+    <string name="total_sales">Vendas Totais</string>
+    <string name="top_5_product">Top 5 Produto</string>
+    <string name="total_sales_qty">Vendas Totais(Qty) -</string>
+    <string name="top_5_category">Categoria Top 5</string>
+    <string name="latest_orders">Últimas Ordens</string>
+    <string name="view_all_orders">Exibir todas as ordens</string>
+    <string name="view_all_reviews">Exibir todas as avaliações</string>
+    <string name="recent_reviews">Avaliações recentes</string>
+    <string name="sales_map">Mapa de Vendas</string>
+    <string name="sales_graph">Gráfico de Vendas</string>
+    <string name="time_range">Faixa de tempo</string>
+    <string name="order_id_x">% %s</string>
+    <string name="today">Hoje</string>
+    <string name="yesterday">Ontem</string>
+    <string name="this_week">Esta semana</string>
+    <string name="this_month">Este mês</string>
+    <string name="this_year">Este ano</string>
+    <string name="no_transactions_to_display">Sem transações para exibir</string>
+    <string name="search_transaction">Pesquisar</string>
+    <string name="transaction_id">ID de transação</string>
+    <string name="transaction_date">Data da transação</string>
+    <string name="transaction_remark">Observação da transação</string>
+    <string name="total_commission">Comissão Total</string>
+    <string name="total_tax">Imposto Total</string>
+    <string name="total_sale">Venda Total</string>
+    <string name="remaining_transactions">Transações restantes</string>
+    <string name="transaction_id_x">Transação - #%s</string>
+    <string name="paid">Pago</string>
+    <string name="type">Tipo:</string>
+    <string name="method">Método:</string>
+    <string name="remark">Observação</string>
+    <string name="transaction_order_info">Informações do pedido de transação</string>
+    <string name="order_x">Ordem #%s</string>
+    <string name="total_price_colon">Preço total:</string>
+    <string name="total_tax_colon">Imposto Total:</string>
+    <string name="total_discount_colon">Desconto Total:</string>
+    <string name="total_shipping_colon">Envio total:</string>
+    <string name="commission_colon">Comissão:</string>
+    <string name="order_total_base_x">Pedido Total (Base): %s</string>
+    <string name="order_total_purchased_x">Encomenda Total (Comprada): %s</string>
+    <string name="view_all_sellers">Ver todos os vendedores</string>
+    <string name="add_related_products">Adicionar produtos relacionados</string>
+    <string name="add_upsell_products">Adicionar produtos upsell</string>
+    <string name="add_cross_sell_products">Adicionar produtos de venda cruzada</string>
+    <string name="add_related_product">Adicionar produto relacionado</string>
+    <string name="no_orders_to_display">Sem ordens para exibir</string>
+    <string name="search_order">Ordem de pesquisa</string>
+    <string name="order_date">Data do pedido</string>
+    <string name="order_status">Status do pedido</string>
+    <string name="buyer_info">Informações do Comprador</string>
+    <string name="cancel_order">Cancelar ordem</string>
+    <string name="ship_items">Itens de navio</string>
+    <string name="create_invoice">Criar nota fiscal</string>
+    <string name="credit_memo">Memorando de Crédito</string>
+    <string name="carrier">Transportadora</string>
+    <string name="tracking_number">Número de rastreamento</string>
+    <string name="admin_commission_colon">Comissão Administrativa:</string>
+    <string name="vendor_total_colon">Total do fornecedor:</string>
+    <string name="all_sellers">Todos os Vendedores</string>
+    <string name="confirm_email_send">
+Tem certeza que deseja enviar e-mail de pedido ao cliente?
+</string>
+    <string name="confirm_invoice_email_send">
+Tem certeza que deseja enviar e-mail de fatura para o cliente?
+</string>
+    <string name="shipping_confirm_message">Tem certeza que quer criar um carregamento?</string>
+    <string name="create_invoice_confirm_message">Tem certeza que quer criar fatura?</string>
+    <string name="cancel_order_confirm_message">Tem certeza que quer cancelar essa ordem?</string>
+    <string name="send_tracking_information">Enviar informações de rastreamento</string>
+    <string name="print_shipment">Envio de impressão</string>
+    <string name="shipment_confirmation">
+Tem certeza que deseja enviar e-mail de remessa para o cliente?
+</string>
+    <string name="search_sellers_by_shop_name">Pesquise vendedores pelo nome da loja</string>
+    <string name="landing_page_layout2_dummy_text">
+Abra sua própria loja online e explore um novo mundo de mercado com mais e milhões de lojistas
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel1">Grandes Compradores</string>
+    <string name="marketplace_landingpage_layout2_label1">
+Faça com que seu produto seja exibido para uma enorme gama de clientes, como muitas lojas de usuários diárias de nós.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel2">Ficou preso? Faça perguntas</string>
+    <string name="marketplace_landingpage_layout2_label2">
+Se você ficar preso, avise-nos e nós vamos ajudá-lo com o melhor que temos no tempo mínimo possível.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel3">Pagamentos Rápidos</string>
+    <string name="marketplace_landingpage_layout2_label3">
+Uma vez que as mercadorias tenham sido entregues com sucesso aos respectivos clientes, você pode solicitar o pagamento.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel4">Gerencie suas ordens</string>
+    <string name="marketplace_landingpage_layout2_label4">
+Gerencie seus pedidos com a máxima facilidade e ajude os clientes a ter uma melhor experiência de compra.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel5">Ganhe crachás</string>
+    <string name="marketplace_landingpage_layout2_label5">
+Uma vez que você sobe um marco você é premiado com um distintivo, que faz você parecer mais profissional.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel6">Obter-se verificado</string>
+    <string name="marketplace_landingpage_layout2_label6">
+Adicione um broche verificado ao seu perfil, fornecendo alguns detalhes e documentos de negócios muito necessários.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel7">Personalizar perfil</string>
+    <string name="marketplace_landingpage_layout2_label7">
+Personalize seu perfil com informações como logotipo do perfil, localização da loja, envio e políticas de reembolso.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel8">Crie sua própria coleção</string>
+    <string name="marketplace_landingpage_layout2_label8">
+Adicione produtos verídicos e crie sua própria coleção de produtos que será visível aos clientes.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel9"/>
+    <string name="marketplace_landingpage_layout2_label9">
+Incorpore vídeo do YouTube para tornar sua conta mais genuína e se destacar na fila.
+</string>
+    <string name="marketplace_landingpage_layout2_headinglabel10">Adicionar produtos ilimitados</string>
+    <string name="marketplace_landingpage_layout2_label10">
+Adicione produtos ilimitados que você deseja e satisfate a necessidade de seus clientes.
+</string>
+    <string name="marketplace_landingpage_layout2_create_sell_and_earn_label">Venda seus produtos e ganhe pontos</string>
+    <string name="marketplace_landingpage_layout2_heading2">MUITO FÁCIL DE CONFIGURAR E PERSONALIZAR</string>
+    <string name="marketplace_landingpage_layout2_create_account_label">Criar uma conta</string>
+    <string name="marketplace_landingpage_layout2_create_profile_label">Crie seu perfil</string>
+    <string name="marketplace_landingpage_layout2_create_add_details_label">Adicione seus detalhes</string>
+    <string name="marketplace_landingpage_layout2_create_add_product_listing_label">Adicione sua lista de produtos</string>
+    <string name="open_your_shop">Abra sua loja</string>
+    <string name="no_seller_available">NENHUM VENDEDOR DISPONÍVEL</string>
+    <string name="about">Sobre</string>
+    <string name="products">Produtos</string>
+    <string name="reviews">Opiniões</string>
+    <string name="more">Mais</string>
+    <string name="privacy_policy">Política de Privacidade</string>
+    <string name="write_to_us">Escreva para nós</string>
+    <string name="contact_us">Entre em contato conosco</string>
+    <string name="your_name">Seu nome</string>
+    <string name="policy_not_found">Política não encontrada.</string>
+    <string name="seller_reviews">Avaliações do vendedor</string>
+    <string name="store_rating">Classificação da loja</string>
+    <string name="add_your_review">Adicione sua avaliação</string>
+    <string name="based_on">Com base em</string>
+    <string name="average_price_rating">Classificação média de preços (%d)</string>
+    <string name="value_colon">Valor:</string>
+    <string name="quality_colon">Qualidade</string>
+    <string name="products_X">Produtos: %d</string>
+    <string name="reviews_X">Opiniões: %d </string>
+    <string name="orders_X">Ordens: %d</string>
+    <string name="review_by">Revisão por -</string>
+    <string name="average_rating">Classificação Média (%d)</string>
+    <string name="average_value_rating">Classificação de valor médio (%d)</string>
+    <string name="average_quality_rating">Classificação média de qualidade (%d)</string>
+    <string name="no_review_found_be_the_first_one">
+Nenhuma revisão foi encontrada. Seja o primeiro a revisar!
+</string>
+    <string name="write_your_review">Escreva sua avaliação</string>
+    <string name="how_do_you_rate_this_store">Como você avalia essa loja?</string>
+    <string name="value">Valor</string>
+    <string name="nickname">Alcunha</string>
+    <string name="summary_of_your_review">Resumo de Sua Revisão</string>
+    <string name="review">Revisão</string>
+    <string name="submit_review">Enviar revisão</string>
+    <string name="this_is_a_required_field">Este é um campo obrigatório.</string>
+    <string name="x_positive_feedback">% feedback positivo</string>
+    <string name="recently_added">Adicionado recentemente</string>
+    <string name="activity_create_credit_memo_title">Novo Memorando de Crédito</string>
+    <string name="qty">Qty</string>
+    <string name="return_to_stock">Retorno às ações</string>
+    <string name="qty_to_refund">Qty para Reembolso</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="tax_amt">Valor do Imposto</string>
+    <string name="discount_amt">Valor de Desconto</string>
+    <string name="row_total">Linha Total</string>
+    <string name="label_subtotal">Subtotal</string>
+    <string name="item_name">Nome do item</string>
+    <string name="refund_totals_heading">Totais de Reembolso</string>
+    <string name="payment_summary">Resumo do Pagamento</string>
+    <string name="request_withdrawal">Solicitar retirada</string>
+    <string name="is_featured_product">É produto em destaque:</string>
+    <string name="average_rating_0">Classificação Média (0)</string>
+    <string name="sold_by">Vendido por</string>
+    <string name="contact_seller">Vendedor de contatos</string>
+    <string name="products_x">%s Produtos</string>
+    <string name="top_selling_category">Categoria Mais Vendida</string>
+    <string name="customer_list">Lista de clientes</string>
+    <string name="select_gender">-Selecione Gênero-</string>
+    <string name="no_user_found">Nenhum usuário encontrado</string>
+    <string name="order_count">Contagem de pedidos</string>
+    <string name="name_">Nome -</string>
+    <string name="email_">E-mail -</string>
+    <string name="contact_no_">Contato No -</string>
+    <string name="gender_">Gênero -</string>
+    <string name="base_total_">Base Total -</string>
+    <string name="address_">Endereço -</string>
+    <string name="customers">Clientes</string>
+    <string name="contact_number">Número de contato</string>
+    <string name="google_plus">Google Plus</string>
+    <string name="by_default_10_qty_will_be_allowed_for_customer_to_add_in_cart">
+Por padrão, 10 qty será permitido para o cliente adicionar no carrinho.
+</string>
+    <string name="shareable_yes">Compartilhável-Sim</string>
+    <string name="shareable_no">Shareable-No</string>
+    <string name="are_you_sure_you_want_to_edit_this_product">Tem certeza que quer editar este produto?</string>
+    <string name="report_product">Produto de relatório</string>
+    <string name="report_seller">Vendedor de relatórios</string>
+    <string name="write_a_reason_to_flag_this_product">Escreva uma razão para sinalizar este produto.</string>
+    <string name="write_a_reason_to_flag_the_seller">Escreva uma razão para sinalizar o vendedor</string>
+    <string name="reset">Redefinir</string>
+    <string name="choose_an_appropriate_reason_for_the_flag">Escolha uma razão apropriada para a bandeira:</string>
+    <string name="other">Outros</string>
+    <string name="to_report">para relatar</string>
+    <string name="reason">Razão</string>
+    <string name="thank_you">Obrigado.</string>
+    <string name="report_product_message">
+Seu relatório contra %s foi enviado.\nNós re-verificaremos as informações do produto e veremos se ele viola alguma de nossas diretrizes de política ou venda.
+</string>
+    <string name="report_seller_message">
+Seu relatório contra %s foi enviado.\nNós re-verificaremos as informações do vendedor e veremos se ele viola alguma de nossas diretrizes de política ou venda
+</string>
+</resources>

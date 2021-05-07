@@ -1,20 +1,25 @@
 package com.webkul.mobikul.activities
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
+import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityHomeBinding
 import com.webkul.mobikul.fragments.AccountDetailsFragment
@@ -22,28 +27,24 @@ import com.webkul.mobikul.fragments.CartBottomSheetFragment
 import com.webkul.mobikul.fragments.CategoryPageFragment
 import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.HomeActivityHandler
-import com.webkul.mobikul.helpers.AppSharedPref
+import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_BOTTOM_NAV_INDEX
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
-import com.webkul.mobikul.helpers.MobikulApplication
-import com.webkul.mobikul.helpers.Utils
-import com.webkul.mobikul.helpers.VersionChecker
-import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
+import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
-import java.util.*
-import kotlin.concurrent.schedule
 
 
 class HomeActivity : BaseActivity() {
 
+    private var mPromotionBanner: PromotionBanner? = null
+
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
-        private const val TAG = "HomeActivity"
     }
 
     open var homeFragment: HomeFragment? = null
@@ -57,14 +58,8 @@ class HomeActivity : BaseActivity() {
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
 
-//        Timer().schedule(5000) {
-//            runOnUiThread {
-//
-//            }
-//
-//        }
+        callApi();
 
-        getUpdateFCMCode()
     }
 
 /*
@@ -81,6 +76,7 @@ class HomeActivity : BaseActivity() {
     private fun startInitialization() {
 
         getLatestVersionFromPlayStore()
+
         initIntent()
 //        mContentViewBinding.handler = HomeActivityHandler(this)
 
@@ -232,8 +228,7 @@ class HomeActivity : BaseActivity() {
     }
 
     fun onLatestVersionResponse(result: String?) {
-        // TODO: 02/04/21 Fix it
-        /*try {
+        try {
             if (java.lang.Double.parseDouble(BuildConfig.VERSION_NAME) < java.lang.Double.parseDouble(result)) {
                 AlertDialogHelper.showNewCustomDialog(
                         this,
@@ -244,51 +239,15 @@ class HomeActivity : BaseActivity() {
                         DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                             dialogInterface.dismiss()
                             startActivityForResult(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")), ConstantsHelper.RC_UPDATE_APP_FROM_PLAY_STORE)
-                        }
-                        , getString(R.string.later)
-                        , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                        }, getString(R.string.later), DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                     dialogInterface.dismiss()
                 })
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
-        }*/
-    }
-
-    private fun getUpdateFCMCode() {
-        val fcmToken = AppSharedPref.getFcmToken(this)
-
-        val uniqueId = Utils.getMd5String(Utils.macAddress)
-        showUniqueCode("UniqueCode: $uniqueId, Fcm Token $fcmToken")
-        Log.d(TAG, "UniqueCode: $uniqueId, Fcm Token $fcmToken")
-        Toast.makeText(this, uniqueId, Toast.LENGTH_LONG).show()
-        ApiConnection.uploadFCMForAdmin((fcmToken ?: ""), uniqueId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<BaseModel>(this, true) {
-
-                })
-    }
-
-
-    private fun showUniqueCode(code: String) {
-        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this, R.style.todoDialogLight)
-        alertDialog.setTitle("Copy Code")
-        alertDialog.setMessage("Unique Code: $code")
-        alertDialog.setNeutralButton(
-                "yes"
-        ) { _, _ ->
-
-            val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("unique code", code)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Copied.", Toast.LENGTH_LONG).show()
         }
-
-        val alert: AlertDialog = alertDialog.create()
-        alert.setCanceledOnTouchOutside(true)
-        alert.show()
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -304,6 +263,54 @@ class HomeActivity : BaseActivity() {
                 } else {
                 }
         }
+    }
+
+
+    private fun callApi() {
+        ApiConnection.getOfferData(this)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : ApiCustomCallback<PromotionBanner>(this, true) {
+                    override fun onNext(responseModel: PromotionBanner) {
+                        super.onNext(responseModel)
+                        if (responseModel.success) {
+
+//                            mIsFreshHomePageData = true
+                            onSuccessfulResponse(responseModel)
+                        } else {
+                            onFailureResponse(responseModel)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+//                        onErrorResponse(e)
+                    }
+                })
+    }
+
+
+    private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
+        mPromotionBanner = promotionBanner
+
+        val builder: Dialog = Dialog(this)
+        val inflater: LayoutInflater = this.getLayoutInflater()
+        val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
+        val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
+        Picasso.with(this).load(promotionBanner.image).into(image)
+        image.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                // Do some work here
+                val navigate = Intent(this@HomeActivity,ProductDetailsActivity::class.java);
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+                startActivity(navigate)
+                builder.dismiss()
+            }
+        })
+        builder.setContentView(vg)
+        builder.show()
     }
 
 }

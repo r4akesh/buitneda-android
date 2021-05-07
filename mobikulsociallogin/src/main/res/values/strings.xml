@@ -1,0 +1,56 @@
+<!--
+  ~ Webkul Software.
+  ~
+  ~ Kotlin
+  ~
+  ~ @author Webkul <support@webkul.com>
+  ~ @category Webkul
+  ~ @package com.webkul.mobikul
+  ~ @copyright 2010-2019 Webkul Software Private Limited (https://webkul.com)
+  ~ @license https://store.webkul.com/license.html ASL Licence
+  ~ @link https://store.webkul.com/license.html
+  -->
+
+
+<resources>
+    <string name="app_name">Mobikul Social Login</string>
+
+    <string name="signin_error">Error signing in</string>
+
+    <string name="please_wait">Please wait</string>
+    <string name="processing_request_response">while we process your request</string>
+    <string name="auth_succeeded">Authentication Succeed</string>
+    <string name="auth_Denied">Authentication Denied</string>
+
+    <!-- Facebook Login App Ids -->
+    <string name="facebook_app_id" translatable="false">488983255076998</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb488983255076998</string>
+
+    <!--Facebook Login App Ids MP -->
+<!--    <string name="facebook_app_id" translatable="false">308787029610110</string>-->
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb308787029610110</string>-->
+
+    <!-- Twitter Login App Ids -->
+    <string name="twitter_api" translatable="false">example</string>
+    <string name="twitter_api_secret" translatable="false">example</string>
+
+    <!-- Insta Login App Ids -->
+
+    <string name="insta_client_id" translatable="false">example</string>
+    <string name="insta_client_secret" translatable="false">example</string>
+    <string name="insta_redirect_url" translatable="false">example</string>
+    <string name="sigin_error">error signing in</string>
+    <string name="instagram">Instagram</string>
+    <string name="authorization_failed">authorization failed</string>
+    <string name="getting_acess_token">getting acess token</string>
+    <string name="loading">loading...</string>
+    <string name="failed_to_get_acess_token">failed to get acess token</string>
+    <string name="failed_to_get_user_info">failed to get user info</string>
+    <string name="processing">processing</string>
+    <string name="check_internet_connection">check internet connection</string>
+    <string name="enter_email_address">Enter email address</string>
+    <string name="email_required_">email required</string>
+    <string name="required_field">required field</string>
+    <string name="apply">Apply</string>
+    <string name="enter_valid_email">Please enter a valid email address</string>
+</resources>

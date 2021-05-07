@@ -72,8 +72,6 @@ private const val NOTIFICATION_TYPE_SELLER_APPROVAL = "sellerApproval"
 
 class FCMMessageReceiverService : FirebaseMessagingService() {
 
-
-    //AAAAk0Of6-M:APA91bGfOAQb1ZD8KnDN0xnZfwoesgxCsn9AKsaAsBpg7ADFtcCY0vZCZGr-Zh0geOrWQmJtKL8WpGYFENhiaxYd0NJQuD8cCjsnYrscF0LrHqcoOzOL1wFce9BH-n1sx0cf9CHbfqC_
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "onNewToken: $token")

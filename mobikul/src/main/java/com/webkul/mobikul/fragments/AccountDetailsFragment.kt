@@ -69,6 +69,7 @@ open class AccountDetailsFragment : BaseFragment() {
         if (AppSharedPref.isLoggedIn(context!!)) {
             val accountRvData: ArrayList<AccountRvModel> = ArrayList()
             accountRvData.add(AccountRvModel(AccountRvModel.ORDERS, getString(R.string.orders), R.drawable.orders2))
+            accountRvData.add(AccountRvModel(AccountRvModel.SUGGESTION, "Suggestion", R.drawable.orders2))
             if (ApplicationConstants.ENABLE_WISHLIST && AppSharedPref.isWishlistEnabled(context!!))
                 accountRvData.add(AccountRvModel(AccountRvModel.WISH_LIST, getString(R.string.wishlist), R.drawable.wish2))
 //            accountRvData.add(AccountRvModel(AccountRvModel.DOWNLOADABLE_PRODUCTS, getString(R.string.downloadable_products), R.drawable.download1))
@@ -76,6 +77,7 @@ open class AccountDetailsFragment : BaseFragment() {
             accountRvData.add(AccountRvModel(AccountRvModel.ADDRESS_BOOK, getString(R.string.address_book), R.drawable.adress2))
             accountRvData.add(AccountRvModel(AccountRvModel.ACCOUNT_INFORMATION, getString(R.string.account_information), R.drawable.info2))
             accountRvData.add(AccountRvModel(AccountRvModel.WALLET, getString(R.string.wallet), R.drawable.ic_user_account_wallet2))
+            accountRvData.add(AccountRvModel(AccountRvModel.WHATS_APP, getString(R.string.whats_app), R.drawable.ic_user_whats_app))
 
 
 //            accountRvData.add(AccountRvModel(AccountRvModel.DASHBOARD, getString(R.string.dashboard), R.drawable.ic_user_dashboard))
