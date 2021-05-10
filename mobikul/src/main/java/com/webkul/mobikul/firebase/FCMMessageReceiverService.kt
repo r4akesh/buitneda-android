@@ -87,7 +87,8 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
         for (topic in DEFAULT_FCM_TOPICS) {
             pubSub.subscribeToTopic(topic)
             if (BuildConfig.DEBUG) {
-                pubSub.subscribeToTopic(topic + "_local")
+               // pubSub.subscribeToTopic(topic + "_local")
+                pubSub.subscribeToTopic(topic + "_testing")
             }
         }
     }
