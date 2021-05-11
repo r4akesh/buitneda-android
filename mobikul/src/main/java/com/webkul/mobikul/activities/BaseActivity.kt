@@ -219,7 +219,7 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
                         response.message,
                         false,
                         getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                        { dialogInterface: DialogInterface, _: Int ->
                             dialogInterface.dismiss()
                             Utils.logoutAndGoToHome(this)
                         }

@@ -108,6 +108,7 @@ import com.webkul.mobikul.models.product.ReviewListData
 import com.webkul.mobikul.models.user.*
 import com.webkul.mobikul.wallet.models.wallet.*
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONArray
@@ -148,6 +149,21 @@ interface ApiDetails {
                               @Query("mFactor") mFactor: Float,
                               @Query("pageNumber") pageNumber: Int):
             Observable<HomePageDataModel>
+
+   /* @GET(MOBIKUL_DELIVERY_TOP_PRODUCT_LIST)
+    fun getTopSellingProducts(@Query("storeId") storeId: String,
+                              @Query("websiteId") websiteId: String,
+                              @Query("quoteId") quoteId: Int,
+                              @Query("customerToken") customerToken: String,
+                              @Query("currency") currency: String,
+                              @Query("width") width: Int,
+                              @Query("mFactor") mFactor: Float,
+                              @Query("pageNumber") pageNumber: Int):
+            Deferred<HomePageDataModel>*/
+
+
+
+
 
     @GET(MOBIKUL_CUSTOMER_WEB_LOGIN)
     fun customerWebLogin(

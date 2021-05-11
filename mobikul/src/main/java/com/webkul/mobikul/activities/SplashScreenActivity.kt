@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.security.ProviderInstaller
 import com.webkul.mobikul.R

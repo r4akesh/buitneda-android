@@ -293,24 +293,21 @@ class HomeActivity : BaseActivity() {
     private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
         mPromotionBanner = promotionBanner
 
-        val builder: Dialog = Dialog(this)
-        val inflater: LayoutInflater = this.getLayoutInflater()
+      /*  val builder: Dialog = Dialog(this)
+        val inflater: LayoutInflater = this.layoutInflater
         val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
         val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
         Picasso.with(this).load(promotionBanner.image).into(image)
-        image.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                // Do some work here
-                val navigate = Intent(this@HomeActivity,ProductDetailsActivity::class.java);
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
-                startActivity(navigate)
-                builder.dismiss()
-            }
-        })
+        image.setOnClickListener { // Do some work here
+            val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
+            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
+            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+            startActivity(navigate)
+            builder.dismiss()
+        }
         builder.setContentView(vg)
-        builder.show()
+        builder.show()*/
     }
 
 }

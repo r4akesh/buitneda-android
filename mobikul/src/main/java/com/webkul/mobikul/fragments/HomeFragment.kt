@@ -1,11 +1,10 @@
-    package com.webkul.mobikul.fragments
+package com.webkul.mobikul.fragments
 
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -23,6 +22,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,30 +41,36 @@ import com.webkul.mobikul.models.homepage.Carousel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
+import com.webkul.mobikul.view_model.ViewModel
 import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
 import io.github.inflationx.calligraphy3.TypefaceUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-    class HomeFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     lateinit var mContentViewBinding: FragmentHomeBinding
     private var mBannerSwitcherTimerList: ArrayList<Timer> = ArrayList()
     var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
     var mPageNumber: Int = 1
     var mResendTimer: CountDownTimer? = null
+    private var viewModel: ViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 //        HomeActivity.mContentViewBinding.bottomAppCl.visibility=View.VISIBLE
 //        HomeActivity.mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked = true
-
+        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         setHasOptionsMenu(true)
         startInitialization()
         mContentViewBinding.loading = true
@@ -92,13 +98,13 @@ import kotlin.collections.ArrayList
         val drawable = resources.getDrawable(R.drawable.whatsapp)
         val bitmap = (drawable as BitmapDrawable).bitmap
         val newdrawable: Drawable = BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))
-        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(newdrawable);
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(newdrawable)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
-        when (item.getItemId()) {
+        when (item.itemId) {
             android.R.id.home -> {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setPackage("com.whatsapp")
@@ -117,6 +123,7 @@ import kotlin.collections.ArrayList
         }
         return super.onOptionsItemSelected(item)
     }
+
     private fun initSwipeRefresh() {
 
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
@@ -134,9 +141,10 @@ import kotlin.collections.ArrayList
         if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null) {
             (context as HomeActivity).mHomePageDataModel = arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
 
-            activity?.runOnUiThread({
-                onSuccessfulResponse(arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
-            })
+             activity?.runOnUiThread {
+                 onSuccessfulResponse(arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
+             }
+
 
 //            Handler().postDelayed(Runnable {
 //
@@ -212,17 +220,25 @@ import kotlin.collections.ArrayList
         mHomePageDataModel = homePageDataModel
         if (homePageDataModel != null && context != null) {
 //            (context as HomeActivity).mHomePageDataModel = homePageDataModel
-            activity?.runOnUiThread({
+            /* activity?.runOnUiThread({
+                 setAppSharedPrefConfigDetails()
+             })
+
+             activity?.runOnUiThread({
+                 initLayout()
+             })
+
+             activity?.runOnUiThread({
+                 (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
+             })*/
+
+            activity?.runOnUiThread {
                 setAppSharedPrefConfigDetails()
-            })
-
-            activity?.runOnUiThread({
                 initLayout()
-            })
-
-            activity?.runOnUiThread({
                 (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-            })
+            }
+
+
 //            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
             if ((activity as HomeActivity).mTopSellingHomePageDataModel == null)
                 TopCategoriesListRv()
@@ -259,7 +275,7 @@ import kotlin.collections.ArrayList
                         response.message,
                         false,
                         getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                        { dialogInterface: DialogInterface, _: Int ->
                             dialogInterface.dismiss()
                             Utils.logoutAndGoToHome(context!!)
                         }, "", null)
@@ -310,7 +326,10 @@ import kotlin.collections.ArrayList
 
 //        setupCategoriesRv()
         /* Init Carousel Layout */
-        setupCarouselsLayout()
+        activity?.runOnUiThread {
+            setupCarouselsLayout()
+        }
+
 
         /* Init Recently Viewed Carousel Layout */
 //        setupRecentlyViewedCarouselsLayout()
@@ -348,7 +367,10 @@ import kotlin.collections.ArrayList
         mHomePageDataModel.carousel?.add(bannerImage)
 
 //top banner with search
-        setupOfferBannerRv(bannerImage)
+        activity?.runOnUiThread {
+            setupOfferBannerRv(bannerImage)
+        }
+
 
 /* val category = Carousel()
 category.id = "brandlist"
@@ -479,6 +501,7 @@ setupFeaturesCategoriesRv(category)*/
             }
         }
     }
+
     fun getSortedCarouselsData(sortOrder: ArrayList<SortOrder>?): List<SortOrder> {
         val sortedOrder = ArrayList<SortOrder>()
         sortOrder?.forEach { indexJ ->
@@ -500,7 +523,10 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     private fun addProductCarousel(carousel: Carousel) {
-        loadCarouselFirstLayout(carousel)
+        activity?.runOnUiThread({
+            loadCarouselFirstLayout(carousel)
+        })
+
 
     }
 
@@ -527,8 +553,8 @@ setupFeaturesCategoriesRv(category)*/
         if (carousel.timerTimeStamp != 0)
             startTimer(carousel.timerTimeStamp * 1000)
         var layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
-        if (carousel.productList!!.size >= 3){
-            layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().getDisplayMetrics().widthPixels / 4)
+        if (carousel.productList!!.size >= 3) {
+            layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().displayMetrics.widthPixels / 4)
         }
 //        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)//GridLayoutManager(context!!,4)
         productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = layoutManager //GridLayoutManager(context!!,4)
@@ -593,9 +619,9 @@ setupFeaturesCategoriesRv(category)*/
             val productCarouselFirstLayoutBinding = DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(layoutInflater, R.layout.product_carousel_first_layout, mContentViewBinding.carouselsLayout, false)
             productCarouselFirstLayoutBinding.data = carousel
             productCarouselFirstLayoutBinding.handler = HomePageProductCarouselHandler(activity as BaseActivity)
-            if (carousel.productList!!.size >= 3){
+            if (carousel.productList!!.size >= 3) {
                 var layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
-                layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().getDisplayMetrics().widthPixels / 4)
+                layoutManager.scrollToPositionWithOffset(1, Resources.getSystem().displayMetrics.widthPixels / 4)
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = layoutManager
             }
             if (carousel.productList!!.size > 4)
@@ -753,6 +779,10 @@ setupFeaturesCategoriesRv(category)*/
                         onErrorResponse(e)
                     }
                 })
+
+
+
+
     }
 
     var count = 0
@@ -780,7 +810,7 @@ setupFeaturesCategoriesRv(category)*/
                             && lastCompletelyVisibleItemPosition > categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size - 4) {
                         mContentViewBinding.progressBar = true
                         ++mPageNumber
-                        callTopApi()
+                        //callTopApi()
                     }
                 }
             })
@@ -823,9 +853,9 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private inner class BannerSwitchTimerTask internal constructor(private val mViewPager: ViewPager, private val mBannerSize: Int) : TimerTask() {
+    private inner class BannerSwitchTimerTask(private val mViewPager: ViewPager, private val mBannerSize: Int) : TimerTask() {
 
-        internal var firstTime = true
+        var firstTime = true
 
         override fun run() {
             try {
@@ -844,6 +874,8 @@ setupFeaturesCategoriesRv(category)*/
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+
         }
     }
 

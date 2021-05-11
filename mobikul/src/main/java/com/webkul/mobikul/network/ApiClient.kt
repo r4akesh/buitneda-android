@@ -1,6 +1,7 @@
 package com.webkul.mobikul.network
 
 import android.util.Log
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.webkul.mobikul.helpers.ApplicationConstants
 import com.webkul.mobikul.helpers.ApplicationConstants.BASE_URL
 import com.webkul.mobikul.helpers.AuthKeyHelper
@@ -10,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.Buffer
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.UnsupportedEncodingException
 import java.net.CookieManager
@@ -45,6 +47,15 @@ class ApiClient {
                         .build()
             }
             return sRetrofitClient
+        }
+
+        fun makeRetrofitService(): ApiDetails {
+            return Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(getOkHttpClientBuilder().build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                    .build().create(ApiDetails::class.java)
         }
 
         private fun getOkHttpClientBuilder(): OkHttpClient.Builder {
