@@ -27,8 +27,8 @@ import com.webkul.mobikulmp.adapters.SellerProductSamplesRvAdapter
 class SellerProductSamplesRvHandler(private val mContext: SellerAddProductActivity) {
 
     fun onClickShowHide(position: Int) {
-        (mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList[position]
-                .isExpended = !(mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList[position].isExpended
+        /*(mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList[position]
+                .isExpended = !(mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList[position].isExpended*/
     }
 
     fun onClickDeleteItem(position: Int) {
@@ -39,8 +39,8 @@ class SellerProductSamplesRvHandler(private val mContext: SellerAddProductActivi
                 false,
                 mContext.getString(R.string.yes),
                 DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    (mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList.removeAt(position)
-                    (mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).notifyDataSetChanged()
+                   // (mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).itemList.removeAt(position)
+                   // (mContext.mContentViewBinding.samplesRv.adapter as SellerProductSamplesRvAdapter).notifyDataSetChanged()
                     dialogInterface.dismiss()
                 }
                 , mContext.getString(R.string.close)

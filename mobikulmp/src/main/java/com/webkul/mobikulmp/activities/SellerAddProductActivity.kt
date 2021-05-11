@@ -192,16 +192,16 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
 
     private fun startInitialization() {
         setupSelectedProductCategories()
-        setupAttributeSetSpinner()
-        setupProductTypeSpinner()
+       // setupAttributeSetSpinner()
+       // setupProductTypeSpinner()
         setupSkuChangeListener()
-        setupStockAvailabilitySpinner()
-        setupVisibilitySpinner()
-        setupTaxClassSpinner()
+       // setupStockAvailabilitySpinner()
+       // setupVisibilitySpinner()
+        //setupTaxClassSpinner()
         updateBaseImage()
         setupProductImages()
-        setupDownloadableData()
-        setupFeatureSp()
+       // setupDownloadableData()
+       // setupFeatureSp()
         setupRichTextBox()
         if (mProductId == null) {
             mSellerAddProductResponseData?.productData?.setProductHasWeight(true)
@@ -234,11 +234,11 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
 
     }
 
-    private fun setupFeatureSp() {
+   /* private fun setupFeatureSp() {
         mContentViewBinding.mobikulFeatureSp.adapter = ArrayAdapter(this, R.layout.custom_spinner_item, resources.getStringArray(R.array.mobikul_feature))
-    }
+    }*/
 
-    private fun setupAttributeSetSpinner() {
+   /* private fun setupAttributeSetSpinner() {
         val attributeNames = ArrayList<String>()
         for (noOfCountries in 0 until mSellerAddProductResponseData!!.allowedAttributes!!.size) {
             attributeNames.add(mSellerAddProductResponseData!!.allowedAttributes!![noOfCountries].label!!)
@@ -261,9 +261,9 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
             }
             false
         }
-    }
+    }*/
 
-    private fun setupProductTypeSpinner() {
+   /* private fun setupProductTypeSpinner() {
         val productTypeNames = ArrayList<String>()
         for (noOfType in 0 until mSellerAddProductResponseData!!.allowedTypes!!.size) {
             productTypeNames.add(mSellerAddProductResponseData!!.allowedTypes!![noOfType].label!!)
@@ -297,7 +297,7 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
             }
             false
         }
-    }
+    }*/
 
 
     private fun setupSkuChangeListener() {
@@ -332,7 +332,7 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
         }
     }
 
-    private fun setupStockAvailabilitySpinner() {
+   /* private fun setupStockAvailabilitySpinner() {
         val stockAvailabilityNames = ArrayList<String>()
         for (noOfStockItems in 0 until mSellerAddProductResponseData!!.inventoryAvailabilityOptions!!.size) {
             stockAvailabilityNames.add(mSellerAddProductResponseData!!.inventoryAvailabilityOptions!![noOfStockItems].label!!)
@@ -356,9 +356,9 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
             }
             false
         }
-    }
+    }*/
 
-    private fun setupVisibilitySpinner() {
+  /*  private fun setupVisibilitySpinner() {
         val visibilityOptions = ArrayList<String>()
         visibilityOptions.add(getString(R.string.please_select_visibility))
         for (noOfVisibilityItems in 0 until mSellerAddProductResponseData!!.visibilityOptions!!.size) {
@@ -378,17 +378,17 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
 
             }
         }
-        mContentViewBinding.visibilitySp.setSelection(mSellerAddProductResponseData!!.selectedVisibility)
+        //mContentViewBinding.visibilitySp.setSelection(mSellerAddProductResponseData!!.selectedVisibility)
 
-        mContentViewBinding.visibilitySp.setOnTouchListener { v, event ->
+       *//* mContentViewBinding.visibilitySp.setOnTouchListener { v, event ->
             if (event?.action == MotionEvent.ACTION_UP) {
                 Utils.hideKeyboard(this@SellerAddProductActivity)
             }
             false
-        }
-    }
+        }*//*
+    }*/
 
-    private fun setupTaxClassSpinner() {
+   /* private fun setupTaxClassSpinner() {
         val taxClassNames = ArrayList<String>()
         taxClassNames.add(getString(R.string.none))
         for (noOfTaxClasses in 0 until mSellerAddProductResponseData!!.taxOptions!!.size) {
@@ -416,9 +416,9 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
             }
             false
         }
-    }
+    }*/
 
-    private fun setupDownloadableData() {
+   /* private fun setupDownloadableData() {
         if ((mSellerAddProductResponseData!!.productData?.linkData != null && mSellerAddProductResponseData!!.productData?.linkData!!.isNotEmpty()) || (mSellerAddProductResponseData!!.productData?.sampleData != null && mSellerAddProductResponseData!!.productData?.sampleData!!.isNotEmpty())) {
             mSellerAddProductResponseData!!.productData!!.isDownloadableProduct = true
         }
@@ -438,7 +438,7 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
         mContentViewBinding.samplesRv.adapter = SellerProductSamplesRvAdapter(this, mSellerAddProductResponseData!!.productData!!.sampleData!!)
         mContentViewBinding.samplesRv.isNestedScrollingEnabled = false
 //        ItemTouchHelper(mRvItemTouchCallback).attachToRecyclerView(mContentViewBinding.samplesRv)
-    }
+    }*/
 
     fun setupProductImages() {
         val adapter = mContentViewBinding.productImageRv.adapter
@@ -552,8 +552,8 @@ class SellerAddProductActivity : BaseActivity(), ProductCategorySelectFragment.O
                                     }
                                 }
                                 mUploadType = null
-                                mContentViewBinding.linksRv.adapter!!.notifyDataSetChanged()
-                                mContentViewBinding.samplesRv.adapter!!.notifyDataSetChanged()
+                              //  mContentViewBinding.linksRv.adapter!!.notifyDataSetChanged()
+                              //  mContentViewBinding.samplesRv.adapter!!.notifyDataSetChanged()
                             } else {
                                 ToastHelper.showToast(this@SellerAddProductActivity, fileData.message)
                             }
