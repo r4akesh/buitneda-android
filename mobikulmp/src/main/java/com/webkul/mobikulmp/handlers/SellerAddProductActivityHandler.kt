@@ -212,7 +212,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
             mContext.mSellerAddProductResponseData!!.productData!!.linkData = ArrayList()
         }
         mContext.mSellerAddProductResponseData!!.productData!!.linkData!!.add(LinkDatum())
-        mContext.mContentViewBinding.linksRv.adapter?.notifyDataSetChanged()
+       // mContext.mContentViewBinding.linksRv.adapter?.notifyDataSetChanged()
     }
 
 
@@ -221,12 +221,12 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
             mContext.mSellerAddProductResponseData?.productData?.sampleData = ArrayList()
         }
         mContext.mSellerAddProductResponseData?.productData?.sampleData!!.add(SampleDatum())
-        mContext.mContentViewBinding.samplesRv.adapter?.notifyDataSetChanged()
+       // mContext.mContentViewBinding.samplesRv.adapter?.notifyDataSetChanged()
     }
 
     fun onClickSaveBtn(addProductData: AddProductData?) {
         if (addProductData!!.isFormValidated(mContext)) {
-            addProductData.status = if (mContext.mContentViewBinding.statusRadioBtnYes.isChecked) 1 else 2
+           // addProductData.status = if (mContext.mContentViewBinding.statusRadioBtnYes.isChecked) 1 else 2
 
             Utils.hideKeyboard(mContext)
             mContext.mContentViewBinding.loading = true
@@ -342,7 +342,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
     }
 
     fun onClickProductPurchaseLimitBtn() {
-        if (mContext.mContentViewBinding.productPurchaseLimitInformation.visibility == View.VISIBLE) {
+       /* if (mContext.mContentViewBinding.productPurchaseLimitInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.productPurchaseLimitInformation.visibility = View.GONE
             mContext.mContentViewBinding.productPurchaseLimitHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -352,7 +352,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.productPurchaseLimitHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 
     fun onClickStockBtn() {
@@ -369,7 +369,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
         }
     }
 
-    fun onClickWeightBtn() {
+ /*   fun onClickWeightBtn() {
         if (mContext.mContentViewBinding.weightInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.weightInformation.visibility = View.GONE
             mContext.mContentViewBinding.weightHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
@@ -381,7 +381,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
         }
-    }
+    }*/
 
     fun onClickImagesBtn() {
         if (mContext.mContentViewBinding.imagesInformation.visibility == View.VISIBLE) {
@@ -398,7 +398,7 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
     }
 
     fun onClickDownloadableBtn() {
-        if (mContext.mContentViewBinding.downloadableInformation.visibility == View.VISIBLE) {
+       /* if (mContext.mContentViewBinding.downloadableInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.downloadableInformation.visibility = View.GONE
             mContext.mContentViewBinding.downloadableHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -408,11 +408,11 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.downloadableHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 
     fun onSeoBtn() {
-        if (mContext.mContentViewBinding.seoInformation.visibility == View.VISIBLE) {
+      /*  if (mContext.mContentViewBinding.seoInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.seoInformation.visibility = View.GONE
             mContext.mContentViewBinding.seoHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -422,11 +422,11 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.seoHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 
     fun onClickRelatedProductsBtn() {
-        if (mContext.mContentViewBinding.relatedProductsInformation.visibility == View.VISIBLE) {
+      /*  if (mContext.mContentViewBinding.relatedProductsInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.relatedProductsInformation.visibility = View.GONE
             mContext.mContentViewBinding.relatedProductsHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -436,11 +436,11 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.relatedProductsHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 
     fun onClickUpSellProductsBtn() {
-        if (mContext.mContentViewBinding.upsellProductsInformation.visibility == View.VISIBLE) {
+      /*  if (mContext.mContentViewBinding.upsellProductsInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.upsellProductsInformation.visibility = View.GONE
             mContext.mContentViewBinding.upsellProductsHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -450,11 +450,11 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.upsellProductsHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 
     fun onClickCrossSellProductsBtn() {
-        if (mContext.mContentViewBinding.crossSellProductsInformation.visibility == View.VISIBLE) {
+     /*   if (mContext.mContentViewBinding.crossSellProductsInformation.visibility == View.VISIBLE) {
             mContext.mContentViewBinding.crossSellProductsInformation.visibility = View.GONE
             mContext.mContentViewBinding.crossSellProductsHeading.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(mContext, R.drawable.ic_down_arrow_grey_wrapper), null)
         } else {
@@ -464,6 +464,6 @@ class SellerAddProductActivityHandler(private val mContext: SellerAddProductActi
                 val scrollTo = mContext.mContentViewBinding.scrollView.top + mContext.mContentViewBinding.crossSellProductsHeading.top
                 mContext.mContentViewBinding.scrollView.smoothScrollTo(0, scrollTo)
             }, 200)
-        }
+        }*/
     }
 }

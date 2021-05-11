@@ -483,25 +483,25 @@ class AddProductData() : BaseModel(), Parcelable {
     fun isFormValidated(context: SellerAddProductActivity): Boolean {
         var isFormValidated = true
 
-        if (this.isDownloadableProduct)
-            isFormValidated = validateDownloadableData(context)
+       /* if (this.isDownloadableProduct)
+            isFormValidated = validateDownloadableData(context)*/
 
-        if (productHasWeight == 1 && (weight == null || weight!!.trim { it <= ' ' }.isEmpty() || java.lang.Double.parseDouble(weight?:"") <= 0)) {
+       /* if (productHasWeight == 1 && (weight == null || weight!!.trim { it <= ' ' }.isEmpty() || java.lang.Double.parseDouble(weight?:"") <= 0)) {
             context.mContentViewBinding.weightTil.error = context.getString(R.string.this_is_a_required_field)
-            Utils.showShakeError(context, context.mContentViewBinding.weightTil)
-            context.mContentViewBinding.weightEt.requestFocus()
+           // Utils.showShakeError(context, context.mContentViewBinding.weightTil)
+          //  context.mContentViewBinding.weightEt.requestFocus()
             isFormValidated = false
         } else {
-            context.mContentViewBinding.weightTil.isErrorEnabled = false
-            context.mContentViewBinding.weightTil.error = null
+            //context.mContentViewBinding.weightTil.isErrorEnabled = false
+            //context.mContentViewBinding.weightTil.error = null
         }
 
         if (visibility == null || visibility!!.trim { it <= ' ' }.isEmpty()) {
-            Utils.showShakeError(context, context.mContentViewBinding.visibilitySp)
-            context.mContentViewBinding.scrollView.smoothScrollBy(0, context.mContentViewBinding.visibilitySp.getBottom());
-            Utils.setSpinnerError(context.mContentViewBinding.visibilitySp, context.resources.getString(R.string._please_select_))
+           // Utils.showShakeError(context, context.mContentViewBinding.visibilitySp)
+            //context.mContentViewBinding.scrollView.smoothScrollBy(0, context.mContentViewBinding.visibilitySp.getBottom());
+           // Utils.setSpinnerError(context.mContentViewBinding.visibilitySp, context.resources.getString(R.string._please_select_))
             isFormValidated = false
-        }
+        }*/
 
         if (qty == null || qty!!.trim { it <= ' ' }.isEmpty()) {
             context.mContentViewBinding.stockCountTil.error = context.getString(R.string.this_is_a_required_field)
