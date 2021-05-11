@@ -141,13 +141,10 @@ class HomeFragment : Fragment() {
         if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null) {
             (context as HomeActivity).mHomePageDataModel = arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
 
-            /* activity?.runOnUiThread({
+             activity?.runOnUiThread {
                  onSuccessfulResponse(arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
-             })*/
+             }
 
-            GlobalScope.launch {
-                onSuccessfulResponse(arguments?.getParcelable(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
-            }
 
 //            Handler().postDelayed(Runnable {
 //

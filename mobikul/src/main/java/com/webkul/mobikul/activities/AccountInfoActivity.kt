@@ -121,7 +121,7 @@ class AccountInfoActivity : BaseActivity() {
                 suffixSpinnerData.add(mContentViewBinding.data!!.suffixOptions[prefixIterator])
             }
 
-            mContentViewBinding.suffixSp.adapter = ArrayAdapter<String>(this, R.layout.custom_spinner_item, suffixSpinnerData)
+            mContentViewBinding.suffixSp.adapter = ArrayAdapter(this, R.layout.custom_spinner_item, suffixSpinnerData)
             mContentViewBinding.suffixSp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                     mContentViewBinding.data!!.suffixValue = parent.selectedItem.toString()
@@ -148,7 +148,7 @@ class AccountInfoActivity : BaseActivity() {
             genderSpinnerData.add(resources.getString(R.string.female))
             genderSpinnerData.add(resources.getString(R.string.not_specified))
 
-            mContentViewBinding.genderSp.adapter = ArrayAdapter<String>(this, R.layout.custom_spinner_item, genderSpinnerData)
+            mContentViewBinding.genderSp.adapter = ArrayAdapter(this, R.layout.custom_spinner_item, genderSpinnerData)
         }
     }
 
