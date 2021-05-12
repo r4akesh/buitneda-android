@@ -28,7 +28,7 @@
             type="com.webkul.mobikul.handlers.HomeActivityHandler" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_container"
         android:background="@android:color/white"
         android:layout_width="match_parent"
@@ -41,13 +41,42 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
+        app:menu="@menu/menu_main"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+
+        <TextView
+            android:id="@+id/bellNotificationBadge"
+            android:layout_width="18dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_circle_red_bg"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="5"
+            android:textColor="@color/color_whiteBlack"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.38" />
+
+
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:ignore="PrivateResource">
 
@@ -116,5 +145,5 @@
                 android:visibility="@{safeUnbox(progressBar) ? View.VISIBLE : View.GONE}" />
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

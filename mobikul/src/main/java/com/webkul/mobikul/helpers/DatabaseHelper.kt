@@ -41,6 +41,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private val TABLE_OFFLINE_CART_DATA = "OFFLINE_CART_DATA"
     private val TABLE_RECENTLY_VIEWED_PRODUCTS = "RECENTLY_VIEWED_PRODUCTS_DATA"
     private val TABLE_RECENT_SEARCH = "RECENT_SEARCH_DATA"
+    private val TABLE_NOTIFICATION = "TABLE_NOTIFICATION"
 
     // Column Names
     private val TABLE_OFFLINE_DATA_COLUMN_ID = "id"
@@ -64,12 +65,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private val TABLE_RECENT_SEARCH_COLUMN_STORE_ID = "storeId"
     private val TABLE_RECENT_SEARCH_COLUMN_QUERY = "query"
 
+    //Notification column names
+    private val TABLE_NOTIFICATION_DATA_COLUMN_ID = "id"
+
+
+
+
+
+
+
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         // Drop older table if existed
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_OFFLINE_DATA")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_OFFLINE_CART_DATA")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECENTLY_VIEWED_PRODUCTS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECENT_SEARCH")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NOTIFICATION")
 
         // Create tables again
         onCreate(db)
@@ -104,6 +116,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "$TABLE_RECENT_SEARCH_COLUMN_STORE_ID INTEGER, " +
                 "$TABLE_RECENT_SEARCH_COLUMN_QUERY VARCHAR)"
         db?.execSQL(createRecentSearchDataTable)
+
+
+        val createNotificationDataTable = "CREATE TABLE $TABLE_NOTIFICATION (" +
+                "$TABLE_NOTIFICATION_DATA_COLUMN_ID INTEGER"
+        db?.execSQL(createNotificationDataTable)
     }
 
 
@@ -128,6 +145,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         // Insert the new row, returning the primary key value of the new row
         val newRowId = writableDatabase.insert(TABLE_OFFLINE_DATA, null, values)
     }
+
+
+
+
 
     private fun updateIntoOfflineTable(hashIdentifier: String, eTag: String, responseData: String) {
         // Create a new map of values, where column names are the keys
@@ -459,4 +480,27 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = this.writableDatabase
         db.execSQL("DELETE FROM $TABLE_RECENT_SEARCH")
     }
+
+
+    /*functions for the notification*/
+
+
+    fun addOrUpdateIntoNotificationTable(id: Int) {
+        val cursor = writableDatabase.rawQuery("SELECT * FROM $TABLE_NOTIFICATION", null)
+        if (cursor.count == 0)
+            insertInfoNotificationTable(id)
+        else
+            //updateIntoOfflineTable(hashIdentifier, eTag, responseData)
+        cursor.close()
+    }
+
+    //insert into the notification
+    private fun insertInfoNotificationTable(id: Int) {
+        // Create a new map of values, where column names are the keys
+        val values = ContentValues()
+        values.put(TABLE_NOTIFICATION_DATA_COLUMN_ID, id)
+        // Insert the new row, returning the primary key value of the new row
+        val newRowId = writableDatabase.insert(TABLE_NOTIFICATION, null, values)
+    }
+
 }

@@ -15,8 +15,13 @@ package com.webkul.mobikul.handlers
 
 import android.content.Intent
 import android.view.View
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.activities.CatalogActivity
 import com.webkul.mobikul.activities.OtherNotificationActivity
+import com.webkul.mobikul.adapters.RecentSearchesAdapter
+import com.webkul.mobikul.helpers.AppSharedPref
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE
@@ -32,8 +37,11 @@ import com.webkul.mobikul.models.extra.NotificationList
 
 class NotificationActivityHandler {
 
+
     fun onClickNotification(view: View, notificationList: NotificationList) {
         val intent: Intent?
+
+
         when (notificationList.notificationType) {
             "product" -> {
                 intent = (view.context?.applicationContext as MobikulApplication).getProductDetailsActivity(view.context!!)

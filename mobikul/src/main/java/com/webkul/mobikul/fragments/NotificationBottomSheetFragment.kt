@@ -28,6 +28,8 @@ import com.webkul.mobikul.helpers.AlertDialogHelper
 import com.webkul.mobikul.helpers.AppSharedPref
 import com.webkul.mobikul.helpers.NetworkHelper
 import com.webkul.mobikul.helpers.Utils
+import com.webkul.mobikul.interfaces.OnNotificationListener
+import com.webkul.mobikul.models.extra.NotificationList
 import com.webkul.mobikul.models.extra.NotificationListResponseModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
@@ -35,7 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class NotificationBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
+class NotificationBottomSheetFragment(private val notificationListener: OnNotificationListener) : FullScreenBottomSheetDialogFragment(), OnNotificationListener {
 
     lateinit var mContentViewBinding: FragmentNotificationBottomSheetBinding
 
@@ -95,7 +97,7 @@ class NotificationBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             fragmentTransaction.commitAllowingStateLoss()
         } else {
             mContentViewBinding.notificationListRv.visibility = View.VISIBLE
-            mContentViewBinding.notificationListRv.adapter = NotificationListRvAdapter(context!!, notificationListResponseModel.notificationList)
+            mContentViewBinding.notificationListRv.adapter = NotificationListRvAdapter(context!!, notificationListResponseModel.notificationList,this)
         }
     }
 
@@ -137,5 +139,9 @@ class NotificationBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                 dismiss()
             })
         }
+    }
+
+    override fun onNotificationClick(notificationModel: NotificationList) {
+        notificationListener.onNotificationClick(notificationModel)
     }
 }

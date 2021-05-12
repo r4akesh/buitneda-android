@@ -82,7 +82,7 @@ class CategoryPageFragment(var mcategories: ArrayList<Category>?) : FullScreenBo
     }
 
     private fun onSuccessfulResponse(data: Category) {
-        mBinding!!.category2.setAdapter(ItemSubCategoryListAdapter(this, data?.subCategories!!))
+        mBinding.category2.adapter = ItemSubCategoryListAdapter(this, data.subCategories!!)
 
 
     }

@@ -41,7 +41,7 @@ class NotificationList {
 
     @JsonProperty("categoryName")
 
-    var categoryName: String = ""
+    var categoryName: String? = ""
 
     @JsonProperty("categoryId")
 
@@ -64,6 +64,7 @@ class NotificationList {
     var banner: String = ""
 
     @JsonProperty("dominantColor")
-
     val dominantColor: String = ""
+
+    var isRead:Boolean = false
 }

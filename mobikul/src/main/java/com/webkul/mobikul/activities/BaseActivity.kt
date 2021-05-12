@@ -46,12 +46,14 @@ import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.CAMERA_SEARCH_HELPER
 import com.webkul.mobikul.helpers.ConstantsHelper.RC_CAMERA_SEARCH
 import com.webkul.mobikul.helpers.ConstantsHelper.RC_VOICE
+import com.webkul.mobikul.interfaces.OnNotificationListener
 import com.webkul.mobikul.models.BaseModel
+import com.webkul.mobikul.models.extra.NotificationList
 import com.webkul.mobikul.network.ApiClient
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkStateReceiverListener {
+open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkStateReceiverListener, OnNotificationListener {
 
     var mBadge: View? = null
 
@@ -76,7 +78,6 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         super.onCreate(savedInstanceState)
         setToolbarUpView()
         mDataBaseHandler = DatabaseHelper(this)
-
         mNetworkStateReceiver = NetworkStateReceiver()
         mNetworkStateReceiver.addListener(this)
         registerReceiver(mNetworkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -95,7 +96,7 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         return true
     }
 
-    open override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
@@ -118,7 +119,7 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
                 }
             }
             R.id.menu_item_notification -> {
-                NotificationBottomSheetFragment().show(supportFragmentManager, NotificationBottomSheetFragment::class.java.simpleName)
+                NotificationBottomSheetFragment(this).show(supportFragmentManager, NotificationBottomSheetFragment::class.java.simpleName)
             }
             R.id.menu_item_cart -> {
                 CartBottomSheetFragment().show(supportFragmentManager, CartBottomSheetFragment::class.java.simpleName)
@@ -141,12 +142,15 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
     fun updateBadge() {
+
         if (AppSharedPref.getCartCount(this) > 0) {
             addBadge()
         } else {
             removeBadge()
         }
     }
+
+
 
     fun addBadge() {
         mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.visibility = View.VISIBLE
@@ -282,5 +286,9 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
                 openScanner(ConstantsHelper.RC_QR_LOGIN)
             }
         }
+    }
+
+    override fun onNotificationClick(notificationModel: NotificationList) {
+        mDataBaseHandler.addOrUpdateIntoNotificationTable(notificationModel.id.toInt())
     }
 }

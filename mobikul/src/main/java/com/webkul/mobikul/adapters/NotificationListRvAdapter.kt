@@ -22,20 +22,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemNotificationListBinding
 import com.webkul.mobikul.handlers.NotificationActivityHandler
+import com.webkul.mobikul.interfaces.OnNotificationListener
 import com.webkul.mobikul.models.extra.NotificationList
 
-class NotificationListRvAdapter(private val mContext: Context, private val mListData: ArrayList<NotificationList>) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>() {
+class NotificationListRvAdapter(private val mContext: Context,
+                                private val mListData: ArrayList<NotificationList>,
+                                private val onNotificationListener: OnNotificationListener
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): NotificationListRvAdapter.ViewHolder {
+                                ) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.item_notification_list, p0, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: NotificationListRvAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = NotificationActivityHandler()
         holder.mBinding?.executePendingBindings()
+        holder.itemView.setOnClickListener { onNotificationListener.onNotificationClick(eachListData) }
     }
 
     override fun getItemCount(): Int {

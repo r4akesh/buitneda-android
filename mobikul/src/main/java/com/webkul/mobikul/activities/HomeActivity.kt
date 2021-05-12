@@ -1,24 +1,17 @@
 package com.webkul.mobikul.activities
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.squareup.picasso.Picasso
 import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityHomeBinding
@@ -57,8 +50,7 @@ class HomeActivity : BaseActivity() {
         startInitialization()
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
-
-        callApi();
+        callApi()
 
     }
 
@@ -282,10 +274,6 @@ class HomeActivity : BaseActivity() {
                         }
                     }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-//                        onErrorResponse(e)
-                    }
                 })
     }
 
@@ -293,21 +281,21 @@ class HomeActivity : BaseActivity() {
     private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
         mPromotionBanner = promotionBanner
 
-      /*  val builder: Dialog = Dialog(this)
-        val inflater: LayoutInflater = this.layoutInflater
-        val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
-        val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
-        Picasso.with(this).load(promotionBanner.image).into(image)
-        image.setOnClickListener { // Do some work here
-            val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
-            startActivity(navigate)
-            builder.dismiss()
-        }
-        builder.setContentView(vg)
-        builder.show()*/
+        /*  val builder: Dialog = Dialog(this)
+          val inflater: LayoutInflater = this.layoutInflater
+          val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
+          val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
+          Picasso.with(this).load(promotionBanner.image).into(image)
+          image.setOnClickListener { // Do some work here
+              val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
+              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
+              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+              startActivity(navigate)
+              builder.dismiss()
+          }
+          builder.setContentView(vg)
+          builder.show()*/
     }
 
 }
