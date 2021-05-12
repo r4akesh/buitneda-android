@@ -430,7 +430,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.mobileVisible ? View.VISIBLE : View.VISIBLE}"
+                        android:visibility="@{data.mobileVisible ? View.VISIBLE : View.GONE}"
                         app:hintWithAsterisk="@{@string/mobile}">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -445,8 +445,9 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/shop_url"
+                        android:id="@+id/nif_number"
                         style="@style/CustomTilStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -456,15 +457,15 @@
                         android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
                         app:hintWithAsterisk="@{@string/nif_number}">
 
-<!--                        app:helperText="@string/shop_url_desc"-->
+                        <!--                        app:helperText="@string/shop_url_desc"-->
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/shop_url_et"
+                            android:id="@+id/nif_number_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textWebEditText"
                             android:maxLines="1"
-                            android:text="@={data.shopURL}"
+                            android:text="@={data.nifNumber}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/actionBarItemsColor"
                             android:textSize="@dimen/text_size_small" />
@@ -514,6 +515,33 @@
                             android:text="@={data.confirmPassword}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/text_color_primary"
+                            android:textSize="@dimen/text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shop_url"
+                        style="@style/CustomTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
+                        app:hintWithAsterisk="@{@string/shop_url}">
+
+                        <!--                        app:helperText="@string/shop_url_desc"-->
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/shop_url_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textWebEditText"
+                            android:maxLines="1"
+                            android:text="@={data.shopURL}"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/actionBarItemsColor"
                             android:textSize="@dimen/text_size_small" />
 
                     </com.google.android.material.textfield.TextInputLayout>

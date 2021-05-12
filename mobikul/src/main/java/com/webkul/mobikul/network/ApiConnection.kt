@@ -253,6 +253,7 @@ class ApiConnection {
                     , signUpFormModel.pictureURL?.trim()
                     , signUpFormModel.isSocial
                     , signUpFormModel.mobile?.trim()
+                    , signUpFormModel.nifNumber?.trim()
                     , AppSharedPref.getFcmToken(context)
                     , signUpFormModel.shopURL
                     , if (signUpFormModel.signUpAsSeller) 1 else 0

@@ -332,6 +332,7 @@ interface ApiDetails {
                @Field("pictureURL") pictureURL: String?,
                @Field("isSocial") isSocial: Int,
                @Field("mobile") mobile: String?,
+               @Field("nif") nifNumber: String?,
                @Field("token") token: String?,
                @Field("shopUrl") shopURL: String?,
                @Field("becomeSeller") becomeSeller: Int?,

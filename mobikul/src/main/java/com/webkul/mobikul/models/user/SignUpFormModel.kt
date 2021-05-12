@@ -121,6 +121,7 @@ class SignUpFormModel : BaseModel() {
     var mobile :String ?= ""
     var isSocial: Int = 0
     var shopURL :String ?= ""
+    var nifNumber :String ?= ""
     var shopName :String ?= ""
     var orderId:String ?=""
 
@@ -201,7 +202,20 @@ class SignUpFormModel : BaseModel() {
             } else {
                 fragmentContext.mContentViewBinding.shopUrl.error = null
             }
+
+            if (nifNumber?.trim().isNullOrEmpty()) {
+                fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+                fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.context?.resources?.getString(R.string.nif_number) + " " + fragmentContext.context?.getString(R.string.is_required)
+                isFormValidated = false
+            } else if (!Utils.validateUrlForSpecialCharacter(nifNumber!!)) {
+                fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+                fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.nif_number)
+                isFormValidated = false
+            } else {
+                fragmentContext.mContentViewBinding.nifNumber.error = null
+            }
         }
+
         /* Checking Mobile */
         if (isMobileVisible && isMobileRequired) {
             if (mobile.isNullOrEmpty()) {

@@ -93,6 +93,8 @@ class SignUpBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                         super.onNext(signUpFormModel)
                         mContentViewBinding.loading = false
                         if (signUpFormModel.success) {
+                            signUpFormModel.isMobileRequired = true
+                            signUpFormModel.isMobileVisible = true
                             onSuccessfulResponse(signUpFormModel)
                         }
                     }

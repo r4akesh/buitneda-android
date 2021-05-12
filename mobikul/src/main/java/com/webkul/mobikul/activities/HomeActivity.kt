@@ -298,14 +298,29 @@ class HomeActivity : BaseActivity() {
         val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
         val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
         Picasso.with(this).load(promotionBanner.image).into(image)
-        image.setOnClickListener { // Do some work here
-            val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-            navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
-            startActivity(navigate)
-            builder.dismiss()
-        }
+        image.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                // Do some work here
+                if(promotionBanner.type?.equals("0")!!){
+                    val navigate = Intent(this@HomeActivity,ProductDetailsActivity::class.java)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+                    startActivity(navigate)
+                } else{
+                    val navigate = Intent(this@HomeActivity,CatalogActivity::class.java)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE, BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CATEGORY)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE, promotionBanner.title)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_CATALOG_ID, promotionBanner.category_product_id)
+                    startActivity(navigate)
+
+                }
+
+
+
+                builder.dismiss()
+            }
+        })
         builder.setContentView(vg)
         builder.show()*/
     }
