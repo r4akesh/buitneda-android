@@ -126,7 +126,7 @@ class MyOrdersActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(android.R.id.content
-                , EmptyFragment.newInstance("empty_order_list.json", getString(R.string.empty_order_list), getString(R.string.add_item_to_your_order_list_now), false)
+                , EmptyFragment.newInstance("empty_order_list.json", getString(R.string.empty_order_list), getString(R.string.add_item_to_your_order_list_now), false,"")
                 , EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }

@@ -112,7 +112,7 @@ class MyDownloadableProductsActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(android.R.id.content
-                , EmptyFragment.newInstance("empty_downloadable_list.json", getString(R.string.empty_downloadable_products_list), getString(R.string.your_didnt_purchase_any_downloadable_product_yet), false)
+                , EmptyFragment.newInstance("empty_downloadable_list.json", getString(R.string.empty_downloadable_products_list), getString(R.string.your_didnt_purchase_any_downloadable_product_yet), false,"")
                 , EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }

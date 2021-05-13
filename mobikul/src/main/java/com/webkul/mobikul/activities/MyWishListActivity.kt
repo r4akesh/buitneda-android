@@ -134,7 +134,7 @@ class MyWishListActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(android.R.id.content
-                , EmptyFragment.newInstance("empty_wish_list.json", getString(R.string.empty_wishlist), getString(R.string.there_is_not_item_in_your_wishlist), false)
+                , EmptyFragment.newInstance("empty_wish_list.json", getString(R.string.empty_wishlist), getString(R.string.there_is_not_item_in_your_wishlist), false,"")
                 , EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }

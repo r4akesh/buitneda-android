@@ -92,7 +92,7 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
             mContentViewBinding.emptyLayout.visibility = View.VISIBLE
             val fragmentTransaction = childFragmentManager.beginTransaction()
             fragmentTransaction.add(R.id.empty_layout
-                    , EmptyFragment.newInstance("empty_review_list.json", getString(R.string.empty_notification), getString(R.string.your_dont_have_any_notification), false)
+                    , EmptyFragment.newInstance("empty_review_list.json", getString(R.string.empty_notification), getString(R.string.your_dont_have_any_notification), false,"")
                     , EmptyFragment::class.java.simpleName)
             fragmentTransaction.commitAllowingStateLoss()
         } else {

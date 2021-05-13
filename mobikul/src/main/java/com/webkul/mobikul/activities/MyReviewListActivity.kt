@@ -110,7 +110,7 @@ class MyReviewListActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(android.R.id.content
-                , EmptyFragment.newInstance("empty_review_list.json", getString(R.string.empty_reviews_list), getString(R.string.your_didnt_review_any_product_yet), false)
+                , EmptyFragment.newInstance("empty_review_list.json", getString(R.string.empty_reviews_list), getString(R.string.your_didnt_review_any_product_yet), false,"")
                 , EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }

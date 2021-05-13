@@ -88,7 +88,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             if (mContentViewBinding.data!!.items.isEmpty()) {
                 val fragmentTransaction = childFragmentManager.beginTransaction()
                 fragmentTransaction.add(R.id.cart_heading
-                        , EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_cart), getString(R.string.add_item_to_your_cart_now), false)
+                        , EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_cart), getString(R.string.add_item_to_your_cart_now), false,"")
                         , EmptyFragment::class.java.simpleName)
                 fragmentTransaction.commitAllowingStateLoss()
             } else {

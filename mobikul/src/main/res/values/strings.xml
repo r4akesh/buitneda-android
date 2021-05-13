@@ -701,6 +701,8 @@
     <string name="whats_app">whatsApp</string>
     <string name="it_may_be_you_do_not_have_whats_app_number">it may be you do not have whats app number</string>
     <string name="please_install_whatsapp">please install whatsApp</string>
+    <string name="send_message">Send Message</string>
+    <string name="send_mail">Send mail</string>
 
 
 </resources>
