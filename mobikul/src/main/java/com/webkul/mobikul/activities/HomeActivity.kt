@@ -66,12 +66,8 @@ class HomeActivity : BaseActivity() {
         startInitialization()
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
-
         callApi()
         callNotificationApi()
-
-
-        callApi()
 
 
     }

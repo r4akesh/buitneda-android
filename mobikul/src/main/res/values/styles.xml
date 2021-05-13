@@ -14,6 +14,8 @@
         <item name="android:textViewStyle">@style/CustomFontStyle</item>
 
         <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
+
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

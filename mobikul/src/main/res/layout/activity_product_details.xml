@@ -43,12 +43,10 @@
     </data>
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.SplashScreenActivity">
-
 
 
         <FrameLayout
@@ -66,13 +64,10 @@
             android:scrollbars="none">
 
 
-
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -85,7 +80,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
 
 
                         <androidx.viewpager.widget.ViewPager
@@ -185,9 +179,9 @@
                         android:textSize="@dimen/text_size_medium" />
 
                     <com.webkul.mobikul.customviews.FlowLayout
+                        android:id="@+id/price_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/price_ll"
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:layout_marginEnd="@dimen/spacing_normal"
@@ -429,31 +423,7 @@
                         android:visibility="gone"
                         tools:text="Notify me when this product is in stock" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
-                        android:padding="@dimen/spacing_small"
-                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}"
-                        >
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/Montserrat-SemiBold.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:drawableTint="@color/single_star_color"
-                            android:drawableStart="@drawable/ic_notification"
-                            android:drawablePadding="@dimen/spacing_tiny"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="Notify me"
-                            android:textAllCaps="true"
-                            android:textColor="@color/single_star_color"
-                            android:textSize="@dimen/text_size_small" />
-                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -516,15 +486,14 @@
                                 android:textSize="@dimen/text_size_small" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <RelativeLayout
+                        <!--<RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:foreground="?attr/selectableItemBackground"
                             android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
                             android:padding="@dimen/spacing_small"
-                            android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.GONE : View.VISIBLE}"
-                            >
+                            android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.GONE : View.VISIBLE}">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 fontPath="fonts/Montserrat-SemiBold.ttf"
@@ -532,14 +501,41 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:drawableStart="@drawable/ic_notification"
+                                android:drawableTint="@color/single_star_color"
                                 android:drawablePadding="@dimen/spacing_tiny"
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
+
                                 android:text="Notify me"
                                 android:textAllCaps="true"
-                                android:textColor="@color/text_color_primary"
+                                android:textColor="@color/single_star_color"
                                 android:textSize="@dimen/text_size_small" />
-                        </RelativeLayout>
+                        </RelativeLayout>-->
+
+                          <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
+                        android:padding="@dimen/spacing_small"
+                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableTint="@color/single_star_color"
+                            android:drawableStart="@drawable/ic_notification"
+                            android:drawablePadding="@dimen/spacing_tiny"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Notify me"
+                            android:textAllCaps="true"
+                            android:textColor="@color/single_star_color"
+                            android:textSize="@dimen/text_size_small" />
+                    </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -738,7 +734,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/spacing_generic"
-                        android:visibility="gone"
                         android:layout_weight="1"
                         android:background="@color/colorAccent"
                         android:foreground="?attr/selectableItemBackground"
@@ -748,7 +743,8 @@
                         android:paddingBottom="@dimen/spacing_normal"
                         android:text="@string/buy_now"
                         android:textAllCaps="true"
-                        android:textColor="@color/color_whiteBlack" />
+                        android:textColor="@color/color_whiteBlack"
+                        android:visibility="gone" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -833,13 +829,10 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
-
-<!--
-                bid_info..............................................
--->
-                 <androidx.appcompat.widget.AppCompatTextView
+                <!--
+                                bid_info..............................................
+                -->
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/more_bid_information_heading"
                     fontPath="fonts/Montserrat-SemiBold.ttf"
                     android:layout_width="match_parent"
@@ -853,7 +846,7 @@
                     android:text="@string/bid_details"
                     android:textColor="@color/text_color_secondary"
                     android:textSize="@dimen/text_size_medium"
-                     android:visibility="@{data != null &amp;&amp; data.showCurrentAuctionPrice &amp;&amp; data.showAuctionDetails ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{data != null &amp;&amp; data.showCurrentAuctionPrice &amp;&amp; data.showAuctionDetails ? View.VISIBLE : View.GONE}" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/more_bid_information"
@@ -861,7 +854,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/color_whiteBlack"
                     android:orientation="vertical"
-                    android:visibility="@{data != null &amp;&amp; data.showCurrentAuctionPrice &amp;&amp; data.showAuctionDetails ? View.VISIBLE : View.GONE}" >
+                    android:visibility="@{data != null &amp;&amp; data.showCurrentAuctionPrice &amp;&amp; data.showAuctionDetails ? View.VISIBLE : View.GONE}">
 
                     <View
                         android:layout_width="match_parent"
@@ -882,11 +875,9 @@
                         tools:targetApi="lollipop" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!--
-               ////////////////////// bid_info..............................................
--->
-
-
+                <!--
+                   ////////////////////// bid_info..............................................
+    -->
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -1113,9 +1104,9 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/floating_add_to_cart_btn"
@@ -1138,7 +1129,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_generic"
-                    android:visibility="gone"
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:foreground="?attr/selectableItemBackground"
@@ -1148,7 +1138,8 @@
                     android:paddingBottom="@dimen/spacing_normal"
                     android:text="@string/buy_now"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
@@ -1165,65 +1156,66 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            android:layout_height="@dimen/app_bar_layout_size">
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_layout_size"
-            android:background="@color/colorPrimaryDark">
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
 
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottom_app_bar"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:background="@color/colorPrimaryDark"
-                app:fabCradleMargin="@dimen/spacing_large"
-                app:fabCradleRoundedCornerRadius="@dimen/spacing_large">
+                android:layout_height="@dimen/app_bar_layout_size"
+                android:background="@color/colorPrimaryDark">
 
-                <LinearLayout
+                <com.google.android.material.bottomappbar.BottomAppBar
+                    android:id="@+id/bottom_app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
                     android:background="@color/colorPrimaryDark"
-                    android:orientation="vertical">
+                    app:fabCradleMargin="@dimen/spacing_large"
+                    app:fabCradleRoundedCornerRadius="@dimen/spacing_large">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/grey_300" />
-
-                    <com.google.android.material.bottomnavigation.BottomNavigationView
-                        android:id="@+id/bottom_nav_view"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        app:itemBackground="@android:color/white"
-                        app:itemIconSize="30dp"
-                        app:itemIconTint="@drawable/btm_nav_item_selector"
-                        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-                        app:itemTextAppearanceInactive="@style/BottomNavigationView"
-                        app:itemTextColor="@drawable/bottom_nav_text"
-                        app:labelVisibilityMode="labeled"
-                        app:menu="@menu/bottom_nav_menu" />
-                </LinearLayout>
-            </com.google.android.material.bottomappbar.BottomAppBar>
+                        android:background="@color/colorPrimaryDark"
+                        android:orientation="vertical">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="@android:color/white"
-                android:backgroundTint="@android:color/white"
-                app:elevation="@dimen/spacing_zero"
-                app:layout_anchorGravity="center"
-                android:src="@drawable/bottom_home"
-                app:borderWidth="0dp"
-                app:maxImageSize="@dimen/floating_button_size" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey_300" />
+
+                        <com.google.android.material.bottomnavigation.BottomNavigationView
+                            android:id="@+id/bottom_nav_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            app:itemBackground="@android:color/white"
+                            app:itemIconSize="30dp"
+                            app:itemIconTint="@drawable/btm_nav_item_selector"
+                            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+                            app:itemTextAppearanceInactive="@style/BottomNavigationView"
+                            app:itemTextColor="@drawable/bottom_nav_text"
+                            app:labelVisibilityMode="labeled"
+                            app:menu="@menu/bottom_nav_menu" />
+                    </LinearLayout>
+                </com.google.android.material.bottomappbar.BottomAppBar>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@android:color/white"
+                    android:backgroundTint="@android:color/white"
+                    android:src="@drawable/bottom_home"
+                    app:borderWidth="0dp"
+                    app:elevation="@dimen/spacing_zero"
+                    app:layout_anchorGravity="center"
+                    app:maxImageSize="@dimen/floating_button_size" />
 
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
     </RelativeLayout>
 </layout>
