@@ -95,7 +95,7 @@ class CategoryPageFragment(var mcategories: ArrayList<Category>?) : FullScreenBo
     }
     private fun addEmptyLayout() {
         val fragmentTransaction = childFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.ll_frag, EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_product_catalog), getString(R.string.try_different_category_or_search_keyword_maybe)), EmptyFragment::class.java.simpleName)
+        fragmentTransaction.add(R.id.ll_frag, EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_product_catalog), getString(R.string.try_different_category_or_search_keyword_maybe),true,""), EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }
 

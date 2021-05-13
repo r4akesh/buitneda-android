@@ -499,6 +499,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     //insert into the notification
     private fun insertInfoNotificationTable(id: Int) {
         // Create a new map of values, where column names are the keys
+
         val values = ContentValues()
         values.put(TABLE_NOTIFICATION_DATA_COLUMN_ID, id)
         // Insert the new row, returning the primary key value of the new row

@@ -83,6 +83,45 @@
                 android:textColor="@color/text_color_primary"
                 android:textSize="@dimen/text_size_small" />
 
+
+
+            <LinearLayout
+                android:id="@+id/fromSearchTwoBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="2">
+
+
+                <Button
+                    android:id="@+id/sendMessageBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:text="@string/send_message"
+                    android:fontFamily="@font/font_montserrat"
+                    android:textSize="14sp"/>
+
+                <Button
+                    android:id="@+id/sendMailBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:text="@string/send_mail"
+                    android:fontFamily="@font/font_montserrat"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+
+
+
+
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"

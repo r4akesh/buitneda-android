@@ -110,7 +110,7 @@ class CompareProductsActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(android.R.id.content
-                , EmptyFragment.newInstance("empty_compare_list.json", getString(R.string.empty_compare_list), getString(R.string.add_item_to_your_compare_list_now), false)
+                , EmptyFragment.newInstance("empty_compare_list.json", getString(R.string.empty_compare_list), getString(R.string.add_item_to_your_compare_list_now), false,"")
                 , EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }

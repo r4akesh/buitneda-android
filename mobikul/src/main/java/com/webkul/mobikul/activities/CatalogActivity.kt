@@ -275,7 +275,7 @@ open class CatalogActivity : BaseActivity() {
 
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.catalog_product_list_layout, EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_product_catalog), getString(R.string.try_different_category_or_search_keyword_maybe)), EmptyFragment::class.java.simpleName)
+        fragmentTransaction.add(R.id.catalog_product_list_layout, EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_product_catalog), getString(R.string.try_different_category_or_search_keyword_maybe),true,""), EmptyFragment::class.java.simpleName)
         fragmentTransaction.commitAllowingStateLoss()
     }
 

@@ -69,7 +69,7 @@ open class AccountDetailsFragment : BaseFragment() {
         if (AppSharedPref.isLoggedIn(context!!)) {
             val accountRvData: ArrayList<AccountRvModel> = ArrayList()
             accountRvData.add(AccountRvModel(AccountRvModel.ORDERS, getString(R.string.orders), R.drawable.orders2))
-            accountRvData.add(AccountRvModel(AccountRvModel.SUGGESTION, "Suggestion", R.drawable.orders2))
+            accountRvData.add(AccountRvModel(AccountRvModel.SUGGESTION, "Product Not Found", R.drawable.orders2))
             if (ApplicationConstants.ENABLE_WISHLIST && AppSharedPref.isWishlistEnabled(context!!))
                 accountRvData.add(AccountRvModel(AccountRvModel.WISH_LIST, getString(R.string.wishlist), R.drawable.wish2))
 //            accountRvData.add(AccountRvModel(AccountRvModel.DOWNLOADABLE_PRODUCTS, getString(R.string.downloadable_products), R.drawable.download1))
