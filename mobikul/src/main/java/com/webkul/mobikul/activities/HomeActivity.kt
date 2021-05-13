@@ -2,9 +2,12 @@ package com.webkul.mobikul.activities
 
 
 import android.app.AlertDialog
+import android.app.Dialog
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -437,37 +440,30 @@ class HomeActivity : BaseActivity() {
 
     private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
         mPromotionBanner = promotionBanner
+        val dialog =  Dialog(this)
+        if(!dialog.isShowing){
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.home_banner_dialog_layout)
+            val image: ImageView = dialog.findViewById(R.id.dialogBanner)
+            val closeImage: ImageView = dialog.findViewById(R.id.closeBannerBtn)
+            Picasso.with(this).load(promotionBanner.image).into(image)
+            image.setOnClickListener {
+                val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
+                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+                startActivity(navigate)
+                dialog.dismiss()
+            }
 
 
-         // val builder: Dialog = Dialog(this)
+            closeImage.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+        }
 
-        /*  val builder: Dialog = Dialog(this)
-
-          val inflater: LayoutInflater = this.layoutInflater
-          val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
-          val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
-          Picasso.with(this).load(promotionBanner.image).into(image)
-
-          image.setOnClickListener { // Do some work here
-              val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
-              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
-              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-              navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
-              startActivity(navigate)
-              builder.dismiss()
-          }
-          builder.setContentView(vg)
-          builder.show()*/
-
-
-        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
-        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.home_banner_dialog_layout, viewGroup, false)
-        val image: ImageView = dialogView.findViewById(R.id.dialogBanner)
-        Picasso.with(this).load(promotionBanner.image).into(image)
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setView(dialogView)
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.show()
     }
 
 
