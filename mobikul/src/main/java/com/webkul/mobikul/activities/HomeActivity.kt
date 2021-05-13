@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
 import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityHomeBinding
@@ -425,9 +428,9 @@ class HomeActivity : BaseActivity() {
                 }
 
 
-                })
-
             })
+
+
 
     }
 
@@ -436,7 +439,7 @@ class HomeActivity : BaseActivity() {
         mPromotionBanner = promotionBanner
 
 
-         /* val builder: Dialog = Dialog(this)
+         // val builder: Dialog = Dialog(this)
 
         /*  val builder: Dialog = Dialog(this)
 
