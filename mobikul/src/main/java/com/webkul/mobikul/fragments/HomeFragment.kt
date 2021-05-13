@@ -50,7 +50,6 @@ import io.github.inflationx.calligraphy3.TypefaceUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
-import kotlinx.coroutines.*
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -171,11 +170,6 @@ class HomeFragment : Fragment() {
             (context as HomeActivity).mHomePageDataModel =
                 arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
 
-
-             GlobalScope.async {
-                 onSuccessfulResponse(arguments?.getParcelable(BUNDLE_KEY_HOME_PAGE_DATA)!!, true)
-             }
-
             activity?.runOnUiThread {
                 onSuccessfulResponse(
                     arguments?.getParcelable<HomePageDataModel>(
@@ -183,7 +177,6 @@ class HomeFragment : Fragment() {
                     )!!, true
                 )
             }
-
 
 
 //            Handler().postDelayed(Runnable {
@@ -284,18 +277,12 @@ class HomeFragment : Fragment() {
              activity?.runOnUiThread({
                  (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
              })*/
-/*
+
             activity?.runOnUiThread {
                 setAppSharedPrefConfigDetails()
                 initLayout()
                 (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-            }*/
-
-                GlobalScope.async {
-                    setAppSharedPrefConfigDetails()
-                    initLayout()
-                    (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-                }
+            }
 
 
 //            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
@@ -395,7 +382,7 @@ class HomeFragment : Fragment() {
 
 //        setupCategoriesRv()
         /* Init Carousel Layout */
-        GlobalScope.async{
+        activity?.runOnUiThread {
             setupCarouselsLayout()
         }
 
@@ -436,7 +423,7 @@ class HomeFragment : Fragment() {
         mHomePageDataModel.carousel?.add(bannerImage)
 
 //top banner with search
-        GlobalScope.async {
+        activity?.runOnUiThread {
             setupOfferBannerRv(bannerImage)
         }
 
@@ -596,7 +583,9 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     private fun addProductCarousel(carousel: Carousel) {
-        GlobalScope.async { loadCarouselFirstLayout(carousel) }
+        activity?.runOnUiThread({
+            loadCarouselFirstLayout(carousel)
+        })
 
 
     }
@@ -1067,20 +1056,7 @@ setupFeaturesCategoriesRv(category)*/
 
         override fun run() {
             try {
-                /*activity?.runOnUiThread {
-                    if (mViewPager.currentItem == mBannerSize - 1) {
-                        mViewPager.currentItem = 0
-                    } else {
-                        if (firstTime) {
-                            mViewPager.currentItem = mViewPager.currentItem
-                            firstTime = false
-                        } else {
-                            mViewPager.currentItem = mViewPager.currentItem + 1
-                        }
-                    }
-                }*/
-
-                GlobalScope.async {
+                activity?.runOnUiThread {
                     if (mViewPager.currentItem == mBannerSize - 1) {
                         mViewPager.currentItem = 0
                     } else {

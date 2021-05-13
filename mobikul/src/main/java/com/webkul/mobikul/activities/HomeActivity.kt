@@ -488,7 +488,7 @@ class HomeActivity : BaseActivity() {
 
     private fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel){
         var onNotReadSize = 0
-        GlobalScope.async{
+        runOnUiThread {
             if(mDataBaseHandler.getNotificationData().isNotEmpty()){
                 mDataBaseHandler.getNotificationData()
                 for(i in 0 until notificationListResponseModel.notificationList.size){
