@@ -28,6 +28,7 @@
         app:cardElevation="@dimen/card_elevation_high">
 
         <include
+            android:id="@+id/item_product_grid_view"
             layout="@layout/item_product_grid_view"
             app:data="@{data}"
             app:handler="@{handler}"
