@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemHorizontalScrollerProductViewBinding
 import com.webkul.mobikul.handlers.ProductTileHandler
 import com.webkul.mobikul.models.product.ProductTileData
+
 
 /**
  * Webkul Software.
@@ -24,10 +26,14 @@ import com.webkul.mobikul.models.product.ProductTileData
  * @link https://store.webkul.com/license.html
  */
 
-class ProductCarouselHorizontalRvAdapter(private val mContext: Context, private val mListData: ArrayList<ProductTileData>) : RecyclerView.Adapter<ProductCarouselHorizontalRvAdapter.ViewHolder>() {
+class ProductCarouselHorizontalRvAdapter(
+    private val mContext: Context,
+    private val mListData: ArrayList<ProductTileData>
+) : RecyclerView.Adapter<ProductCarouselHorizontalRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.item_horizontal_scroller_product_view, viewGroup, false)
+        val view = LayoutInflater.from(mContext)
+            .inflate(R.layout.item_horizontal_scroller_product_view, viewGroup, false)
         return ViewHolder(view)
     }
 
@@ -36,6 +42,27 @@ class ProductCarouselHorizontalRvAdapter(private val mContext: Context, private 
         holder.mBinding?.position = position
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)
+        //homeItemImage
+//        holder.mBinding?.itemProductGridView?.homeItemImage
+
+//        categoryFragment?.let {categoryFragmentSafe->
+//            supportFragmentManager.beginTransaction().hide(categoryFragmentSafe).commit()
+//            println("HomeActivity:: categoryFragmentSafe")
+//        } ?: run {
+//
+//        }
+
+
+        holder.mBinding?.itemProductGridView?.homeItemImage.let { safeImageView ->
+            Glide.with(mContext)
+                .load(eachListData.thumbNail)
+//            .placeholder(R.drawable.placeholder)
+                .into(safeImageView!!)
+        }
+
+
+
+
         holder.mBinding?.executePendingBindings()
     }
 
@@ -46,4 +73,12 @@ class ProductCarouselHorizontalRvAdapter(private val mContext: Context, private 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBinding: ItemHorizontalScrollerProductViewBinding? = DataBindingUtil.bind(itemView)
     }
+
+//    @BindingAdapter("bind:imageUrl")
+//    fun loadImage(view: ImageView, imageUrl: String?) {
+//        Glide.with(view.context)
+//            .load(imageUrl)
+////            .placeholder(R.drawable.placeholder)
+//            .into(view)
+//    }
 }
