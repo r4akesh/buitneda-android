@@ -30,7 +30,7 @@ import java.util.*
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 8
+        private const val DATABASE_VERSION = 9
         private const val DATABASE_NAME = "OfflineDatabase.db"
     }
 
@@ -119,8 +119,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
 
         val createNotificationDataTable = "CREATE TABLE $TABLE_NOTIFICATION (" +
-                "$TABLE_NOTIFICATION_DATA_COLUMN_ID INTEGER"
+                "$TABLE_NOTIFICATION_DATA_COLUMN_ID INTEGER)"
         db?.execSQL(createNotificationDataTable)
+
+        println("Tables are created successfully")
     }
 
 
@@ -501,6 +503,28 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         values.put(TABLE_NOTIFICATION_DATA_COLUMN_ID, id)
         // Insert the new row, returning the primary key value of the new row
         val newRowId = writableDatabase.insert(TABLE_NOTIFICATION, null, values)
+    }
+
+
+    fun getNotificationData(): ArrayList<String> {
+        val notificationList = ArrayList<String>()
+        try {
+            val selectQuery = "SELECT * FROM $TABLE_NOTIFICATION"
+
+            val db = this.writableDatabase
+            val cursor = db.rawQuery(selectQuery, null)
+
+            if (cursor.moveToLast()) {
+                do {
+                        notificationList.add(cursor.getString(0))
+                } while (cursor.moveToPrevious())
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return notificationList
     }
 
 }

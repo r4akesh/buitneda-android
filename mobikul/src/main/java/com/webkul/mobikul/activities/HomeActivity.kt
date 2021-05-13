@@ -1,17 +1,21 @@
 package com.webkul.mobikul.activities
 
+import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
 import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityHomeBinding
@@ -23,6 +27,7 @@ import com.webkul.mobikul.handlers.HomeActivityHandler
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_BOTTOM_NAV_INDEX
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
+import com.webkul.mobikul.models.extra.NotificationListResponseModel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.network.ApiConnection
@@ -30,6 +35,8 @@ import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 
 class HomeActivity : BaseActivity() {
@@ -51,6 +58,7 @@ class HomeActivity : BaseActivity() {
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
         callApi()
+        callNotificationApi()
 
     }
 
@@ -135,7 +143,7 @@ class HomeActivity : BaseActivity() {
                         .addToBackStack(HomeFragment::class.java.javaClass.simpleName)
                         .commit()
 //                }
-
+                callNotificationApi()
                 mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked = true
             }
             3 -> {
@@ -281,7 +289,7 @@ class HomeActivity : BaseActivity() {
     private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
         mPromotionBanner = promotionBanner
 
-        /*  val builder: Dialog = Dialog(this)
+         /* val builder: Dialog = Dialog(this)
           val inflater: LayoutInflater = this.layoutInflater
           val vg = inflater.inflate(R.layout.myphoto_layout, null) as ViewGroup
           val image: AppCompatImageView = vg.findViewById<View>(R.id.banner_image) as AppCompatImageView
@@ -296,6 +304,62 @@ class HomeActivity : BaseActivity() {
           }
           builder.setContentView(vg)
           builder.show()*/
+
+
+        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.home_banner_dialog_layout, viewGroup, false)
+        val image: ImageView = dialogView.findViewById(R.id.dialogBanner)
+        Picasso.with(this).load(promotionBanner.image).into(image)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+
+    private fun callNotificationApi() {
+        println("Notification api is calling>>>>>>>>>>>>")
+        mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(this))
+        ApiConnection.getNotificationsList(this, mDataBaseHandler.getETagFromDatabase((this).mHashIdentifier))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(this, false) {
+                    override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
+                        super.onNext(notificationListResponseModel)
+                        if (notificationListResponseModel.success) {
+                            onNotificationSuccessfulResponse(notificationListResponseModel)
+                        } else {
+                            onFailureResponse(notificationListResponseModel)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+
+                    }
+                })
+    }
+
+    private fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel){
+        var onNotReadSize = 0
+        GlobalScope.async{
+            if(mDataBaseHandler.getNotificationData().isNotEmpty()){
+                mDataBaseHandler.getNotificationData()
+                for(i in 0 until notificationListResponseModel.notificationList.size){
+                    for(j in 0 until mDataBaseHandler.getNotificationData().size){
+                        if(mDataBaseHandler.getNotificationData()[j]!=notificationListResponseModel.notificationList[i].id){
+                            onNotReadSize + 1
+                        }
+                    }
+                }
+
+            }else{
+                onNotReadSize = notificationListResponseModel.notificationList.size
+            }
+        }
+
+        println("Not read notification size$onNotReadSize")
+
     }
 
 }

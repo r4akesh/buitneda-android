@@ -444,13 +444,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:drawableTint="@color/single_star_color"
                             android:drawableStart="@drawable/ic_notification"
                             android:drawablePadding="@dimen/spacing_tiny"
                             android:gravity="center_vertical"
                             android:maxLines="1"
                             android:text="Notify me"
                             android:textAllCaps="true"
-                            android:textColor="@color/text_color_primary"
+                            android:textColor="@color/single_star_color"
                             android:textSize="@dimen/text_size_small" />
                     </RelativeLayout>
 
