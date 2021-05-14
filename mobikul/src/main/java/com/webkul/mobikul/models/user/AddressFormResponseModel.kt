@@ -389,7 +389,7 @@ class AddressFormResponseModel() : BaseModel() {
 //        addressData.street.add(addressData.street.get(3).trim())
 //    }
 
-    fun getAddressData(): String {
+    fun getTheAddressData(): String {
         val addressJsonData = JSONObject()
         try {
             addressJsonData.put("prefix", addressData.prefix?.trim())

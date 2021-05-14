@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mContentViewBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 //        HomeActivity.mContentViewBinding.bottomAppCl.visibility=View.VISIBLE
@@ -227,7 +227,7 @@ class HomeFragment : Fragment() {
             })
     }
 
-    open fun initIntent() {
+    fun initIntent() {
         (activity as HomeActivity).setupFragment(2)
     }
 
@@ -583,9 +583,9 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     private fun addProductCarousel(carousel: Carousel) {
-        activity?.runOnUiThread({
+        activity?.runOnUiThread {
             loadCarouselFirstLayout(carousel)
-        })
+        }
 
 
     }

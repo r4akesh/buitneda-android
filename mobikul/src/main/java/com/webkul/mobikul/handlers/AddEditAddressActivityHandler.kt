@@ -48,7 +48,7 @@ class AddEditAddressActivityHandler(val mContext: AddEditAddressActivity) {
             Utils.hideKeyboard(mContext)
             if (mContext.mNewAddressForCheckout == null) {
                 mContext.mContentViewBinding.loading = true
-                ApiConnection.saveAddress(mContext, mContext.mAddressId, addressFormResponseModel.getAddressData())
+                ApiConnection.saveAddress(mContext, mContext.mAddressId, addressFormResponseModel.getTheAddressData())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(object : ApiCustomCallback<BaseModel>(mContext, true) {
