@@ -121,7 +121,7 @@ class SignUpFormModel : BaseModel() {
     var mobile :String ?= ""
     var isSocial: Int = 0
     var shopURL :String ?= ""
-    var nifNumber :String ?= ""
+    var nifNumber :String ?= "nif"
     var shopName :String ?= ""
     var orderId:String ?=""
 

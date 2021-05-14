@@ -574,7 +574,7 @@
     <!--Become Seller-->
     <string name="sign_up_as_seller">Do you want to become Seller/Vendor?</string>
     <string name="shop_url">Shop Url</string>
-    <string name="nif_number">NIF Number</string>
+    <string name="nif_number">nif</string>
     <string name="shop_name">Shop Name</string>
     <string name="shop_url_desc">(This will be used to display your public profile)</string>
 
