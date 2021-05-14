@@ -107,8 +107,8 @@ class SplashScreenActivity : BaseActivity() {
             mUrl = data
         }
 
-        checkLocalData()
-//        callApi()
+//        checkLocalData()
+        callApi()
     }
 
     @SuppressLint("CheckResult")

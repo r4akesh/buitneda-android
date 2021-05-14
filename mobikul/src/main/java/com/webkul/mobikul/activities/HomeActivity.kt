@@ -193,25 +193,25 @@ class HomeActivity : BaseActivity() {
             }
             3 -> {
                 mContentViewBinding.bottomAppCl.visibility = View.GONE
-                if (cartBottomFragment != null){
-
-                    for (frag in supportFragmentManager.fragments){
-                        supportFragmentManager.beginTransaction().hide(frag).commit()
-                    }
-                    fragment = cartBottomFragment
-                    supportFragmentManager.beginTransaction().show(fragment!!)
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                        .setPrimaryNavigationFragment(fragment)
-//                        .setReorderingAllowed(true)
-                        .commit()
-                }else{
+//                if (cartBottomFragment != null){
+//
+//                    for (frag in supportFragmentManager.fragments){
+//                        supportFragmentManager.beginTransaction().hide(frag).commit()
+//                    }
+//                    fragment = cartBottomFragment
+//                    supportFragmentManager.beginTransaction().show(fragment!!)
+////                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+////                        .setPrimaryNavigationFragment(fragment)
+////                        .setReorderingAllowed(true)
+//                        .commit()
+//                }else{
 
                     cartBottomFragment = CartBottomSheetFragment()
                     fragment = cartBottomFragment
                     supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment!!, "Cart")
                         .addToBackStack(CartBottomSheetFragment::class.java.javaClass.simpleName)
                         .commit()
-                }
+//                }
 
 
             }
