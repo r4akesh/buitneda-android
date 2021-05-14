@@ -67,7 +67,8 @@ class SignUpBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
         callCreateFormApi()
         // Remove Space FromShop URL #556
-        mContentViewBinding.shopUrlEt.addTextChangedListener(object : TextWatcher {
+        //Remove  the Shop Url
+       /* mContentViewBinding.shopUrlEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
@@ -79,7 +80,7 @@ class SignUpBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                     mContentViewBinding.shopUrlEt.setText( mContentViewBinding.shopUrlEt.text.toString().replace(" ", ""));
                     mContentViewBinding.shopUrlEt.setSelection( mContentViewBinding.shopUrlEt.text!!.length);
                 }
-            }})
+            }})*/
     }
 
     private fun callCreateFormApi() {
@@ -95,6 +96,7 @@ class SignUpBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                         if (signUpFormModel.success) {
                             signUpFormModel.isMobileRequired = true
                             signUpFormModel.isMobileVisible = true
+                            signUpFormModel.signUpAsSeller = false
                             onSuccessfulResponse(signUpFormModel)
                         }
                     }
