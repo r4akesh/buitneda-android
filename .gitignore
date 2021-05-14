@@ -47,3 +47,16 @@ app/libs/
 Removed Files/
 libs/
 src/main/res/drawable/
+
+
+
+
+# Android Profiling
+*.hprof
+
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store

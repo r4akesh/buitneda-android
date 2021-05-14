@@ -1,7 +1,6 @@
 package com.webkul.mobikul.activities
 
 
-import android.app.AlertDialog
 import android.app.Dialog
 
 import android.content.DialogInterface
@@ -12,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -41,8 +39,6 @@ import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 
 class HomeActivity : BaseActivity() {
@@ -55,7 +51,7 @@ class HomeActivity : BaseActivity() {
 
     open var homeFragment: HomeFragment? = null
     open var categoryFragment: CategoryPageFragment? = null
-    open var cartBottomfragment:CartBottomSheetFragment? = null
+    open var cartBottomFragment:CartBottomSheetFragment? = null
     open var accountDetailsFragment:AccountDetailsFragment? = null
     open var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
     var mTopSellingHomePageDataModel: HomePageDataModel? = null
@@ -196,29 +192,22 @@ class HomeActivity : BaseActivity() {
                 mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked = true
             }
             3 -> {
-
-                if (cartBottomfragment != null){
+                mContentViewBinding.bottomAppCl.visibility = View.GONE
+                if (cartBottomFragment != null){
 
                     for (frag in supportFragmentManager.fragments){
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
-
-//                    categoryFragment?.let {categoryFragmentSafe->
-//                        supportFragmentManager.beginTransaction().hide(categoryFragmentSafe).commit()
-//                        println("HomeActivity:: categoryFragmentSafe")
-//                    } ?: run {
-//                    }
-
-                    fragment = cartBottomfragment
+                    fragment = cartBottomFragment
                     supportFragmentManager.beginTransaction().show(fragment!!)
 //                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 //                        .setPrimaryNavigationFragment(fragment)
 //                        .setReorderingAllowed(true)
                         .commit()
                 }else{
-                    mContentViewBinding.bottomAppCl.visibility = View.GONE
-                    cartBottomfragment = CartBottomSheetFragment()
-                    fragment = cartBottomfragment
+
+                    cartBottomFragment = CartBottomSheetFragment()
+                    fragment = cartBottomFragment
                     supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment!!, "Cart")
                         .addToBackStack(CartBottomSheetFragment::class.java.javaClass.simpleName)
                         .commit()
@@ -465,8 +454,8 @@ class HomeActivity : BaseActivity() {
 
     private fun callNotificationApi() {
         println("Notification api is calling>>>>>>>>>>>>")
-        mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(this))
-        ApiConnection.getNotificationsList(this, mDataBaseHandler.getETagFromDatabase((this).mHashIdentifier))
+        val mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(this))
+        ApiConnection.getNotificationsList(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(this, false) {

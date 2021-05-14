@@ -54,7 +54,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:drawableLeft="@drawable/fire"
+
                 android:drawablePadding="5dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"

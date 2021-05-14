@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/menu_item_whatsapp"
-        android:icon="@drawable/whatsapp"
+        android:icon="@drawable/ic_whatsapp"
         android:title="Whatsapp"
         android:visible="false"
         app:showAsAction="always" />

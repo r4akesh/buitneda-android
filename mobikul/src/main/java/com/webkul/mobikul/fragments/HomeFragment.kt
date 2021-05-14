@@ -115,11 +115,11 @@ class HomeFragment : Fragment() {
             ), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         (activity as AppCompatActivity).supportActionBar?.title = title
-        val drawable = resources.getDrawable(R.drawable.whatsapp)
+       /* val drawable = resources.getDrawable(R.drawable.whatsapp)
         val bitmap = (drawable as BitmapDrawable).bitmap
         val newdrawable: Drawable =
-            BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))
-        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(newdrawable)
+            BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))*/
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -489,7 +489,9 @@ setupFeaturesCategoriesRv(category)*/
 
                 when (carousel?.type) {
                     "product" -> {
+
                         if (carousel.id == "flashDeals") {
+                            carousel.label = "\uD83D\uDD25" + carousel.label
 //                            addFlashDealProduct(carousel)
                             addProductCarousel(carousel)
                         } else
