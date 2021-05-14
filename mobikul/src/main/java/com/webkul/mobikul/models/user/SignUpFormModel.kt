@@ -191,7 +191,7 @@ class SignUpFormModel : BaseModel() {
 
         /* Checking seller shop url */
         if (signUpAsSeller) {
-            if (shopURL?.trim().isNullOrEmpty()) {
+           /* if (shopURL?.trim().isNullOrEmpty()) {
                 fragmentContext.mContentViewBinding.shopUrl.requestFocus()
                 fragmentContext.mContentViewBinding.shopUrl.error = fragmentContext.context?.resources?.getString(R.string.shop_url) + " " + fragmentContext.context?.getString(R.string.is_required)
                 isFormValidated = false
@@ -201,7 +201,7 @@ class SignUpFormModel : BaseModel() {
                 isFormValidated = false
             } else {
                 fragmentContext.mContentViewBinding.shopUrl.error = null
-            }
+            }*/
 
             if (nifNumber?.trim().isNullOrEmpty()) {
                 fragmentContext.mContentViewBinding.nifNumber.requestFocus()

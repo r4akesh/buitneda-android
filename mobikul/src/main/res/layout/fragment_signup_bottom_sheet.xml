@@ -520,7 +520,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
+                   <!-- <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/shop_url"
                         style="@style/CustomTilStyle"
                         android:layout_width="match_parent"
@@ -531,7 +531,7 @@
                         android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
                         app:hintWithAsterisk="@{@string/shop_url}">
 
-                        <!--                        app:helperText="@string/shop_url_desc"-->
+                        &lt;!&ndash;                        app:helperText="@string/shop_url_desc"&ndash;&gt;
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/shop_url_et"
@@ -544,7 +544,7 @@
                             android:textColor="@color/actionBarItemsColor"
                             android:textSize="@dimen/text_size_small" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <LinearLayout
                         android:id="@+id/pass_validation_layout"
