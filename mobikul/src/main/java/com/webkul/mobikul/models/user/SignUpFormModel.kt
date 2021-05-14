@@ -204,13 +204,13 @@ class SignUpFormModel : BaseModel() {
             }*/
 
             if (nifNumber?.trim().isNullOrEmpty()) {
-                fragmentContext.mContentViewBinding.nifNumber.requestFocus()
-                fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.context?.resources?.getString(R.string.nif_number) + " " + fragmentContext.context?.getString(R.string.is_required)
-                isFormValidated = false
+               // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+              //  fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.context?.resources?.getString(R.string.nif_number) + " " + fragmentContext.context?.getString(R.string.is_required)
+                isFormValidated = true
             } else if (!Utils.validateUrlForSpecialCharacter(nifNumber!!)) {
-                fragmentContext.mContentViewBinding.nifNumber.requestFocus()
-                fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.nif_number)
-                isFormValidated = false
+               // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+               // fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.nif_number)
+                isFormValidated = true
             } else {
                 fragmentContext.mContentViewBinding.nifNumber.error = null
             }
