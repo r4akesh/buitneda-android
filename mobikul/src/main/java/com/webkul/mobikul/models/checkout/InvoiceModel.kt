@@ -8,5 +8,4 @@ import com.webkul.mobikul.models.BaseModel
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class InvoiceModel(val file_exists: Boolean,
-                   val file_url: String): BaseModel()
+class InvoiceModel(): BaseModel()

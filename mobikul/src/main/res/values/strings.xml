@@ -703,6 +703,7 @@
     <string name="please_install_whatsapp">please install whatsApp</string>
     <string name="send_message">Send Message</string>
     <string name="send_mail">Send mail</string>
+    <string name="unable_to_open_file">Unable to open file</string>
 
 
 </resources>

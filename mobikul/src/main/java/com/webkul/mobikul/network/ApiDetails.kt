@@ -985,7 +985,7 @@ interface ApiDetails {
 
 
     @GET(MOBIKUL_INVOICE)
-    fun getGeneratedInvoice(@Query("increment_id") increment_id: Int,
+    fun getGeneratedInvoice(@Query("increment_id") increment_id: String,
                        @Query("language") language: String):
             Observable<InvoiceModel>
 
