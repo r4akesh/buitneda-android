@@ -49,7 +49,7 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mContentViewBinding.handler = NotificationBottomSheetHandler(this)
+        mContentViewBinding.handler = NotificationBottomSheetHandler(this,this)
         callApi()
         checkAndLoadLocalData()
     }
@@ -143,5 +143,9 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
 
     override fun onNotificationClick(notificationModel: NotificationList) {
         notificationListener.onNotificationClick(notificationModel)
+    }
+
+    override fun onNotificationFragmentClose() {
+        notificationListener.onNotificationFragmentClose()
     }
 }

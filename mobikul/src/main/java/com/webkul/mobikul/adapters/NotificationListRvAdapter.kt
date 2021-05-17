@@ -56,4 +56,8 @@ class NotificationListRvAdapter(private val mContext: Context,
     override fun onNotificationClick(notificationModel: NotificationList) {
         onNotificationListener.onNotificationClick(notificationModel)
     }
+
+    override fun onNotificationFragmentClose() {
+
+    }
 }

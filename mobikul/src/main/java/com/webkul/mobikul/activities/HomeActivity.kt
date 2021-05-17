@@ -2,6 +2,7 @@ package com.webkul.mobikul.activities
 
 
 import android.app.Dialog
+import android.content.Context
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -63,7 +64,7 @@ class HomeActivity : BaseActivity() {
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
         callApi()
-        callNotificationApi()
+
 
 
     }
@@ -185,7 +186,6 @@ class HomeActivity : BaseActivity() {
                         .commit()
 
 //                }
-                callNotificationApi()
 
                 }
 
@@ -452,30 +452,8 @@ class HomeActivity : BaseActivity() {
     }
 
 
-    private fun callNotificationApi() {
-        println("Notification api is calling>>>>>>>>>>>>")
-        val mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(this))
-        ApiConnection.getNotificationsList(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(this, false) {
-                    override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
-                        super.onNext(notificationListResponseModel)
-                        if (notificationListResponseModel.success) {
-                            onNotificationSuccessfulResponse(notificationListResponseModel)
-                        } else {
-                            onFailureResponse(notificationListResponseModel)
-                        }
-                    }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-
-                    }
-                })
-    }
-
-    private fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel){
+    fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel){
         var onNotReadSize = 0
         runOnUiThread {
             if(mDataBaseHandler.getNotificationData().isNotEmpty()){
@@ -493,8 +471,10 @@ class HomeActivity : BaseActivity() {
             }
         }
 
-        println("Not read notification size$onNotReadSize")
+        homeFragment!!.showBadge(onNotReadSize)
 
     }
+
+
 
 }

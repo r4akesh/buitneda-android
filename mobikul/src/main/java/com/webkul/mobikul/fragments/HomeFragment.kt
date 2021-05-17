@@ -1089,4 +1089,9 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
+    fun showBadge(count:Int){
+        mContentViewBinding.bellNotificationBadge.visibility = View.VISIBLE
+        mContentViewBinding.bellNotificationBadge.text = count.toString()
+    }
+
 }
