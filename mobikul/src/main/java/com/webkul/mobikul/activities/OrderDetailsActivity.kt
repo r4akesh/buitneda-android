@@ -8,6 +8,7 @@ import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -141,7 +142,7 @@ class OrderDetailsActivity : BaseActivity() {
     }
 
     private fun setupMoreOptions() {
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             if (this::mMenuItemMoreOptions.isInitialized) {
                 mNavigationIconClickListener = NavigationIconClickListener(this,
                         mContentViewBinding.mainContainer

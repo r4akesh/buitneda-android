@@ -87,7 +87,7 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
         for (topic in DEFAULT_FCM_TOPICS) {
             pubSub.subscribeToTopic(topic)
             if (BuildConfig.DEBUG) {
-               // pubSub.subscribeToTopic(topic + "_local")
+                // pubSub.subscribeToTopic(topic + "_local")
                 pubSub.subscribeToTopic(topic + "_testing")
             }
         }
@@ -100,7 +100,12 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
         try {
             val data = remoteMessage?.data
             if (data != null && data.isNotEmpty()) {
-                val notificationId = data["id"]
+                var notificationId = "0";
+                data["id"]?.let { safe: String ->
+                    notificationId = safe
+                } ?: run {
+                    notificationId = "" + (1924..40000).random()
+                }
                 val notificationType = data["notificationType"]
                 val notificationTitle = data["title"]
                 val notificationBody = data["body"]
@@ -111,7 +116,10 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                     when (notificationType) {
                         NOTIFICATION_TYPE_PRODUCT -> {
                             if (AppSharedPref.getOfferNotificationsEnabled(this)) {
-                                intent = (applicationContext as MobikulApplication).getProductDetailsActivity(this)
+                                intent =
+                                    (applicationContext as MobikulApplication).getProductDetailsActivity(
+                                        this
+                                    )
                                 intent.putExtra(BUNDLE_KEY_PRODUCT_ID, data["productId"])
                                 intent.putExtra(BUNDLE_KEY_PRODUCT_NAME, data["productName"])
                             }
@@ -119,7 +127,10 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                         NOTIFICATION_TYPE_CATEGORY -> {
                             if (AppSharedPref.getOfferNotificationsEnabled(this)) {
                                 intent = Intent(this, CatalogActivity::class.java)
-                                intent.putExtra(BUNDLE_KEY_CATALOG_TYPE, BUNDLE_KEY_CATALOG_TYPE_CATEGORY)
+                                intent.putExtra(
+                                    BUNDLE_KEY_CATALOG_TYPE,
+                                    BUNDLE_KEY_CATALOG_TYPE_CATEGORY
+                                )
                                 intent.putExtra(BUNDLE_KEY_CATALOG_TITLE, data["categoryName"])
                                 intent.putExtra(BUNDLE_KEY_CATALOG_ID, data["categoryId"])
                             }
@@ -132,7 +143,10 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                         NOTIFICATION_TYPE_CUSTOM -> {
                             if (AppSharedPref.getOfferNotificationsEnabled(this)) {
                                 intent = Intent(this, CatalogActivity::class.java)
-                                intent.putExtra(BUNDLE_KEY_CATALOG_TYPE, BUNDLE_KEY_CATALOG_TYPE_CUSTOM_COLLECTION)
+                                intent.putExtra(
+                                    BUNDLE_KEY_CATALOG_TYPE,
+                                    BUNDLE_KEY_CATALOG_TYPE_CUSTOM_COLLECTION
+                                )
                                 intent.putExtra(BUNDLE_KEY_CATALOG_TITLE, notificationTitle)
                                 intent.putExtra(BUNDLE_KEY_CATALOG_ID, notificationId)
                             }
@@ -156,18 +170,29 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                                 intent.putExtra(BUNDLE_KEY_USER_NAME, notificationTitle)
                         }
                         NOTIFICATION_TYPE_SELLER_CHAT -> {
-                            intent = (applicationContext as MobikulApplication).getChatRelatedActivity(this)
+                            intent =
+                                (applicationContext as MobikulApplication).getChatRelatedActivity(
+                                    this
+                                )
                             intent?.putExtra("user_name", data["name"])
                             intent?.putExtra("user_id", data["customerToken"])
                             if (data.containsKey("apiKey")) {
-                                data["apiKey"]?.let { AppSharedPref.setApiKey(applicationContext, it) }
+                                data["apiKey"]?.let {
+                                    AppSharedPref.setApiKey(
+                                        applicationContext,
+                                        it
+                                    )
+                                }
                             }
                             if (data.containsKey("tokens")) {
                                 intent?.putExtra("token", data["tokens"])
                             }
                         }
                         NOTIFICATION_TYPE_SELLER_ORDER -> {
-                            intent = (applicationContext as MobikulApplication).getSellerOrderDetailsActivity(this)
+                            intent =
+                                (applicationContext as MobikulApplication).getSellerOrderDetailsActivity(
+                                    this
+                                )
                             intent?.putExtra(BUNDLE_KEY_INCREMENT_ID, data["incrementId"])
                         }
                         NOTIFICATION_TYPE_SELLER_PRODUCT_APPROVAL -> {
@@ -176,8 +201,14 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                             intent.putExtra(BUNDLE_KEY_PRODUCT_NAME, data["productName"])
                         }
                         NOTIFICATION_TYPE_SELLER_APPROVAL -> {
-                            if (AppSharedPref.isLoggedIn(this) && AppSharedPref.getCustomerToken(this) == data["sellerId"]) {
-                                intent = (applicationContext as MobikulApplication).getSellerDashboardActivity(this)
+                            if (AppSharedPref.isLoggedIn(this) && AppSharedPref.getCustomerToken(
+                                    this
+                                ) == data["sellerId"]
+                            ) {
+                                intent =
+                                    (applicationContext as MobikulApplication).getSellerDashboardActivity(
+                                        this
+                                    )
                             }
                         }
                     }
@@ -185,7 +216,14 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                 if (intent != null) {
                     intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, notificationId)
                     intent.putExtra(BUNDLE_KEY_FROM_NOTIFICATION, true)
-                    sendNotification(notificationType!!, notificationTitle!!, notificationBody!!, notificationBanner, notificationId!!.toInt(), intent)
+                    sendNotification(
+                        notificationType!!,
+                        notificationTitle!!,
+                        notificationBody!!,
+                        notificationBanner,
+                        notificationId!!.toInt(),
+                        intent
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -200,10 +238,22 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
      * @param notificationId
      * @param intent
      */
-    private fun sendNotification(notificationType: String, notificationTitle: String, notificationContent: String, banner: String?, notificationId: Int, intent: Intent) {
+    private fun sendNotification(
+        notificationType: String,
+        notificationTitle: String,
+        notificationContent: String,
+        banner: String?,
+        notificationId: Int,
+        intent: Intent
+    ) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0 /* Request code */,
+            intent,
+            PendingIntent.FLAG_ONE_SHOT
+        )
 
         val icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -228,28 +278,46 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
 
         try {
             if (banner == null || banner.isEmpty()) {
-                notificationBuilder.setStyle(NotificationCompat.BigTextStyle()
+                notificationBuilder.setStyle(
+                    NotificationCompat.BigTextStyle()
                         .bigText(notificationContent)
-                        .setBigContentTitle(notificationTitle))
+                        .setBigContentTitle(notificationTitle)
+                )
             } else {
-                notificationBuilder.setStyle(NotificationCompat.BigPictureStyle()
-                        .bigPicture(BitmapFactory.decodeStream(URL(banner).content as InputStream)))
+                notificationBuilder.setStyle(
+                    NotificationCompat.BigPictureStyle()
+                        .bigPicture(BitmapFactory.decodeStream(URL(banner).content as InputStream))
+                )
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(notificationId, notificationBuilder.build())
     }
 
     private fun addNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            val offersNotifications = NotificationChannel(NOTIFICATION_CHANNEL_OFFERS, resources.getString(R.string.offers), NotificationManager.IMPORTANCE_DEFAULT)
-            val ordersNotifications = NotificationChannel(NOTIFICATION_CHANNEL_ORDERS, resources.getString(R.string.orders), NotificationManager.IMPORTANCE_DEFAULT)
-            val abandonedCartNotifications = NotificationChannel(NOTIFICATION_CHANNEL_ABANDONED_CART, resources.getString(R.string.abandoned_cart), NotificationManager.IMPORTANCE_DEFAULT)
+            val offersNotifications = NotificationChannel(
+                NOTIFICATION_CHANNEL_OFFERS,
+                resources.getString(R.string.offers),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val ordersNotifications = NotificationChannel(
+                NOTIFICATION_CHANNEL_ORDERS,
+                resources.getString(R.string.orders),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val abandonedCartNotifications = NotificationChannel(
+                NOTIFICATION_CHANNEL_ABANDONED_CART,
+                resources.getString(R.string.abandoned_cart),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
 
             val channels = ArrayList<NotificationChannel>()
             channels.add(offersNotifications)

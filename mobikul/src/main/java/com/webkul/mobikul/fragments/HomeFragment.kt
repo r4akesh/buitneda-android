@@ -989,7 +989,8 @@ setupFeaturesCategoriesRv(category)*/
                     ) {
                         mContentViewBinding.progressBar = true
                         ++mPageNumber
-                        //callTopApi()
+                        callTopApi()
+
                     }
                 }
             })
