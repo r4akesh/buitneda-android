@@ -88,6 +88,7 @@ import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_OTHER_NOTIFICAT
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SAVE_ANDROID_TOKEN
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SEARCH_SUGGESTION
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SEARCH_TERMS_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_INVOICE
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_PRODUCT_ALERT_PRICE
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_PRODUCT_ALERT_STOCK
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_SALES_GUEST_VIEW
@@ -565,6 +566,9 @@ interface ApiDetails {
             Observable<CheckCustomerByEmailResponseData>
 
 
+
+
+
     /*
      * Extra
      */
@@ -978,5 +982,11 @@ interface ApiDetails {
     fun addBid(
             @Field("logParams") logParams: Int, @Field("logResponse") logResponse: Int, @Field("storeId") storeId: String, @Field("customerToken") customerToken: String?, @Field("proName") pro_name: String?, @Field("entityId") entity_id: String?, @Field("productId") product_id: String?, @Field("biddingAmount") bidding_amount: String?, @Field("autoAuctionOpt") auto_auction_opt: Int, @Field("autoBidAllowed") auto_bid_allowed: String?, @Field("stopAuctionTimeStamp") stop_auction_time_stamp: String?
     ): Observable<BaseModel>
+
+
+    @GET(MOBIKUL_INVOICE)
+    fun getGeneratedInvoice(@Query("increment_id") increment_id: Int,
+                       @Query("language") language: String):
+            Observable<InvoiceModel>
 
 }

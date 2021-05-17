@@ -14,25 +14,135 @@
 package com.webkul.mobikul.handlers
 
 import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.webkul.mobikul.R
 import com.webkul.mobikul.fragments.InvoicesFragment
 import com.webkul.mobikul.fragments.OrderInvoiceDetailsBottomSheetFragment
 import com.webkul.mobikul.helpers.*
+import com.webkul.mobikul.models.checkout.InvoiceModel
+import com.webkul.mobikul.network.ApiConnection
+import com.webkul.mobikul.network.ApiCustomCallback
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
 
     fun onClickViewInvoice(invoiceIncrementId: String,invoiceId:String) {
-        OrderInvoiceDetailsBottomSheetFragment.newInstance(invoiceIncrementId,invoiceId,mFragmentContext.mContentViewBinding.data!!.incrementId).show(mFragmentContext.childFragmentManager, OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName)
+       // OrderInvoiceDetailsBottomSheetFragment.newInstance(invoiceIncrementId,invoiceId,mFragmentContext.mContentViewBinding.data!!.incrementId).show(mFragmentContext.childFragmentManager, OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName)
+        callApi()
     }
 
     fun onClickSaveInvoice() {
 
     }
+
+
+
+
+    fun  callApi(){
+        val incrementId: String? = mFragmentContext.arguments?.getString(BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID)
+        val language : String? = if(AppSharedPref.getStoreId(mFragmentContext.context!!).equals("1")) "en_US" else "pt_PT"
+
+        ApiConnection.getGenerateInvoice(incrementId!!.toInt(),language!!)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<InvoiceModel>(mFragmentContext.context!!, false) {
+                override fun onNext(responseModel: InvoiceModel) {
+                    super.onNext(responseModel)
+                    downloadAndOpenPDF(responseModel.file_url)
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+
+                }
+
+
+
+            })
+    }
+
+    fun downloadAndOpenPDF(fileUrl:String) {
+        Thread {
+            val path: Uri = Uri.fromFile(downloadFile(fileUrl))
+            try {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(path, "application/pdf")
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                mFragmentContext.context!!.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                ToastHelper.showToast(mFragmentContext.context!!,"PDF Reader application is not installed in your device",Toast.LENGTH_LONG)
+
+            }
+        }.start()
+    }
+
+
+    fun downloadFile(dwnload_file_path: String?): File? {
+        var file: File? = null
+        try {
+            val url = URL(dwnload_file_path)
+            val urlConnection: HttpURLConnection = url
+                .openConnection() as HttpURLConnection
+            urlConnection.setRequestMethod("GET")
+            urlConnection.setDoOutput(true)
+
+            // connect
+            urlConnection.connect()
+
+            // set the path where we want to save the file
+            val SDCardRoot: File = Environment.getExternalStorageDirectory()
+            // create a new file, to save the downloaded file
+            file = File(SDCardRoot,"")
+            val fileOutput = FileOutputStream(file)
+
+            // Stream used for reading the data from the internet
+            val inputStream: InputStream = urlConnection.getInputStream()
+            val totalsize = urlConnection.getContentLength()
+
+
+            // create a buffer...
+            val buffer = ByteArray(1024 * 1024)
+            var bufferLength = 0
+            var downloadedSize = 0.0
+            while (inputStream.read(buffer).also { bufferLength = it } > 0) {
+                fileOutput.write(buffer, 0, bufferLength)
+                 downloadedSize += bufferLength
+                val per = downloadedSize as Float / totalsize * 100
+
+            }
+            // close the output stream when complete //
+            fileOutput.close()
+           // setText("Download Complete. Open PDF Application installed in the device.")
+        } catch (e: MalformedURLException) {
+
+        } catch (e: IOException) {
+
+        } catch (e: Exception) {
+
+        }
+        return file
+    }
+
+
+
 
 
 

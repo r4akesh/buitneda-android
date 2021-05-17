@@ -130,6 +130,7 @@ object ConstantsHelper {
     const val MOBIKUL_AUCTION_BID_LIST = "mobikulmpauction/api/AuctionbidList"
     const val MOBIKUL_AUTO_BID_LIST = "mobikulmpauction/api/AutobidList"
     const val MOBIKUL_ADD_BID = "mobikulmpauction/api/addbid"
+    const val MOBIKUL_INVOICE = "rest/V1/invoiceapi/post"
     /************************************************************
      *
      * Request Code Constants
