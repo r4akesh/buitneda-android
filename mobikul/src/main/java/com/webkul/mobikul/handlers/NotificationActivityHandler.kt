@@ -32,10 +32,11 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_C
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME
 import com.webkul.mobikul.helpers.MobikulApplication
+import com.webkul.mobikul.interfaces.OnNotificationListener
 import com.webkul.mobikul.models.extra.NotificationList
 
 
-class NotificationActivityHandler {
+class NotificationActivityHandler(val onNotificationListener: OnNotificationListener) {
 
 
     fun onClickNotification(view: View, notificationList: NotificationList) {
@@ -44,6 +45,7 @@ class NotificationActivityHandler {
 
         when (notificationList.notificationType) {
             "product" -> {
+                onNotificationListener.onNotificationClick(notificationList)
                 intent = (view.context?.applicationContext as MobikulApplication).getProductDetailsActivity(view.context!!)
                 intent.putExtra(BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, notificationList.dominantColor)
                 intent.putExtra(BUNDLE_KEY_PRODUCT_NAME, notificationList.productName)
@@ -51,6 +53,7 @@ class NotificationActivityHandler {
                 view.context.startActivity(intent)
             }
             "category" -> {
+                onNotificationListener.onNotificationClick(notificationList)
                 intent = Intent(view.context, CatalogActivity::class.java)
                 intent.putExtra(BUNDLE_KEY_CATALOG_TYPE, BUNDLE_KEY_CATALOG_TYPE_CATEGORY)
                 intent.putExtra(BUNDLE_KEY_CATALOG_TITLE, notificationList.categoryName)
@@ -58,11 +61,13 @@ class NotificationActivityHandler {
                 view.context.startActivity(intent)
             }
             "others" -> {
+                onNotificationListener.onNotificationClick(notificationList)
                 intent = Intent(view.context, OtherNotificationActivity::class.java)
                 intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, notificationList.id)
                 view.context.startActivity(intent)
             }
             "custom" -> {
+                onNotificationListener.onNotificationClick(notificationList)
                 intent = Intent(view.context, CatalogActivity::class.java)
                 intent.putExtra(BUNDLE_KEY_CATALOG_TYPE, BUNDLE_KEY_CATALOG_TYPE_CUSTOM_COLLECTION)
                 intent.putExtra(BUNDLE_KEY_CATALOG_TITLE, notificationList.title)

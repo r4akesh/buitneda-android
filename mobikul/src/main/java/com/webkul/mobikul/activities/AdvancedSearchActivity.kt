@@ -36,9 +36,7 @@ import java.util.*
 
 
 class AdvancedSearchActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityAdvancedSearchBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_advanced_search)

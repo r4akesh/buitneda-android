@@ -29,7 +29,8 @@ class NotificationListRvAdapter(private val mContext: Context,
                                 private val mListData: ArrayList<NotificationList>,
                                 private val onNotificationListener: OnNotificationListener
 
-                                ) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>() {
+                                ) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>(),
+    OnNotificationListener {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.item_notification_list, p0, false)
@@ -39,9 +40,9 @@ class NotificationListRvAdapter(private val mContext: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         holder.mBinding?.data = eachListData
-        holder.mBinding?.handler = NotificationActivityHandler()
-        holder.mBinding?.executePendingBindings()
         holder.itemView.setOnClickListener { onNotificationListener.onNotificationClick(eachListData) }
+        holder.mBinding?.handler = NotificationActivityHandler(this)
+        holder.mBinding?.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
@@ -50,5 +51,13 @@ class NotificationListRvAdapter(private val mContext: Context,
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBinding: ItemNotificationListBinding? = DataBindingUtil.bind(itemView)
+    }
+
+    override fun onNotificationClick(notificationModel: NotificationList) {
+        onNotificationListener.onNotificationClick(notificationModel)
+    }
+
+    override fun onNotificationFragmentClose() {
+
     }
 }

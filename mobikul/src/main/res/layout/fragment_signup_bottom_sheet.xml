@@ -463,7 +463,7 @@
                             android:id="@+id/nif_number_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textWebEditText"
+                            android:inputType="text"
                             android:maxLines="1"
                             android:text="@={data.nifNumber}"
                             android:textAlignment="viewStart"
