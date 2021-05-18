@@ -917,7 +917,7 @@ class ApiConnection {
             )
         }
 
-        fun getGenerateInvoice(incrementId: Int, language: String): Observable<InvoiceModel> {
+        fun getGenerateInvoice(incrementId: String, language: String): Observable<InvoiceModel> {
             return ApiClient.getClient()!!.create(ApiDetails::class.java).getGeneratedInvoice(
                 incrementId,
                 language)

@@ -14,19 +14,21 @@
 package com.webkul.mobikul.handlers
 
 import android.Manifest
-import android.content.ActivityNotFoundException
-import android.content.Intent
+import android.app.Activity
+import android.app.DownloadManager
+import android.content.*
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
 import com.webkul.mobikul.R
 import com.webkul.mobikul.fragments.InvoicesFragment
-import com.webkul.mobikul.fragments.OrderInvoiceDetailsBottomSheetFragment
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.models.checkout.InvoiceModel
 import com.webkul.mobikul.network.ApiConnection
@@ -34,12 +36,6 @@ import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 
 
 class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
@@ -60,13 +56,13 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
         val incrementId: String? = mFragmentContext.arguments?.getString(BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID)
         val language : String? = if(AppSharedPref.getStoreId(mFragmentContext.context!!).equals("1")) "en_US" else "pt_PT"
 
-        ApiConnection.getGenerateInvoice(incrementId!!.toInt(),language!!)
+        ApiConnection.getGenerateInvoice(incrementId!!,language!!)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : ApiCustomCallback<InvoiceModel>(mFragmentContext.context!!, false) {
                 override fun onNext(responseModel: InvoiceModel) {
                     super.onNext(responseModel)
-                    downloadAndOpenPDF(responseModel.file_url)
+                    downloadFile(mFragmentContext.context!!,responseModel.file_url,incrementId+".pdf")
                 }
 
                 override fun onError(e: Throwable) {
@@ -79,68 +75,104 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
             })
     }
 
-    fun downloadAndOpenPDF(fileUrl:String) {
-        Thread {
-            val path: Uri = Uri.fromFile(downloadFile(fileUrl))
-            try {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(path, "application/pdf")
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                mFragmentContext.context!!.startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                ToastHelper.showToast(mFragmentContext.context!!,"PDF Reader application is not installed in your device",Toast.LENGTH_LONG)
 
-            }
-        }.start()
-    }
-
-
-    fun downloadFile(dwnload_file_path: String?): File? {
-        var file: File? = null
+    fun downloadFile(context: Context, url: String?, fileName: String?) {
         try {
-            val url = URL(dwnload_file_path)
-            val urlConnection: HttpURLConnection = url
-                .openConnection() as HttpURLConnection
-            urlConnection.setRequestMethod("GET")
-            urlConnection.setDoOutput(true)
-
-            // connect
-            urlConnection.connect()
-
-            // set the path where we want to save the file
-            val SDCardRoot: File = Environment.getExternalStorageDirectory()
-            // create a new file, to save the downloaded file
-            file = File(SDCardRoot,"")
-            val fileOutput = FileOutputStream(file)
-
-            // Stream used for reading the data from the internet
-            val inputStream: InputStream = urlConnection.getInputStream()
-            val totalsize = urlConnection.getContentLength()
-
-
-            // create a buffer...
-            val buffer = ByteArray(1024 * 1024)
-            var bufferLength = 0
-            var downloadedSize = 0.0
-            while (inputStream.read(buffer).also { bufferLength = it } > 0) {
-                fileOutput.write(buffer, 0, bufferLength)
-                 downloadedSize += bufferLength
-                val per = downloadedSize as Float / totalsize * 100
-
+            if (url != null && !url.isEmpty()) {
+                val uri = Uri.parse(url)
+                context.registerReceiver(
+                    attachmentDownloadCompleteReceive, IntentFilter(
+                        DownloadManager.ACTION_DOWNLOAD_COMPLETE
+                    )
+                )
+                val request = DownloadManager.Request(uri)
+                request.setMimeType(getMimeType(uri.toString()))
+                request.setTitle(fileName)
+                request.setDescription("Downloading invoice..")
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+                val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                dm.enqueue(request)
             }
-            // close the output stream when complete //
-            fileOutput.close()
-           // setText("Download Complete. Open PDF Application installed in the device.")
-        } catch (e: MalformedURLException) {
-
-        } catch (e: IOException) {
-
-        } catch (e: Exception) {
-
+        } catch (e: IllegalStateException) {
+            Toast.makeText(
+                context,
+                "Please insert an SD card to download file",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        return file
     }
 
+
+    private fun getMimeType(url: String): String? {
+        var type: String? = null
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        if (extension != null) {
+            val mime = MimeTypeMap.getSingleton()
+            type = mime.getMimeTypeFromExtension(extension)
+        }
+        return type
+    }
+
+
+    var attachmentDownloadCompleteReceive: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
+                val downloadId = intent.getLongExtra(
+                    DownloadManager.EXTRA_DOWNLOAD_ID, 0
+                )
+                openDownloadedAttachment(context, downloadId)
+            }
+        }
+    }
+
+
+    private fun openDownloadedAttachment(context: Context, downloadId: Long) {
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val query = DownloadManager.Query()
+        query.setFilterById(downloadId)
+        val cursor: Cursor = downloadManager.query(query)
+        if (cursor.moveToFirst()) {
+            val downloadStatus: Int =
+                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+            val downloadLocalUri: String = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
+            val downloadMimeType: String =
+                cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE))
+            if (downloadStatus == DownloadManager.STATUS_SUCCESSFUL && downloadLocalUri != null) {
+                openDownloadedAttachment(context, Uri.parse(downloadLocalUri), downloadMimeType)
+            }
+        }
+        cursor.close()
+    }
+
+
+
+    private fun openDownloadedAttachment(context:Context,attachmentUri:Uri,attachmentMimeType:String) {
+        var attach = attachmentUri
+        if (attach != null) {
+            // Get Content Uri.
+            if (ContentResolver.SCHEME_FILE.equals(attachmentUri.getScheme())) {
+                // FileUri - Convert it to contentUri.
+                val file = File(attach.getPath());
+                attach = FileProvider.getUriForFile(context, "com.webkul.mobikul.provider", file)
+            }
+
+            val openAttachmentIntent = Intent(Intent.ACTION_VIEW);
+            openAttachmentIntent.setDataAndType(attachmentUri, attachmentMimeType);
+            openAttachmentIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            try {
+                context.startActivity(openAttachmentIntent);
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.unable_to_open_file),
+                    Toast.LENGTH_LONG
+                ).show();
+            }
+        }
+    }
 
 
 

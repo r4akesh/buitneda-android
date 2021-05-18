@@ -43,4 +43,16 @@ open class BaseModel : BaseObservable() {
     @JsonProperty("otherError")
     @JsonIgnore
     var otherError: String = ""
+
+    @JsonProperty("file_exists")
+    @JsonIgnore
+    var file_exists: Boolean = false
+
+
+    @JsonProperty("file_url")
+    @JsonIgnore
+    var file_url: String = ""
+
+
+
 }
