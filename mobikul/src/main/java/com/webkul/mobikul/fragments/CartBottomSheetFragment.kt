@@ -17,6 +17,7 @@ package com.webkul.mobikul.fragments
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,6 @@ import androidx.databinding.DataBindingUtil
 import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.activities.CheckoutActivity
-import com.webkul.mobikul.activities.HomeActivity
 import com.webkul.mobikul.adapters.CartItemsRvAdapter
 import com.webkul.mobikul.adapters.PriceDetailsRvAdapter
 import com.webkul.mobikul.adapters.ProductCarouselHorizontalRvAdapter
@@ -46,36 +46,49 @@ import retrofit2.HttpException
 class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
 
     lateinit var mContentViewBinding: FragmentCartBottomSheetBinding
+    private val TAG = "CartBottomSheetFragment"
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
+        mContentViewBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
         return mContentViewBinding.root
     }
 
     fun callApi() {
         mContentViewBinding.loading = true
-        (context as BaseActivity).mHashIdentifier = Utils.getMd5String("getCartDetails" + AppSharedPref.getStoreId(context!!) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(context!!))
-        ApiConnection.getCartDetails(context!!, BaseActivity.mDataBaseHandler.getETagFromDatabase((context as BaseActivity).mHashIdentifier))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<CartDetailsResponseModel>(context!!, true) {
-                    override fun onNext(cartDetailsResponseModel: CartDetailsResponseModel) {
-                        super.onNext(cartDetailsResponseModel)
-                        mContentViewBinding.loading = false
-                        if (cartDetailsResponseModel.success) {
-                            onSuccessfulResponse(cartDetailsResponseModel)
-                        } else {
-                            onFailureResponse(cartDetailsResponseModel)
-                        }
+        (context as BaseActivity).mHashIdentifier = Utils.getMd5String(
+            "getCartDetails" + AppSharedPref.getStoreId(context!!) + AppSharedPref.getCustomerToken(
+                context!!
+            ) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(context!!)
+        )
+        ApiConnection.getCartDetails(
+            context!!,
+            BaseActivity.mDataBaseHandler.getETagFromDatabase((context as BaseActivity).mHashIdentifier)
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<CartDetailsResponseModel>(context!!, true) {
+                override fun onNext(cartDetailsResponseModel: CartDetailsResponseModel) {
+                    super.onNext(cartDetailsResponseModel)
+                    mContentViewBinding.loading = false
+                    if (cartDetailsResponseModel.success) {
+                        onSuccessfulResponse(cartDetailsResponseModel)
+                    } else {
+                        onFailureResponse(cartDetailsResponseModel)
                     }
+                }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        mContentViewBinding.loading = false
-                        onErrorResponse(e)
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loading = false
+                    onErrorResponse(e)
+                }
+            })
         mContentViewBinding.handler = CartBottomSheetHandler(this)
     }
 
@@ -84,12 +97,20 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             mContentViewBinding.data = cartDetailsResponseModel
 
             (context as BaseActivity).updateCartCount(mContentViewBinding.data!!.cartCount)
-            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
+            AppSharedPref.setCartCount(context!!, mContentViewBinding.data!!.cartCount)
             if (mContentViewBinding.data!!.items.isEmpty()) {
                 val fragmentTransaction = childFragmentManager.beginTransaction()
-                fragmentTransaction.add(R.id.cart_heading
-                        , EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_cart), getString(R.string.add_item_to_your_cart_now), false,"")
-                        , EmptyFragment::class.java.simpleName)
+                fragmentTransaction.add(
+                    R.id.cart_heading,
+                    EmptyFragment.newInstance(
+                        "empty_cart.json",
+                        getString(R.string.empty_cart),
+                        getString(R.string.add_item_to_your_cart_now),
+                        false,
+                        ""
+                    ),
+                    EmptyFragment::class.java.simpleName
+                )
                 fragmentTransaction.commitAllowingStateLoss()
             } else {
                 checkForErrors()
@@ -104,7 +125,8 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
     private fun checkForErrors() {
         if (mContentViewBinding.data!!.descriptionMessage.isNullOrBlank()) {
             if (mContentViewBinding.data!!.minimumAmount > 0)
-                mContentViewBinding.data!!.error = getString(R.string.min_order_amt_error) + " " + mContentViewBinding.data!!.minimumFormattedAmount
+                mContentViewBinding.data!!.error =
+                    getString(R.string.min_order_amt_error) + " " + mContentViewBinding.data!!.minimumFormattedAmount
         } else {
             mContentViewBinding.data!!.error = mContentViewBinding.data!!.descriptionMessage!!
         }
@@ -112,29 +134,42 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
 
     private fun setupCartItems() {
         mContentViewBinding.cartItemsRv.isNestedScrollingEnabled = false
-        mContentViewBinding.cartItemsRv.adapter = CartItemsRvAdapter(this, mContentViewBinding.data!!.items, mContentViewBinding.data!!.showThreshold)
+        mContentViewBinding.cartItemsRv.adapter = CartItemsRvAdapter(
+            this,
+            mContentViewBinding.data!!.items,
+            mContentViewBinding.data!!.showThreshold
+        )
     }
 
     private fun setupCrossSellProductsRv() {
         if (mContentViewBinding.crossSellProductsRv.adapter == null) {
-            mContentViewBinding.crossSellProductsRv.addItemDecoration(HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt()))
+            mContentViewBinding.crossSellProductsRv.addItemDecoration(
+                HorizontalMarginItemDecoration(
+                    resources.getDimension(R.dimen.spacing_tiny).toInt()
+                )
+            )
             mContentViewBinding.crossSellProductsRv.isNestedScrollingEnabled = false
         }
-        mContentViewBinding.crossSellProductsRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList)
+        mContentViewBinding.crossSellProductsRv.adapter =
+            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList)
     }
 
     private fun setupPriceDetailsItems() {
         mContentViewBinding.priceDetailsRv.isNestedScrollingEnabled = false
-        mContentViewBinding.priceDetailsRv.adapter = PriceDetailsRvAdapter(context!!, mContentViewBinding.data!!.totalsData)
+        mContentViewBinding.priceDetailsRv.adapter =
+            PriceDetailsRvAdapter(context!!, mContentViewBinding.data!!.totalsData)
     }
 
     private fun setupProceedBtnHideShow() {
         mContentViewBinding.scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY - oldScrollY < 0 || scrollY > mContentViewBinding.scrollView.getChildAt(0).height - mContentViewBinding.scrollView.height - 100) {
                 if (mContentViewBinding.data!!.isCheckoutAllowed)
-                    mContentViewBinding.proceedToCheckoutBtn.animate().alpha(1.0f).translationY(0f).interpolator = DecelerateInterpolator(1.4f)
+                    mContentViewBinding.proceedToCheckoutBtn.animate().alpha(1.0f)
+                        .translationY(0f).interpolator = DecelerateInterpolator(1.4f)
             } else {
-                mContentViewBinding.proceedToCheckoutBtn.animate().alpha(0f).translationY(mContentViewBinding.proceedToCheckoutBtn.height.toFloat()).interpolator = AccelerateInterpolator(1.4f)
+                mContentViewBinding.proceedToCheckoutBtn.animate().alpha(0f)
+                    .translationY(mContentViewBinding.proceedToCheckoutBtn.height.toFloat()).interpolator =
+                    AccelerateInterpolator(1.4f)
             }
         })
     }
@@ -143,55 +178,59 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         when ((response as BaseModel).otherError) {
             ConstantsHelper.CUSTOMER_NOT_EXIST -> {
                 AlertDialogHelper.showNewCustomDialog(
-                        context as BaseActivity,
-                        getString(R.string.error),
-                        response.message,
-                        false,
-                        getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                            dialogInterface.dismiss()
-                            Utils.logoutAndGoToHome(context!!)
-                        }
-                        , ""
-                        , null)
+                    context as BaseActivity,
+                    getString(R.string.error),
+                    response.message,
+                    false,
+                    getString(R.string.ok),
+                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                        dialogInterface.dismiss()
+                        Utils.logoutAndGoToHome(context!!)
+                    }, "", null
+                )
             }
             else -> {
                 AlertDialogHelper.showNewCustomDialog(
-                        context as BaseActivity,
-                        getString(R.string.error),
-                        response.message,
-                        false,
-                        getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
-                            dialogInterface.dismiss()
-                            dismiss()
-                        }
-                        , ""
-                        , null)
+                    context as BaseActivity,
+                    getString(R.string.error),
+                    response.message,
+                    false,
+                    getString(R.string.ok),
+                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
+                        dialogInterface.dismiss()
+                        dismiss()
+                    }, "", null
+                )
             }
         }
     }
 
     private fun onErrorResponse(error: Throwable) {
-        val response = BaseActivity.mDataBaseHandler.getResponseFromDatabase((context as BaseActivity).mHashIdentifier)
+        val response =
+            BaseActivity.mDataBaseHandler.getResponseFromDatabase((context as BaseActivity).mHashIdentifier)
         if ((!NetworkHelper.isNetworkAvailable(context!!) || (error is HttpException && error.code() == 304)) && response.isNotBlank()) {
-            onSuccessfulResponse(BaseActivity.mGson.fromJson(response, CartDetailsResponseModel::class.java))
+            onSuccessfulResponse(
+                BaseActivity.mGson.fromJson(
+                    response,
+                    CartDetailsResponseModel::class.java
+                )
+            )
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                    context as BaseActivity,
-                    getString(R.string.error),
-                    NetworkHelper.getErrorMessage(context!!, error),
-                    false,
-                    getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
-                    , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-                dismiss()
-            })
+                context as BaseActivity,
+                getString(R.string.error),
+                NetworkHelper.getErrorMessage(context!!, error),
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                },
+                getString(R.string.dismiss),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    dismiss()
+                })
         }
     }
 
@@ -200,7 +239,10 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         if (resultCode == AppCompatActivity.RESULT_OK) {
             if (requestCode == ConstantsHelper.RC_LOGIN || requestCode == ConstantsHelper.RC_SIGN_UP) {
                 val intent = Intent(context!!, CheckoutActivity::class.java)
-                intent.putExtra(BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART, mContentViewBinding.data!!.isVirtual)
+                intent.putExtra(
+                    BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART,
+                    mContentViewBinding.data!!.isVirtual
+                )
                 startActivity(intent)
             }
         }
@@ -211,8 +253,10 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         callApi()
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
         Utils.hideKeyboard(mContentViewBinding.scrollView)
     }
 }

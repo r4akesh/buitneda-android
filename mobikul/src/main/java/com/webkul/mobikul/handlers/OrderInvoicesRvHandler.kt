@@ -26,6 +26,8 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import com.webkul.mobikul.R
 import com.webkul.mobikul.fragments.InvoicesFragment
 import com.webkul.mobikul.helpers.*
@@ -55,7 +57,16 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
 
     fun onClickSaveInvoice() {
         saveInvoice = true
-        callApi()
+
+        /*if (ContextCompat.checkSelfPermission(mFragmentContext.context!!, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(mFragmentContext.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            callApi()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                (mFragmentContext.activity!!).requestPermissions(permissions, ConstantsHelper.RC_PICK_IMAGE)
+            }
+        }*/
     }
 
 

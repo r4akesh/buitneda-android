@@ -24,7 +24,10 @@ import io.reactivex.disposables.Disposable
  * @link https://store.webkul.com/license.html
  */
 
-open class ApiCustomCallback<R : BaseModel>(val context: Context, val isDisableInteraction: Boolean) : Observer<R> {
+open class ApiCustomCallback<R : BaseModel>(
+    val context: Context,
+    val isDisableInteraction: Boolean
+) : Observer<R> {
 
     override fun onSubscribe(disposable: Disposable) {
         try {
@@ -38,20 +41,29 @@ open class ApiCustomCallback<R : BaseModel>(val context: Context, val isDisableI
     }
 
     override fun onNext(responseModel: R) {
-        onNext(responseModel, (context as BaseActivity).mHashIdentifier)
+        if (context is BaseActivity) {
+            onNext(responseModel, context.mHashIdentifier)
+        } else {
+            onNext(responseModel, "")
+        }
+
     }
 
 
     fun onNext(responseModel: R, eTag: String) {
-          try {
-              enableUserInteraction(context)
-              if ((responseModel as BaseModel).success) {
-                  if (ENABLE_OFFLINE_MODE && eTag.isNotEmpty())
-                      mDataBaseHandler.addOrUpdateIntoOfflineTable(eTag, responseModel.eTag, mGson.toJson(responseModel))
-              }
-          } catch (e: Exception) {
-              e.printStackTrace()
-          }
+        try {
+            enableUserInteraction(context)
+            if ((responseModel as BaseModel).success) {
+                if (ENABLE_OFFLINE_MODE && eTag.isNotEmpty())
+                    mDataBaseHandler.addOrUpdateIntoOfflineTable(
+                        eTag,
+                        responseModel.eTag,
+                        mGson.toJson(responseModel)
+                    )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onError(e: Throwable) {

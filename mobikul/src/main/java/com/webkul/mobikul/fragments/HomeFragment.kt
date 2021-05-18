@@ -595,8 +595,6 @@ setupFeaturesCategoriesRv(category)*/
         activity?.runOnUiThread {
             loadCarouselFirstLayout(carousel)
         }
-
-
     }
 
     private fun addFlashDealProduct(carousel: Carousel) {
