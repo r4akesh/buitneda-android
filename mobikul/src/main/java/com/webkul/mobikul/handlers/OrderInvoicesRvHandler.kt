@@ -38,14 +38,24 @@ import java.io.File
 
 
 class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
-
+    private var saveInvoice: Boolean = false
+    private val TAG = "OrderInvoicesRvHandler"
     fun onClickViewInvoice(invoiceIncrementId: String, invoiceId: String) {
-        // OrderInvoiceDetailsBottomSheetFragment.newInstance(invoiceIncrementId,invoiceId,mFragmentContext.mContentViewBinding.data!!.incrementId).show(mFragmentContext.childFragmentManager, OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName)
+        /*  OrderInvoiceDetailsBottomSheetFragment.newInstance(
+              invoiceIncrementId,
+              invoiceId,
+              mFragmentContext.mContentViewBinding.data!!.incrementId
+          ).show(
+              mFragmentContext.childFragmentManager,
+              OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName
+          )*/
+        saveInvoice = false
         callApi()
     }
 
     fun onClickSaveInvoice() {
-
+        saveInvoice = true
+        callApi()
     }
 
 
@@ -54,7 +64,11 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
             mFragmentContext.arguments?.getString(BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID)
         val language: String =
             if (AppSharedPref.getStoreId(mFragmentContext.context!!) == "1") "en_US" else "pt_PT"
-
+        Toast.makeText(
+            mFragmentContext.context,
+            mFragmentContext.context!!.getString(R.string.invoice_download_start),
+            Toast.LENGTH_LONG
+        ).show()
         ApiConnection.getGenerateInvoice(incrementId!!, language)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -73,7 +87,7 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
 
     fun downloadFile(context: Context, url: String?, fileName: String?) {
         try {
-            if (url != null && !url.isEmpty()) {
+            if (url != null && url.isNotEmpty()) {
                 val uri = Uri.parse(url)
                 context.registerReceiver(
                     attachmentDownloadCompleteReceive, IntentFilter(
@@ -138,7 +152,13 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
             val downloadMimeType: String =
                 cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE))
             if (downloadStatus == DownloadManager.STATUS_SUCCESSFUL) {
-                openDownloadedAttachment(context, Uri.parse(downloadLocalUri), downloadMimeType)
+                if (saveInvoice) {
+                    Toast.makeText(context, "Invoice Downloaded In Download Dir", Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    openDownloadedAttachment(context, Uri.parse(downloadLocalUri), downloadMimeType)
+                }
+
             }
         }
         cursor.close()
@@ -150,18 +170,23 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
         attachmentUri: Uri,
         attachmentMimeType: String
     ) {
-        var attach = attachmentUri
-        // Get Content Uri.
-        if (ContentResolver.SCHEME_FILE == attachmentUri.scheme) {
-            // FileUri - Convert it to contentUri.
-            val file = File(attach.path)
-            attach = FileProvider.getUriForFile(context, "com.buitanda.android", file)
-        }
-
-        val openAttachmentIntent = Intent(Intent.ACTION_VIEW)
-        openAttachmentIntent.setDataAndType(attach, attachmentMimeType)
-        openAttachmentIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         try {
+            var attach: Uri = attachmentUri
+            // Get Content Uri.
+            if (ContentResolver.SCHEME_FILE == attachmentUri.scheme) {
+                // FileUri - Convert it to contentUri.
+                val file = File(attach.path)
+                attach = FileProvider.getUriForFile(context, "com.buitanda.android", file)
+            }
+
+            Log.d(
+                TAG,
+                "openDownloadedAttachment: ${attach.path} $attachmentUri ${attachmentUri.path}"
+            )
+            val openAttachmentIntent = Intent(Intent.ACTION_VIEW)
+            openAttachmentIntent.setDataAndType(attach, attachmentMimeType)
+            openAttachmentIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
             context.startActivity(openAttachmentIntent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(
@@ -169,12 +194,14 @@ class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
                 context.getString(R.string.pdf_viwer_is_not_installed),
                 Toast.LENGTH_LONG
             ).show()
+            e.printStackTrace()
         } catch (e: Exception) {
             Toast.makeText(
                 context,
                 context.getString(R.string.unable_to_open_file),
                 Toast.LENGTH_LONG
             ).show()
+            e.printStackTrace()
         }
     }
 
