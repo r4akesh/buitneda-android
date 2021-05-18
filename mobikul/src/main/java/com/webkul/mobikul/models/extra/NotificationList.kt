@@ -66,5 +66,5 @@ class NotificationList {
     @JsonProperty("dominantColor")
     val dominantColor: String = ""
 
-    var isRead:Boolean = false
+    var isRead: Boolean = false
 }

@@ -38,15 +38,20 @@ open class ApiCustomCallback<R : BaseModel>(val context: Context, val isDisableI
     }
 
     override fun onNext(responseModel: R) {
-        try {
-            enableUserInteraction(context)
-            if ((responseModel as BaseModel).success) {
-                if (ENABLE_OFFLINE_MODE && (context as BaseActivity).mHashIdentifier.isNotEmpty())
-                    mDataBaseHandler.addOrUpdateIntoOfflineTable(context.mHashIdentifier, responseModel.eTag, mGson.toJson(responseModel))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        onNext(responseModel, (context as BaseActivity).mHashIdentifier)
+    }
+
+
+    fun onNext(responseModel: R, eTag: String) {
+          try {
+              enableUserInteraction(context)
+              if ((responseModel as BaseModel).success) {
+                  if (ENABLE_OFFLINE_MODE && eTag.isNotEmpty())
+                      mDataBaseHandler.addOrUpdateIntoOfflineTable(eTag, responseModel.eTag, mGson.toJson(responseModel))
+              }
+          } catch (e: Exception) {
+              e.printStackTrace()
+          }
     }
 
     override fun onError(e: Throwable) {

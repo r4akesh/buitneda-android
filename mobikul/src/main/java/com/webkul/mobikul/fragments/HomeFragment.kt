@@ -4,9 +4,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -57,6 +54,7 @@ import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
 
+    private var isLoadingTopSellingProducts: Boolean = false
     lateinit var mContentViewBinding: FragmentHomeBinding
     private var mBannerSwitcherTimerList: ArrayList<Timer> = ArrayList()
     var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
@@ -115,10 +113,10 @@ class HomeFragment : Fragment() {
             ), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         (activity as AppCompatActivity).supportActionBar?.title = title
-       /* val drawable = resources.getDrawable(R.drawable.whatsapp)
-        val bitmap = (drawable as BitmapDrawable).bitmap
-        val newdrawable: Drawable =
-            BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))*/
+        /* val drawable = resources.getDrawable(R.drawable.whatsapp)
+         val bitmap = (drawable as BitmapDrawable).bitmap
+         val newdrawable: Drawable =
+             BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))*/
         (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -198,6 +196,10 @@ class HomeFragment : Fragment() {
             ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
                 context!!
             )
+        )
+        Log.d(
+            TAG,
+            "callApi: " + BaseActivity.mDataBaseHandler.getETagFromDatabase((activity as HomeActivity).mHashIdentifier)
         )
         ApiConnection.getHomePageData(
             context!!,
@@ -519,6 +521,8 @@ setupFeaturesCategoriesRv(category)*/
                         setUpBigBanner(carousel)
                     }
                     "auctionproductlist" -> {
+//                        carousel.label = "\uD83D\uDD25" + carousel.label
+                        carousel.titleIconId = R.drawable.ic_law
                         addAuctionProduct(carousel)
                     }
                     "singlebanner" -> {
@@ -543,6 +547,9 @@ setupFeaturesCategoriesRv(category)*/
             val auctionproductlist = Carousel()
             auctionproductlist.id = "auctionproductlist"
             auctionproductlist.type = "product"
+//            auctionproductlist.label = "\uD83D\uDD25" + auctionproductlist.label
+
+            auctionproductlist.titleIconId = R.drawable.ic_law
             auctionproductlist.auctionproductlist = mHomePageDataModel.auctionProductList
             mHomePageDataModel.carousel?.add(auctionproductlist)
 
@@ -715,6 +722,11 @@ setupFeaturesCategoriesRv(category)*/
                     mContentViewBinding.carouselsLayout,
                     false
                 )
+            carousel.titleIconId?.let {
+                productCarouselFirstLayoutBinding.carouselLabel.setCompoundDrawablesWithIntrinsicBounds(
+                    it, 0, 0, 0
+                )
+            }
             productCarouselFirstLayoutBinding.data = carousel
             productCarouselFirstLayoutBinding.handler =
                 HomePageProductCarouselHandler(activity as BaseActivity)
@@ -924,6 +936,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     private fun callTopApi() {
+        isLoadingTopSellingProducts = true
 //        mContentViewBinding.progressBar = true
         ApiConnection.getTopSellingProducts(context!!, mPageNumber)
             .observeOn(AndroidSchedulers.mainThread())
@@ -941,13 +954,17 @@ setupFeaturesCategoriesRv(category)*/
                         mContentViewBinding.progressBar = false
 //                            onFailureResponse(homePageDataModel)
                     }
+
+                    isLoadingTopSellingProducts = false
                 }
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
+
                     mContentViewBinding.progressBar = false
                     mContentViewBinding.loading = false
                     onErrorResponse(e)
+                    isLoadingTopSellingProducts = false
                 }
             })
 
@@ -981,17 +998,21 @@ setupFeaturesCategoriesRv(category)*/
                 RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val lastCompletelyVisibleItemPosition =
-                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    count += categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size
-                    if (count < homePageDataModel.totalCount
-                        && lastCompletelyVisibleItemPosition > categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size - 4
-                    ) {
-                        mContentViewBinding.progressBar = true
-                        ++mPageNumber
-                        callTopApi()
 
+                    if (!isLoadingTopSellingProducts && mPageNumber <= 2) {
+                        val lastCompletelyVisibleItemPosition =
+                            (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        count += categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size
+                        if (count < homePageDataModel.totalCount
+                            && lastCompletelyVisibleItemPosition > categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size - 4
+                        ) {
+                            mContentViewBinding.progressBar = true
+                            ++mPageNumber
+                            callTopApi()
+
+                        }
                     }
+
                 }
             })
         }
@@ -1090,7 +1111,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    fun showBadge(count:Int){
+    fun showBadge(count: Int) {
         mContentViewBinding.bellNotificationBadge.visibility = View.VISIBLE
         mContentViewBinding.bellNotificationBadge.text = count.toString()
     }

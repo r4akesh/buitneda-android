@@ -27,7 +27,8 @@ import java.util.*
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
  */
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_VERSION = 9
@@ -69,12 +70,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private val TABLE_NOTIFICATION_DATA_COLUMN_ID = "id"
 
 
-
-
-
-
-
-
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         // Drop older table if existed
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_OFFLINE_DATA")
@@ -103,12 +98,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS + " VARCHAR) "
         db?.execSQL(createOfflineCartDataTable)
 
-        val createRecentlyViewedProductsDataTable = "CREATE TABLE $TABLE_RECENTLY_VIEWED_PRODUCTS (" +
-                "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID INTEGER, " +
-                "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE VARCHAR, " +
-                "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID VARCHAR, " +
-                "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA VARCHAR)"
+        val createRecentlyViewedProductsDataTable =
+            "CREATE TABLE $TABLE_RECENTLY_VIEWED_PRODUCTS (" +
+                    "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID INTEGER, " +
+                    "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE VARCHAR, " +
+                    "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID VARCHAR, " +
+                    "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA VARCHAR)"
         db?.execSQL(createRecentlyViewedProductsDataTable)
 
         val createRecentSearchDataTable = "CREATE TABLE $TABLE_RECENT_SEARCH (" +
@@ -129,7 +125,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     /* Offline database related functions */
 
     fun addOrUpdateIntoOfflineTable(hashIdentifier: String, eTag: String, responseData: String) {
-        val cursor = writableDatabase.rawQuery("SELECT $TABLE_OFFLINE_DATA_COLUMN_ETAG, $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'", null)
+        val cursor = writableDatabase.rawQuery(
+            "SELECT $TABLE_OFFLINE_DATA_COLUMN_ETAG, $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'",
+            null
+        )
         if (cursor.count == 0)
             insertIntoOfflineTable(hashIdentifier, eTag, responseData)
         else
@@ -147,9 +146,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         // Insert the new row, returning the primary key value of the new row
         val newRowId = writableDatabase.insert(TABLE_OFFLINE_DATA, null, values)
     }
-
-
-
 
 
     private fun updateIntoOfflineTable(hashIdentifier: String, eTag: String, responseData: String) {
@@ -171,7 +167,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getETagFromDatabase(hashIdentifier: String): String {
         try {
-            val cursor = writableDatabase.rawQuery("SELECT $TABLE_OFFLINE_DATA_COLUMN_ETAG FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'", null)
+            val cursor = writableDatabase.rawQuery(
+                "SELECT $TABLE_OFFLINE_DATA_COLUMN_ETAG FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'",
+                null
+            )
             if (cursor.count != 0) {
                 cursor.moveToFirst()
                 val eTag = cursor.getString(0)
@@ -187,7 +186,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun getResponseFromDatabase(hashIdentifier: String): String {
         try {
             if (ENABLE_OFFLINE_MODE) {
-                val cursor = writableDatabase.rawQuery("SELECT $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'", null)
+                val cursor = writableDatabase.rawQuery(
+                    "SELECT $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'",
+                    null
+                )
                 if (cursor.count != 0) {
                     cursor.moveToFirst()
                     val response = cursor.getString(0)
@@ -205,23 +207,26 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun getResponseFromDatabaseOnThread(hashIdentifier: String): Observable<String> {
         try {
             if (ENABLE_OFFLINE_MODE) {
-                val cursor = writableDatabase.rawQuery("SELECT $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'", null)
+                val cursor = writableDatabase.rawQuery(
+                    "SELECT $TABLE_OFFLINE_DATA_COLUMN_RESPONSE_DATA FROM $TABLE_OFFLINE_DATA WHERE $TABLE_OFFLINE_DATA_COLUMN_HASH_IDENTIFIER = '$hashIdentifier'",
+                    null
+                )
                 if (cursor.count != 0) {
                     cursor.moveToFirst()
                     val response = cursor.getString(0)
                     cursor.close()
                     Log.d(TAG, "getResponseFromDatabase: $response")
-                    return Observable.just(response )
+                    return Observable.just(response)
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return Observable.just("" )
+        return Observable.just("")
     }
 
     fun clearOfflineTable() {
-        writableDatabase?.delete(TABLE_OFFLINE_DATA, null, null);
+        writableDatabase?.delete(TABLE_OFFLINE_DATA, null, null)
     }
 
 
@@ -231,10 +236,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = this.writableDatabase
         val cursor: Cursor
         try {
-            cursor = db.rawQuery("SELECT " + TABLE_CART_DATA_COLUMN_QTY + ", " + TABLE_CART_DATA_COLUMN_ID + " FROM " + TABLE_OFFLINE_CART_DATA + " WHERE "
-                    + TABLE_CART_DATA_COLUMN_PRODUCT_ID + " = '" + productId + "' AND "
-                    + TABLE_CART_DATA_COLUMN_PARAMS + " = '" + params + "' AND "
-                    + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS + " = '" + relatedProducts + "'", null)
+            cursor = db.rawQuery(
+                "SELECT " + TABLE_CART_DATA_COLUMN_QTY + ", " + TABLE_CART_DATA_COLUMN_ID + " FROM " + TABLE_OFFLINE_CART_DATA + " WHERE "
+                        + TABLE_CART_DATA_COLUMN_PRODUCT_ID + " = '" + productId + "' AND "
+                        + TABLE_CART_DATA_COLUMN_PARAMS + " = '" + params + "' AND "
+                        + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS + " = '" + relatedProducts + "'",
+                null
+            )
 
             if (cursor.count != 0) {
                 cursor.moveToFirst()
@@ -242,7 +250,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val id = cursor.getString(1)
 
                 val values = ContentValues()
-                values.put(TABLE_CART_DATA_COLUMN_QTY, (previousQtyInDb.toInt() + qty.toInt()).toString())
+                values.put(
+                    TABLE_CART_DATA_COLUMN_QTY,
+                    (previousQtyInDb.toInt() + qty.toInt()).toString()
+                )
 
                 val selection = "$TABLE_CART_DATA_COLUMN_ID LIKE ?"
                 val selectionArgs = arrayOf(id.toString())
@@ -270,24 +281,33 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun getCartTableData(): Cursor {
         val cartDb = this.readableDatabase
-        return cartDb.rawQuery("SELECT " + TABLE_CART_DATA_COLUMN_PRODUCT_ID + ", "
-                + TABLE_CART_DATA_COLUMN_QTY + ", "
-                + TABLE_CART_DATA_COLUMN_PARAMS + ", "
-                + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS
-                + " FROM " + TABLE_OFFLINE_CART_DATA, null)
+        return cartDb.rawQuery(
+            "SELECT " + TABLE_CART_DATA_COLUMN_PRODUCT_ID + ", "
+                    + TABLE_CART_DATA_COLUMN_QTY + ", "
+                    + TABLE_CART_DATA_COLUMN_PARAMS + ", "
+                    + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS
+                    + " FROM " + TABLE_OFFLINE_CART_DATA, null
+        )
     }
 
     fun deleteCartEntry(productId: String, params: String, relatedProducts: String) {
         val db = this.writableDatabase
         val cursor: Cursor
         try {
-            cursor = db.rawQuery("SELECT " + TABLE_CART_DATA_COLUMN_ID + " FROM " + TABLE_OFFLINE_CART_DATA + " WHERE "
-                    + TABLE_CART_DATA_COLUMN_PRODUCT_ID + " = '" + productId + "' AND "
-                    + TABLE_CART_DATA_COLUMN_PARAMS + " = '" + params + "' AND "
-                    + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS + " = '" + relatedProducts + "'", null)
+            cursor = db.rawQuery(
+                "SELECT " + TABLE_CART_DATA_COLUMN_ID + " FROM " + TABLE_OFFLINE_CART_DATA + " WHERE "
+                        + TABLE_CART_DATA_COLUMN_PRODUCT_ID + " = '" + productId + "' AND "
+                        + TABLE_CART_DATA_COLUMN_PARAMS + " = '" + params + "' AND "
+                        + TABLE_CART_DATA_COLUMN_RELATED_PRODUCTS + " = '" + relatedProducts + "'",
+                null
+            )
             if (cursor.count != 0) {
                 cursor.moveToFirst()
-                db.delete(TABLE_OFFLINE_CART_DATA, "$TABLE_CART_DATA_COLUMN_ID LIKE ?", arrayOf(cursor.getString(0)))
+                db.delete(
+                    TABLE_OFFLINE_CART_DATA,
+                    "$TABLE_CART_DATA_COLUMN_ID LIKE ?",
+                    arrayOf(cursor.getString(0))
+                )
             }
             cursor.close()
         } catch (e: Exception) {
@@ -303,10 +323,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     /* Recently Viewed Products database related functions */
 
-    fun getRecentlyViewedProducts(storeId: String, currencyCode: String): ArrayList<ProductTileData> {
+    fun getRecentlyViewedProducts(
+        storeId: String,
+        currencyCode: String
+    ): ArrayList<ProductTileData> {
         val productsList = ArrayList<ProductTileData>()
         try {
-            val selectQuery = "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
+            val selectQuery =
+                "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
 
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
@@ -314,7 +338,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             val gson = Gson()
             if (cursor.moveToLast()) {
                 do {
-                    val productData = gson.fromJson(cursor.getString(0), ProductTileData::class.java) as ProductTileData
+                    val productData = gson.fromJson(
+                        cursor.getString(0),
+                        ProductTileData::class.java
+                    ) as ProductTileData
                     productsList.add(productData)
                 } while (cursor.moveToPrevious())
             }
@@ -326,7 +353,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return productsList
     }
 
-    fun addRecentlyViewed(storeId: String, currencyCode: String, productId: String, productData: String) {
+    fun addRecentlyViewed(
+        storeId: String,
+        currencyCode: String,
+        productId: String,
+        productData: String
+    ) {
         if (!checkIfAlreadyAvailable(storeId, currencyCode, productId)) {
             val db = this.writableDatabase
 
@@ -338,7 +370,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
             db.insert(TABLE_RECENTLY_VIEWED_PRODUCTS, null, values)
             db.close()
-            if (getRecentlyViewedProducts(storeId, currencyCode).size > DEFAULT_NUMBER_OF_RECENTLY_VIEWED_PRODUCTS) {
+            if (getRecentlyViewedProducts(
+                    storeId,
+                    currencyCode
+                ).size > DEFAULT_NUMBER_OF_RECENTLY_VIEWED_PRODUCTS
+            ) {
                 deleteLastRecentlyViewedTableRow(storeId, currencyCode)
             }
         } else {
@@ -347,7 +383,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
     }
 
-    fun updateRecentlyViewedProduct(storeId: String, currencyCode: String, productId: String, productData: String) {
+    fun updateRecentlyViewedProduct(
+        storeId: String,
+        currencyCode: String,
+        productId: String,
+        productData: String
+    ) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues()
         values.put(TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID, storeId)
@@ -364,8 +405,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         writableDatabase.update(TABLE_RECENTLY_VIEWED_PRODUCTS, values, selection, selectionArgs)
     }
 
-    private fun checkIfAlreadyAvailable(storeId: String, currencyCode: String, productId: String): Boolean {
-        val selectQuery = "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = '$productId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
+    private fun checkIfAlreadyAvailable(
+        storeId: String,
+        currencyCode: String,
+        productId: String
+    ): Boolean {
+        val selectQuery =
+            "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = '$productId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
 
         val db = this.writableDatabase
         val cursor = db.rawQuery(selectQuery, null)
@@ -381,32 +427,51 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return false
     }
 
-    fun removeWishListRecentlyViewedProduct(storeId: String, currencyCode: String, productId: String) {
+    fun removeWishListRecentlyViewedProduct(
+        storeId: String,
+        currencyCode: String,
+        productId: String
+    ) {
         // Create a new map of values, where column names are the keys
 
-        val selectQuery = "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = '$productId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
+        val selectQuery =
+            "SELECT $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_DATA FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = '$productId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode'"
 
         val db = this.writableDatabase
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor.moveToFirst()) {
             val gson = Gson()
-            val productData = gson.fromJson(cursor.getString(0), ProductTileData::class.java) as ProductTileData
+            val productData =
+                gson.fromJson(cursor.getString(0), ProductTileData::class.java) as ProductTileData
             productData.isInWishList = false
             productData.wishListItemId = ""
-            updateRecentlyViewedProduct(storeId, currencyCode, productId, Gson().toJson(productData))
+            updateRecentlyViewedProduct(
+                storeId,
+                currencyCode,
+                productId,
+                Gson().toJson(productData)
+            )
         }
         cursor.close()
     }
 
     fun deleteRecentlyViewedProduct(productId: String) {
         val db = this.writableDatabase
-        db.delete(TABLE_RECENTLY_VIEWED_PRODUCTS, "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = ?", arrayOf(productId))
+        db.delete(
+            TABLE_RECENTLY_VIEWED_PRODUCTS,
+            "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_PRODUCT_ID = ?",
+            arrayOf(productId)
+        )
         db.close()
     }
 
     private fun deleteLastRecentlyViewedTableRow(storeId: String, currencyCode: String) {
         val db = this.writableDatabase
-        db.delete(TABLE_RECENTLY_VIEWED_PRODUCTS, "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID = (SELECT MIN($TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID) FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode')", arrayOf())
+        db.delete(
+            TABLE_RECENTLY_VIEWED_PRODUCTS,
+            "$TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID = (SELECT MIN($TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_ID) FROM $TABLE_RECENTLY_VIEWED_PRODUCTS WHERE $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENTLY_VIEWED_PRODUCTS_COLUMN_CURRENCY_CODE = '$currencyCode')",
+            arrayOf()
+        )
         db.close()
     }
 
@@ -421,7 +486,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun getRecentSearchList(storeId: String): ArrayList<String> {
         val recentSearchList = ArrayList<String>()
         try {
-            val selectQuery = "SELECT $TABLE_RECENT_SEARCH_COLUMN_QUERY FROM $TABLE_RECENT_SEARCH WHERE $TABLE_RECENT_SEARCH_COLUMN_STORE_ID = '$storeId'"
+            val selectQuery =
+                "SELECT $TABLE_RECENT_SEARCH_COLUMN_QUERY FROM $TABLE_RECENT_SEARCH WHERE $TABLE_RECENT_SEARCH_COLUMN_STORE_ID = '$storeId'"
 
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
@@ -456,7 +522,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     private fun checkIfAlreadyAvailableInRecentSearch(storeId: String, query: String): Boolean {
-        val selectQuery = "SELECT $TABLE_RECENT_SEARCH_COLUMN_QUERY FROM $TABLE_RECENT_SEARCH WHERE $TABLE_RECENT_SEARCH_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENT_SEARCH_COLUMN_QUERY = ?"
+        val selectQuery =
+            "SELECT $TABLE_RECENT_SEARCH_COLUMN_QUERY FROM $TABLE_RECENT_SEARCH WHERE $TABLE_RECENT_SEARCH_COLUMN_STORE_ID = '$storeId' AND $TABLE_RECENT_SEARCH_COLUMN_QUERY = ?"
 
         val db = this.writableDatabase
         val cursor = db.rawQuery(selectQuery, arrayOf(query))
@@ -484,26 +551,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
 
-    /*functions for the notification*/
-
-
-    fun addOrUpdateIntoNotificationTable(id: Int) {
-        val cursor = writableDatabase.rawQuery("SELECT * FROM $TABLE_NOTIFICATION", null)
-        if (cursor.count == 0)
-            insertInfoNotificationTable(id)
-        else
-            //updateIntoOfflineTable(hashIdentifier, eTag, responseData)
-        cursor.close()
-    }
-
     //insert into the notification
-    private fun insertInfoNotificationTable(id: Int) {
+    fun insertInfoNotificationTable(id: Int) {
         // Create a new map of values, where column names are the keys
         println("notification id inserted$id")
         val values = ContentValues()
         values.put(TABLE_NOTIFICATION_DATA_COLUMN_ID, id)
         // Insert the new row, returning the primary key value of the new row
         val newRowId = writableDatabase.insert(TABLE_NOTIFICATION, null, values)
+        println("notification id inserted $newRowId")
     }
 
 
@@ -517,7 +573,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
             if (cursor.moveToLast()) {
                 do {
-                        notificationList.add(cursor.getString(0))
+                    notificationList.add(cursor.getString(0))
                 } while (cursor.moveToPrevious())
             }
             cursor.close()
