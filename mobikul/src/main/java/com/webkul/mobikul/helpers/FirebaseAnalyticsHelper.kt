@@ -10,12 +10,12 @@ class FirebaseAnalyticsHelper {
 
     companion object {
         private var sFirebaseAnalytics: FirebaseAnalytics? = null
-        private var sContext:Context?=null
+        private var sContext: Context? = null
         fun initFirebaseAnalytics(context: Context) {
             if (ApplicationConstants.ENABLE_FIREBASE_ANALYTICS) {
                 if (sFirebaseAnalytics == null)
                     sFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
-                sContext=context
+                sContext = context
             }
         }
 
@@ -49,7 +49,12 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logAddToWishListEvent(id: String, name: String, qty: String, mProductParamsJSON: JSONObject) {
+        fun logAddToWishListEvent(
+            id: String,
+            name: String,
+            qty: String,
+            mProductParamsJSON: JSONObject
+        ) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
                 params.putString("product_id", id)
@@ -60,7 +65,12 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logAddToCartEvent(id: String, name: String, qty: String, mProductParamsJSON: JSONObject) {
+        fun logAddToCartEvent(
+            id: String,
+            name: String,
+            qty: String,
+            mProductParamsJSON: JSONObject
+        ) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
                 params.putString("product_id", id)
@@ -72,9 +82,14 @@ class FirebaseAnalyticsHelper {
         }
 
         fun logCheckoutBeginEvent() {
-            if (sFirebaseAnalytics != null && sContext!=null) {
+            if (sFirebaseAnalytics != null && sContext != null) {
                 val params = Bundle()
-                params.putString("customer", if(AppSharedPref.isLoggedIn(sContext!!) ) AppSharedPref.getCustomerEmail(sContext!!) else "guest")
+                params.putString(
+                    "customer",
+                    if (AppSharedPref.isLoggedIn(sContext!!)) AppSharedPref.getCustomerEmail(
+                        sContext!!
+                    ) else "guest"
+                )
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
             }
         }

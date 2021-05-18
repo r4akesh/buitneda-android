@@ -1,7 +1,7 @@
 package com.webkul.mobikul.activities
 
 import android.os.Bundle
-import android.view.MenuItem
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -10,12 +10,13 @@ import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.FragmentAuctionBinding
 import com.webkul.mobikul.fragments.AuctionDetailsFragment
 import com.webkul.mobikul.fragments.AutoBiddingDetailsFragment
-import com.webkul.mobikul.fragments.CartBottomSheetFragment
-import com.webkul.mobikul.fragments.NotificationBottomSheetFragment
 import java.util.*
 
 class AuctionFragmentActivity : BaseActivity() {
     private var mBinding: FragmentAuctionBinding? = null
+    private val TAG = "AuctionFragmentActivity"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.fragment_auction)
@@ -23,7 +24,10 @@ class AuctionFragmentActivity : BaseActivity() {
         startInitialization()
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+    }
 
     private fun startInitialization() {
         mBinding!!.tabs.setupWithViewPager(mBinding!!.viewpager)
@@ -37,7 +41,8 @@ class AuctionFragmentActivity : BaseActivity() {
         mBinding!!.viewpager.adapter = adapter
     }
 
-    private inner class ViewPagerAdapter(manager: FragmentManager?) : FragmentPagerAdapter(manager!!) {
+    private inner class ViewPagerAdapter(manager: FragmentManager?) :
+        FragmentPagerAdapter(manager!!) {
         private val mFragmentList: MutableList<Fragment> = ArrayList()
         private val mFragmentTitleList: MutableList<String> = ArrayList()
         override fun getItem(position: Int): Fragment {

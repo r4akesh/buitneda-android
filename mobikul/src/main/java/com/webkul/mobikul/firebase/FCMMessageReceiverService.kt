@@ -25,6 +25,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -95,12 +96,14 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "FCMMessageReceiverService onMessageReceived: $remoteMessage")
-        Log.d(TAG, "FCMMessageReceiverService onMessageReceived: data " + remoteMessage?.data)
+        Log.d(TAG, "FCMMessageReceiverService onMessageReceived: data " + remoteMessage.data)
 
         try {
-            val data = remoteMessage?.data
+            val data = remoteMessage.data
+            LocalBroadcastManager.getInstance(this)
+                .sendBroadcast(Intent(HomeActivity.BROADCAST_DEFAULT_ALBUM_CHANGED))
             if (data != null && data.isNotEmpty()) {
-                var notificationId = "0";
+                var notificationId = "0"
                 data["id"]?.let { safe: String ->
                     notificationId = safe
                 } ?: run {
@@ -221,7 +224,7 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                         notificationTitle!!,
                         notificationBody!!,
                         notificationBanner,
-                        notificationId!!.toInt(),
+                        notificationId.toInt(),
                         intent
                     )
                 }

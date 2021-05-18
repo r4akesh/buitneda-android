@@ -53,12 +53,12 @@ class ProductCarouselHorizontalRvAdapter(
 //        }
 
 
-        holder.mBinding?.itemProductGridView?.homeItemImage.let { safeImageView ->
-            Glide.with(mContext)
-                .load(eachListData.thumbNail)
-//            .placeholder(R.drawable.placeholder)
-                .into(safeImageView!!)
-        }
+//        holder.mBinding?.itemProductGridView?.homeItemImage.let { safeImageView ->
+//            Glide.with(mContext)
+//                .load(eachListData.thumbNail)
+////            .placeholder(R.drawable.placeholder)
+//                .into(safeImageView!!)
+//        }
 
 
 

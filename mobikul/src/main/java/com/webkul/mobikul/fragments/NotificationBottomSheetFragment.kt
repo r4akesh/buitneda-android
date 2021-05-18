@@ -37,58 +37,79 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class NotificationBottomSheetFragment(private val notificationListener: OnNotificationListener) : FullScreenBottomSheetDialogFragment(), OnNotificationListener {
+class NotificationBottomSheetFragment(private val notificationListener: OnNotificationListener) :
+    FullScreenBottomSheetDialogFragment() {
 
     lateinit var mContentViewBinding: FragmentNotificationBottomSheetBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_bottom_sheet, container, false)
+        mContentViewBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_notification_bottom_sheet,
+            container,
+            false
+        )
         return mContentViewBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mContentViewBinding.handler = NotificationBottomSheetHandler(this,this)
+        mContentViewBinding.handler = NotificationBottomSheetHandler(this)
         callApi()
         checkAndLoadLocalData()
     }
 
     private fun callApi() {
         mContentViewBinding.loading = true
-        (context as BaseActivity).mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(context!!))
-        ApiConnection.getNotificationsList(context!!, BaseActivity.mDataBaseHandler.getETagFromDatabase((context as BaseActivity).mHashIdentifier))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(context!!, false) {
-                    override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
-                        super.onNext(notificationListResponseModel)
-                        mContentViewBinding.loading = false
-                        if (notificationListResponseModel.success) {
-                            onSuccessfulResponse(notificationListResponseModel)
-                        } else {
-                            onFailureResponse(notificationListResponseModel)
-                        }
+        (context as BaseActivity).mHashIdentifier =
+            Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(context!!))
+        ApiConnection.getNotificationsList(
+            context!!,
+            BaseActivity.mDataBaseHandler.getETagFromDatabase((context as BaseActivity).mHashIdentifier)
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(context!!, false) {
+                override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
+                    super.onNext(notificationListResponseModel)
+                    mContentViewBinding.loading = false
+                    if (notificationListResponseModel.success) {
+                        onSuccessfulResponse(notificationListResponseModel)
+                    } else {
+                        onFailureResponse(notificationListResponseModel)
                     }
+                }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        mContentViewBinding.loading = false
-                        onErrorResponse(e)
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loading = false
+                    onErrorResponse(e)
+                }
+            })
     }
 
     private fun checkAndLoadLocalData() {
-        val response = BaseActivity.mDataBaseHandler.getResponseFromDatabase((context as BaseActivity).mHashIdentifier)
+        val response =
+            BaseActivity.mDataBaseHandler.getResponseFromDatabase((context as BaseActivity).mHashIdentifier)
         if (response.isNotBlank()) {
-            onSuccessfulResponse(BaseActivity.mGson.fromJson(response, NotificationListResponseModel::class.java))
+            onSuccessfulResponse(
+                BaseActivity.mGson.fromJson(
+                    response,
+                    NotificationListResponseModel::class.java
+                )
+            )
         }
     }
 
     private fun onSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel) {
 
-        val notificationList: ArrayList<String> = BaseActivity.mDataBaseHandler.getNotificationData()
+        val notificationList: ArrayList<String> =
+            BaseActivity.mDataBaseHandler.getNotificationData()
         notificationListResponseModel.notificationList.forEach {
             it.isRead = notificationList.contains(it.id)
         }
@@ -97,32 +118,44 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
             mContentViewBinding.notificationListRv.visibility = View.GONE
             mContentViewBinding.emptyLayout.visibility = View.VISIBLE
             val fragmentTransaction = childFragmentManager.beginTransaction()
-            fragmentTransaction.add(R.id.empty_layout
-                    , EmptyFragment.newInstance("empty_review_list.json", getString(R.string.empty_notification), getString(R.string.your_dont_have_any_notification), false,"")
-                    , EmptyFragment::class.java.simpleName)
+            fragmentTransaction.add(
+                R.id.empty_layout,
+                EmptyFragment.newInstance(
+                    "empty_review_list.json",
+                    getString(R.string.empty_notification),
+                    getString(R.string.your_dont_have_any_notification),
+                    false,
+                    ""
+                ),
+                EmptyFragment::class.java.simpleName
+            )
             fragmentTransaction.commitAllowingStateLoss()
         } else {
             mContentViewBinding.notificationListRv.visibility = View.VISIBLE
-            mContentViewBinding.notificationListRv.adapter = NotificationListRvAdapter(context!!, notificationListResponseModel.notificationList,this)
+            mContentViewBinding.notificationListRv.adapter = NotificationListRvAdapter(
+                context!!,
+                notificationListResponseModel.notificationList,
+                this
+            )
         }
     }
 
     private fun onFailureResponse(notificationListResponseModel: NotificationListResponseModel) {
         AlertDialogHelper.showNewCustomDialog(
-                context as BaseActivity,
-                getString(R.string.error),
-                notificationListResponseModel.message,
-                false,
-                getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    callApi()
-                }
-                , getString(R.string.dismiss)
-                , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.dismiss()
-            dismiss()
-        })
+            context as BaseActivity,
+            getString(R.string.error),
+            notificationListResponseModel.message,
+            false,
+            getString(R.string.try_again),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                callApi()
+            },
+            getString(R.string.dismiss),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                dismiss()
+            })
     }
 
     private fun onErrorResponse(error: Throwable) {
@@ -130,28 +163,28 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
             // Do Nothing as the data is already loaded
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                    context as BaseActivity,
-                    getString(R.string.error),
-                    NetworkHelper.getErrorMessage(context!!, error),
-                    false,
-                    getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
-                    , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-                dismiss()
-            })
+                context as BaseActivity,
+                getString(R.string.error),
+                NetworkHelper.getErrorMessage(context!!, error),
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                },
+                getString(R.string.dismiss),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    dismiss()
+                })
         }
     }
 
-    override fun onNotificationClick(notificationModel: NotificationList) {
+    fun onNotificationClick(notificationModel: NotificationList) {
         notificationListener.onNotificationClick(notificationModel)
     }
 
-    override fun onNotificationFragmentClose() {
+    fun onNotificationFragmentClose() {
         notificationListener.onNotificationFragmentClose()
     }
 }

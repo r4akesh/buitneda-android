@@ -2,8 +2,7 @@ package com.webkul.mobikul.activities
 
 
 import android.app.Dialog
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -15,6 +14,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -46,6 +46,7 @@ class HomeActivity : BaseActivity() {
 
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
+        const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
     }
 
     open var homeFragment: HomeFragment? = null
@@ -58,13 +59,23 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_DEFAULT_ALBUM_CHANGED))
+
         startInitialization()
         updateCartBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
         callApi()
 
-        callNotificationApi(this)
+        callNotificationApi()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(broadCastReceiver)
     }
 
 /*
@@ -467,5 +478,39 @@ class HomeActivity : BaseActivity() {
 
     }
 
+    val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            when (intent?.action) {
+                BROADCAST_DEFAULT_ALBUM_CHANGED -> callNotificationApi()
+            }
+        }
+    }
 
+    private fun callNotificationApi() {
+        println("Notification api is calling>>>>>>>>>>>>")
+        val mHashIdentifier =
+            Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(this))
+        ApiConnection.getNotificationsList(
+            this,
+            mDataBaseHandler.getETagFromDatabase(mHashIdentifier)
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(this, false) {
+                override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
+                    super.onNext(notificationListResponseModel)
+                    if (notificationListResponseModel.success) {
+                        if (context is HomeActivity) {
+                            context.onNotificationSuccessfulResponse(
+                                notificationListResponseModel
+                            )
+                        }
+
+                    } else {
+                        onFailureResponse(notificationListResponseModel)
+                    }
+                }
+
+            })
+    }
 }
