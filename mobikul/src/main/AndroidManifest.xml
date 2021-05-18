@@ -306,6 +306,8 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
+        
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.webkul.mobikul.provider"
