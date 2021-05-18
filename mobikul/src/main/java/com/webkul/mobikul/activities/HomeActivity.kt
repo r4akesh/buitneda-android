@@ -2,8 +2,6 @@ package com.webkul.mobikul.activities
 
 
 import android.app.Dialog
-import android.content.Context
-
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
@@ -52,8 +50,8 @@ class HomeActivity : BaseActivity() {
 
     open var homeFragment: HomeFragment? = null
     open var categoryFragment: CategoryPageFragment? = null
-    open var cartBottomFragment:CartBottomSheetFragment? = null
-    open var accountDetailsFragment:AccountDetailsFragment? = null
+    open var cartBottomFragment: CartBottomSheetFragment? = null
+    open var accountDetailsFragment: AccountDetailsFragment? = null
     open var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
     var mTopSellingHomePageDataModel: HomePageDataModel? = null
 
@@ -65,7 +63,7 @@ class HomeActivity : BaseActivity() {
         updateCartCount(AppSharedPref.getCartCount(this))
         callApi()
 
-
+        callNotificationApi(this)
 
     }
 
@@ -135,10 +133,10 @@ class HomeActivity : BaseActivity() {
         updateCartCount(AppSharedPref.getCartCount(this))
         when (index) {
             0 -> {
-                if (categoryFragment != null){
+                if (categoryFragment != null) {
                     fragment = categoryFragment
 
-                    for (frag in supportFragmentManager.fragments){
+                    for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
 
@@ -147,7 +145,7 @@ class HomeActivity : BaseActivity() {
                         .setPrimaryNavigationFragment(fragment)
                         .setReorderingAllowed(true)
                         .commit()
-                }else{
+                } else {
                     categoryFragment = CategoryPageFragment(mHomePageDataModel.categories)
                     fragment = categoryFragment
                     supportFragmentManager.beginTransaction()
@@ -162,7 +160,7 @@ class HomeActivity : BaseActivity() {
                 if (homeFragment != null) {
                     fragment = homeFragment
 
-                    for (frag in supportFragmentManager.fragments){
+                    for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
 
@@ -206,11 +204,11 @@ class HomeActivity : BaseActivity() {
 //                        .commit()
 //                }else{
 
-                    cartBottomFragment = CartBottomSheetFragment()
-                    fragment = cartBottomFragment
-                    supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment!!, "Cart")
-                        .addToBackStack(CartBottomSheetFragment::class.java.javaClass.simpleName)
-                        .commit()
+                cartBottomFragment = CartBottomSheetFragment()
+                fragment = cartBottomFragment
+                supportFragmentManager.beginTransaction().add(R.id.main_frame, fragment!!, "Cart")
+                    .addToBackStack(CartBottomSheetFragment::class.java.javaClass.simpleName)
+                    .commit()
 //                }
 
 
@@ -218,10 +216,11 @@ class HomeActivity : BaseActivity() {
             4 -> {
 
 
-                if (accountDetailsFragment != null){
+                if (accountDetailsFragment != null) {
 
-                    categoryFragment?.let {categoryFragmentSafe->
-                        supportFragmentManager.beginTransaction().hide(categoryFragmentSafe).commit()
+                    categoryFragment?.let { categoryFragmentSafe ->
+                        supportFragmentManager.beginTransaction().hide(categoryFragmentSafe)
+                            .commit()
                         println("HomeActivity:: categoryFragmentSafe")
                     } ?: run {
 
@@ -233,15 +232,15 @@ class HomeActivity : BaseActivity() {
 //                        .setPrimaryNavigationFragment(fragment)
 //                        .setReorderingAllowed(true)
                         .commit()
-                }else{
-                    accountDetailsFragment = (applicationContext as MobikulApplication).gettAccounntDetailsFragment()
+                } else {
+                    accountDetailsFragment =
+                        (applicationContext as MobikulApplication).gettAccounntDetailsFragment()
                     fragment = accountDetailsFragment
                     supportFragmentManager.beginTransaction()
                         .add(R.id.main_frame, fragment!!, "Account")
                         .addToBackStack(AccountDetailsFragment::class.java.javaClass.simpleName)
                         .commit()
                 }
-
 
 
             }
@@ -419,24 +418,26 @@ class HomeActivity : BaseActivity() {
             })
 
 
-
     }
 
 
     private fun onSuccessfulResponse(promotionBanner: PromotionBanner) {
         mPromotionBanner = promotionBanner
-        val dialog =  Dialog(this)
-        if(!dialog.isShowing){
+        val dialog = Dialog(this)
+        if (!dialog.isShowing) {
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.home_banner_dialog_layout)
             val image: ImageView = dialog.findViewById(R.id.dialogBanner)
             val closeImage: ImageView = dialog.findViewById(R.id.closeBannerBtn)
             Picasso.with(this).load(promotionBanner.image).into(image)
             image.setOnClickListener {
-                val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java);
+                val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
                 navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
                 navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID, promotionBanner.category_product_id)
+                navigate.putExtra(
+                    BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
+                    promotionBanner.category_product_id
+                )
                 startActivity(navigate)
                 dialog.dismiss()
             }
@@ -452,29 +453,19 @@ class HomeActivity : BaseActivity() {
     }
 
 
-
-    fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel){
+    fun onNotificationSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel) {
         var onNotReadSize = 0
         runOnUiThread {
-            if(mDataBaseHandler.getNotificationData().isNotEmpty()){
-                mDataBaseHandler.getNotificationData()
-                for(i in 0 until notificationListResponseModel.notificationList.size){
-                    for(j in 0 until mDataBaseHandler.getNotificationData().size){
-                        if(mDataBaseHandler.getNotificationData()[j]!=notificationListResponseModel.notificationList[i].id){
-                            onNotReadSize + 1
-                        }
-                    }
-                }
-
-            }else{
-                onNotReadSize = notificationListResponseModel.notificationList.size
+            val notificationList: ArrayList<String> = mDataBaseHandler.getNotificationData()
+            notificationListResponseModel.notificationList.forEach {
+                it.isRead = notificationList.contains(it.id)
             }
+            onNotReadSize =
+                (notificationListResponseModel.notificationList.filter { !it.isRead }).count()
         }
-
         homeFragment!!.showBadge(onNotReadSize)
 
     }
-
 
 
 }

@@ -48,9 +48,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_rectangular_white_bg_gray_border_1dp"
+            android:background="@{data.isRead ? @drawable/shape_rectangular_white_bg_gray_border_1dp : @drawable/shape_rectangular_white_bg_notification_border_1dp}"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v)->handler.onClickNotification(v, data)}">
+
 
             <TextView
                 android:id="@+id/notification_title"

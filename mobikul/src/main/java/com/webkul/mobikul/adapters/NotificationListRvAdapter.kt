@@ -54,6 +54,8 @@ class NotificationListRvAdapter(private val mContext: Context,
     }
 
     override fun onNotificationClick(notificationModel: NotificationList) {
+        notificationModel.isRead = true
+        notifyDataSetChanged()
         onNotificationListener.onNotificationClick(notificationModel)
     }
 

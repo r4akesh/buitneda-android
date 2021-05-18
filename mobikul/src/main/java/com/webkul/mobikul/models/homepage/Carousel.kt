@@ -32,7 +32,7 @@ class Carousel() : Parcelable {
     @JsonProperty("type")
     var type: String? = ""
 
-  @JsonProperty("cmsType")
+    @JsonProperty("cmsType")
     var cmsType: String? = ""
 
     @JsonProperty("label")
@@ -79,6 +79,8 @@ class Carousel() : Parcelable {
 
     @JsonProperty("brandlist")
     var brandlist: List<Brandlist>? = ArrayList()
+
+    var titleIconId: Int? = null
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()

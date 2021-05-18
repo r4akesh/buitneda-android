@@ -51,47 +51,46 @@
                 android:id="@+id/carousel_label"
                 fontPath="fonts/Montserrat-SemiBold.ttf"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
+                android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-
-                android:drawablePadding="5dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
                 android:paddingTop="@dimen/spacing_generic"
                 android:paddingBottom="@dimen/spacing_generic"
                 android:text="@{data.label}"
                 android:textAllCaps="true"
                 android:textColor="@color/text_color_primary"
-                android:textStyle="bold"
                 android:textSize="@dimen/text_size_medium_"
-                tools:text="Featured Products" />
+                android:textStyle="bold"
+                tools:text="Featured Products"  />
 
             <TextView
+                android:id="@+id/stamp_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/stamp_tv"
                 android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
-                android:text="@string/end_in"
                 android:paddingEnd="@dimen/spacing_tiny"
+                android:text="@string/end_in"
                 android:textAllCaps="true"
-                android:visibility="gone"
                 android:textColor="@color/text_color_primary"
                 android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone"
                 tools:text="end in" />
-<!--            android:visibility="@{data.timerTimeStamp &gt; 0 ? View.VISIBLE : View.GONE}"-->
+            <!--            android:visibility="@{data.timerTimeStamp &gt; 0 ? View.VISIBLE : View.GONE}"-->
 
             <TextView
                 android:id="@+id/day_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:layout_marginRight="@dimen/spacing_tiny"
                 android:background="@android:color/holo_red_dark"
                 android:padding="@dimen/card_elevation_low"
-                android:layout_marginRight="@dimen/spacing_tiny"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/spacing_small"
+                android:visibility="gone"
                 tools:text="3" />
 
 
@@ -100,12 +99,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/card_elevation_low"
-                android:visibility="gone"
                 android:background="@android:color/holo_red_dark"
                 android:padding="@dimen/card_elevation_low"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/spacing_small"
+                android:visibility="gone"
                 tools:text="3" />
 
             <TextView
@@ -113,32 +112,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/card_elevation_low"
-                android:visibility="gone"
                 android:background="@android:color/holo_red_dark"
                 android:padding="@dimen/card_elevation_low"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/spacing_small"
+                android:visibility="gone"
                 tools:text="3" />
 
             <TextView
                 android:id="@+id/seconds_tv"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:background="@android:color/holo_red_dark"
                 android:layout_marginRight="@dimen/card_elevation_low"
+                android:background="@android:color/holo_red_dark"
                 android:padding="@dimen/card_elevation_low"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/spacing_small"
+                android:visibility="gone"
                 tools:text="3" />
 
-<!--            <View-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                tools:layout_height="1dp" />-->
+            <!--            <View-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                tools:layout_height="1dp" />-->
 
 
             <Button

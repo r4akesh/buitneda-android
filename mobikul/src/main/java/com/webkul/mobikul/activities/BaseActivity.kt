@@ -25,7 +25,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -58,7 +57,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkStateReceiverListener, OnNotificationListener {
+open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkStateReceiverListener,
+    OnNotificationListener {
 
     var mBadge: View? = null
 
@@ -85,7 +85,10 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         mDataBaseHandler = DatabaseHelper(this)
         mNetworkStateReceiver = NetworkStateReceiver()
         mNetworkStateReceiver.addListener(this)
-        registerReceiver(mNetworkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            mNetworkStateReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
     }
 
     open fun setToolbarUpView() {
@@ -93,6 +96,7 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mMaterialSearchView = MaterialSearchView(this)
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
 
@@ -112,7 +116,8 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
             R.id.menu_item_whatsapp -> {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setPackage("com.whatsapp")
-                intent.data = Uri.parse("https://api.whatsapp.com/send?phone=${this.getString(R.string.whats_app_number)}")
+                intent.data =
+                    Uri.parse("https://api.whatsapp.com/send?phone=${this.getString(R.string.whats_app_number)}")
                 if (this.packageManager.resolveActivity(intent, 0) != null) {
                     startActivity(intent)
                 } else {
@@ -124,23 +129,33 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
                 }
             }
             R.id.menu_item_notification -> {
-                NotificationBottomSheetFragment(this).show(supportFragmentManager, NotificationBottomSheetFragment::class.java.simpleName)
+                NotificationBottomSheetFragment(this).show(
+                    supportFragmentManager,
+                    NotificationBottomSheetFragment::class.java.simpleName
+                )
             }
             R.id.menu_item_cart -> {
-                CartBottomSheetFragment().show(supportFragmentManager, CartBottomSheetFragment::class.java.simpleName)
+                CartBottomSheetFragment().show(
+                    supportFragmentManager,
+                    CartBottomSheetFragment::class.java.simpleName
+                )
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-  open  fun updateCartCount(cartCount: Int) {
+    open fun updateCartCount(cartCount: Int) {
         AppSharedPref.setCartCount(this, cartCount)
         updateCartBadge()
     }
 
     fun updateCartBadge() {
         if (this::mItemCart.isInitialized) {
-            Utils.setBadgeCount(this, (mItemCart.icon as LayerDrawable), AppSharedPref.getCartCount(this))
+            Utils.setBadgeCount(
+                this,
+                (mItemCart.icon as LayerDrawable),
+                AppSharedPref.getCartCount(this)
+            )
 
             updateBadge()
         }
@@ -156,10 +171,10 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
 
-
     fun addBadge() {
         mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.visibility = View.VISIBLE
-        mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.text = AppSharedPref.getCartCount(this).toString()
+        mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.text =
+            AppSharedPref.getCartCount(this).toString()
     }
 
     fun removeBadge() {
@@ -223,17 +238,16 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         when ((response as BaseModel).otherError) {
             ConstantsHelper.CUSTOMER_NOT_EXIST -> {
                 AlertDialogHelper.showNewCustomDialog(
-                        this,
-                        getString(R.string.error),
-                        response.message,
-                        false,
-                        getString(R.string.ok),
-                        { dialogInterface: DialogInterface, _: Int ->
-                            dialogInterface.dismiss()
-                            Utils.logoutAndGoToHome(this)
-                        }
-                        , ""
-                        , null)
+                    this,
+                    getString(R.string.error),
+                    response.message,
+                    false,
+                    getString(R.string.ok),
+                    { dialogInterface: DialogInterface, _: Int ->
+                        dialogInterface.dismiss()
+                        Utils.logoutAndGoToHome(this)
+                    }, "", null
+                )
             }
         }
     }
@@ -242,22 +256,22 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
         if (mDataBaseHandler.getCartTableRowCount() > 0) {
 
             AlertDialogHelper.showNewCustomDialog(
-                    this,
-                    getString(R.string.offline_cart),
-                    getString(R.string.sync_cart_with_server_body_message),
-                    false,
-                    getString(R.string.sync_now),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        ToastHelper.showToast(this, getString(R.string.syncing_in_bg))
-                        val syncCartDbWithServer = SyncCartDbWithServer(this@BaseActivity)
-                        syncCartDbWithServer.execute()
-                    },
-                    getString(R.string.clear_all),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        mDataBaseHandler.clearCartTableData()
-                    })
+                this,
+                getString(R.string.offline_cart),
+                getString(R.string.sync_cart_with_server_body_message),
+                false,
+                getString(R.string.sync_now),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    ToastHelper.showToast(this, getString(R.string.syncing_in_bg))
+                    val syncCartDbWithServer = SyncCartDbWithServer(this@BaseActivity)
+                    syncCartDbWithServer.execute()
+                },
+                getString(R.string.clear_all),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    mDataBaseHandler.clearCartTableData()
+                })
         }
     }
 
@@ -266,19 +280,30 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
     fun openScanner(requestCode: Int) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                val intent = Intent(Intent.ACTION_MAIN);
-                intent.setClassName(baseContext, "com.google.firebase.ml.mobikul.kotlin.LiveBarcodeScanningActivity");
-                startActivityForResult(intent, requestCode)
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val permissions = arrayOf(Manifest.permission.CAMERA)
-                    requestPermissions(permissions, ConstantsHelper.RC_OPEN_SCANNER)
-                }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.setClassName(
+                baseContext,
+                "com.google.firebase.ml.mobikul.kotlin.LiveBarcodeScanningActivity"
+            )
+            startActivityForResult(intent, requestCode)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val permissions = arrayOf(Manifest.permission.CAMERA)
+                requestPermissions(permissions, ConstantsHelper.RC_OPEN_SCANNER)
             }
+        }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         var allPermissionsGranted = true
         for (eachGrantResult in grantResults) {
@@ -294,33 +319,38 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
     override fun onNotificationClick(notificationModel: NotificationList) {
-        mDataBaseHandler.addOrUpdateIntoNotificationTable(notificationModel.id.toInt())
+        mDataBaseHandler.insertInfoNotificationTable(notificationModel.id.toInt())
     }
 
     override fun onNotificationFragmentClose() {
         callNotificationApi(this)
     }
 
-    fun callNotificationApi(context:Context) {
+    fun callNotificationApi(context: Context) {
         println("Notification api is calling>>>>>>>>>>>>")
-        val mHashIdentifier = Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(context))
-        ApiConnection.getNotificationsList(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier))
+        val mHashIdentifier =
+            Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(context))
+        ApiConnection.getNotificationsList(
+            this,
+            mDataBaseHandler.getETagFromDatabase(mHashIdentifier)
+        )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(context, false) {
                 override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
                     super.onNext(notificationListResponseModel)
                     if (notificationListResponseModel.success) {
-                        HomeActivity().onNotificationSuccessfulResponse(notificationListResponseModel)
+                        if (context is HomeActivity) {
+                            context.onNotificationSuccessfulResponse(
+                                notificationListResponseModel
+                            )
+                        }
+
                     } else {
                         onFailureResponse(notificationListResponseModel)
                     }
                 }
 
-                override fun onError(e: Throwable) {
-                    super.onError(e)
-
-                }
             })
     }
 

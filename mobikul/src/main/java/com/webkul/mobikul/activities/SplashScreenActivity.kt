@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.security.ProviderInstaller
 import com.webkul.mobikul.R
@@ -110,7 +111,7 @@ class SplashScreenActivity : BaseActivity() {
 //        checkLocalData()
         callApi()
     }
-
+    private   val TAG = "SplashScreenActivity"
     @SuppressLint("CheckResult")
     private fun checkLocalData() {
 
@@ -118,21 +119,21 @@ class SplashScreenActivity : BaseActivity() {
             callApi()
         } else {
             mHashIdentifier = getMd5String("homePageData" + AppSharedPref.getWebsiteId(this) + AppSharedPref.getStoreId(this) + AppSharedPref.getCustomerToken(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCurrencyCode(this) + mUrl)
-
+            Log.d(TAG, "checkLocalData: $mHashIdentifier")
             mDataBaseHandler.getResponseFromDatabaseOnThread(mHashIdentifier)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(object : Observer<String> {
                         override fun onNext(data: String) {
                             if (data.isBlank()) {
-                                callApi()
+                                callApi(mHashIdentifier)
                             } else {
                                 updateAnimationCheckAndProceed(data)
                             }
                         }
 
                         override fun onError(e: Throwable) {
-                            callApi()
+                            callApi(mHashIdentifier)
                         }
 
                         override fun onSubscribe(disposable: Disposable) {
@@ -156,26 +157,30 @@ class SplashScreenActivity : BaseActivity() {
     }
 
 
-    private fun callApi() {
-        ApiConnection.getHomePageData(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier), mUrl.isNotBlank(), mUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<HomePageDataModel>(this, true) {
-                    override fun onNext(responseModel: HomePageDataModel) {
-                        super.onNext(responseModel)
-                        if (responseModel.success) {
-                            mIsFreshHomePageData = true
-                            onSuccessfulResponse(responseModel)
-                        } else {
-                            onFailureResponse(responseModel)
-                        }
-                    }
+    private fun callApi( ) {
+        callApi(mHashIdentifier)
+    }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        onErrorResponse(e)
+    private fun callApi(mHashIdentifier: String) {
+        ApiConnection.getHomePageData(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier), mUrl.isNotBlank(), mUrl)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<HomePageDataModel>(this, true) {
+                override fun onNext(responseModel: HomePageDataModel) {
+                    super.onNext(responseModel)
+                    if (responseModel.success) {
+                        mIsFreshHomePageData = true
+                        onSuccessfulResponse(responseModel)
+                    } else {
+                        onFailureResponse(responseModel)
                     }
-                })
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    onErrorResponse(e)
+                }
+            })
     }
 
     private fun onSuccessfulResponse(homePageDataModel: HomePageDataModel) {
