@@ -704,6 +704,7 @@
     <string name="send_message">Send Message</string>
     <string name="send_mail">Send mail</string>
     <string name="unable_to_open_file">Unable to open file</string>
+    <string name="pdf_viwer_is_not_installed">PDF Viewer is not installed</string>
 
 
 </resources>

@@ -14,13 +14,14 @@
 package com.webkul.mobikul.handlers
 
 import com.webkul.mobikul.fragments.NotificationBottomSheetFragment
-import com.webkul.mobikul.interfaces.OnNotificationListener
 
-class NotificationBottomSheetHandler(var mFragmentContext: NotificationBottomSheetFragment,val notificationListener: OnNotificationListener) {
+class NotificationBottomSheetHandler(
+    var mFragmentContext: NotificationBottomSheetFragment
+) {
 
     fun onClickCancelBtn() {
         mFragmentContext.dismiss()
-        notificationListener.onNotificationFragmentClose()
+        mFragmentContext.onNotificationFragmentClose()
 
     }
 }

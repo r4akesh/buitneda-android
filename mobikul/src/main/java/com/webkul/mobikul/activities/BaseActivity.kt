@@ -35,6 +35,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.webkul.mobikul.R
 import com.webkul.mobikul.broadcast_receivers.NetworkStateReceiver
@@ -48,14 +49,9 @@ import com.webkul.mobikul.helpers.ConstantsHelper.RC_VOICE
 import com.webkul.mobikul.interfaces.OnNotificationListener
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.extra.NotificationList
-import com.webkul.mobikul.models.extra.NotificationListResponseModel
 import com.webkul.mobikul.network.ApiClient
-import com.webkul.mobikul.network.ApiConnection
-import com.webkul.mobikul.network.ApiCustomCallback
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkStateReceiverListener,
     OnNotificationListener {
@@ -323,35 +319,9 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
     override fun onNotificationFragmentClose() {
-        callNotificationApi(this)
-    }
+        LocalBroadcastManager.getInstance(this)
+            .sendBroadcast(Intent(HomeActivity.BROADCAST_DEFAULT_ALBUM_CHANGED))
 
-    fun callNotificationApi(context: Context) {
-        println("Notification api is calling>>>>>>>>>>>>")
-        val mHashIdentifier =
-            Utils.getMd5String("getNotificationsList" + AppSharedPref.getStoreId(context))
-        ApiConnection.getNotificationsList(
-            this,
-            mDataBaseHandler.getETagFromDatabase(mHashIdentifier)
-        )
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<NotificationListResponseModel>(context, false) {
-                override fun onNext(notificationListResponseModel: NotificationListResponseModel) {
-                    super.onNext(notificationListResponseModel)
-                    if (notificationListResponseModel.success) {
-                        if (context is HomeActivity) {
-                            context.onNotificationSuccessfulResponse(
-                                notificationListResponseModel
-                            )
-                        }
-
-                    } else {
-                        onFailureResponse(notificationListResponseModel)
-                    }
-                }
-
-            })
     }
 
 

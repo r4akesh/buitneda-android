@@ -21,15 +21,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemNotificationListBinding
+import com.webkul.mobikul.fragments.NotificationBottomSheetFragment
 import com.webkul.mobikul.handlers.NotificationActivityHandler
 import com.webkul.mobikul.interfaces.OnNotificationListener
 import com.webkul.mobikul.models.extra.NotificationList
 
-class NotificationListRvAdapter(private val mContext: Context,
-                                private val mListData: ArrayList<NotificationList>,
-                                private val onNotificationListener: OnNotificationListener
+class NotificationListRvAdapter(
+    private val mContext: Context,
+    private val mListData: ArrayList<NotificationList>,
+    private val fragmentRef: NotificationBottomSheetFragment
 
-                                ) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>(),
+) : RecyclerView.Adapter<NotificationListRvAdapter.ViewHolder>(),
     OnNotificationListener {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -40,7 +42,7 @@ class NotificationListRvAdapter(private val mContext: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         holder.mBinding?.data = eachListData
-        holder.itemView.setOnClickListener { onNotificationListener.onNotificationClick(eachListData) }
+        holder.itemView.setOnClickListener { fragmentRef.onNotificationClick(eachListData) }
         holder.mBinding?.handler = NotificationActivityHandler(this)
         holder.mBinding?.executePendingBindings()
     }
@@ -56,7 +58,7 @@ class NotificationListRvAdapter(private val mContext: Context,
     override fun onNotificationClick(notificationModel: NotificationList) {
         notificationModel.isRead = true
         notifyDataSetChanged()
-        onNotificationListener.onNotificationClick(notificationModel)
+        fragmentRef.onNotificationClick(notificationModel)
     }
 
     override fun onNotificationFragmentClose() {

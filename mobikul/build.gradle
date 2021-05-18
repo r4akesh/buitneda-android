@@ -53,6 +53,8 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resConfigs "en", "fr"
     }
     lintOptions {
         checkReleaseBuilds false
