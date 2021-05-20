@@ -690,7 +690,7 @@
     <string name="group_by">Group By</string>
     <string name="wallet">My Wallet</string>
     <string name="pay">Pay</string>
-    <string name="confirm_recieved">Confirm Recieved</string>
+    <string name="confirm_recieved">Confirm Received</string>
     <string name="web_login">Web Login</string>
     <string name="shipto">SHIP TO :</string>
     <string name="select_country">Select Country</string>
@@ -706,6 +706,7 @@
     <string name="unable_to_open_file">Unable to open file</string>
     <string name="pdf_viwer_is_not_installed">PDF Viewer is not installed</string>
     <string name="invoice_download_start">Invoice is downloading start.</string>
+    <string name="invoice_could_not_download">Invoice is not available please contact Administrator.</string>
 
 
 </resources>

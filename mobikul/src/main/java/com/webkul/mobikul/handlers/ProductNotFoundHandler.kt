@@ -42,7 +42,7 @@ class ProductNotFoundHandler(private val mContext: ProductNotFound) {
 //            CropImage.startPickImageActivity(mContext)
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(mContext);
+                    .start(mContext)
 
 
         } else {

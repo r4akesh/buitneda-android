@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -15,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +50,7 @@ class HomeActivity : BaseActivity() {
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
+
     }
 
     open var homeFragment: HomeFragment? = null
@@ -63,11 +67,19 @@ class HomeActivity : BaseActivity() {
             .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_DEFAULT_ALBUM_CHANGED))
 
         startInitialization()
-        updateCartBadge()
-        updateCartCount(AppSharedPref.getCartCount(this))
-        callApi()
 
-        callNotificationApi()
+        Handler(Looper.myLooper()!!).postDelayed({
+            updateCartBadge()
+            updateCartCount(AppSharedPref.getCartCount(this))
+            if (!MobikulApplication.isCalledPromotionalBanner){
+                MobikulApplication.isCalledPromotionalBanner = true
+                callApi()
+            }
+
+
+            callNotificationApi()
+        },    500.toLong())
+
 
     }
 
@@ -440,7 +452,7 @@ class HomeActivity : BaseActivity() {
             dialog.setContentView(R.layout.home_banner_dialog_layout)
             val image: ImageView = dialog.findViewById(R.id.dialogBanner)
             val closeImage: ImageView = dialog.findViewById(R.id.closeBannerBtn)
-            Picasso.with(this).load(promotionBanner.image).into(image)
+            Glide.with(this).load(promotionBanner.image).into(image)
             image.setOnClickListener {
                 val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
                 navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
@@ -481,9 +493,13 @@ class HomeActivity : BaseActivity() {
     val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             when (intent?.action) {
-                BROADCAST_DEFAULT_ALBUM_CHANGED -> callNotificationApi()
+                BROADCAST_DEFAULT_ALBUM_CHANGED -> clearAllNotification()
             }
         }
+    }
+
+    private fun clearAllNotification() {
+        homeFragment!!.showBadge(0)
     }
 
     private fun callNotificationApi() {

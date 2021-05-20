@@ -424,7 +424,6 @@
                         tools:text="Notify me when this product is in stock" />
 
 
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -512,30 +511,30 @@
                                 android:textSize="@dimen/text_size_small" />
                         </RelativeLayout>-->
 
-                          <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
-                        android:padding="@dimen/spacing_small"
-                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}">
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
+                            android:padding="@dimen/spacing_small"
+                            android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/Montserrat-SemiBold.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:drawableTint="@color/single_star_color"
-                            android:drawableStart="@drawable/ic_notification"
-                            android:drawablePadding="@dimen/spacing_tiny"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="Notify me"
-                            android:textAllCaps="true"
-                            android:textColor="@color/single_star_color"
-                            android:textSize="@dimen/text_size_small" />
-                    </RelativeLayout>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:drawableStart="@drawable/ic_notification"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:drawableTint="@color/single_star_color"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:text="Notify me"
+                                android:textAllCaps="true"
+                                android:textColor="@color/single_star_color"
+                                android:textSize="@dimen/text_size_small" />
+                        </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"

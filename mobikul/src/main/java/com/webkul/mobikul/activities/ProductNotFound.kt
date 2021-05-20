@@ -3,21 +3,15 @@ package com.webkul.mobikul.activities
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.webkul.mobikul.R
-import com.webkul.mobikul.databinding.ActivityMyOrdersBinding
 import com.webkul.mobikul.databinding.ActivityProductNotFoundBinding
-import com.webkul.mobikul.handlers.AccountInfoActivityHandler
 import com.webkul.mobikul.handlers.ProductNotFoundHandler
-import java.io.File
 
 class ProductNotFound : BaseActivity() {
 
@@ -26,7 +20,8 @@ class ProductNotFound : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_product_not_found)
+        mContentViewBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_product_not_found)
         startInitialization()
     }
 
@@ -49,16 +44,22 @@ class ProductNotFound : BaseActivity() {
     }
 
 
-     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-         super.onActivityResult(requestCode, resultCode, data)
-         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
-            CropImage.activity(CropImage.getPickImageResultUri(this, data))
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                CropImage.activity(CropImage.getPickImageResultUri(this, data))
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .start(this)
+            }
+
+
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            mFileUri = CropImage.getActivityResult(data).uri
-            mContentViewBinding.productImage.setImageURI(mFileUri)
-            mContentViewBinding.productImage.visibility = View.VISIBLE
+            if (resultCode == Activity.RESULT_OK) {
+                mFileUri = CropImage.getActivityResult(data).uri
+                mContentViewBinding.productImage.setImageURI(mFileUri)
+                mContentViewBinding.productImage.visibility = View.VISIBLE
+            }
 //            uploadPic(CropImage.getActivityResult(data).uri)
         }
     }

@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemOrderInvoicesBinding
+import com.webkul.mobikul.fragments.BaseFragment
 import com.webkul.mobikul.fragments.InvoicesFragment
 import com.webkul.mobikul.handlers.OrderInvoicesRvHandler
 import com.webkul.mobikul.models.user.InvoiceItem
@@ -37,7 +38,7 @@ import com.webkul.mobikul.models.user.InvoiceItem
  * @link https://store.webkul.com/license.html
  */
 
-class OrderInvoicesRvAdapter(private val mFragmentContext: InvoicesFragment, private val mListData: ArrayList<InvoiceItem>) : RecyclerView.Adapter<OrderInvoicesRvAdapter.ViewHolder>() {
+class OrderInvoicesRvAdapter(private val mFragmentContext: BaseFragment, private val mListData: ArrayList<InvoiceItem>) : RecyclerView.Adapter<OrderInvoicesRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderInvoicesRvAdapter.ViewHolder {
         return ViewHolder(LayoutInflater.from(mFragmentContext.context).inflate(R.layout.item_order_invoices, parent, false))

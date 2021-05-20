@@ -26,20 +26,21 @@
             android:layout_height="match_parent"
             android:contentDescription="Splash Screen"
             android:scaleType="centerCrop"
-            android:visibility="@{ApplicationConstants.ENABLE_SPLASH_ANIMATION ? View.GONE : View.VISIBLE}"
+
             app:srcCompat="@drawable/splash_screen"
             tools:ignore="HardcodedText" />
+<!--        android:visibility="@{ApplicationConstants.ENABLE_SPLASH_ANIMATION ? View.GONE : View.VISIBLE}"-->
 
-        <com.airbnb.lottie.LottieAnimationView
+       <!-- <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/splash_screen_animation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{ApplicationConstants.ENABLE_SPLASH_ANIMATION ? View.VISIBLE : View.GONE}"
             app:lottie_autoPlay="true"
             app:lottie_fileName="splash_screen.json"
-            app:lottie_loop="false" />
+            app:lottie_loop="false" />-->
 
-        <ProgressBar
+        <!--<ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,6 +49,6 @@
             android:indeterminate="true"
             android:scaleY="3"
             android:theme="@style/AppTheme.WhiteAccent"
-            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />-->
     </RelativeLayout>
 </layout>

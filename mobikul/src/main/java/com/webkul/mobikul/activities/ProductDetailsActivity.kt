@@ -354,6 +354,7 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     fun onSuccessfulResponse(productDetailsPageModel: ProductDetailsPageModel) {
+        productDetailsPageModel.showBackInStockAlert = true
         mContentViewBinding.data = productDetailsPageModel
         mContentViewBinding.productName = productDetailsPageModel.name
         mProductDetailsPageModel = productDetailsPageModel
