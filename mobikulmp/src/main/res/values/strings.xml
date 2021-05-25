@@ -44,7 +44,7 @@
     <string name="is_require_text">is required !</string>
     <string name="sign_up_as_seller">Do you want to become Seller/Vendor?</string>
     <string name="shop_url">Shop Url</string>
-    <string name="nif_number">NIF Number</string>
+
     <string name="shop_name">Shop Name</string>
     <string name="shop_url_desc">(This will be used to display your public profile)</string>
     <string name="waiting_for_approval_from_admin_your_application_current_status_is_pending">Waiting for approval from admin, your application current status is Pending</string>

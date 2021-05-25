@@ -56,7 +56,10 @@
 
     <color name="place_order_btn_color">#59A600</color>
 
-    <color name="product_discount_color">#6BC700</color>
+    <color name="product_discount_color">#FFFFFF</color>
+    <color name="product_discount_text_color">#EA3009</color>
+
+
 
     <!-- Star Rating Color -->
     <color name="single_star_color">#E51A1A</color>

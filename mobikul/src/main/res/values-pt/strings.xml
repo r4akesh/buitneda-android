@@ -103,7 +103,7 @@ Houve algum erro ao acessar flash em seu dispositivo.
     <string name="forgot_password">Esqueceu a senha?</string>
     <string name="don_t_have_an_account">Não tem conta?</string>
     <string name="sign_up">Inscrição</string>
-    <string name="logged_in">Logado</string>
+    <string name="logged_in">Ligado ou sessão iniciada</string>
     <string name="forgot_your_password">Esqueceu sua senha?</string>
     <string name="please_enter_your_email_address_below_you_will_receive_a_link_to_reset_your_password_">
 Por favor, insira seu endereço de e-mail abaixo. Você receberá um link para redefinir sua senha.
@@ -154,11 +154,11 @@ O comprimento mínimo deste campo deve ser igual ou superior a 8 símbolos. Espa
     <string name="product_reviews">Avaliações de produtos</string>
     <string name="address_book">Catálogo de endereços</string>
     <string name="account_information">Informações da conta</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out">Terminar sessão</string>
     <string name="logout_warning">
 Você não será capaz de gerenciar e rastrear suas ordens.
 </string>
-    <string name="logout_message">Agora você está logado</string>
+    <string name="logout_message">ens a sessão iniciada</string>
     <string name="activity_title_my_orders">Minhas Ordens</string>
     <string name="x_orders">%d Ordem(s)</string>
     <string name="order_x">Ordem #%s</string>
@@ -379,7 +379,7 @@ Faça login para adicionar este produto à sua lista de desejos
     <string name="alert_please_select_one_of_each_rating">Por favor, selecione uma das classificações acima</string>
     <string name="login_to_checkout">Faça login no checkout</string>
     <string name="product_disabled">Este produto não está mais disponível</string>
-    <string name="x_off">%s Off</string>
+    <string name="x_off">%s Fora</string>
     <string name="offer">Oferecer</string>
     <string name="update_cart">Carrinho de atualização</string>
     <string name="new_text">Novo</string>
@@ -685,4 +685,20 @@ Selecione Payee para quem você deseja transferir o valor
     <string name="in_stock">Em estoque</string>
     <string name="out_stock_error_message">Produto está fora do estoque nesta área</string>
     <string name="auction_time_over">o tempo de leilão acabou</string>
+
+    <string name="product_not_found_title">Produto não encontrado</string>
+    <string name="product_not_found">Produto não encontrado</string>
+    <string name="send_message">Enviar mensagem</string>
+    <string name="send_mail">Enviar email</string>
+    <string name="name_of_product">Nome do produto</string>
+    <string name="we_apologize_for_that_you_cannot_find_product">Podes sugerir produtos</string>
+    <string name="any_other_info_about_the_product">Detalhes do produto</string>
+    <string name="add_new_image">Adicionar nova imagem</string>
+    <string name="send">Enviar</string>
+    <string name="notify_me">Avise-me</string>
+    <string name="individual">Individual</string>
+
+
+    <string name="first_name_company">Empresa</string>
+    <string name="your_name">Lda</string>
 </resources>

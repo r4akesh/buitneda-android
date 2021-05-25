@@ -56,6 +56,11 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         mContentViewBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
+
+        mContentViewBinding.discountCode.visibility = View.GONE
+        mContentViewBinding.discountCodeHeading.visibility = View.GONE
+
+
         return mContentViewBinding.root
     }
 

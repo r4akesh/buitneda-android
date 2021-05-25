@@ -50,6 +50,7 @@ import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 class HomeFragment : Fragment() {
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
     var mResendTimer: CountDownTimer? = null
     private var viewModel: ViewModel? = null
     private var hashIdentifier = ""
-    private var currentCache = 0
+//    private var currentCache = 0
 
     companion object {
         var instanceOf: Int = 0
@@ -154,15 +155,15 @@ class HomeFragment : Fragment() {
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
             if (NetworkHelper.isNetworkAvailable(context!!)) {
-                callApi(currentCache)
+//                callApiBackground()
                 Thread {
                     // do background stuff here
-                    currentCache++
-
-                    if (currentCache > 3) {
-                        currentCache = 1
-                    }
-                    Log.d(TAG, "initSwipeRefresh: $currentCache")
+//                    currentCache++
+//
+//                    if (currentCache > 3) {
+//                        currentCache = 1
+//                    }
+//                    Log.d(TAG, "initSwipeRefresh: $currentCache")
                     loadDataFromDB()
                 }.start()
 
@@ -198,13 +199,14 @@ class HomeFragment : Fragment() {
             callApi()
 
         }
-        callApi(1)
+        callApiBackground()
         checkAndLoadLocalData()
     }
 
 
     private fun loadDataFromDB() {
-        createHash("$currentCache")
+//        createHash("$currentCache")
+        createHash("")
         BaseActivity.mDataBaseHandler.getResponseFromDatabaseOnThread(hashIdentifier)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -282,9 +284,13 @@ class HomeFragment : Fragment() {
             })
     }
 
-    private fun callApi(refreshCount: Int) {
-        Log.d(TAG, "callApi: refreshCount $refreshCount")
-        val hash = returnHash("$refreshCount")
+    private fun callApiBackground() {
+        if (context == null) {
+            return
+        }
+//        Log.d(TAG, "callApi: refreshCount $refreshCount")
+//        val hash = returnHash(if ("$refreshCount" == "0") "" else "$refreshCount")
+        val hash = returnHash("")
         Log.d(TAG, "callApi: hash $hash")
         ApiConnection.getHomePageData(
             context!!,
@@ -297,9 +303,13 @@ class HomeFragment : Fragment() {
             .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
                 override fun onNext(homePageDataModel: HomePageDataModel) {
                     super.onNext(homePageDataModel, hash)
-                    if (homePageDataModel.success && refreshCount != 3) {
-                        callApi(refreshCount + 1)
+//                    if (homePageDataModel.success && refreshCount != 2) {
+//                        callApi(refreshCount + 1)
+//                    }
+                    Timer("backgroundHomeAPI", false).schedule(3000) {
+                        callApiBackground()
                     }
+
                 }
 
             })
@@ -313,9 +323,30 @@ class HomeFragment : Fragment() {
                 context!!
             ) + refreshCount
         )
+
+        Log.d(
+            TAG,
+            "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
+                context!!
+            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
+                context!!
+            ) + ":" + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + ":" + refreshCount
+        )
     }
 
     private fun returnHash(refreshCount: String): String {
+        Log.d(
+            TAG,
+            "cacheData: API " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
+                context!!
+            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
+                context!!
+            ) + ":" + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + ":" + refreshCount
+        )
         return Utils.getMd5String(
             "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
                 context!!
@@ -323,6 +354,8 @@ class HomeFragment : Fragment() {
                 context!!
             ) + refreshCount
         )
+
+
     }
 
     fun initIntent() {
@@ -933,13 +966,21 @@ setupFeaturesCategoriesRv(category)*/
             )
 
             if (mHomePageDataModel.themeType == 1) {
-                categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
-                    GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
+
                 categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
                     carousel.featuredCategories?.let {
+                        // TODO: 24/05/21 FIX ME
+                        val tmp = it//.take(3) as ArrayList
+                        categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
+                            GridLayoutManager(
+                                context,
+                                if (tmp.size >= 5) 2 else 1,
+                                GridLayoutManager.HORIZONTAL,
+                                false
+                            )
                         FeaturedCategoriesOtherRvAdapter(
                             this,
-                            it,
+                            tmp,
                             ConstantsHelper.VIEW_TYPE_GRID
                         )
                     }
@@ -1215,4 +1256,10 @@ setupFeaturesCategoriesRv(category)*/
             mContentViewBinding.bellNotificationBadge.text = count.toString()
         }
     }
+
+    fun gotToTop() {
+        mContentViewBinding.mainScroller.fullScroll(View.FOCUS_UP)
+
+    }
+
 }

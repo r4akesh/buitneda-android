@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/carousel_label"
             fontPath="fonts/Montserrat-SemiBold.ttf"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_marginStart="@dimen/spacing_normal"
@@ -42,7 +42,7 @@
            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/featured_categories_rv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"

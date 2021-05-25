@@ -127,7 +127,7 @@ class SplashScreenActivity : BaseActivity() {
                     this
                 ) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCurrencyCode(this) + mUrl
             )
-            Log.d(TAG, "checkLocalData: " + "homePageData" + AppSharedPref.getWebsiteId(this) + ":" +
+            Log.d(TAG, "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(this) + ":" +
                     AppSharedPref.getStoreId(this) + ":" +
                     AppSharedPref.getCustomerToken(
                 this

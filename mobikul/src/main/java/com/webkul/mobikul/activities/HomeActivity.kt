@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -50,6 +51,7 @@ class HomeActivity : BaseActivity() {
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
+        private const val TAG = "HomeActivity"
 
     }
 
@@ -182,11 +184,11 @@ class HomeActivity : BaseActivity() {
             2 -> {
                 if (homeFragment != null) {
                     fragment = homeFragment
-
+                    Log.d(TAG, "setupFragment: 2")
                     for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
-
+                    fragment!!.gotToTop()
                     supportFragmentManager.beginTransaction().show(fragment!!)
 //                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 //                        .setPrimaryNavigationFragment(fragment)
@@ -361,10 +363,9 @@ class HomeActivity : BaseActivity() {
 
     fun onLatestVersionResponse(result: String?) {
         try {
-            if (java.lang.Double.parseDouble(BuildConfig.VERSION_NAME) < java.lang.Double.parseDouble(
-                    result
-                )
-            ) {
+            if (java.lang.Double.parseDouble(BuildConfig.VERSION_NAME) < java.lang.Double.parseDouble(result)) {
+//                if (true) {
+
                 AlertDialogHelper.showNewCustomDialog(
                     this,
                     getString(R.string.update_alert_title),
@@ -380,10 +381,7 @@ class HomeActivity : BaseActivity() {
                             ), ConstantsHelper.RC_UPDATE_APP_FROM_PLAY_STORE
                         )
                     },
-                    getString(R.string.later),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                    })
+                    )
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -395,22 +393,16 @@ class HomeActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1010) {
             if (supportFragmentManager.backStackEntryCount > 0)
-                if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("AccountDetailsFragment")
+                if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString().contains("AccountDetailsFragment")
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_profile).isChecked =
                         true
-                } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("CategoryPageFragment")
+                } else if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString().contains("CategoryPageFragment")
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_category).isChecked =
                         true
-                } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && (supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("HomeFragment")
-                            || supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount)
+                } else if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString().contains("HomeFragment")
+                            || supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount]
                         .toString().contains("SupportRequestManagerFragment"))
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked =

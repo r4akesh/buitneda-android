@@ -169,7 +169,7 @@
                         android:padding="@dimen/spacing_tiny"
                         android:text="@{@string/x_off(data.getDiscountPercentage())}"
                         android:textAllCaps="true"
-                        android:textColor="@color/product_discount_color"
+                        android:textColor="@color/product_discount_text_color"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
                         tools:text="$310.00" />

@@ -38,7 +38,7 @@ class ProductNotFound : BaseActivity() {
     }
 
     private fun initSupportActionBar() {
-        supportActionBar?.title = "Product not found"
+        supportActionBar?.title = getString(R.string.product_not_found_title)
         mContentViewBinding.handler = ProductNotFoundHandler(this)
 
     }

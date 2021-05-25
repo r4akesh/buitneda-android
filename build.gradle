@@ -27,7 +27,7 @@ buildscript {
         //don't change version because models at demo instance upload for this version
         sceneform = '1.7.0'
         //don't change version because models at demo instance upload for this version
-        glide = '4.9.0'
+        glide = '4.12.0'
         zoomy = '1.1.0'
         jsoup = '1.11.3'
         circular_imageview = '2.2.0'

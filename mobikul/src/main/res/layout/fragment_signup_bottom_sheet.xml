@@ -94,6 +94,7 @@
                     android:background="@color/color_background"
                     android:orientation="vertical">
 
+<!--                    android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}"-->
                     <RadioGroup
                         android:id="@+id/toggle"
                         android:layout_width="match_parent"
@@ -103,7 +104,7 @@
                         android:layout_marginRight="50dp"
                         android:layout_marginTop="10dp"
 
-                        android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}"
+
                         android:background="@drawable/pink_out_line"
                         android:orientation="horizontal">
 
@@ -112,14 +113,14 @@
                             android:layout_marginBottom="1dp"
                             android:layout_marginLeft="1dp"
                             android:id="@+id/search"
-                            android:checked="@={!data.signUpAsSeller}"
+                            android:checked="@={!data.signUpAsCompany}"
                             android:background="@drawable/toggle_widget_background"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="Individual"
+                            android:text="@string/individual"
                             android:textColor="@color/mdtp_white" />
 
                         <RadioButton
@@ -130,11 +131,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:checked="@={data.signUpAsSeller}"
+                            android:checked="@={data.signUpAsCompany}"
                             android:background="@drawable/toggle_widget_background"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="Company"
+                            android:text="@string/company"
                             android:textColor="@color/mdtp_white" />
                     </RadioGroup>
 
@@ -202,7 +203,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        app:hintWithAsterisk="@{data.signUpAsSeller ? @string/first_name_company : @string/first_name}">
+                        app:hintWithAsterisk="@{data.signUpAsCompany ? @string/first_name_company : @string/first_name}">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -422,6 +423,8 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+<!--                     android:visibility="@{data.mobileVisible ? View.VISIBLE : View.GONE}"-->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/mobile"
                         style="@style/CustomTilStyle"
@@ -430,7 +433,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.mobileVisible ? View.VISIBLE : View.GONE}"
+
                         app:hintWithAsterisk="@{@string/mobile}">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -454,7 +457,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        android:visibility="@{data.signUpAsSeller ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{data.signUpAsCompany ? View.VISIBLE : View.GONE}"
                         app:hintWithAsterisk="@{@string/nif_number}">
 
                         <!--                        app:helperText="@string/shop_url_desc"-->
@@ -571,22 +574,22 @@
                             android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
-
-<!--                    <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--                        android:id="@+id/sign_up_as_seller_check"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="@dimen/spacing_normal"-->
-<!--                        android:layout_marginTop="@dimen/spacing_normal"-->
-<!--                        android:layout_marginEnd="@dimen/spacing_normal"-->
-<!--                        android:checked="@={data.signUpAsSeller}"-->
-<!--                        android:ellipsize="end"-->
-<!--                        android:lines="2"-->
-<!--                        android:text="@string/sign_up_as_seller"-->
-<!--                        android:textAlignment="viewStart"-->
-<!--                        android:textColor="@color/text_color_primary"-->
-<!--                        android:textSize="@dimen/text_size_small"-->
-<!--                        android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}" />-->
+<!--android:visibility="@{data.sellerRegistrationStatus ? View.VISIBLE : View.GONE}"-->
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/sign_up_as_seller"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:checked="@={data.signUpAsSeller}"
+                        android:ellipsize="end"
+                        android:lines="2"
+                        android:text="@string/sign_up_as_seller"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="@dimen/text_size_small"
+                         />
 
                     <!--         <android.support.design.widget.TextInputLayout
                                  android:id="@+id/shop_name"

@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_tiny"
-                    android:background="@color/color_whiteBlack"
+                    android:background="@color/product_discount_text_color"
                     android:padding="@dimen/spacing_tiny"
                     android:text="@{@string/x_off(data.getDiscountPercentage())}"
                     android:textAllCaps="true"

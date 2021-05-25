@@ -79,7 +79,7 @@ class ProductNotFoundHandler(private val mContext: ProductNotFound) {
             val multipartFileBody = MultipartBody.Part.createFormData("image", File(mContext.mFileUri.path).name, fileBody)
             val name = RequestBody.create(MediaType.parse("text/plain"), mContext.mContentViewBinding.name.text.toString().trim())
             val email = RequestBody.create(MediaType.parse("text/plain"), mContext.mContentViewBinding.email.text.toString().trim())
-            val subject = RequestBody.create(MediaType.parse("text/plain"), mContext.mContentViewBinding.subject.text.toString().trim())
+            val subject = RequestBody.create(MediaType.parse("text/plain"), "Product Not Found" /*mContext.mContentViewBinding.subject.text.toString().trim()*/)
             val message = RequestBody.create(MediaType.parse("text/plain"), mContext.mContentViewBinding.msg.text.toString().trim())
 
             ApiConnection.saveProductNotFoundData(mContext, multipartFileBody, name, email, subject, message)
