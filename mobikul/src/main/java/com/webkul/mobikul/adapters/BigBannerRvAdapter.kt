@@ -10,6 +10,7 @@ import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemBigBannerProductBinding
 import com.webkul.mobikul.databinding.ItemHorizontalScrollerProductViewBinding
 import com.webkul.mobikul.handlers.ProductTileHandler
+import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.models.product.ProductTileData
 
 /**
@@ -25,7 +26,7 @@ import com.webkul.mobikul.models.product.ProductTileData
  * @link https://store.webkul.com/license.html
  */
 
-class BigBannerRvAdapter(private val mContext: Context, private val mListData: ArrayList<ProductTileData>) : RecyclerView.Adapter<BigBannerRvAdapter.ViewHolder>() {
+class BigBannerRvAdapter(private val mContext: Context, private val mListData: ArrayList<ProductTileData>, private val carouselType: String) : RecyclerView.Adapter<BigBannerRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.item_big_banner_product, viewGroup, false)
@@ -37,6 +38,9 @@ class BigBannerRvAdapter(private val mContext: Context, private val mListData: A
         holder.mBinding?.position = position
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)
+        eachListData.id?.let {
+            holder.mBinding?.analysisData = AnalysisModel(carouselType, it)
+        }
         holder.mBinding?.executePendingBindings()
     }
 

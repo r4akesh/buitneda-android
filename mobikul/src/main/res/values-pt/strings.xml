@@ -173,7 +173,7 @@ Você não será capaz de gerenciar e rastrear suas ordens.
     <string name="details">Detalhes</string>
     <string name="download">Download</string>
     <string name="activity_title_my_wish_list">Wishlist</string>
-    <string name="please_enter_your_comments">Por favor, insira seu comentário...</string>
+    <string name="please_enter_your_comments">Por favor, insira seu comentário…</string>
     <string name="sku">Sku</string>
     <string name="price_colon">Preço:</string>
     <string name="qty_colon">Qty:</string>
@@ -700,5 +700,5 @@ Selecione Payee para quem você deseja transferir o valor
 
 
     <string name="first_name_company">Empresa</string>
-    <string name="your_name">Lda</string>
+    <string name="your_name_company">Lda</string>
 </resources>

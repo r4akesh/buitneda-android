@@ -248,7 +248,7 @@
                         android:layout_marginStart="@dimen/spacing_normal"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
-                        app:hintWithAsterisk="@{!data.signUpAsSeller ? @string/last_name : @string/your_name}"
+                        app:hintWithAsterisk="@{!data.signUpAsCompany ? @string/last_name : @string/your_name_company}"
                         >
 
                         <com.google.android.material.textfield.TextInputEditText

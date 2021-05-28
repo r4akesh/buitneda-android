@@ -62,7 +62,7 @@ android {
     }
     buildTypes {
         debug {
-            debuggable true
+            debuggable false
             minifyEnabled false
             shrinkResources false
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")

@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import com.webkul.mobikul.R
-import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.databinding.ItemHomeBannerViewPagerBinding
 import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.HomePageBannerVpHandler
 import com.webkul.mobikul.helpers.AppSharedPref
 import com.webkul.mobikul.models.homepage.BannerImage
+import com.webkul.mobikul.models.product.AnalysisModel
 
 /**
  * Webkul Software.
@@ -25,12 +25,24 @@ import com.webkul.mobikul.models.homepage.BannerImage
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
  */
-class HomePageBannerVpAdapter(private val mContext: HomeFragment, private val mListData: ArrayList<BannerImage>) : PagerAdapter() {
+class HomePageBannerVpAdapter(
+    private val mContext: HomeFragment,
+    private val mListData: ArrayList<BannerImage>,
+    private val carouselType: String
+) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val itemViewPagerBannerBinding = DataBindingUtil.bind<ItemHomeBannerViewPagerBinding>(LayoutInflater.from(mContext.context).inflate(R.layout.item_home_banner_view_pager, container, false))
+        val itemViewPagerBannerBinding = DataBindingUtil.bind<ItemHomeBannerViewPagerBinding>(
+            LayoutInflater.from(mContext.context)
+                .inflate(R.layout.item_home_banner_view_pager, container, false)
+        )
         itemViewPagerBannerBinding!!.data = mListData[position]
         itemViewPagerBannerBinding.handler = HomePageBannerVpHandler(mContext)
+
+
+        carouselType.let {
+            itemViewPagerBannerBinding.analysisData = AnalysisModel(it, mListData[position].id)
+        }
         itemViewPagerBannerBinding.executePendingBindings()
         container.addView(itemViewPagerBannerBinding.root)
         if (AppSharedPref.getStoreCode(mContext.context!!) == "ar")

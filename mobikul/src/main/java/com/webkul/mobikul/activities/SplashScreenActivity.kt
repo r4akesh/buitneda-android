@@ -1,12 +1,9 @@
 package com.webkul.mobikul.activities
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.security.ProviderInstaller
@@ -18,7 +15,6 @@ import com.webkul.mobikul.helpers.AppSharedPref.Companion.KEY_PRICE_PRECISION
 import com.webkul.mobikul.helpers.AppSharedPref.Companion.PRICE_FORMAT_PREF
 import com.webkul.mobikul.helpers.ApplicationConstants.BASE_URL
 import com.webkul.mobikul.helpers.ApplicationConstants.DEFAULT_WEBSITE_ID
-import com.webkul.mobikul.helpers.ApplicationConstants.ENABLE_SPLASH_ANIMATION
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE
@@ -74,6 +70,9 @@ class SplashScreenActivity : BaseActivity() {
         FirebaseAnalyticsHelper.logAppOpenEvent()
 //        addAnimationListener()
         checkAction()
+
+
+
     }
 
     /*private fun addAnimationListener() {
@@ -127,11 +126,15 @@ class SplashScreenActivity : BaseActivity() {
                     this
                 ) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCurrencyCode(this) + mUrl
             )
-            Log.d(TAG, "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(this) + ":" +
-                    AppSharedPref.getStoreId(this) + ":" +
-                    AppSharedPref.getCustomerToken(
-                this
-            ) + ":" + AppSharedPref.getQuoteId(this) + ":" + AppSharedPref.getCurrencyCode(this) + mUrl)
+            Log.d(
+                TAG, "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(this) + ":" +
+                        AppSharedPref.getStoreId(this) + ":" +
+                        AppSharedPref.getCustomerToken(
+                            this
+                        ) + ":" + AppSharedPref.getQuoteId(this) + ":" + AppSharedPref.getCurrencyCode(
+                    this
+                ) + mUrl
+            )
             Log.d(TAG, "checkLocalData: $hashIdentifier")
             mDataBaseHandler.getResponseFromDatabaseOnThread(hashIdentifier)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -167,9 +170,9 @@ class SplashScreenActivity : BaseActivity() {
         }*/
         mIsAnimationFinished = true
         onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
-       /* Handler(Looper.myLooper()!!).postDelayed({
-            onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
-        }, if (ENABLE_SPLASH_ANIMATION) 0.toLong() else 2000.toLong())*/
+        /* Handler(Looper.myLooper()!!).postDelayed({
+             onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
+         }, if (ENABLE_SPLASH_ANIMATION) 0.toLong() else 2000.toLong())*/
     }
 
 
@@ -333,6 +336,39 @@ class SplashScreenActivity : BaseActivity() {
             intent.putExtra(BUNDLE_KEY_IS_FRESH_HOME_PAGE_DATA, mIsFreshHomePageData)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+
+            val bundle: Bundle? = this.intent.extras
+            bundle?.let {
+//                val notificationType = this.intent.getStringExtra("notificationType")
+//                val productId = this.intent.getStringExtra("productId")
+//                val productName = this.intent.getStringExtra("productName")
+//                val categoryName = this.intent.getStringExtra("categoryName")
+//                val incrementId = this.intent.getStringExtra("incrementId")
+//                val categoryId = this.intent.getStringExtra("categoryId")
+//
+//
+//                Log.d(TAG, "startHomeActivity: $notificationType")
+//
+//
+//                intent.putExtra("notificationType", notificationType)
+//                intent.putExtra("productId", productId)
+//                intent.putExtra("productName", productName)
+//                intent.putExtra("categoryName", categoryName)
+//                intent.putExtra("categoryId", categoryId)
+//                intent.putExtra("incrementId", incrementId)
+
+
+
+                val bundleKeySet = bundle.keySet() // string key set
+
+                for (key in bundleKeySet) { // traverse and print pairs
+                    Log.i(TAG, key + " : " + bundle.getString(key))
+                    intent.putExtra(key!!, bundle.getString(key))
+                }
+            }
+
+
             startActivity(intent)
             finish()
         }

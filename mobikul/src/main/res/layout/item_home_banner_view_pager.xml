@@ -15,6 +15,9 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.HomePageBannerVpHandler" />
+        <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
     </data>
 
     <RelativeLayout
@@ -23,7 +26,7 @@
         android:layout_height="match_parent"
         android:background="@color/color_background"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor)}">
+        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor, analysisData)}">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

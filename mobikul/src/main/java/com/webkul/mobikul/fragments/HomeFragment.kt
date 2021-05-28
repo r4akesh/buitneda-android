@@ -37,6 +37,7 @@ import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.SortOrder
 import com.webkul.mobikul.models.homepage.Carousel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
+import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import com.webkul.mobikul.view_model.ViewModel
@@ -556,7 +557,7 @@ class HomeFragment : Fragment() {
 
 //top banner with search
         activity?.runOnUiThread {
-            setupOfferBannerRv(bannerImage)
+            setupOfferBannerRv(bannerImage, "bannerimage")
         }
 
 
@@ -625,38 +626,47 @@ setupFeaturesCategoriesRv(category)*/
                         if (carousel.id == "flashDeals") {
                             carousel.label = "\uD83D\uDD25" + carousel.label
 //                            addFlashDealProduct(carousel)
-                            addProductCarousel(carousel)
-                        } else
-                            addProductCarousel(carousel)
+                            addProductCarousel(carousel, "flashDeals")
+                        } else {
+                            addProductCarousel(carousel, "${carousel.type}-${carousel.id}")
+//                            carousel.type?.let {
+//                                Log.d(TAG, "logHomeEvent: asdasdasdd${it}")
+//                                addProductCarousel(carousel, it)
+//                            } ?: run {
+//                                // If id is null.
+//                                addProductCarousel(carousel, "unknown")
+//                            }
+                        }
+
                     }
                     "image" -> {
-                        addImageCarousel(carousel)
+                        addImageCarousel(carousel, "image")
                     }
                     "banner" -> {
 //top banner with search
 
-                        setupOfferBannerRv(carousel)
+                        setupOfferBannerRv(carousel, "banner")
                     }
                     "category" -> {
-                        setupFeaturesCategoriesOtherRv(carousel)
+                        setupFeaturesCategoriesOtherRv(carousel, "category")
                     }
                     "brandlist" -> {
 //brandlist
-                        setupFeaturesCategoriesRv(carousel)
+                        setupFeaturesCategoriesRv(carousel, "brandlist")
                     }
                     "bigbannerfirst" -> {
-                        setUpBigBanner(carousel)
+                        setUpBigBanner(carousel, "bigbannerfirst")
                     }
                     "bigbannersecond" -> {
-                        setUpBigBanner(carousel)
+                        setUpBigBanner(carousel, "bigbannersecond")
                     }
                     "auctionproductlist" -> {
 //                        carousel.label = "\uD83D\uDD25" + carousel.label
                         carousel.titleIconId = R.drawable.ic_law
-                        addAuctionProduct(carousel)
+                        addAuctionProduct(carousel, "auctionproductlist")
                     }
                     "singlebanner" -> {
-                        setUpSingleBanner(carousel)
+                        setUpSingleBanner(carousel, "singlebanner")
                     }
                 }
             }
@@ -689,10 +699,10 @@ setupFeaturesCategoriesRv(category)*/
 
                     when (carousel.type) {
                         "product" -> {
-                            addProductCarousel(carousel)
+                            addProductCarousel(carousel, "product")
                         }
                         "image" -> {
-                            addImageCarousel(carousel)
+                            addImageCarousel(carousel, "image")
                         }
                     }
 // }, (index * 200).toLong())
@@ -721,9 +731,9 @@ setupFeaturesCategoriesRv(category)*/
         return sortedOrder.sortedWith(compareBy { it.position!!.replace(",", "").toInt() })
     }
 
-    private fun addProductCarousel(carousel: Carousel) {
+    private fun addProductCarousel(carousel: Carousel, eventName: String) {
         activity?.runOnUiThread {
-            loadCarouselFirstLayout(carousel)
+            loadCarouselFirstLayout(carousel, eventName)
         }
     }
 
@@ -755,7 +765,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun loadCarouselFirstLayout(carousel: Carousel) {
+    private fun loadCarouselFirstLayout(carousel: Carousel, eventName: String) {
         val productCarouselFirstLayoutBinding =
             DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
                 layoutInflater,
@@ -780,7 +790,7 @@ setupFeaturesCategoriesRv(category)*/
             layoutManager //GridLayoutManager(context!!,4)
 
         productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
+            ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
         productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
             HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
         )
@@ -841,7 +851,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun addAuctionProduct(carousel: Carousel) {
+    private fun addAuctionProduct(carousel: Carousel, eventName: String) {
         if (carousel.productList!!.isNotEmpty()) {
             val productCarouselFirstLayoutBinding =
                 DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
@@ -871,7 +881,7 @@ setupFeaturesCategoriesRv(category)*/
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager =
                     GridLayoutManager(context!!, 4)
             productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-                ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
+                ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
             productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
                 HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
             )
@@ -880,7 +890,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun addImageCarousel(carousel: Carousel) {
+    private fun addImageCarousel(carousel: Carousel, eventName: String) {
         val imageCarouselLayoutBinding = DataBindingUtil.inflate<ImageCarouselLayoutBinding>(
             layoutInflater,
             R.layout.image_carousel_layout,
@@ -889,7 +899,7 @@ setupFeaturesCategoriesRv(category)*/
         )
         imageCarouselLayoutBinding.data = carousel
         imageCarouselLayoutBinding.carouselBannerViewPager.adapter =
-            HomePageBannerVpAdapter(this, carousel.banners!!)
+            HomePageBannerVpAdapter(this, carousel.banners!!, eventName)
         imageCarouselLayoutBinding.carouselBannerViewPager.offscreenPageLimit = 2
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
             imageCarouselLayoutBinding.carouselBannerViewPager.pageMargin =
@@ -916,7 +926,7 @@ setupFeaturesCategoriesRv(category)*/
         mContentViewBinding.carouselsLayout.addView(imageCarouselLayoutBinding.root)
     }
 
-    private fun setupFeaturesCategoriesRv(carousel: Carousel) {
+    private fun setupFeaturesCategoriesRv(carousel: Carousel, eventName: String) {
         if (carousel.brandlist != null) {
             val categoryCarouselLayoutBinding =
                 DataBindingUtil.inflate<CategoryCarouselLayoutBinding>(
@@ -936,7 +946,12 @@ setupFeaturesCategoriesRv(category)*/
             categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
-                BrandListRvAdapter(this, carousel.brandlist!!, ConstantsHelper.VIEW_TYPE_GRID)
+                BrandListRvAdapter(
+                    this,
+                    carousel.brandlist!!,
+                    ConstantsHelper.VIEW_TYPE_GRID,
+                    eventName
+                )
 
 //            categoryCarouselLayoutBinding.featuredCategoriesRv.adapter = FeaturedCategoriesRvAdapter(this, carousel.featuredCategories!!, ConstantsHelper.VIEW_TYPE_LIST)
 //            categoryCarouselLayoutBinding.featuredCategoriesRv.adapter = BrandListRvAdapter(this, carousel.brandlist!!, ConstantsHelper.VIEW_TYPE_LIST)
@@ -946,7 +961,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun setupFeaturesCategoriesOtherRv(carousel: Carousel) {
+    private fun setupFeaturesCategoriesOtherRv(carousel: Carousel, eventName: String) {
         if (!carousel.featuredCategories.isNullOrEmpty()) {
             val categoryCarouselLayoutBinding =
                 DataBindingUtil.inflate<CategoryCarouselLayoutBinding>(
@@ -981,7 +996,8 @@ setupFeaturesCategoriesRv(category)*/
                         FeaturedCategoriesOtherRvAdapter(
                             this,
                             tmp,
-                            ConstantsHelper.VIEW_TYPE_GRID
+                            ConstantsHelper.VIEW_TYPE_GRID,
+                            eventName
                         )
                     }
             } else {
@@ -990,7 +1006,8 @@ setupFeaturesCategoriesRv(category)*/
                         FeaturedCategoriesOtherRvAdapter(
                             this,
                             it,
-                            ConstantsHelper.VIEW_TYPE_LIST
+                            ConstantsHelper.VIEW_TYPE_LIST,
+                            eventName
                         )
                     }
                 categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
@@ -1001,7 +1018,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun setUpBigBanner(carousel: Carousel) {
+    private fun setUpBigBanner(carousel: Carousel, eventName: String) {
         if (carousel.id != null) {
             val categoryCarouselLayoutBinding = DataBindingUtil.inflate<ItemBigBanner1Binding>(
                 layoutInflater,
@@ -1013,13 +1030,13 @@ setupFeaturesCategoriesRv(category)*/
             categoryCarouselLayoutBinding.handler = BigBannerHandler(this)
             categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(context, 2)
             categoryCarouselLayoutBinding.bigBanner1Rv.adapter =
-                BigBannerRvAdapter(context!!, carousel.productList!!)
+                BigBannerRvAdapter(context!!, carousel.productList!!, eventName)
 //            productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
             mContentViewBinding.carouselsLayout.addView(categoryCarouselLayoutBinding.root)
         }
     }
 
-    fun setUpSingleBanner(carousel: Carousel) {
+    fun setUpSingleBanner(carousel: Carousel, eventName: String) {
         val bannerCarouselLayoutBinding =
             DataBindingUtil.inflate<SingleBannerCarouselLayoutBinding>(
                 layoutInflater,
@@ -1028,6 +1045,9 @@ setupFeaturesCategoriesRv(category)*/
                 false
             )
         bannerCarouselLayoutBinding.data = carousel
+        bannerCarouselLayoutBinding?.analysisData = AnalysisModel(eventName, carousel.categoryId)
+
+
         bannerCarouselLayoutBinding.handler = HomePageBannerVpHandler(this)
         mContentViewBinding.carouselsLayout.addView(bannerCarouselLayoutBinding.root)
 
@@ -1154,7 +1174,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun setupOfferBannerRv(carousel: Carousel) {
+    private fun setupOfferBannerRv(carousel: Carousel, eventName: String) {
         if (carousel.banners!!.isNotEmpty()) {
             val bannerCarouselLayoutBinding = DataBindingUtil.inflate<BannerCarouselLayoutBinding>(
                 layoutInflater,
@@ -1168,7 +1188,7 @@ setupFeaturesCategoriesRv(category)*/
             if (mHomePageDataModel.themeType == 1) {
 
                 bannerCarouselLayoutBinding.carouselBannerViewPager.adapter =
-                    HomePageTopBannerVpAdapter(this, carousel.banners)
+                    HomePageTopBannerVpAdapter(this, carousel.banners, eventName)
                 if (AppSharedPref.getStoreCode(context!!) == "ar")
                     bannerCarouselLayoutBinding.carouselBannerViewPager.rotationY = 180f
 
@@ -1199,7 +1219,7 @@ setupFeaturesCategoriesRv(category)*/
                     bannerCarouselLayoutBinding.offerBannersRv.isNestedScrollingEnabled = false
                 }
                 bannerCarouselLayoutBinding.offerBannersRv.adapter =
-                    OfferBannersRvAdapter(this, carousel.banners!!)
+                    OfferBannersRvAdapter(this, carousel.banners!!, eventName)
             }
             mContentViewBinding.carouselsLayout.addView(bannerCarouselLayoutBinding.root)
 

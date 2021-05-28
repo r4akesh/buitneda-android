@@ -48,35 +48,46 @@ class SubCategoryActivity : BaseActivity() {
 
     private fun initSupportActionBar() {
         val title = SpannableString(mCategoryName)
-        title.setSpan(CalligraphyTypefaceSpan(TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD)), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        title.setSpan(
+            CalligraphyTypefaceSpan(
+                TypefaceUtils.load(
+                    assets,
+                    ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD
+                )
+            ), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         supportActionBar?.title = title
     }
 
     private fun callApi() {
         mContentViewBinding.loading = true
-        mHashIdentifier = Utils.getMd5String("getSubCategoryData" + AppSharedPref.getStoreId(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCustomerToken(this) + mCategoryId)
-        ApiConnection.getSubCategoryData(this
-                , mDataBaseHandler.getETagFromDatabase(mHashIdentifier)
-                , mCategoryId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<SubCategoryResponseModel>(this, false) {
-                    override fun onNext(subCategoryResponseModel: SubCategoryResponseModel) {
-                        super.onNext(subCategoryResponseModel)
-                        mContentViewBinding.loading = false
-                        if (subCategoryResponseModel.success) {
-                            onSuccessfulResponse(subCategoryResponseModel)
-                        } else {
-                            onFailureResponse(subCategoryResponseModel)
-                        }
+        mHashIdentifier = Utils.getMd5String(
+            "getSubCategoryData" + AppSharedPref.getStoreId(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCustomerToken(
+                this
+            ) + mCategoryId
+        )
+        ApiConnection.getSubCategoryData(
+            this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier), mCategoryId
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<SubCategoryResponseModel>(this, false) {
+                override fun onNext(subCategoryResponseModel: SubCategoryResponseModel) {
+                    super.onNext(subCategoryResponseModel)
+                    mContentViewBinding.loading = false
+                    if (subCategoryResponseModel.success) {
+                        onSuccessfulResponse(subCategoryResponseModel)
+                    } else {
+                        onFailureResponse(subCategoryResponseModel)
                     }
+                }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        mContentViewBinding.loading = false
-                        onErrorResponse(e)
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loading = false
+                    onErrorResponse(e)
+                }
+            })
         checkAndLoadLocalData()
     }
 
@@ -116,48 +127,68 @@ class SubCategoryActivity : BaseActivity() {
 
     private fun setupBannersViewPager(bannerImage: ArrayList<BannerImage>) {
         if (mContentViewBinding.categoryBannerViewPager.adapter == null) {
-            mContentViewBinding.categorySliderDotsTabLayout.setupWithViewPager(mContentViewBinding.categoryBannerViewPager, true)
+            mContentViewBinding.categorySliderDotsTabLayout.setupWithViewPager(
+                mContentViewBinding.categoryBannerViewPager,
+                true
+            )
             val imageCarouselSwitcherTimer = Timer()
-            imageCarouselSwitcherTimer.scheduleAtFixedRate(BannerSwitchTimerTask(mContentViewBinding.categoryBannerViewPager, bannerImage.size), 1000.toLong(), ApplicationConstants.DEFAULT_TIME_TO_SWITCH_BANNER_IN_MILLIS.toLong())
+            imageCarouselSwitcherTimer.scheduleAtFixedRate(
+                BannerSwitchTimerTask(
+                    mContentViewBinding.categoryBannerViewPager,
+                    bannerImage.size
+                ),
+                1000.toLong(),
+                ApplicationConstants.DEFAULT_TIME_TO_SWITCH_BANNER_IN_MILLIS.toLong()
+            )
         }
-        mContentViewBinding.categoryBannerViewPager.adapter = CategoryBannerVpAdapter(this, bannerImage)
+        mContentViewBinding.categoryBannerViewPager.adapter =
+            CategoryBannerVpAdapter(this, bannerImage)
         mContentViewBinding.categoryBannerViewPager.offscreenPageLimit = 2
     }
 
     private fun setupHotSellersLayout(productsList: ArrayList<ProductTileData>) {
         if (mContentViewBinding.hotSellersCarouselRv.adapter == null)
-            mContentViewBinding.hotSellersCarouselRv.addItemDecoration(HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt()))
-        mContentViewBinding.hotSellersCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(this, productsList)
+            mContentViewBinding.hotSellersCarouselRv.addItemDecoration(
+                HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
+            )
+        mContentViewBinding.hotSellersCarouselRv.adapter =
+            ProductCarouselHorizontalRvAdapter(this, productsList, null)
         mContentViewBinding.hotSellersCarouselRv.isNestedScrollingEnabled = false
     }
 
     private fun setupSubCategoriesLayout(subCategoriesList: ArrayList<Category>) {
-        mContentViewBinding.subCategoriesRv.adapter = SubCategoriesRvAdapter(this, subCategoriesList)
+        mContentViewBinding.subCategoriesRv.adapter =
+            SubCategoriesRvAdapter(this, subCategoriesList)
     }
 
     private fun setupProductsLayout(productsList: ArrayList<ProductTileData>) {
         if (mContentViewBinding.productsCarouselRv.adapter == null)
-            mContentViewBinding.productsCarouselRv.addItemDecoration(HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt()))
-        mContentViewBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(this, productsList)
+            mContentViewBinding.productsCarouselRv.addItemDecoration(
+                HorizontalMarginItemDecoration(
+                    resources.getDimension(R.dimen.spacing_tiny).toInt()
+                )
+            )
+        mContentViewBinding.productsCarouselRv.adapter =
+            ProductCarouselHorizontalRvAdapter(this, productsList, null)
         mContentViewBinding.productsCarouselRv.isNestedScrollingEnabled = false
     }
 
     private fun onFailureResponse(subCategoryResponseModel: SubCategoryResponseModel) {
         AlertDialogHelper.showNewCustomDialog(
-                this,
-                getString(R.string.error),
-                subCategoryResponseModel.message,
-                false,
-                getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    callApi()
-                }
-                , getString(R.string.dismiss)
-                , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.dismiss()
-            finish()
-        })
+            this,
+            getString(R.string.error),
+            subCategoryResponseModel.message,
+            false,
+            getString(R.string.try_again),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                callApi()
+            },
+            getString(R.string.dismiss),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                finish()
+            })
     }
 
     private fun onErrorResponse(error: Throwable) {
@@ -165,26 +196,29 @@ class SubCategoryActivity : BaseActivity() {
             // Do Nothing as the data is already loaded
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                    this,
-                    getString(R.string.error),
-                    NetworkHelper.getErrorMessage(this, error),
-                    false,
-                    getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
-                    , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-                finish()
-            })
+                this,
+                getString(R.string.error),
+                NetworkHelper.getErrorMessage(this, error),
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                },
+                getString(R.string.dismiss),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    finish()
+                })
         }
     }
 
-    private inner class BannerSwitchTimerTask internal constructor(private val mViewPager: ViewPager, private val mBannerSize: Int) : TimerTask() {
+    private inner class BannerSwitchTimerTask(
+        private val mViewPager: ViewPager,
+        private val mBannerSize: Int
+    ) : TimerTask() {
 
-        internal var firstTime = true
+        var firstTime = true
 
         override fun run() {
             try {

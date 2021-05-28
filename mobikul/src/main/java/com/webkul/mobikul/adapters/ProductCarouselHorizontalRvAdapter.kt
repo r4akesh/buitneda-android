@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ItemHorizontalScrollerProductViewBinding
 import com.webkul.mobikul.handlers.ProductTileHandler
+import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.models.product.ProductTileData
 
 
@@ -28,7 +28,8 @@ import com.webkul.mobikul.models.product.ProductTileData
 
 class ProductCarouselHorizontalRvAdapter(
     private val mContext: Context,
-    private val mListData: ArrayList<ProductTileData>
+    private val mListData: ArrayList<ProductTileData>,
+    private val carouselType: String?
 ) : RecyclerView.Adapter<ProductCarouselHorizontalRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
@@ -41,6 +42,10 @@ class ProductCarouselHorizontalRvAdapter(
         val eachListData = mListData.get(position)
         holder.mBinding?.position = position
         holder.mBinding?.data = eachListData
+        carouselType?.let {
+            holder.mBinding?.analysisData = AnalysisModel(it, eachListData.id)
+        }
+
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)
         //homeItemImage
 //        holder.mBinding?.itemProductGridView?.homeItemImage
@@ -59,8 +64,6 @@ class ProductCarouselHorizontalRvAdapter(
 ////            .placeholder(R.drawable.placeholder)
 //                .into(safeImageView!!)
 //        }
-
-
 
 
         holder.mBinding?.executePendingBindings()

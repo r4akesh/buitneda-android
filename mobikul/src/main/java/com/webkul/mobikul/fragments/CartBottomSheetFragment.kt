@@ -156,7 +156,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             mContentViewBinding.crossSellProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.crossSellProductsRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList)
+            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList, null)
     }
 
     private fun setupPriceDetailsItems() {

@@ -12,6 +12,7 @@ import com.webkul.mobikul.databinding.ItemOfferBannersRvBinding
 import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.HomePageBannerVpHandler
 import com.webkul.mobikul.models.homepage.BannerImage
+import com.webkul.mobikul.models.product.AnalysisModel
 
 /**
  * Webkul Software.
@@ -26,7 +27,7 @@ import com.webkul.mobikul.models.homepage.BannerImage
  * @link https://store.webkul.com/license.html
  */
 
-class OfferBannersRvAdapter(private val mContext: HomeFragment, private val mListData: ArrayList<BannerImage>) : RecyclerView.Adapter<OfferBannersRvAdapter.ViewHolder>() {
+class OfferBannersRvAdapter(private val mContext: HomeFragment, private val mListData: ArrayList<BannerImage>, private val carouselType: String) : RecyclerView.Adapter<OfferBannersRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OfferBannersRvAdapter.ViewHolder {
         val view = LayoutInflater.from(mContext.context).inflate(R.layout.item_offer_banners_rv, p0, false)
@@ -37,6 +38,9 @@ class OfferBannersRvAdapter(private val mContext: HomeFragment, private val mLis
         val eachListData = mListData.get(position)
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = HomePageBannerVpHandler(mContext)
+        carouselType.let {
+            holder.mBinding?.analysisData = AnalysisModel(it, mListData[position].id)
+        }
         holder.mBinding?.executePendingBindings()
     }
 

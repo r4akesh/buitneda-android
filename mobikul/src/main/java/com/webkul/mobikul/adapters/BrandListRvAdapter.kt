@@ -4,19 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
-import com.webkul.mobikul.activities.HomeActivity
 import com.webkul.mobikul.databinding.ItemBrandListGridBinding
-import com.webkul.mobikul.databinding.ItemFeaturedCategoryBinding
-import com.webkul.mobikul.databinding.ItemFeaturedCategoryGridBinding
-import com.webkul.mobikul.databinding.ItemNavDrawerCurrenciesBinding
 import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler
-import com.webkul.mobikul.helpers.ConstantsHelper
 import com.webkul.mobikul.models.Brandlist
-import com.webkul.mobikul.models.homepage.FeaturedCategory
+import com.webkul.mobikul.models.product.AnalysisModel
 
 /**
  * Webkul Software.
@@ -30,10 +24,17 @@ import com.webkul.mobikul.models.homepage.FeaturedCategory
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
  */
-class BrandListRvAdapter(private val mContext: HomeFragment, private val mListData: List<Brandlist>, val layoutView: Int) : RecyclerView.Adapter<BrandListRvAdapter.ViewHolder>() {
+class BrandListRvAdapter(
+    private val mContext: HomeFragment,
+    private val mListData: List<Brandlist>,
+    val layoutView: Int,
+    private val carouselType: String
+
+) : RecyclerView.Adapter<BrandListRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext.context).inflate(R.layout.item_brand_list_grid,parent, false)
+        val view = LayoutInflater.from(mContext.context)
+            .inflate(R.layout.item_brand_list_grid, parent, false)
         return ViewHolder(view)
     }
 
@@ -41,6 +42,11 @@ class BrandListRvAdapter(private val mContext: HomeFragment, private val mListDa
         val eachListData = mListData[position]
         (holder.mBinding as ItemBrandListGridBinding).data = eachListData
         holder.mBinding.handler = FeaturedCategoriesRvHandler(mContext)
+
+        carouselType.let {
+            holder.mBinding.analysisData = AnalysisModel(it, eachListData.id)
+        }
+
         holder.mBinding.executePendingBindings()
     }
 

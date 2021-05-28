@@ -15,8 +15,8 @@ buildscript {
 //        version_code = 341
 //        version_name = "3.41"
 //
-        version_code = 1
-        version_name = "1.0"
+        version_code = 5
+        version_name = "1.2"
 
         lifecycle = '1.1.1'
         retrofit2 = '2.9.0'

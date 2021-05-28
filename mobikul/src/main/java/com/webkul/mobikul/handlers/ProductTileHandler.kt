@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -23,6 +24,7 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME
 import com.webkul.mobikul.helpers.ConstantsHelper.RC_AR
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.checkout.AddToCartResponseModel
+import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.models.product.ProductTileData
 import com.webkul.mobikul.models.user.AddToWishListResponseModel
 import com.webkul.mobikul.network.ApiConnection
@@ -49,7 +51,28 @@ class ProductTileHandler(val mContext: Context, val mProductList: ArrayList<Prod
 
     private var mIsProcessing: Boolean = false
 
+    companion object{
+        private const val TAG = "ProductTileHandler::"
+    }
+//    fun onClickItem(entityId: String, name: String, thumbNail: String, dominantColor: String) {
+//        Log.d(TAG, "onClickItem: ProductTileHandler $entityId")
+//        val intent = (mContext?.applicationContext as MobikulApplication).getProductDetailsActivity(mContext!!)
+//        intent.putExtra(BUNDLE_KEY_PRODUCT_ID, entityId)
+//        intent.putExtra(BUNDLE_KEY_PRODUCT_NAME, name)
+//        intent.putExtra(BUNDLE_KEY_PRODUCT_IMAGE, thumbNail)
+//        intent.putExtra(BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, dominantColor)
+//        mContext.startActivity(intent)
+//    }
+
     fun onClickItem(entityId: String, name: String, thumbNail: String, dominantColor: String) {
+        onClickItem(entityId, name, thumbNail, dominantColor, null)
+    }
+    fun onClickItem(entityId: String, name: String, thumbNail: String, dominantColor: String, analysisData: AnalysisModel?) {
+        analysisData?.let {
+//            Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
+            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, entityId)
+        }
+        Log.d(TAG, "onClickItem: ProductTileHandler $entityId")
         val intent = (mContext?.applicationContext as MobikulApplication).getProductDetailsActivity(mContext!!)
         intent.putExtra(BUNDLE_KEY_PRODUCT_ID, entityId)
         intent.putExtra(BUNDLE_KEY_PRODUCT_NAME, name)
@@ -57,6 +80,11 @@ class ProductTileHandler(val mContext: Context, val mProductList: ArrayList<Prod
         intent.putExtra(BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, dominantColor)
         mContext.startActivity(intent)
     }
+
+
+
+
+
 
     fun onClickWishListButton(view: View, position: Int, entityId: String, isInWishList: Boolean, wishListItemId: String) {
         if (AppSharedPref.isLoggedIn(mContext)) {
