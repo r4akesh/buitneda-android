@@ -7,6 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -15,13 +18,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.squareup.picasso.Picasso
 import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityHomeBinding
+import com.webkul.mobikul.firebase.*
 import com.webkul.mobikul.fragments.AccountDetailsFragment
 import com.webkul.mobikul.fragments.CartBottomSheetFragment
 import com.webkul.mobikul.fragments.CategoryPageFragment
@@ -47,6 +51,8 @@ class HomeActivity : BaseActivity() {
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
+        private const val TAG = "HomeActivity"
+
     }
 
     open var homeFragment: HomeFragment? = null
@@ -63,11 +69,152 @@ class HomeActivity : BaseActivity() {
             .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_DEFAULT_ALBUM_CHANGED))
 
         startInitialization()
-        updateCartBadge()
-        updateCartCount(AppSharedPref.getCartCount(this))
-        callApi()
 
-        callNotificationApi()
+        Handler(Looper.myLooper()!!).postDelayed({
+            updateCartBadge()
+            updateCartCount(AppSharedPref.getCartCount(this))
+            if (!MobikulApplication.isCalledPromotionalBanner) {
+                MobikulApplication.isCalledPromotionalBanner = true
+                callApi()
+            }
+
+
+            callNotificationApi()
+        }, 500.toLong())
+
+
+        val notificationType = this.intent.getStringExtra("notificationType")
+        notificationType?.let {
+            Log.d(TAG, "notificationType: $notificationType")
+            var intent: Intent? = null
+            when (notificationType) {
+                NOTIFICATION_TYPE_PRODUCT,
+                NOTIFICATION_TYPE_PRODUCT_IN_STOCK -> {
+
+                    intent =
+                        (applicationContext as MobikulApplication).getProductDetailsActivity(
+                            this
+                        )
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
+                        this.intent.getStringExtra("productId")
+                    )
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME,
+                        this.intent.getStringExtra("productName")
+                    )
+
+                }
+                NOTIFICATION_TYPE_CATEGORY -> {
+
+                    intent = Intent(this, CatalogActivity::class.java)
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE,
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CATEGORY
+                    )
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE,
+                        this.intent.getStringExtra("categoryName")
+                    )
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_ID,
+                        this.intent.getStringExtra("categoryId")
+                    )
+
+                }
+                NOTIFICATION_TYPE_OTHERS -> {
+
+                    intent = Intent(this, OtherNotificationActivity::class.java)
+
+                }
+                NOTIFICATION_TYPE_CUSTOM -> {
+
+                    intent = Intent(this, CatalogActivity::class.java)
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE,
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CUSTOM_COLLECTION
+                    )
+
+
+                }
+                NOTIFICATION_TYPE_ORDER_PICKUP,
+                NOTIFICATION_TYPE_ORDER -> {
+
+                    intent = Intent(this, OrderDetailsActivity::class.java)
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID,
+                        this.intent.getStringExtra("incrementId")
+                    )
+
+                }
+                NOTIFICATION_TYPE_CHAT -> {
+                    /* var accountType: String? = null
+                     if (data.containsKey("accountType"))
+                         accountType = data["accountType"]
+                     val notificationSenderId = data["senderId"]
+                     intent = Intent(this, DeliveryChatActivity::class.java)
+                     intent.putExtra(BundleKeysHelper.KEY_ACCOUNT_TYPE, accountType)
+                     intent.putExtra(BundleKeysHelper.BUNDLE_KEY_USER_ID, notificationId)
+                     if (notificationSenderId != "deliveryAdmin")
+                         intent.putExtra(BundleKeysHelper.BUNDLE_KEY_USER_NAME, notificationTitle)*/
+                }
+                NOTIFICATION_TYPE_SELLER_CHAT -> {
+                    /*intent =
+                        (applicationContext as MobikulApplication).getChatRelatedActivity(
+                            this
+                        )
+                    intent?.putExtra("user_name", data["name"])
+                    intent?.putExtra("user_id", data["customerToken"])
+                    if (data.containsKey("apiKey")) {
+                        data["apiKey"].let {
+                            AppSharedPref.setApiKey(
+                                applicationContext,
+                                it
+                            )
+                        }
+                    }
+                    if (data.containsKey("tokens")) {
+                        intent?.putExtra("token", data["tokens"])
+                    }*/
+                }
+                NOTIFICATION_TYPE_SELLER_ORDER -> {
+                    intent =
+                        (applicationContext as MobikulApplication).getSellerOrderDetailsActivity(
+                            this
+                        )
+                    intent?.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID,
+                        this.intent.getStringExtra("incrementId")
+                    )
+                }
+                NOTIFICATION_TYPE_SELLER_PRODUCT_APPROVAL -> {
+                    intent = Intent(this, ProductDetailsActivity::class.java)
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
+                        this.intent.getStringExtra("productId")
+                    )
+                    intent.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME,
+                        this.intent.getStringExtra("productName")
+                    )
+                }
+                NOTIFICATION_TYPE_SELLER_APPROVAL -> {
+                    /*  if (AppSharedPref.isLoggedIn(this) && AppSharedPref.getCustomerToken(
+                              this
+                          ) == this.intent.getStringExtra("sellerId")
+                      ) {
+                          intent =
+                              (applicationContext as MobikulApplication).getSellerDashboardActivity(
+                                  this
+                              )
+                      }*/
+                }
+            }
+
+            if (intent != null) {
+                startActivity(intent)
+            }
+        }
 
     }
 
@@ -170,12 +317,12 @@ class HomeActivity : BaseActivity() {
             2 -> {
                 if (homeFragment != null) {
                     fragment = homeFragment
-
+                    Log.d(TAG, "setupFragment: 2")
                     for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
-
-                    supportFragmentManager.beginTransaction().show(fragment!!)
+                    fragment!!.gotToTop()
+                    supportFragmentManager.beginTransaction().show(fragment)
 //                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 //                        .setPrimaryNavigationFragment(fragment)
 //                        .setReorderingAllowed(true)
@@ -353,6 +500,8 @@ class HomeActivity : BaseActivity() {
                     result
                 )
             ) {
+//                if (true) {
+
                 AlertDialogHelper.showNewCustomDialog(
                     this,
                     getString(R.string.update_alert_title),
@@ -368,10 +517,7 @@ class HomeActivity : BaseActivity() {
                             ), ConstantsHelper.RC_UPDATE_APP_FROM_PLAY_STORE
                         )
                     },
-                    getString(R.string.later),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                    })
+                )
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -383,22 +529,19 @@ class HomeActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1010) {
             if (supportFragmentManager.backStackEntryCount > 0)
-                if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("AccountDetailsFragment")
+                if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
+                        .contains("AccountDetailsFragment")
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_profile).isChecked =
                         true
-                } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("CategoryPageFragment")
+                } else if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
+                        .contains("CategoryPageFragment")
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_category).isChecked =
                         true
-                } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && (supportFragmentManager.fragments.get(
-                        supportFragmentManager.backStackEntryCount
-                    ).toString().contains("HomeFragment")
-                            || supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount)
+                } else if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
+                        .contains("HomeFragment")
+                            || supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount]
                         .toString().contains("SupportRequestManagerFragment"))
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked =
@@ -424,11 +567,7 @@ class HomeActivity : BaseActivity() {
                         onFailureResponse(responseModel)
                     }
                 }
-
-
             })
-
-
     }
 
 
@@ -440,16 +579,43 @@ class HomeActivity : BaseActivity() {
             dialog.setContentView(R.layout.home_banner_dialog_layout)
             val image: ImageView = dialog.findViewById(R.id.dialogBanner)
             val closeImage: ImageView = dialog.findViewById(R.id.closeBannerBtn)
-            Picasso.with(this).load(promotionBanner.image).into(image)
+            Glide.with(this).load(promotionBanner.image).into(image)
             image.setOnClickListener {
-                val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
-                navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, promotionBanner.title)
-                navigate.putExtra(
-                    BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
-                    promotionBanner.category_product_id
-                )
-                startActivity(navigate)
+                if (promotionBanner.type == "1") {
+
+                    FirebaseAnalyticsHelper.logHomeEvent("promotion_banner_category", promotionBanner.category_product_id)
+
+                    val navigate = Intent(this@HomeActivity, CatalogActivity::class.java)
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE,
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CATEGORY
+                    )
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE,
+                        promotionBanner.title
+                    )
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_CATALOG_ID,
+                        promotionBanner.category_product_id
+                    )
+                    startActivity(navigate)
+                } else {
+
+                    FirebaseAnalyticsHelper.logHomeEvent("promotion_banner_product", promotionBanner.category_product_id)
+
+                    val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
+                    navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME,
+                        promotionBanner.title
+                    )
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
+                        promotionBanner.category_product_id
+                    )
+                    startActivity(navigate)
+                }
+
                 dialog.dismiss()
             }
 
@@ -481,9 +647,13 @@ class HomeActivity : BaseActivity() {
     val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
             when (intent?.action) {
-                BROADCAST_DEFAULT_ALBUM_CHANGED -> callNotificationApi()
+                BROADCAST_DEFAULT_ALBUM_CHANGED -> clearAllNotification()
             }
         }
+    }
+
+    private fun clearAllNotification() {
+        homeFragment!!.showBadge(0)
     }
 
     private fun callNotificationApi() {

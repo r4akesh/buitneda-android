@@ -108,11 +108,14 @@ class NotificationBottomSheetFragment(private val notificationListener: OnNotifi
 
     private fun onSuccessfulResponse(notificationListResponseModel: NotificationListResponseModel) {
 
-        val notificationList: ArrayList<String> =
-            BaseActivity.mDataBaseHandler.getNotificationData()
+/*        val notificationList: ArrayList<String> =
+            BaseActivity.mDataBaseHandler.getNotificationData()*/
         notificationListResponseModel.notificationList.forEach {
-            it.isRead = notificationList.contains(it.id)
+            BaseActivity.mDataBaseHandler.insertInfoNotificationTable(it.id.toInt())
+            it.isRead = true//notificationList.contains(it.id)
         }
+
+
 
         if (notificationListResponseModel.notificationList.isEmpty()) {
             mContentViewBinding.notificationListRv.visibility = View.GONE

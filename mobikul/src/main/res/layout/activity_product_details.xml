@@ -117,13 +117,15 @@
                                 tools:text="New" />
                         </com.facebook.shimmer.ShimmerFrameLayout>
 
+
+                        <!-- android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"-->
                         <androidx.appcompat.widget.AppCompatTextView
                             fontPath="fonts/Montserrat-SemiBold.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_margin="@dimen/spacing_normal"
-                            android:background="@color/color_whiteBlack"
+                            android:background="@color/product_discount_text_color"
                             android:paddingStart="@dimen/spacing_generic"
                             android:paddingTop="@dimen/spacing_tiny"
                             android:paddingEnd="@dimen/spacing_generic"
@@ -132,7 +134,7 @@
                             android:textAllCaps="true"
                             android:textColor="@color/product_discount_color"
                             android:textSize="@dimen/text_size_small"
-                            android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
+                            android:visibility="gone"
                             tools:text="@string/offer" />
 
                         <com.google.android.material.card.MaterialCardView
@@ -231,7 +233,7 @@
                             android:paddingBottom="@dimen/spacing_tiny"
                             android:text="@{@string/x_off(data.getDiscountPercentage())}"
                             android:textAllCaps="true"
-                            android:textColor="@color/product_discount_color"
+                            android:textColor="@color/product_discount_text_color"
                             android:textSize="@dimen/text_size_small"
                             android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
                             tools:text="$310.00" />
@@ -424,7 +426,6 @@
                         tools:text="Notify me when this product is in stock" />
 
 
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -512,30 +513,30 @@
                                 android:textSize="@dimen/text_size_small" />
                         </RelativeLayout>-->
 
-                          <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
-                        android:padding="@dimen/spacing_small"
-                        android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}">
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
+                            android:padding="@dimen/spacing_small"
+                            android:visibility="@{!data.isAvailable &amp;&amp; data.showBackInStockAlert ? View.VISIBLE : View.GONE}">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/Montserrat-SemiBold.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:drawableTint="@color/single_star_color"
-                            android:drawableStart="@drawable/ic_notification"
-                            android:drawablePadding="@dimen/spacing_tiny"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="Notify me"
-                            android:textAllCaps="true"
-                            android:textColor="@color/single_star_color"
-                            android:textSize="@dimen/text_size_small" />
-                    </RelativeLayout>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:drawableStart="@drawable/ic_notification"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:drawableTint="@color/single_star_color"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:text="@string/notify_me"
+                                android:textAllCaps="true"
+                                android:textColor="@color/single_star_color"
+                                android:textSize="@dimen/text_size_small" />
+                        </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"

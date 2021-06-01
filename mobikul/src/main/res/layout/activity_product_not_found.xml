@@ -63,7 +63,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:text="We apologize for that you cannot find product">
+                    android:text="@string/we_apologize_for_that_you_cannot_find_product">
 
                 </androidx.appcompat.widget.AppCompatTextView>
 
@@ -77,7 +77,7 @@
                     android:drawableLeft="@drawable/ic_download"
                     android:gravity="center"
                     android:drawablePadding="10dp"
-                    android:text="ADD  NEW IMAGE">
+                    android:text="@string/add_new_image">
 
                 </androidx.appcompat.widget.AppCompatTextView>
 
@@ -92,7 +92,7 @@
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name Of Product"
+                        android:hint="@string/name_of_product"
                         android:inputType="textPersonName|textCapWords"
                         android:maxLines="1"
                         android:textAlignment="viewStart"
@@ -122,7 +122,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!--<com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/subject_tl"
                     style="@style/CustomTilStyle"
                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                         android:textColor="@color/text_color_primary"
                         android:textSize="@dimen/text_size_small" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -155,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start|top"
-                        android:hint="Any other info, about the product?"
+                        android:hint="@string/any_other_info_about_the_product"
                         android:inputType="textMultiLine"
                         android:lines="4"
                         android:textAlignment="viewStart"
@@ -172,7 +172,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:background="@color/colorAccent"
                     android:padding="@dimen/spacing_normal"
-                    android:text="Send"
+                    android:text="@string/send"
                     android:onClick="@{() -> handler.onClickSend()}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"

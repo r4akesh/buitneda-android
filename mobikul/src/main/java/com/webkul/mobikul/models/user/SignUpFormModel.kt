@@ -106,30 +106,38 @@ class SignUpFormModel : BaseModel() {
     var sellerRegistrationStatus: Boolean = false
 
 
-    var prefix :String ?= ""
-    var firstName :String ?= ""
-    var middleName :String ?= ""
-    var lastName :String ?= ""
-    var suffix:String ? = ""
-    var dob :String ?= ""
-    var taxVat:String ? = ""
+    var prefix: String? = ""
+    var firstName: String? = ""
+    var middleName: String? = ""
+    var lastName: String? = ""
+    var suffix: String? = ""
+    var dob: String? = ""
+    var taxVat: String? = ""
     var gender = 0
-    var emailAddr :String ?= ""
-    var password :String ?= ""
-    var confirmPassword :String ?= ""
-    var pictureURL :String ?= ""
-    var mobile :String ?= ""
+    var emailAddr: String? = ""
+    var password: String? = ""
+    var confirmPassword: String? = ""
+    var pictureURL: String? = ""
+    var mobile: String? = ""
     var isSocial: Int = 0
-    var shopURL :String ?= ""
-    var nifNumber :String ?= "nif"
-    var shopName :String ?= ""
-    var orderId:String ?=""
+    var shopURL: String? = ""
+    var nifNumber: String? = ""
+    var shopName: String? = ""
+    var orderId: String? = ""
 
     var signUpAsSeller: Boolean = false
+//        @Bindable get
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.signUpAsSeller)
+//        }
+
+
+    var signUpAsCompany: Boolean = false
         @Bindable get
         set(value) {
             field = value
-            notifyPropertyChanged(BR.signUpAsSeller)
+            notifyPropertyChanged(BR.signUpAsCompany)
         }
 
 
@@ -161,13 +169,25 @@ class SignUpFormModel : BaseModel() {
         /* Checking Confirm Password */
         if (confirmPassword.isNullOrEmpty()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.confirmPassword.error = fragmentContext.getString(R.string.confirm_password) + " " + fragmentContext.getString(R.string.is_required)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.confirmPassword)
+            fragmentContext.mContentViewBinding.confirmPassword.error =
+                fragmentContext.getString(R.string.confirm_password) + " " + fragmentContext.getString(
+                    R.string.is_required
+                )
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.confirmPassword
+            )
             fragmentContext.mContentViewBinding.confirmPassword.requestFocus()
-        } else if (!password.isNullOrEmpty() && confirmPassword!!.trim().isNotEmpty() && password?.trim() != confirmPassword) {
+        } else if (!password.isNullOrEmpty() && confirmPassword!!.trim()
+                .isNotEmpty() && password?.trim() != confirmPassword
+        ) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.confirmPassword.error = fragmentContext.getString(R.string.password_match_issue)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.confirmPassword)
+            fragmentContext.mContentViewBinding.confirmPassword.error =
+                fragmentContext.getString(R.string.password_match_issue)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.confirmPassword
+            )
             fragmentContext.mContentViewBinding.confirmPassword.requestFocus()
         } else {
             fragmentContext.mContentViewBinding.confirmPassword.isErrorEnabled = false
@@ -177,13 +197,23 @@ class SignUpFormModel : BaseModel() {
         /* Checking Password */
         if (password.isNullOrEmpty()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.password.error = fragmentContext.getString(R.string.password) + " " + fragmentContext.getString(R.string.is_required)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.password)
+            fragmentContext.mContentViewBinding.password.error =
+                fragmentContext.getString(R.string.password) + " " + fragmentContext.getString(R.string.is_required)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.password
+            )
             fragmentContext.mContentViewBinding.password.requestFocus()
         } else if (password?.trim()!!.length < 8) {
             isFormValidated = false
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.password)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.passValidationLayout)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.password
+            )
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.passValidationLayout
+            )
         } else {
             fragmentContext.mContentViewBinding.password.isErrorEnabled = false
             fragmentContext.mContentViewBinding.password.error = null
@@ -191,42 +221,50 @@ class SignUpFormModel : BaseModel() {
 
         /* Checking seller shop url */
         if (signUpAsSeller) {
-           /* if (shopURL?.trim().isNullOrEmpty()) {
-                fragmentContext.mContentViewBinding.shopUrl.requestFocus()
-                fragmentContext.mContentViewBinding.shopUrl.error = fragmentContext.context?.resources?.getString(R.string.shop_url) + " " + fragmentContext.context?.getString(R.string.is_required)
-                isFormValidated = false
-            } else if (!Utils.validateUrlForSpecialCharacter(shopURL!!)) {
-                fragmentContext.mContentViewBinding.shopUrl.requestFocus()
-                fragmentContext.mContentViewBinding.shopUrl.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.shop_url)
-                isFormValidated = false
-            } else {
-                fragmentContext.mContentViewBinding.shopUrl.error = null
-            }*/
+            /* if (shopURL?.trim().isNullOrEmpty()) {
+                 fragmentContext.mContentViewBinding.shopUrl.requestFocus()
+                 fragmentContext.mContentViewBinding.shopUrl.error = fragmentContext.context?.resources?.getString(R.string.shop_url) + " " + fragmentContext.context?.getString(R.string.is_required)
+                 isFormValidated = false
+             } else if (!Utils.validateUrlForSpecialCharacter(shopURL!!)) {
+                 fragmentContext.mContentViewBinding.shopUrl.requestFocus()
+                 fragmentContext.mContentViewBinding.shopUrl.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.shop_url)
+                 isFormValidated = false
+             } else {
+                 fragmentContext.mContentViewBinding.shopUrl.error = null
+             }*/
 
-            if (nifNumber?.trim().isNullOrEmpty()) {
-               // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
-              //  fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.context?.resources?.getString(R.string.nif_number) + " " + fragmentContext.context?.getString(R.string.is_required)
-                isFormValidated = true
+            /*if (nifNumber?.trim().isNullOrEmpty()) {
+                // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+                //  fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.context?.resources?.getString(R.string.nif_number) + " " + fragmentContext.context?.getString(R.string.is_required)
             } else if (!Utils.validateUrlForSpecialCharacter(nifNumber!!)) {
-               // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
-               // fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.nif_number)
-                isFormValidated = true
+                // fragmentContext.mContentViewBinding.nifNumber.requestFocus()
+                // fragmentContext.mContentViewBinding.nifNumber.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.nif_number)
             } else {
                 fragmentContext.mContentViewBinding.nifNumber.error = null
-            }
+            }*/
         }
 
         /* Checking Mobile */
         if (isMobileVisible && isMobileRequired) {
             if (mobile.isNullOrEmpty()) {
                 isFormValidated = false
-                fragmentContext.mContentViewBinding.mobile.error = fragmentContext.getString(R.string.mobile) + " " + fragmentContext.getString(R.string.is_required)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.mobile)
+                fragmentContext.mContentViewBinding.mobile.error =
+                    fragmentContext.getString(R.string.mobile) + " " + fragmentContext.getString(R.string.is_required)
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.mobile
+                )
                 fragmentContext.mContentViewBinding.mobile.requestFocus()
             } else if (!android.util.Patterns.PHONE.matcher(mobile!!.trim()).matches()) {
                 isFormValidated = false
-                fragmentContext.mContentViewBinding.mobile.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.mobile)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.mobile)
+                fragmentContext.mContentViewBinding.mobile.error =
+                    fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(
+                        R.string.mobile
+                    )
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.mobile
+                )
                 fragmentContext.mContentViewBinding.mobile.requestFocus()
             } else {
                 fragmentContext.mContentViewBinding.mobile.isErrorEnabled = false
@@ -237,13 +275,23 @@ class SignUpFormModel : BaseModel() {
         /* Checking Email */
         if (emailAddr.isNullOrEmpty()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.email.error = fragmentContext.getString(R.string.email) + " " + fragmentContext.getString(R.string.is_required)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.email)
+            fragmentContext.mContentViewBinding.email.error =
+                fragmentContext.getString(R.string.email) + " " + fragmentContext.getString(R.string.is_required)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.email
+            )
             fragmentContext.mContentViewBinding.email.requestFocus()
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddr!!.trim()).matches()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.email.error = fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(R.string.email)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.email)
+            fragmentContext.mContentViewBinding.email.error =
+                fragmentContext.getString(R.string.enter_a_valid) + " " + fragmentContext.getString(
+                    R.string.email
+                )
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.email
+            )
             fragmentContext.mContentViewBinding.email.requestFocus()
         } else {
             fragmentContext.mContentViewBinding.email.isErrorEnabled = false
@@ -255,10 +303,20 @@ class SignUpFormModel : BaseModel() {
             if (gender == 0) {
                 isFormValidated = false
                 fragmentContext.mContentViewBinding.genderError.visibility = View.VISIBLE
-                fragmentContext.mContentViewBinding.genderError.text = fragmentContext.getString(R.string.gender) + " " + fragmentContext.getString(R.string.is_required)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.gender)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.genderSp)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.genderError)
+                fragmentContext.mContentViewBinding.genderError.text =
+                    fragmentContext.getString(R.string.gender) + " " + fragmentContext.getString(R.string.is_required)
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.gender
+                )
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.genderSp
+                )
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.genderError
+                )
                 fragmentContext.mContentViewBinding.genderSp.performClick()
             } else {
                 fragmentContext.mContentViewBinding.genderError.visibility = View.GONE
@@ -270,8 +328,14 @@ class SignUpFormModel : BaseModel() {
         if (isTaxVisible && isTaxRequired) {
             if (taxVat.isNullOrEmpty()) {
                 isFormValidated = false
-                fragmentContext.mContentViewBinding.taxVatNumber.error = fragmentContext.getString(R.string.tax_vat_number) + " " + fragmentContext.getString(R.string.is_required)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.taxVatNumber)
+                fragmentContext.mContentViewBinding.taxVatNumber.error =
+                    fragmentContext.getString(R.string.tax_vat_number) + " " + fragmentContext.getString(
+                        R.string.is_required
+                    )
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.taxVatNumber
+                )
                 fragmentContext.mContentViewBinding.taxVatNumber.requestFocus()
             } else {
                 fragmentContext.mContentViewBinding.taxVatNumber.isErrorEnabled = false
@@ -283,8 +347,14 @@ class SignUpFormModel : BaseModel() {
         if (isDOBVisible && isDOBRequired) {
             if (dob.isNullOrEmpty()) {
                 isFormValidated = false
-                fragmentContext.mContentViewBinding.dateOfBirth.error = fragmentContext.getString(R.string.date_of_birth) + " " + fragmentContext.getString(R.string.is_required)
-                Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.dateOfBirth)
+                fragmentContext.mContentViewBinding.dateOfBirth.error =
+                    fragmentContext.getString(R.string.date_of_birth) + " " + fragmentContext.getString(
+                        R.string.is_required
+                    )
+                Utils.showShakeError(
+                    fragmentContext.context!!,
+                    fragmentContext.mContentViewBinding.dateOfBirth
+                )
                 fragmentContext.mContentViewBinding.dateOfBirth.requestFocus()
             } else {
                 fragmentContext.mContentViewBinding.dateOfBirth.isErrorEnabled = false
@@ -298,10 +368,22 @@ class SignUpFormModel : BaseModel() {
                 if (suffix.isNullOrEmpty()) {
                     isFormValidated = false
                     fragmentContext.mContentViewBinding.suffixError.visibility = View.VISIBLE
-                    fragmentContext.mContentViewBinding.suffixError.error = fragmentContext.getString(R.string.name_suffix) + " " + fragmentContext.getString(R.string.is_required)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.suffixHeading)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.suffixSp)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.suffixError)
+                    fragmentContext.mContentViewBinding.suffixError.error =
+                        fragmentContext.getString(R.string.name_suffix) + " " + fragmentContext.getString(
+                            R.string.is_required
+                        )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.suffixHeading
+                    )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.suffixSp
+                    )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.suffixError
+                    )
                     fragmentContext.mContentViewBinding.suffixSp.performClick()
                 } else {
                     fragmentContext.mContentViewBinding.suffixError.visibility = View.GONE
@@ -310,8 +392,14 @@ class SignUpFormModel : BaseModel() {
             } else {
                 if (suffix.isNullOrEmpty()) {
                     isFormValidated = false
-                    fragmentContext.mContentViewBinding.suffix.error = fragmentContext.getString(R.string.name_suffix) + " " + fragmentContext.getString(R.string.is_required)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.suffix)
+                    fragmentContext.mContentViewBinding.suffix.error =
+                        fragmentContext.getString(R.string.name_suffix) + " " + fragmentContext.getString(
+                            R.string.is_required
+                        )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.suffix
+                    )
                     fragmentContext.mContentViewBinding.suffix.requestFocus()
                 } else {
                     fragmentContext.mContentViewBinding.suffix.isErrorEnabled = false
@@ -323,8 +411,12 @@ class SignUpFormModel : BaseModel() {
         /* Checking Last Name */
         if (lastName.isNullOrEmpty()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.lastName.error = fragmentContext.getString(R.string.last_name) + " " + fragmentContext.getString(R.string.is_required)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.lastName)
+            fragmentContext.mContentViewBinding.lastName.error =
+                fragmentContext.getString(R.string.last_name) + " " + fragmentContext.getString(R.string.is_required)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.lastName
+            )
             fragmentContext.mContentViewBinding.lastName.requestFocus()
         } else {
             fragmentContext.mContentViewBinding.lastName.isErrorEnabled = false
@@ -334,8 +426,12 @@ class SignUpFormModel : BaseModel() {
         /* Checking First Name */
         if (firstName.isNullOrEmpty()) {
             isFormValidated = false
-            fragmentContext.mContentViewBinding.firstName.error = fragmentContext.getString(R.string.first_name) + " " + fragmentContext.getString(R.string.is_required)
-            Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.firstName)
+            fragmentContext.mContentViewBinding.firstName.error =
+                fragmentContext.getString(R.string.first_name) + " " + fragmentContext.getString(R.string.is_required)
+            Utils.showShakeError(
+                fragmentContext.context!!,
+                fragmentContext.mContentViewBinding.firstName
+            )
             fragmentContext.mContentViewBinding.firstName.requestFocus()
         } else {
             fragmentContext.mContentViewBinding.firstName.isErrorEnabled = false
@@ -348,10 +444,22 @@ class SignUpFormModel : BaseModel() {
                 if (prefix.isNullOrEmpty()) {
                     isFormValidated = false
                     fragmentContext.mContentViewBinding.prefixError.visibility = View.VISIBLE
-                    fragmentContext.mContentViewBinding.prefixError.error = fragmentContext.getString(R.string.name_prefix) + " " + fragmentContext.getString(R.string.is_required)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.prefixHeading)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.prefixSp)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.prefixError)
+                    fragmentContext.mContentViewBinding.prefixError.error =
+                        fragmentContext.getString(R.string.name_prefix) + " " + fragmentContext.getString(
+                            R.string.is_required
+                        )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.prefixHeading
+                    )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.prefixSp
+                    )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.prefixError
+                    )
                     fragmentContext.mContentViewBinding.prefixSp.performClick()
                 } else {
                     fragmentContext.mContentViewBinding.prefixError.visibility = View.GONE
@@ -360,8 +468,14 @@ class SignUpFormModel : BaseModel() {
             } else {
                 if (prefix.isNullOrEmpty()) {
                     isFormValidated = false
-                    fragmentContext.mContentViewBinding.prefix.error = fragmentContext.getString(R.string.name_prefix) + " " + fragmentContext.getString(R.string.is_required)
-                    Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.prefix)
+                    fragmentContext.mContentViewBinding.prefix.error =
+                        fragmentContext.getString(R.string.name_prefix) + " " + fragmentContext.getString(
+                            R.string.is_required
+                        )
+                    Utils.showShakeError(
+                        fragmentContext.context!!,
+                        fragmentContext.mContentViewBinding.prefix
+                    )
                     fragmentContext.mContentViewBinding.prefix.requestFocus()
                 } else {
                     fragmentContext.mContentViewBinding.prefix.isErrorEnabled = false

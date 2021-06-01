@@ -5,6 +5,9 @@
 
     <queries>
         <package android:name="com.whatsapp" />
+        <intent>
+            <action android:name="com.android.camera.action.CROP" />
+        </intent>
     </queries> <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />

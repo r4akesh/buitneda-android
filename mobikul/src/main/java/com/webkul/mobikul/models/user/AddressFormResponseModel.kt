@@ -4,6 +4,8 @@ package com.webkul.mobikul.models.user
 import android.view.View
 import androidx.databinding.Bindable
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.webkul.mobikul.BR
 import com.webkul.mobikul.R
@@ -26,7 +28,8 @@ import org.json.JSONObject
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
  */
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 class AddressFormResponseModel() : BaseModel() {
 
 

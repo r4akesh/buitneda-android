@@ -44,7 +44,9 @@
 
     <color name="place_order_btn_color">#59A600</color>
 
-    <color name="product_discount_color">#6BC700</color>
+    <color name="product_discount_color">#FFFFFF</color>
+    <color name="product_discount_text_color">#EA3009</color>
+
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#ffffff</color>
 

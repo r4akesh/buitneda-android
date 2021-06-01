@@ -5,9 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.CountDownTimer
+import android.os.*
 import android.text.SpannableString
 import android.text.Spanned
 import android.util.Log
@@ -39,17 +37,21 @@ import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.SortOrder
 import com.webkul.mobikul.models.homepage.Carousel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
+import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import com.webkul.mobikul.view_model.ViewModel
 import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
 import io.github.inflationx.calligraphy3.TypefaceUtils
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 class HomeFragment : Fragment() {
@@ -61,6 +63,8 @@ class HomeFragment : Fragment() {
     var mPageNumber: Int = 1
     var mResendTimer: CountDownTimer? = null
     private var viewModel: ViewModel? = null
+    private var hashIdentifier = ""
+//    private var currentCache = 0
 
     companion object {
         var instanceOf: Int = 0
@@ -152,7 +156,18 @@ class HomeFragment : Fragment() {
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
             if (NetworkHelper.isNetworkAvailable(context!!)) {
-                callApi()
+//                callApiBackground()
+                Thread {
+                    // do background stuff here
+//                    currentCache++
+//
+//                    if (currentCache > 3) {
+//                        currentCache = 1
+//                    }
+//                    Log.d(TAG, "initSwipeRefresh: $currentCache")
+                    loadDataFromDB()
+                }.start()
+
             } else {
                 mContentViewBinding.swipeRefreshLayout.isRefreshing = false
                 ToastHelper.showToast(context!!, getString(R.string.you_are_offline))
@@ -183,27 +198,68 @@ class HomeFragment : Fragment() {
 
         } else {
             callApi()
+
         }
+        callApiBackground()
         checkAndLoadLocalData()
+    }
+
+
+    private fun loadDataFromDB() {
+//        createHash("$currentCache")
+        createHash("")
+        BaseActivity.mDataBaseHandler.getResponseFromDatabaseOnThread(hashIdentifier)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : Observer<String> {
+                override fun onNext(data: String) {
+                    Log.d(TAG, "onNext: $data")
+                    mContentViewBinding.swipeRefreshLayout.isRefreshing = false
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        updateAnimationCheckAndProceed(data)
+                    }, 300)
+
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(TAG, "onError: ")
+                    e.printStackTrace()
+                }
+
+                override fun onSubscribe(disposable: Disposable) {
+                    (context as BaseActivity).mCompositeDisposable.add(disposable)
+                }
+
+                override fun onComplete() {
+
+                }
+            })
+    }
+
+    private fun updateAnimationCheckAndProceed(response: String) {
+        (context as HomeActivity).runOnUiThread {
+            if (response != "") {
+                (context as HomeActivity).mHomePageDataModel =
+                    BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
+                Log.d(TAG, "updateAnimationCheckAndProceed: $response")
+
+                onSuccessfulResponse((context as HomeActivity).mHomePageDataModel)
+            }
+
+        }
     }
 
     private fun callApi() {
         mContentViewBinding.swipeRefreshLayout.isRefreshing = true
         mContentViewBinding.loading = true
-        (activity as HomeActivity).mHashIdentifier = Utils.getMd5String(
-            "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
-                context!!
-            ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
-                context!!
-            )
-        )
+        createHash("")
         Log.d(
             TAG,
-            "callApi: " + BaseActivity.mDataBaseHandler.getETagFromDatabase((activity as HomeActivity).mHashIdentifier)
+            "callApi: " + BaseActivity.mDataBaseHandler.getETagFromDatabase(hashIdentifier)
         )
         ApiConnection.getHomePageData(
             context!!,
-            BaseActivity.mDataBaseHandler.getETagFromDatabase((activity as HomeActivity).mHashIdentifier),
+            BaseActivity.mDataBaseHandler.getETagFromDatabase(hashIdentifier),
             false,
             ""
         )
@@ -211,7 +267,7 @@ class HomeFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
                 override fun onNext(homePageDataModel: HomePageDataModel) {
-                    super.onNext(homePageDataModel)
+                    super.onNext(homePageDataModel, hashIdentifier)
                     mContentViewBinding.swipeRefreshLayout.isRefreshing = false
                     if (homePageDataModel.success) {
                         (context as HomeActivity).mHomePageDataModel = homePageDataModel
@@ -229,13 +285,87 @@ class HomeFragment : Fragment() {
             })
     }
 
+    private fun callApiBackground() {
+        if (context == null) {
+            return
+        }
+//        Log.d(TAG, "callApi: refreshCount $refreshCount")
+//        val hash = returnHash(if ("$refreshCount" == "0") "" else "$refreshCount")
+        val hash = returnHash("")
+        Log.d(TAG, "callApi: hash $hash")
+        ApiConnection.getHomePageData(
+            context!!,
+            BaseActivity.mDataBaseHandler.getETagFromDatabase(hash),
+            false,
+            ""
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
+                override fun onNext(homePageDataModel: HomePageDataModel) {
+                    super.onNext(homePageDataModel, hash)
+//                    if (homePageDataModel.success && refreshCount != 2) {
+//                        callApi(refreshCount + 1)
+//                    }
+                    Timer("backgroundHomeAPI", false).schedule(3000) {
+                        callApiBackground()
+                    }
+
+                }
+
+            })
+    }
+
+    private fun createHash(refreshCount: String) {
+        hashIdentifier = Utils.getMd5String(
+            "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
+                context!!
+            ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + refreshCount
+        )
+
+        Log.d(
+            TAG,
+            "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
+                context!!
+            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
+                context!!
+            ) + ":" + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + ":" + refreshCount
+        )
+    }
+
+    private fun returnHash(refreshCount: String): String {
+        Log.d(
+            TAG,
+            "cacheData: API " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
+                context!!
+            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
+                context!!
+            ) + ":" + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + ":" + refreshCount
+        )
+        return Utils.getMd5String(
+            "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
+                context!!
+            ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
+                context!!
+            ) + refreshCount
+        )
+
+
+    }
+
     fun initIntent() {
         (activity as HomeActivity).setupFragment(2)
     }
 
     private fun checkAndLoadLocalData() {
         val response =
-            BaseActivity.mDataBaseHandler.getResponseFromDatabase((activity as HomeActivity).mHashIdentifier)
+            BaseActivity.mDataBaseHandler.getResponseFromDatabase(hashIdentifier)
         if (response.isNotBlank()) {
             mHomePageDataModel =
                 BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
@@ -245,6 +375,7 @@ class HomeFragment : Fragment() {
 
 
     private fun onSuccessfulResponse(homePageDataModel: HomePageDataModel) {
+        Log.d(TAG, "onSuccessfulResponse: ")
         mContentViewBinding.loading = false
         mHomePageDataModel = homePageDataModel
         if (homePageDataModel != null && context != null) {
@@ -426,7 +557,7 @@ class HomeFragment : Fragment() {
 
 //top banner with search
         activity?.runOnUiThread {
-            setupOfferBannerRv(bannerImage)
+            setupOfferBannerRv(bannerImage, "bannerimage")
         }
 
 
@@ -495,38 +626,47 @@ setupFeaturesCategoriesRv(category)*/
                         if (carousel.id == "flashDeals") {
                             carousel.label = "\uD83D\uDD25" + carousel.label
 //                            addFlashDealProduct(carousel)
-                            addProductCarousel(carousel)
-                        } else
-                            addProductCarousel(carousel)
+                            addProductCarousel(carousel, "flashDeals")
+                        } else {
+                            addProductCarousel(carousel, "${carousel.type}-${carousel.id}")
+//                            carousel.type?.let {
+//                                Log.d(TAG, "logHomeEvent: asdasdasdd${it}")
+//                                addProductCarousel(carousel, it)
+//                            } ?: run {
+//                                // If id is null.
+//                                addProductCarousel(carousel, "unknown")
+//                            }
+                        }
+
                     }
                     "image" -> {
-                        addImageCarousel(carousel)
+                        addImageCarousel(carousel, "image")
                     }
                     "banner" -> {
 //top banner with search
 
-                        setupOfferBannerRv(carousel)
+                        setupOfferBannerRv(carousel, "banner")
                     }
                     "category" -> {
-                        setupFeaturesCategoriesOtherRv(carousel)
+                        setupFeaturesCategoriesOtherRv(carousel, "category")
                     }
                     "brandlist" -> {
 //brandlist
-                        setupFeaturesCategoriesRv(carousel)
+                        setupFeaturesCategoriesRv(carousel, "brandlist")
                     }
                     "bigbannerfirst" -> {
-                        setUpBigBanner(carousel)
+                        setUpBigBanner(carousel, "bigbannerfirst")
                     }
                     "bigbannersecond" -> {
-                        setUpBigBanner(carousel)
+                        setUpBigBanner(carousel, "bigbannersecond")
                     }
                     "auctionproductlist" -> {
 //                        carousel.label = "\uD83D\uDD25" + carousel.label
                         carousel.titleIconId = R.drawable.ic_law
-                        addAuctionProduct(carousel)
+                        addAuctionProduct(carousel, "auctionproductlist")
                     }
                     "singlebanner" -> {
-                        setUpSingleBanner(carousel)
+                        setUpSingleBanner(carousel, "singlebanner")
                     }
                 }
             }
@@ -559,10 +699,10 @@ setupFeaturesCategoriesRv(category)*/
 
                     when (carousel.type) {
                         "product" -> {
-                            addProductCarousel(carousel)
+                            addProductCarousel(carousel, "product")
                         }
                         "image" -> {
-                            addImageCarousel(carousel)
+                            addImageCarousel(carousel, "image")
                         }
                     }
 // }, (index * 200).toLong())
@@ -591,9 +731,9 @@ setupFeaturesCategoriesRv(category)*/
         return sortedOrder.sortedWith(compareBy { it.position!!.replace(",", "").toInt() })
     }
 
-    private fun addProductCarousel(carousel: Carousel) {
+    private fun addProductCarousel(carousel: Carousel, eventName: String) {
         activity?.runOnUiThread {
-            loadCarouselFirstLayout(carousel)
+            loadCarouselFirstLayout(carousel, eventName)
         }
     }
 
@@ -625,7 +765,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun loadCarouselFirstLayout(carousel: Carousel) {
+    private fun loadCarouselFirstLayout(carousel: Carousel, eventName: String) {
         val productCarouselFirstLayoutBinding =
             DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
                 layoutInflater,
@@ -650,7 +790,7 @@ setupFeaturesCategoriesRv(category)*/
             layoutManager //GridLayoutManager(context!!,4)
 
         productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
+            ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
         productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
             HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
         )
@@ -711,7 +851,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun addAuctionProduct(carousel: Carousel) {
+    private fun addAuctionProduct(carousel: Carousel, eventName: String) {
         if (carousel.productList!!.isNotEmpty()) {
             val productCarouselFirstLayoutBinding =
                 DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
@@ -741,7 +881,7 @@ setupFeaturesCategoriesRv(category)*/
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager =
                     GridLayoutManager(context!!, 4)
             productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-                ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
+                ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
             productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
                 HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
             )
@@ -750,7 +890,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun addImageCarousel(carousel: Carousel) {
+    private fun addImageCarousel(carousel: Carousel, eventName: String) {
         val imageCarouselLayoutBinding = DataBindingUtil.inflate<ImageCarouselLayoutBinding>(
             layoutInflater,
             R.layout.image_carousel_layout,
@@ -759,7 +899,7 @@ setupFeaturesCategoriesRv(category)*/
         )
         imageCarouselLayoutBinding.data = carousel
         imageCarouselLayoutBinding.carouselBannerViewPager.adapter =
-            HomePageBannerVpAdapter(this, carousel.banners!!)
+            HomePageBannerVpAdapter(this, carousel.banners!!, eventName)
         imageCarouselLayoutBinding.carouselBannerViewPager.offscreenPageLimit = 2
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
             imageCarouselLayoutBinding.carouselBannerViewPager.pageMargin =
@@ -786,7 +926,7 @@ setupFeaturesCategoriesRv(category)*/
         mContentViewBinding.carouselsLayout.addView(imageCarouselLayoutBinding.root)
     }
 
-    private fun setupFeaturesCategoriesRv(carousel: Carousel) {
+    private fun setupFeaturesCategoriesRv(carousel: Carousel, eventName: String) {
         if (carousel.brandlist != null) {
             val categoryCarouselLayoutBinding =
                 DataBindingUtil.inflate<CategoryCarouselLayoutBinding>(
@@ -806,7 +946,12 @@ setupFeaturesCategoriesRv(category)*/
             categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
-                BrandListRvAdapter(this, carousel.brandlist!!, ConstantsHelper.VIEW_TYPE_GRID)
+                BrandListRvAdapter(
+                    this,
+                    carousel.brandlist!!,
+                    ConstantsHelper.VIEW_TYPE_GRID,
+                    eventName
+                )
 
 //            categoryCarouselLayoutBinding.featuredCategoriesRv.adapter = FeaturedCategoriesRvAdapter(this, carousel.featuredCategories!!, ConstantsHelper.VIEW_TYPE_LIST)
 //            categoryCarouselLayoutBinding.featuredCategoriesRv.adapter = BrandListRvAdapter(this, carousel.brandlist!!, ConstantsHelper.VIEW_TYPE_LIST)
@@ -816,7 +961,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun setupFeaturesCategoriesOtherRv(carousel: Carousel) {
+    private fun setupFeaturesCategoriesOtherRv(carousel: Carousel, eventName: String) {
         if (!carousel.featuredCategories.isNullOrEmpty()) {
             val categoryCarouselLayoutBinding =
                 DataBindingUtil.inflate<CategoryCarouselLayoutBinding>(
@@ -836,14 +981,23 @@ setupFeaturesCategoriesRv(category)*/
             )
 
             if (mHomePageDataModel.themeType == 1) {
-                categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
-                    GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
+
                 categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
                     carousel.featuredCategories?.let {
+                        // TODO: 24/05/21 FIX ME
+                        val tmp = it//.take(3) as ArrayList
+                        categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
+                            GridLayoutManager(
+                                context,
+                                if (tmp.size >= 5) 2 else 1,
+                                GridLayoutManager.HORIZONTAL,
+                                false
+                            )
                         FeaturedCategoriesOtherRvAdapter(
                             this,
-                            it,
-                            ConstantsHelper.VIEW_TYPE_GRID
+                            tmp,
+                            ConstantsHelper.VIEW_TYPE_GRID,
+                            eventName
                         )
                     }
             } else {
@@ -852,7 +1006,8 @@ setupFeaturesCategoriesRv(category)*/
                         FeaturedCategoriesOtherRvAdapter(
                             this,
                             it,
-                            ConstantsHelper.VIEW_TYPE_LIST
+                            ConstantsHelper.VIEW_TYPE_LIST,
+                            eventName
                         )
                     }
                 categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
@@ -863,7 +1018,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
 
-    private fun setUpBigBanner(carousel: Carousel) {
+    private fun setUpBigBanner(carousel: Carousel, eventName: String) {
         if (carousel.id != null) {
             val categoryCarouselLayoutBinding = DataBindingUtil.inflate<ItemBigBanner1Binding>(
                 layoutInflater,
@@ -875,13 +1030,13 @@ setupFeaturesCategoriesRv(category)*/
             categoryCarouselLayoutBinding.handler = BigBannerHandler(this)
             categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(context, 2)
             categoryCarouselLayoutBinding.bigBanner1Rv.adapter =
-                BigBannerRvAdapter(context!!, carousel.productList!!)
+                BigBannerRvAdapter(context!!, carousel.productList!!, eventName)
 //            productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
             mContentViewBinding.carouselsLayout.addView(categoryCarouselLayoutBinding.root)
         }
     }
 
-    fun setUpSingleBanner(carousel: Carousel) {
+    fun setUpSingleBanner(carousel: Carousel, eventName: String) {
         val bannerCarouselLayoutBinding =
             DataBindingUtil.inflate<SingleBannerCarouselLayoutBinding>(
                 layoutInflater,
@@ -890,6 +1045,9 @@ setupFeaturesCategoriesRv(category)*/
                 false
             )
         bannerCarouselLayoutBinding.data = carousel
+        bannerCarouselLayoutBinding?.analysisData = AnalysisModel(eventName, carousel.categoryId)
+
+
         bannerCarouselLayoutBinding.handler = HomePageBannerVpHandler(this)
         mContentViewBinding.carouselsLayout.addView(bannerCarouselLayoutBinding.root)
 
@@ -997,7 +1155,7 @@ setupFeaturesCategoriesRv(category)*/
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
-                    if (!isLoadingTopSellingProducts && mPageNumber <= 2) {
+                    if (!isLoadingTopSellingProducts) { //&& mPageNumber <= 2
                         val lastCompletelyVisibleItemPosition =
                             (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                         count += categoryCarouselLayoutBinding.data!!.topSellingProducts!!.size
@@ -1016,7 +1174,7 @@ setupFeaturesCategoriesRv(category)*/
         }
     }
 
-    private fun setupOfferBannerRv(carousel: Carousel) {
+    private fun setupOfferBannerRv(carousel: Carousel, eventName: String) {
         if (carousel.banners!!.isNotEmpty()) {
             val bannerCarouselLayoutBinding = DataBindingUtil.inflate<BannerCarouselLayoutBinding>(
                 layoutInflater,
@@ -1030,7 +1188,7 @@ setupFeaturesCategoriesRv(category)*/
             if (mHomePageDataModel.themeType == 1) {
 
                 bannerCarouselLayoutBinding.carouselBannerViewPager.adapter =
-                    HomePageTopBannerVpAdapter(this, carousel.banners)
+                    HomePageTopBannerVpAdapter(this, carousel.banners, eventName)
                 if (AppSharedPref.getStoreCode(context!!) == "ar")
                     bannerCarouselLayoutBinding.carouselBannerViewPager.rotationY = 180f
 
@@ -1061,7 +1219,7 @@ setupFeaturesCategoriesRv(category)*/
                     bannerCarouselLayoutBinding.offerBannersRv.isNestedScrollingEnabled = false
                 }
                 bannerCarouselLayoutBinding.offerBannersRv.adapter =
-                    OfferBannersRvAdapter(this, carousel.banners!!)
+                    OfferBannersRvAdapter(this, carousel.banners!!, eventName)
             }
             mContentViewBinding.carouselsLayout.addView(bannerCarouselLayoutBinding.root)
 
@@ -1110,8 +1268,18 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     fun showBadge(count: Int) {
-        mContentViewBinding.bellNotificationBadge.visibility = View.VISIBLE
-        mContentViewBinding.bellNotificationBadge.text = count.toString()
+        if (count == 0) {
+            mContentViewBinding.bellNotificationBadge.visibility = View.GONE
+            mContentViewBinding.bellNotificationBadge.text = "0"
+        } else {
+            mContentViewBinding.bellNotificationBadge.visibility = View.VISIBLE
+            mContentViewBinding.bellNotificationBadge.text = count.toString()
+        }
+    }
+
+    fun gotToTop() {
+        mContentViewBinding.mainScroller.fullScroll(View.FOCUS_UP)
+
     }
 
 }

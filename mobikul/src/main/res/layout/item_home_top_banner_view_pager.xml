@@ -17,6 +17,9 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.HomePageBannerVpHandler" />
+        <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
     </data>
 
 
@@ -26,7 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@color/color_background"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor)}">
+        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor, analysisData)}">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:layout_width="match_parent"
@@ -45,27 +48,27 @@
                 tools:src="@drawable/placeholder" />
 
 
-<!--
-            <LinearLayout
-                android:layout_width="@dimen/nav_drawer_width"
-                android:layout_height="@dimen/spacing_huge"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
-                android:onClick="@{()->handler.onClickSearch()}"
-                app:layout_height="@{Utils.screenHeight /20}"
-                app:layout_width="@{2* Utils.screenWidth / 3}"
-                app:searchIcon="@drawable/ic_search_white">
+            <!--
+                        <LinearLayout
+                            android:layout_width="@dimen/nav_drawer_width"
+                            android:layout_height="@dimen/spacing_huge"
+                            android:layout_gravity="center_horizontal"
+                            android:visibility="gone"
+                            android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
+                            android:onClick="@{()->handler.onClickSearch()}"
+                            app:layout_height="@{Utils.screenHeight /20}"
+                            app:layout_width="@{2* Utils.screenWidth / 3}"
+                            app:searchIcon="@drawable/ic_search_white">
 
-                <ImageView
-                    android:layout_width="@dimen/spacing_max"
-                    android:layout_height="match_parent"
-                    app:layout_width="@{2* Utils.screenWidth / 15}"
-                    android:src="@drawable/ic_search_white"
-                    android:background="@drawable/shape_rect_round_cnr_accent_bg_black_search"
-                    />
-            </LinearLayout>
--->
+                            <ImageView
+                                android:layout_width="@dimen/spacing_max"
+                                android:layout_height="match_parent"
+                                app:layout_width="@{2* Utils.screenWidth / 15}"
+                                android:src="@drawable/ic_search_white"
+                                android:background="@drawable/shape_rect_round_cnr_accent_bg_black_search"
+                                />
+                        </LinearLayout>
+            -->
 
             <!--
                         <androidx.appcompat.widget.SearchView

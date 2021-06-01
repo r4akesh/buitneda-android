@@ -131,7 +131,7 @@ class PaymentInfoFragment : BaseFragment() {
 
     private fun onSuccessfulResponse(reviewsAndPaymentsResponseModel: ReviewsAndPaymentsResponseModel) {
         if (mContentViewBinding.data == null) {
-
+            reviewsAndPaymentsResponseModel.couponCode = null
             mContentViewBinding.data = reviewsAndPaymentsResponseModel
             if (arguments!!.containsKey(BUNDLE_KEY_CHECKOUT_ADDRESS_DATA)) {
                 onGetAddressSuccessfulResponse(arguments?.getParcelable(BUNDLE_KEY_CHECKOUT_ADDRESS_DATA))

@@ -41,6 +41,19 @@ class FirebaseAnalyticsHelper {
             }
         }
 
+
+        fun logHomeEvent(name: String, id: String?) {
+            if (sFirebaseAnalytics != null) {
+                val params = Bundle()
+                params.putString("name", name)
+                id.let {
+                    params.putString("id", id)
+                }
+
+                sFirebaseAnalytics?.logEvent("home_page_event", params)
+            }
+        }
+
         fun logLoginEvent(username: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()

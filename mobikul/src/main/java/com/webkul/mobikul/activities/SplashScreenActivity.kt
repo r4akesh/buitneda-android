@@ -1,12 +1,9 @@
 package com.webkul.mobikul.activities
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.security.ProviderInstaller
@@ -18,7 +15,6 @@ import com.webkul.mobikul.helpers.AppSharedPref.Companion.KEY_PRICE_PRECISION
 import com.webkul.mobikul.helpers.AppSharedPref.Companion.PRICE_FORMAT_PREF
 import com.webkul.mobikul.helpers.ApplicationConstants.BASE_URL
 import com.webkul.mobikul.helpers.ApplicationConstants.DEFAULT_WEBSITE_ID
-import com.webkul.mobikul.helpers.ApplicationConstants.ENABLE_SPLASH_ANIMATION
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE
@@ -58,7 +54,7 @@ class SplashScreenActivity : BaseActivity() {
 
     private lateinit var mContentViewBinding: ActivitySplashScreenBinding
     private var mUrl = ""
-    private var mIsAnimationFinished: Boolean = false
+    private var mIsAnimationFinished: Boolean = true
     private var mHomePageDataModel: HomePageDataModel? = null
     private var mIsFreshHomePageData: Boolean = false
 
@@ -72,13 +68,17 @@ class SplashScreenActivity : BaseActivity() {
             e.printStackTrace()
         }
         FirebaseAnalyticsHelper.logAppOpenEvent()
-        addAnimationListener()
+//        addAnimationListener()
         checkAction()
+
+
+
     }
 
-    private fun addAnimationListener() {
+    /*private fun addAnimationListener() {
         if (ENABLE_SPLASH_ANIMATION) {
-            mContentViewBinding.splashScreenAnimation.addAnimatorListener(object : Animator.AnimatorListener {
+            mContentViewBinding.splashScreenAnimation.addAnimatorListener(object :
+                Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {
                 }
 
@@ -99,7 +99,7 @@ class SplashScreenActivity : BaseActivity() {
             mContentViewBinding.loading = true
             mIsAnimationFinished = true
         }
-    }
+    }*/
 
     private fun checkAction() {
         val action = intent?.action
@@ -108,66 +108,90 @@ class SplashScreenActivity : BaseActivity() {
             mUrl = data
         }
 
-//        checkLocalData()
-        callApi()
+        checkLocalData()
+//        callApi()
     }
-    private   val TAG = "SplashScreenActivity"
+
+    private var hashIdentifier = ""
+    private val TAG = "SplashScreenActivity"
+
     @SuppressLint("CheckResult")
     private fun checkLocalData() {
 
         if (AppSharedPref.getWebsiteId(this) == DEFAULT_WEBSITE_ID && AppSharedPref.getStoreId(this) == "0" && mUrl.isBlank()) {
             callApi()
         } else {
-            mHashIdentifier = getMd5String("homePageData" + AppSharedPref.getWebsiteId(this) + AppSharedPref.getStoreId(this) + AppSharedPref.getCustomerToken(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCurrencyCode(this) + mUrl)
-            Log.d(TAG, "checkLocalData: $mHashIdentifier")
-            mDataBaseHandler.getResponseFromDatabaseOnThread(mHashIdentifier)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : Observer<String> {
-                        override fun onNext(data: String) {
-                            if (data.isBlank()) {
-                                callApi(mHashIdentifier)
-                            } else {
-                                updateAnimationCheckAndProceed(data)
-                            }
+            hashIdentifier = getMd5String(
+                "homePageData" + AppSharedPref.getWebsiteId(this) + AppSharedPref.getStoreId(this) + AppSharedPref.getCustomerToken(
+                    this
+                ) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCurrencyCode(this) + mUrl
+            )
+            Log.d(
+                TAG, "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(this) + ":" +
+                        AppSharedPref.getStoreId(this) + ":" +
+                        AppSharedPref.getCustomerToken(
+                            this
+                        ) + ":" + AppSharedPref.getQuoteId(this) + ":" + AppSharedPref.getCurrencyCode(
+                    this
+                ) + mUrl
+            )
+            Log.d(TAG, "checkLocalData: $hashIdentifier")
+            mDataBaseHandler.getResponseFromDatabaseOnThread(hashIdentifier)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Observer<String> {
+                    override fun onNext(data: String) {
+                        Log.d(TAG, "checkLocalData: $data")
+                        if (data.isBlank()) {
+                            callApi(hashIdentifier)
+                        } else {
+                            updateAnimationCheckAndProceed(data)
                         }
+                    }
 
-                        override fun onError(e: Throwable) {
-                            callApi(mHashIdentifier)
-                        }
+                    override fun onError(e: Throwable) {
+                        callApi(hashIdentifier)
+                    }
 
-                        override fun onSubscribe(disposable: Disposable) {
-                            mCompositeDisposable.add(disposable)
-                        }
+                    override fun onSubscribe(disposable: Disposable) {
+                        mCompositeDisposable.add(disposable)
+                    }
 
-                        override fun onComplete() {
+                    override fun onComplete() {
 
-                        }
-                    })
+                    }
+                })
         }
     }
 
     private fun updateAnimationCheckAndProceed(response: String) {
-        if (!AppSharedPref.showSplash(this)) {
+        /*if (!AppSharedPref.showSplash(this)) {
             mIsAnimationFinished = true
-        }
-        Handler().postDelayed({
-            onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
-        }, if (ENABLE_SPLASH_ANIMATION) 0.toLong() else 2000.toLong())
+        }*/
+        mIsAnimationFinished = true
+        onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
+        /* Handler(Looper.myLooper()!!).postDelayed({
+             onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
+         }, if (ENABLE_SPLASH_ANIMATION) 0.toLong() else 2000.toLong())*/
     }
 
 
-    private fun callApi( ) {
-        callApi(mHashIdentifier)
+    private fun callApi() {
+        callApi(hashIdentifier)
     }
 
-    private fun callApi(mHashIdentifier: String) {
-        ApiConnection.getHomePageData(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier), mUrl.isNotBlank(), mUrl)
+    private fun callApi(hashIdentifier: String) {
+        ApiConnection.getHomePageData(
+            this,
+            mDataBaseHandler.getETagFromDatabase(hashIdentifier),
+            mUrl.isNotBlank(),
+            mUrl
+        )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : ApiCustomCallback<HomePageDataModel>(this, true) {
                 override fun onNext(responseModel: HomePageDataModel) {
-                    super.onNext(responseModel)
+                    super.onNext(responseModel, hashIdentifier)
                     if (responseModel.success) {
                         mIsFreshHomePageData = true
                         onSuccessfulResponse(responseModel)
@@ -196,7 +220,12 @@ class SplashScreenActivity : BaseActivity() {
         }
         mHomePageDataModel!!.websiteData?.let { setWebsiteData(it) }
         if (!mHomePageDataModel!!.websiteData.isNullOrEmpty()) {
-            mHomePageDataModel!!.websiteData?.size?.let { AppSharedPref.setWebsiteDataCount(this, it) }
+            mHomePageDataModel!!.websiteData?.size?.let {
+                AppSharedPref.setWebsiteDataCount(
+                    this,
+                    it
+                )
+            }
 
         }
 
@@ -207,7 +236,12 @@ class SplashScreenActivity : BaseActivity() {
         }
         if (AppSharedPref.getCurrencyCode(this).isEmpty()) {
             mHomePageDataModel!!.defaultCurrency?.let { AppSharedPref.setCurrencyCode(this, it) }
-            mHomePageDataModel!!.allowedCurrencies?.size?.let { AppSharedPref.setCurrencyCodeSize(this, it) }
+            mHomePageDataModel!!.allowedCurrencies?.size?.let {
+                AppSharedPref.setCurrencyCodeSize(
+                    this,
+                    it
+                )
+            }
             mHomePageDataModel!!.allowedCurrencies?.let { setCurrencyData(it) }
         }
 
@@ -217,9 +251,16 @@ class SplashScreenActivity : BaseActivity() {
 
         updateCartCount(mHomePageDataModel!!.cartCount)
 
-        val customerDataSharedPref = AppSharedPref.getSharedPreferenceEditor(this, AppSharedPref.CUSTOMER_PREF)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_NAME, mHomePageDataModel!!.customerName)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_EMAIL, mHomePageDataModel!!.customerEmail)
+        val customerDataSharedPref =
+            AppSharedPref.getSharedPreferenceEditor(this, AppSharedPref.CUSTOMER_PREF)
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_NAME,
+            mHomePageDataModel!!.customerName
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_EMAIL,
+            mHomePageDataModel!!.customerEmail
+        )
         customerDataSharedPref.apply()
     }
 
@@ -254,7 +295,8 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     private fun updatePriceFormatPref(priceFormat: PriceFormat) {
-        val customerDataSharedPref = AppSharedPref.getSharedPreferenceEditor(this, PRICE_FORMAT_PREF)
+        val customerDataSharedPref =
+            AppSharedPref.getSharedPreferenceEditor(this, PRICE_FORMAT_PREF)
         customerDataSharedPref.putString(KEY_PRICE_PATTERN, priceFormat.pattern)
         customerDataSharedPref.putInt(KEY_PRICE_PRECISION, priceFormat.precision)
         customerDataSharedPref.apply()
@@ -294,6 +336,39 @@ class SplashScreenActivity : BaseActivity() {
             intent.putExtra(BUNDLE_KEY_IS_FRESH_HOME_PAGE_DATA, mIsFreshHomePageData)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+
+            val bundle: Bundle? = this.intent.extras
+            bundle?.let {
+//                val notificationType = this.intent.getStringExtra("notificationType")
+//                val productId = this.intent.getStringExtra("productId")
+//                val productName = this.intent.getStringExtra("productName")
+//                val categoryName = this.intent.getStringExtra("categoryName")
+//                val incrementId = this.intent.getStringExtra("incrementId")
+//                val categoryId = this.intent.getStringExtra("categoryId")
+//
+//
+//                Log.d(TAG, "startHomeActivity: $notificationType")
+//
+//
+//                intent.putExtra("notificationType", notificationType)
+//                intent.putExtra("productId", productId)
+//                intent.putExtra("productName", productName)
+//                intent.putExtra("categoryName", categoryName)
+//                intent.putExtra("categoryId", categoryId)
+//                intent.putExtra("incrementId", incrementId)
+
+
+
+                val bundleKeySet = bundle.keySet() // string key set
+
+                for (key in bundleKeySet) { // traverse and print pairs
+                    Log.i(TAG, key + " : " + bundle.getString(key))
+                    intent.putExtra(key!!, bundle.getString(key))
+                }
+            }
+
+
             startActivity(intent)
             finish()
         }
@@ -308,15 +383,16 @@ class SplashScreenActivity : BaseActivity() {
             }
             else -> {
                 AlertDialogHelper.showNewCustomDialog(
-                        this,
-                        getString(R.string.error),
-                        response.message,
-                        false,
-                        getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                            dialogInterface.dismiss()
-                            finish()
-                        }, "", null)
+                    this,
+                    getString(R.string.error),
+                    response.message,
+                    false,
+                    getString(R.string.ok),
+                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                        dialogInterface.dismiss()
+                        finish()
+                    }, "", null
+                )
             }
         }
     }
@@ -325,62 +401,63 @@ class SplashScreenActivity : BaseActivity() {
         mContentViewBinding.loading = false
         if ((!isNetworkAvailable(this) || (error is HttpException && error.code() == 304))) {
 
-            mDataBaseHandler.getResponseFromDatabaseOnThread(mHashIdentifier)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : Observer<String> {
-                        override fun onNext(response: String) {
-                            if (response.isBlank()) {
-                                AlertDialogHelper.showNewCustomDialog(
-                                        this@SplashScreenActivity,
-                                        getString(R.string.oops),
-                                        NetworkHelper.getErrorMessage(this@SplashScreenActivity, error),
-                                        false,
-                                        getString(R.string.try_again),
-                                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                                            dialogInterface.dismiss()
-                                            mContentViewBinding.loading = true
-                                            callApi()
-                                        }, getString(R.string.close),
-                                        DialogInterface.OnClickListener() { dialogInterface: DialogInterface, _: Int ->
-                                            dialogInterface.dismiss()
-                                            finish()
-                                        })
-                            } else {
-                                mHomePageDataModel = mGson.fromJson(response, HomePageDataModel::class.java)
-                                mIsFreshHomePageData = false
-                                startHomeActivity()
-                            }
+            mDataBaseHandler.getResponseFromDatabaseOnThread(hashIdentifier)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object : Observer<String> {
+                    override fun onNext(response: String) {
+                        if (response.isBlank()) {
+                            AlertDialogHelper.showNewCustomDialog(
+                                this@SplashScreenActivity,
+                                getString(R.string.oops),
+                                NetworkHelper.getErrorMessage(this@SplashScreenActivity, error),
+                                false,
+                                getString(R.string.try_again),
+                                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                                    dialogInterface.dismiss()
+                                    mContentViewBinding.loading = true
+                                    callApi()
+                                }, getString(R.string.close),
+                                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                                    dialogInterface.dismiss()
+                                    finish()
+                                })
+                        } else {
+                            mHomePageDataModel =
+                                mGson.fromJson(response, HomePageDataModel::class.java)
+                            mIsFreshHomePageData = false
+                            startHomeActivity()
                         }
+                    }
 
-                        override fun onError(e: Throwable) {
+                    override fun onError(e: Throwable) {
 
-                        }
+                    }
 
-                        override fun onSubscribe(disposable: Disposable) {
-                            mCompositeDisposable.add(disposable)
-                        }
+                    override fun onSubscribe(disposable: Disposable) {
+                        mCompositeDisposable.add(disposable)
+                    }
 
-                        override fun onComplete() {
+                    override fun onComplete() {
 
-                        }
-                    })
+                    }
+                })
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                    this,
-                    getString(R.string.oops),
-                    NetworkHelper.getErrorMessage(this, error),
-                    false,
-                    getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        mContentViewBinding.loading = true
-                        callApi()
-                    }, getString(R.string.close),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        finish()
-                    })
+                this,
+                getString(R.string.oops),
+                NetworkHelper.getErrorMessage(this, error),
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    mContentViewBinding.loading = true
+                    callApi()
+                }, getString(R.string.close),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    finish()
+                })
         }
     }
 }

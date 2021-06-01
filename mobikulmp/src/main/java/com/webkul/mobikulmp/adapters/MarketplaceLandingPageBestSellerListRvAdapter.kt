@@ -38,7 +38,7 @@ class MarketplaceLandingPageBestSellerListRvAdapter(private val mContext: Contex
         holder.mBinding!!.data = marketplaceLandingPageSellerData
         holder.mBinding.handler = MarketplaceLandingPageSellerHandler(mContext)
         holder.mBinding.sellerProductRv.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
-        holder.mBinding.sellerProductRv.adapter = ProductCarouselHorizontalRvAdapter(mContext, marketplaceLandingPageSellerData.products as ArrayList<ProductTileData>)
+        holder.mBinding.sellerProductRv.adapter = ProductCarouselHorizontalRvAdapter(mContext, marketplaceLandingPageSellerData.products as ArrayList<ProductTileData>, null)
         holder.mBinding.executePendingBindings()
     }
 

@@ -59,17 +59,19 @@ const val NOTIFICATION_CHANNEL_ORDERS = "orders"
 const val NOTIFICATION_CHANNEL_OFFERS = "offers"
 const val NOTIFICATION_CHANNEL_ABANDONED_CART = "abandonedCart"
 
-private const val NOTIFICATION_TYPE_PRODUCT = "product"
-private const val NOTIFICATION_TYPE_CATEGORY = "category"
-private const val NOTIFICATION_TYPE_OTHERS = "others"
-private const val NOTIFICATION_TYPE_CUSTOM = "custom"
-private const val NOTIFICATION_TYPE_ORDER = "order"
-private const val NOTIFICATION_TYPE_CHAT = "chat"
-private const val NOTIFICATION_TYPE_SELLER_CHAT = "chatNotification"
-private const val NOTIFICATION_TYPE_ORDER_PICKUP = "orderPickedUp"
-private const val NOTIFICATION_TYPE_SELLER_ORDER = "sellerOrder"
-private const val NOTIFICATION_TYPE_SELLER_PRODUCT_APPROVAL = "productApproval"
-private const val NOTIFICATION_TYPE_SELLER_APPROVAL = "sellerApproval"
+const val NOTIFICATION_TYPE_PRODUCT = "product"
+const val NOTIFICATION_TYPE_PRODUCT_IN_STOCK = "product_instock"
+
+const val NOTIFICATION_TYPE_CATEGORY = "category"
+const val NOTIFICATION_TYPE_OTHERS = "others"
+const val NOTIFICATION_TYPE_CUSTOM = "custom"
+const val NOTIFICATION_TYPE_ORDER = "order"
+const val NOTIFICATION_TYPE_CHAT = "chat"
+const val NOTIFICATION_TYPE_SELLER_CHAT = "chatNotification"
+const val NOTIFICATION_TYPE_ORDER_PICKUP = "orderPickedUp"
+const val NOTIFICATION_TYPE_SELLER_ORDER = "sellerOrder"
+const val NOTIFICATION_TYPE_SELLER_PRODUCT_APPROVAL = "productApproval"
+const val NOTIFICATION_TYPE_SELLER_APPROVAL = "sellerApproval"
 
 class FCMMessageReceiverService : FirebaseMessagingService() {
 
@@ -117,7 +119,8 @@ class FCMMessageReceiverService : FirebaseMessagingService() {
                 var intent: Intent? = null
                 if (AppSharedPref.getNotificationsEnabled(this)) {
                     when (notificationType) {
-                        NOTIFICATION_TYPE_PRODUCT -> {
+                        NOTIFICATION_TYPE_PRODUCT,
+                        NOTIFICATION_TYPE_PRODUCT_IN_STOCK -> {
                             if (AppSharedPref.getOfferNotificationsEnabled(this)) {
                                 intent =
                                     (applicationContext as MobikulApplication).getProductDetailsActivity(

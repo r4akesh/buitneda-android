@@ -16,6 +16,7 @@ import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler
 import com.webkul.mobikul.helpers.ConstantsHelper
 import com.webkul.mobikul.models.homepage.FeaturedCategory
+import com.webkul.mobikul.models.product.AnalysisModel
 
 /**
  * Webkul Software.
@@ -29,7 +30,10 @@ import com.webkul.mobikul.models.homepage.FeaturedCategory
  * @license https://store.webkul.com/license.html ASL Licence
  * @link https://store.webkul.com/license.html
  */
-class FeaturedCategoriesOtherRvAdapter(private val mContext: HomeFragment, private val mListData: ArrayList<FeaturedCategory>, val layoutView: Int) : RecyclerView.Adapter<FeaturedCategoriesOtherRvAdapter.ViewHolder>() {
+class FeaturedCategoriesOtherRvAdapter(private val mContext: HomeFragment,
+                                       private val mListData: ArrayList<FeaturedCategory>,
+                                       val layoutView: Int,
+                                       private val carouselType: String) : RecyclerView.Adapter<FeaturedCategoriesOtherRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (layoutView == ConstantsHelper.VIEW_TYPE_LIST) {
@@ -40,15 +44,22 @@ class FeaturedCategoriesOtherRvAdapter(private val mContext: HomeFragment, priva
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val eachListData = mListData[position]
+        val eachListData: FeaturedCategory = mListData[position]
 
         if (layoutView == ConstantsHelper.VIEW_TYPE_LIST) {
             (holder.mBinding as ItemFeaturedCategoryOtherBinding).data = eachListData
             holder.mBinding.handler = FeaturedCategoriesRvHandler(mContext)
+
+            holder.mBinding.analysisData = AnalysisModel(carouselType, eachListData.categoryId)
         } else {
             (holder.mBinding as ItemFeaturedCategoryOtherGridBindingImpl).data = eachListData
             holder.mBinding.handler = FeaturedCategoriesRvHandler(mContext)
+            holder.mBinding.analysisData = AnalysisModel(carouselType, eachListData.categoryId)
         }
+
+
+
+
         holder.mBinding.executePendingBindings()
     }
 

@@ -7,7 +7,8 @@
             name="position"
             type="Integer" />
 
-        <import type="com.webkul.mobikul.helpers.Utils"/>
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
         <variable
             name="data"
             type="com.webkul.mobikul.models.product.ProductTileData" />
@@ -15,22 +16,28 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.ProductTileHandler" />
+
+        <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
+
     </data>
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/product_card_view"
-            android:layout_width="@dimen/product_horizontal_carousel_item_width"
-            layout_height="@{Utils.screenWidth/2}"
-            android:layout_height="@dimen/product_horizontal_carousel_item_width"
-            app:cardBackgroundColor="@color/color_background"
-            app:cardElevation="1dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/product_card_view"
+        layout_height="@{Utils.screenWidth/2}"
+        android:layout_width="@dimen/product_horizontal_carousel_item_width"
+        android:layout_height="@dimen/product_horizontal_carousel_item_width"
+        app:cardBackgroundColor="@color/color_background"
+        app:cardElevation="1dp">
 
-            <include
-                layout="@layout/item_product_big_banner_grid_view"
-                app:data="@{data}"
-                app:handler="@{handler}"
-                app:position="@{position}" />
-        </com.google.android.material.card.MaterialCardView>
+        <include
+            layout="@layout/item_product_big_banner_grid_view"
+            app:data="@{data}"
+            app:analysisData="@{analysisData}"
+            app:handler="@{handler}"
+            app:position="@{position}" />
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>
