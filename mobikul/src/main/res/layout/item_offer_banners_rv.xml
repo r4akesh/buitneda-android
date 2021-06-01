@@ -17,6 +17,10 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.HomePageBannerVpHandler" />
+
+        <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -26,7 +30,7 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:background="@color/color_background"
-        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor)}"
+        android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor, analysisData)}"
         app:cardBackgroundColor="@color/color_whiteBlack"
         app:cardElevation="@dimen/card_elevation_medium"
         app:layout_height="@{(2 * (Utils.screenWidth - 120)) / 3}">
@@ -40,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor)}"
+                android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor, analysisData)}"
                 android:scaleType="fitXY"
                 app:imageUrl="@{data.url}"
                 app:placeholder="@{data.dominantColor}"

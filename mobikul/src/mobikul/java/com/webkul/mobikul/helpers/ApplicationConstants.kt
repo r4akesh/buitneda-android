@@ -20,8 +20,8 @@ object ApplicationConstants {
 
     //    const val BASE_URL = "http://161.97.110.25"
 //    const val BASE_URL = "http://18.158.155.18"
-//    const val BASE_URL = "https://buitanda.com" //Live instance
-    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
+    const val BASE_URL = "https://buitanda.com" //Live instance
+//    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
     const val API_USER_NAME = "mobikul"
     const val API_PASSWORD = "#uU=T{t{m~Tv2PxG"
 
@@ -67,7 +67,7 @@ object ApplicationConstants {
     const val DEFAULT_WEBSITE_ID = "1"
     const val DEFAULT_STORE_ID = "19"
     const val DEFAULT_STORE_CODE = "pt"
-    const val DEFAULT_CURRENCY_CODE = ""
+    const val DEFAULT_CURRENCY_CODE = "AOA"
 
     const val LOG_PARAMS = 0
     const val LOG_RESPONSE = 0

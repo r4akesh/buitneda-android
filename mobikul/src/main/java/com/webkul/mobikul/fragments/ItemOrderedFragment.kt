@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.webkul.mobikul.R
 import com.webkul.mobikul.adapters.AssignedDeliveryBoysRvAdapter
+import com.webkul.mobikul.adapters.OrderInvoicesRvAdapter
 import com.webkul.mobikul.adapters.OrderItemsRvAdapter
 import com.webkul.mobikul.adapters.OrderTotalsRvAdapter
 import com.webkul.mobikul.databinding.FragmentItemOrderedBinding
@@ -60,6 +61,7 @@ class ItemOrderedFragment : BaseFragment() {
         setupOrderItemsRv()
         setupDeliveryBoysRv()
         setupOrderTotalsRv()
+        setupInvoiceItemsRv()
 
         mContentViewBinding.handler = ItemOrderedFragmentHandler(this, arguments!!.getString(BUNDLE_KEY_INCREMENT_ID))
     }
@@ -79,5 +81,10 @@ class ItemOrderedFragment : BaseFragment() {
     private fun setupOrderTotalsRv() {
         mContentViewBinding.orderTotalsRv.adapter = mContentViewBinding.data!!.orderData?.totals?.let { OrderTotalsRvAdapter(context!!, it) }
         mContentViewBinding.orderTotalsRv.isNestedScrollingEnabled = false
+    }
+
+    private fun setupInvoiceItemsRv() {
+        mContentViewBinding.orderInvoicesRv.adapter = mContentViewBinding.data!!.invoiceList?.let { OrderInvoicesRvAdapter(this, it) }
+        mContentViewBinding.orderInvoicesRv.isNestedScrollingEnabled = false
     }
 }

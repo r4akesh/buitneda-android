@@ -15,8 +15,8 @@ buildscript {
 //        version_code = 341
 //        version_name = "3.41"
 //
-        version_code = 1
-        version_name = "1.0"
+        version_code = 5
+        version_name = "1.2"
 
         lifecycle = '1.1.1'
         retrofit2 = '2.9.0'
@@ -27,14 +27,14 @@ buildscript {
         //don't change version because models at demo instance upload for this version
         sceneform = '1.7.0'
         //don't change version because models at demo instance upload for this version
-        glide = '4.9.0'
+        glide = '4.12.0'
         zoomy = '1.1.0'
         jsoup = '1.11.3'
         circular_imageview = '2.2.0'
         facebook_android_sdk = '5.0.1'
         facebook_shimmer = '0.1.0@aar'
         lottie = '3.3.1'
-        image_cropper = '2.7.0'
+        image_cropper = '2.8.0'
         calligraphy = '2.3.0'
         mp_android_chart = 'v3.1.0-alpha'
         text_drawable = '1.0.1'

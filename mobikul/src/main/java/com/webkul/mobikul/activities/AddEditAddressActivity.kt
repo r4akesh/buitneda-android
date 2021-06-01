@@ -66,9 +66,10 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
     }
 
     private fun startInitialization() {
+        mContentViewBinding.showSaveInAddressBookSwitch = true
         if (intent.hasExtra(BUNDLE_KEY_ADDRESS_DATA)) {
             mNewAddressForCheckout = intent.getParcelableExtra(BUNDLE_KEY_ADDRESS_DATA)
-            mContentViewBinding.showSaveInAddressBookSwitch = true
+
         } else {
             mAddressId = intent.getStringExtra(BUNDLE_KEY_ADDRESS_ID)?:""
         }
@@ -130,7 +131,7 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
                 addressFormResponseModel.addressData.isDefaultShipping = true
             }
         }
-
+        addressFormResponseModel.addressData.saveInAddressBook = true
         mContentViewBinding.data = addressFormResponseModel
         setUpPrefix()
         setUpSuffix()

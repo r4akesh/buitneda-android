@@ -3,6 +3,7 @@ package com.webkul.mobikul.helpers
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -29,7 +30,7 @@ import com.webkul.mobikul.helpers.ApplicationConstants.ENABLE_SHIMMER_EFFECT
 class ImageHelper {
 
     companion object {
-
+        private const val TAG = "ImageHelper"
         @JvmStatic
         fun load(view: ImageView, imageUrl: String?, placeholder: String?) {
 
@@ -55,18 +56,27 @@ class ImageHelper {
             }
 
             if (placeholder.isNullOrBlank()) {
+//                Log.d(TAG, "src: $imageUrl")
+//                Log.d(TAG, "src: placeholder: $placeholder")
+
                 Glide.with(view.context)
                         .load(imageUrl ?: "")
-                        .thumbnail(0.1f)
+//                    .skipMemoryCache(true)
+//                        .thumbnail(0.1f)
                         .listener(glideCallBack)
+//                        .placeholder(R.drawable.placeholder)
                         .apply(RequestOptions()
                                 .placeholder(R.drawable.placeholder)
-                                .dontAnimate())
+                                 .dontAnimate())
                         .into(view)
             } else {
+//                Log.d(TAG, "src: $imageUrl")
+//                Log.d(TAG, "src: placeholder: $placeholder")
+//                Log.d(TAG, "src: Color.parseColor: ${Color.parseColor(placeholder)}")
+//                Log.d(TAG, "src: ColorDrawable Color.parseColor: ${ColorDrawable(Color.parseColor(placeholder))}")
                 Glide.with(view.context)
                         .load(imageUrl ?: "")
-                        .thumbnail(0.1f)
+//                        .thumbnail(0.1f)
                         .listener(glideCallBack)
                         .apply(RequestOptions()
                                 .placeholder(ColorDrawable(Color.parseColor(placeholder)))

@@ -56,6 +56,11 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         mContentViewBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
+
+        mContentViewBinding.discountCode.visibility = View.GONE
+        mContentViewBinding.discountCodeHeading.visibility = View.GONE
+
+
         return mContentViewBinding.root
     }
 
@@ -151,7 +156,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             mContentViewBinding.crossSellProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.crossSellProductsRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList)
+            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList, null)
     }
 
     private fun setupPriceDetailsItems() {

@@ -43,6 +43,9 @@ import io.github.inflationx.viewpump.ViewPump
 
 
 open class MobikulApplication : MultiDexApplication(), LifecycleObserver {
+    companion object{
+        var isCalledPromotionalBanner = false
+    }
 
     override fun onCreate() {
         super.onCreate()

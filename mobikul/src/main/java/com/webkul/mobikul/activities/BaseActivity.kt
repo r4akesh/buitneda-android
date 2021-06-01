@@ -85,6 +85,8 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
             mNetworkStateReceiver,
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
+
+
     }
 
     open fun setToolbarUpView() {

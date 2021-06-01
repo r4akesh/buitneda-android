@@ -19,6 +19,11 @@
             type="com.webkul.mobikul.models.product.ProductTileData" />
 
         <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
+
+
+        <variable
             name="handler"
             type="com.webkul.mobikul.handlers.ProductTileHandler" />
     </data>
@@ -29,7 +34,7 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_horizontal"
-        android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor)}"
+        android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor, analysisData)}"
         android:paddingEnd="@dimen/spacing_generic"
         android:paddingStart="@dimen/spacing_generic"
         android:paddingBottom="@dimen/spacing_generic"
@@ -46,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor)}"
+                android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor, analysisData)}"
                 android:scaleType="fitXY"
                 app:imageUrl="@{data.thumbNail}"
                 app:placeholder="@{data.dominantColor}"
@@ -61,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/product_image"
             android:layout_margin="@dimen/spacing_tiny"
-            android:background="@android:color/white"
+            android:background="@color/product_discount_text_color"
             android:padding="@dimen/spacing_tiny"
             android:text="@{@string/x_off(data.getDiscountPercentage())}"
             android:textAllCaps="true"

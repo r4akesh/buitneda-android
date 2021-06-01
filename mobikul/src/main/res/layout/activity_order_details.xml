@@ -147,7 +147,7 @@
                     android:layout_height="match_parent"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     tools:ignore="PrivateResource">
-                <FrameLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/main_frame"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

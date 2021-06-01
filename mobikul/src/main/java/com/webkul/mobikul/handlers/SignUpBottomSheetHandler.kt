@@ -46,70 +46,112 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
         if (signUpFormModel.isFormValidated(mFragmentContext)) {
             Utils.hideKeyboard(mFragmentContext.mContentViewBinding.prefix)
             mFragmentContext.mContentViewBinding.loading = true
+            if (signUpFormModel.signUpAsSeller){
+                signUpFormModel.shopURL = signUpFormModel.firstName + "-" + UUID.randomUUID().toString()
+            }
+
             ApiConnection.signUp(mFragmentContext.context!!, signUpFormModel)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : ApiCustomCallback<SignUpResponseModel>(mFragmentContext.context!!, true) {
-                        override fun onNext(signUpResponseModel: SignUpResponseModel) {
-                            super.onNext(signUpResponseModel)
-                            mFragmentContext.mContentViewBinding.loading = false
-                            ToastHelper.showToast(mFragmentContext.context!!, signUpResponseModel.message)
-                            if (signUpResponseModel.success) {
-                                FirebaseAnalyticsHelper.logSignUpEvent(signUpResponseModel.customerName, signUpResponseModel.customerEmail)
-                                AppSharedPref.setCustomerCachedNewAddress(mFragmentContext.context!!, AddressDetailsData())
-                                updateSharedPref(signUpResponseModel)
-                                if (mFragmentContext.context is LoginAndSignUpActivity) {
-                                    (mFragmentContext.context as LoginAndSignUpActivity).finishActivity()
-                                    val intent = Intent(mFragmentContext.context, HomeActivity::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    mFragmentContext.context!!.startActivity(intent)
-                                }
-                                else if (mFragmentContext.context is OrderPlacedActivity) {
-                                    (mFragmentContext.context as OrderPlacedActivity).onCreateAccountSuccess()
-                                    mFragmentContext.dismiss()
-                                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(object :
+                    ApiCustomCallback<SignUpResponseModel>(mFragmentContext.context!!, true) {
+                    override fun onNext(signUpResponseModel: SignUpResponseModel) {
+                        super.onNext(signUpResponseModel)
+                        mFragmentContext.mContentViewBinding.loading = false
+                        ToastHelper.showToast(
+                            mFragmentContext.context!!,
+                            signUpResponseModel.message
+                        )
+                        if (signUpResponseModel.success) {
+                            FirebaseAnalyticsHelper.logSignUpEvent(
+                                signUpResponseModel.customerName,
+                                signUpResponseModel.customerEmail
+                            )
+                            AppSharedPref.setCustomerCachedNewAddress(
+                                mFragmentContext.context!!,
+                                AddressDetailsData()
+                            )
+                            updateSharedPref(signUpResponseModel)
+                            if (mFragmentContext.context is LoginAndSignUpActivity) {
+                                (mFragmentContext.context as LoginAndSignUpActivity).finishActivity()
+                                val intent =
+                                    Intent(mFragmentContext.context, HomeActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                mFragmentContext.context!!.startActivity(intent)
+                            } else if (mFragmentContext.context is OrderPlacedActivity) {
+                                (mFragmentContext.context as OrderPlacedActivity).onCreateAccountSuccess()
+                                mFragmentContext.dismiss()
                             }
                         }
+                    }
 
-                        override fun onError(e: Throwable) {
-                            super.onError(e)
-                            mFragmentContext.mContentViewBinding.loading = false
-                            onErrorResponse(e, signUpFormModel)
-                        }
-                    })
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        mFragmentContext.mContentViewBinding.loading = false
+                        onErrorResponse(e, signUpFormModel)
+                    }
+                })
         }
     }
 
     private fun onErrorResponse(error: Throwable, signUpFormModel: SignUpFormModel) {
         AlertDialogHelper.showNewCustomDialog(
-                mFragmentContext.context!! as BaseActivity,
-                mFragmentContext.getString(R.string.error),
-                NetworkHelper.getErrorMessage(mFragmentContext.context!!, error),
-                false,
-                mFragmentContext.getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    onClickSignUp(signUpFormModel)
-                }
-                , mFragmentContext.getString(R.string.dismiss)
-                , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.dismiss()
-        })
+            mFragmentContext.context!! as BaseActivity,
+            mFragmentContext.getString(R.string.error),
+            NetworkHelper.getErrorMessage(mFragmentContext.context!!, error),
+            false,
+            mFragmentContext.getString(R.string.try_again),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                onClickSignUp(signUpFormModel)
+            },
+            mFragmentContext.getString(R.string.dismiss),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            })
     }
 
     open fun updateSharedPref(signUpResponseModel: SignUpResponseModel) {
-        val customerDataSharedPref = AppSharedPref.getSharedPreferenceEditor(mFragmentContext.context!!, AppSharedPref.CUSTOMER_PREF)
+        val customerDataSharedPref = AppSharedPref.getSharedPreferenceEditor(
+            mFragmentContext.context!!,
+            AppSharedPref.CUSTOMER_PREF
+        )
         customerDataSharedPref.putBoolean(AppSharedPref.KEY_LOGGED_IN, true)
         customerDataSharedPref.putInt(AppSharedPref.KEY_QUOTE_ID, 0)
         customerDataSharedPref.putInt(AppSharedPref.KEY_CART_COUNT, signUpResponseModel.cartCount)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_TOKEN, signUpResponseModel.customerToken)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_ID, signUpResponseModel.customerId)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_NAME, signUpResponseModel.customerName)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_EMAIL, signUpResponseModel.customerEmail)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_IMAGE_URL, signUpResponseModel.profileImage)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_IMAGE_DOMINANT_COLOR, signUpResponseModel.profileDominantColor)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_BANNER_URL, signUpResponseModel.bannerImage)
-        customerDataSharedPref.putString(AppSharedPref.KEY_CUSTOMER_BANNER_DOMINANT_COLOR, signUpResponseModel.bannerDominantColor)
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_TOKEN,
+            signUpResponseModel.customerToken
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_ID,
+            signUpResponseModel.customerId
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_NAME,
+            signUpResponseModel.customerName
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_EMAIL,
+            signUpResponseModel.customerEmail
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_IMAGE_URL,
+            signUpResponseModel.profileImage
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_IMAGE_DOMINANT_COLOR,
+            signUpResponseModel.profileDominantColor
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_BANNER_URL,
+            signUpResponseModel.bannerImage
+        )
+        customerDataSharedPref.putString(
+            AppSharedPref.KEY_CUSTOMER_BANNER_DOMINANT_COLOR,
+            signUpResponseModel.bannerDominantColor
+        )
         customerDataSharedPref.apply()
     }
 
@@ -148,10 +190,25 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
             (v as TextInputEditText).setText(dob.format(dobCalendar.time))
         }
 
-        val datePickerDialog = DatePickerDialog(mFragmentContext.context!!, R.style.AlertDialogTheme, dateOfBirth, selectedYear, selectedMonth, selectedDay)
+        val datePickerDialog = DatePickerDialog(
+            mFragmentContext.context!!,
+            R.style.AlertDialogTheme,
+            dateOfBirth,
+            selectedYear,
+            selectedMonth,
+            selectedDay
+        )
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
-        datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, mFragmentContext.getString(R.string.ok), datePickerDialog)
-        datePickerDialog.setButton(DatePickerDialog.BUTTON_NEGATIVE, mFragmentContext.getString(R.string.cancel), datePickerDialog)
+        datePickerDialog.setButton(
+            DatePickerDialog.BUTTON_POSITIVE,
+            mFragmentContext.getString(R.string.ok),
+            datePickerDialog
+        )
+        datePickerDialog.setButton(
+            DatePickerDialog.BUTTON_NEGATIVE,
+            mFragmentContext.getString(R.string.cancel),
+            datePickerDialog
+        )
         datePickerDialog.show()
     }
 }

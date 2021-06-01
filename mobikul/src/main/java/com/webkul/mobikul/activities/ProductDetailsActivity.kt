@@ -354,6 +354,7 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     fun onSuccessfulResponse(productDetailsPageModel: ProductDetailsPageModel) {
+        productDetailsPageModel.showBackInStockAlert = true
         mContentViewBinding.data = productDetailsPageModel
         mContentViewBinding.productName = productDetailsPageModel.name
         mProductDetailsPageModel = productDetailsPageModel
@@ -2781,7 +2782,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.upsellProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.upsellProductsRv.adapter =
-            ProductCarouselHorizontalRvAdapter(this, mContentViewBinding.data!!.upsellProductList)
+            ProductCarouselHorizontalRvAdapter(this, mContentViewBinding.data!!.upsellProductList, null)
     }
 
     private fun setupFloatingBuyLayoutHiding() {
