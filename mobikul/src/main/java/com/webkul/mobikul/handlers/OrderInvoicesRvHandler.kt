@@ -38,6 +38,12 @@ import io.reactivex.schedulers.Schedulers
 import java.io.File
 
 
+class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
+
+    private val permissionRequestCode = 123
+    fun onClickViewInvoice(invoiceIncrementId: String,invoiceId:String) {
+       // OrderInvoiceDetailsBottomSheetFragment.newInstance(invoiceIncrementId,invoiceId,mFragmentContext.mContentViewBinding.data!!.incrementId).show(mFragmentContext.childFragmentManager, OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName)
+
 class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
     private var saveInvoice: Boolean = false
     private val TAG = "OrderInvoicesRvHandler"
@@ -51,7 +57,12 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
               OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName
           )*/
         saveInvoice = false
+
+
+        callApi()
+
         checkStorage()
+
     }
 
     fun onClickSaveInvoice() {
@@ -227,6 +238,44 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
         }
 
 
+
+    private fun openDownloadedAttachment(context: Context, downloadId: Long,intent: Intent) {
+        val query = DownloadManager.Query()
+        query.setFilterById(intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0))
+        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val cursor = manager.query(query)
+        val fname: String = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_TITLE))
+        val pdfFile = File(
+            Environment.getExternalStorageDirectory().toString() + "/Downloads/" + fname
+        ) //File path
+
+        if (pdfFile.isFile) //Checking if the file exists or not
+        {
+            val path = Uri.fromFile(pdfFile)
+            val objIntent = Intent(Intent.ACTION_VIEW)
+            objIntent.setDataAndType(path, "application/pdf")
+            objIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            context.startActivity(objIntent) //Starting the pdf viewer
+        } else {
+            Log.d(
+                "OO",
+                Environment.getExternalStorageDirectory().toString() + "/Downloads/" + fname
+            )
+            Log.d("OO", fname)
+            // Toast.makeText(getApplicationContext(),"Test",Toast.LENGTH_LONG).show();
+        query.setFilterById(downloadId)
+        val cursor: Cursor = downloadManager.query(query)
+        if (cursor.moveToFirst()) {
+            val downloadStatus: Int =
+                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+            val downloadLocalUri: String =
+                cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
+            val downloadMimeType: String =
+                cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE))
+            if (downloadStatus == DownloadManager.STATUS_SUCCESSFUL) {
+                if (saveInvoice) {
+                    Toast.makeText(context, "Invoice Downloaded In Download Dir", Toast.LENGTH_LONG)
+					
     private fun openDownloadedAttachment(context: Context, downloadId: Long) {
         try {
             val downloadManager =
