@@ -24,7 +24,6 @@ import android.os.Environment
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.webkul.mobikul.R
@@ -37,12 +36,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 
-
-class OrderInvoicesRvHandler(private val mFragmentContext: InvoicesFragment) {
-
-    private val permissionRequestCode = 123
-    fun onClickViewInvoice(invoiceIncrementId: String,invoiceId:String) {
-       // OrderInvoiceDetailsBottomSheetFragment.newInstance(invoiceIncrementId,invoiceId,mFragmentContext.mContentViewBinding.data!!.incrementId).show(mFragmentContext.childFragmentManager, OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName)
 
 class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
     private var saveInvoice: Boolean = false
@@ -57,12 +50,7 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
               OrderInvoiceDetailsBottomSheetFragment::class.java.simpleName
           )*/
         saveInvoice = false
-
-
-        callApi()
-
         checkStorage()
-
     }
 
     fun onClickSaveInvoice() {
@@ -143,36 +131,6 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
 
 
     fun downloadFile(context: Context, url: String?, fileName: String?) {
-       if(checkPermission()){
-           try {
-               if (url != null && !url.isEmpty()) {
-                   val uri = Uri.parse(url)
-                   context.registerReceiver(
-                       attachmentDownloadCompleteReceive, IntentFilter(
-                           DownloadManager.ACTION_DOWNLOAD_COMPLETE
-                       )
-                   )
-                   val request = DownloadManager.Request(Uri.parse(url))
-                       .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                       .setTitle(fileName)
-                       .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                       .setAllowedOverMetered(true)
-                       .setAllowedOverRoaming(false)
-                       .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,fileName)
-                   val downloadManager= context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                   val downloadID = downloadManager.enqueue(request)
-               }
-           } catch (e: IllegalStateException) {
-               Toast.makeText(
-                   context,
-                   "Please insert an SD card to download file",
-                   Toast.LENGTH_SHORT
-               ).show()
-           }
-       }else{
-           makeRequestPermissions()
-       }
-
         try {
             if (url != null && url.isNotEmpty()) {
                 val uri = Uri.parse(url)
@@ -198,7 +156,6 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
                 Toast.LENGTH_SHORT
             ).show()
         }
-
     }
 
 
@@ -213,16 +170,6 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
     }
 
 
-
-    var attachmentDownloadCompleteReceive: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
-                val downloadId = intent.getLongExtra(
-                    DownloadManager.EXTRA_DOWNLOAD_ID, 0
-                )
-                openDownloadedAttachment(context, downloadId,intent)
-
     private var attachmentDownloadCompleteReceive: BroadcastReceiver =
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -233,49 +180,10 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
                     )
                     openDownloadedAttachment(context, downloadId)
                 }
-
             }
         }
 
 
-
-    private fun openDownloadedAttachment(context: Context, downloadId: Long,intent: Intent) {
-        val query = DownloadManager.Query()
-        query.setFilterById(intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0))
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val cursor = manager.query(query)
-        val fname: String = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_TITLE))
-        val pdfFile = File(
-            Environment.getExternalStorageDirectory().toString() + "/Downloads/" + fname
-        ) //File path
-
-        if (pdfFile.isFile) //Checking if the file exists or not
-        {
-            val path = Uri.fromFile(pdfFile)
-            val objIntent = Intent(Intent.ACTION_VIEW)
-            objIntent.setDataAndType(path, "application/pdf")
-            objIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            context.startActivity(objIntent) //Starting the pdf viewer
-        } else {
-            Log.d(
-                "OO",
-                Environment.getExternalStorageDirectory().toString() + "/Downloads/" + fname
-            )
-            Log.d("OO", fname)
-            // Toast.makeText(getApplicationContext(),"Test",Toast.LENGTH_LONG).show();
-        query.setFilterById(downloadId)
-        val cursor: Cursor = downloadManager.query(query)
-        if (cursor.moveToFirst()) {
-            val downloadStatus: Int =
-                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-            val downloadLocalUri: String =
-                cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-            val downloadMimeType: String =
-                cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE))
-            if (downloadStatus == DownloadManager.STATUS_SUCCESSFUL) {
-                if (saveInvoice) {
-                    Toast.makeText(context, "Invoice Downloaded In Download Dir", Toast.LENGTH_LONG)
-					
     private fun openDownloadedAttachment(context: Context, downloadId: Long) {
         try {
             val downloadManager =
@@ -316,6 +224,7 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
     }
 
 
@@ -407,36 +316,5 @@ class OrderInvoicesRvHandler(private val mFragmentContext: BaseFragment) {
             )
             DownloadHelper.downloadFile(mFragmentContext.context, mUrl, mFileName, mMimeType)
         }
-    }
-
-
-
-
-
-    private fun checkPermission(): Boolean {
-
-        val firstPermission: Int =
-            ContextCompat.checkSelfPermission(
-                mFragmentContext.context!!,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        val secondPermission: Int = ContextCompat.checkSelfPermission(
-            mFragmentContext.context!!,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        return firstPermission == PackageManager.PERMISSION_GRANTED &&
-                secondPermission == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun makeRequestPermissions() {
-        ActivityCompat.requestPermissions(
-            mFragmentContext.activity!!,
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            permissionRequestCode
-        )
-
     }
 }
