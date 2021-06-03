@@ -53,6 +53,7 @@ class HomeActivity : BaseActivity() {
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
         private const val TAG = "HomeActivity"
 
+        var data: HomePageDataModel? = null
     }
 
     open var homeFragment: HomeFragment? = null
@@ -255,9 +256,16 @@ class HomeActivity : BaseActivity() {
     }
 
     open fun initIntent() {
-        if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null)
-            mHomePageDataModel =
-                intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
+        if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
+            mHomePageDataModel = intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
+        }
+
+       /* data?.let {
+            mHomePageDataModel = it
+        }*/
+
+
+
         setupFragment(intent.getIntExtra(BUNDLE_KEY_BOTTOM_NAV_INDEX, 2))
     }
 
@@ -583,7 +591,10 @@ class HomeActivity : BaseActivity() {
             image.setOnClickListener {
                 if (promotionBanner.type == "1") {
 
-                    FirebaseAnalyticsHelper.logHomeEvent("promotion_banner_category", promotionBanner.category_product_id)
+                    FirebaseAnalyticsHelper.logHomeEvent(
+                        "promotion_banner_category",
+                        promotionBanner.category_product_id
+                    )
 
                     val navigate = Intent(this@HomeActivity, CatalogActivity::class.java)
                     navigate.putExtra(
@@ -601,7 +612,10 @@ class HomeActivity : BaseActivity() {
                     startActivity(navigate)
                 } else {
 
-                    FirebaseAnalyticsHelper.logHomeEvent("promotion_banner_product", promotionBanner.category_product_id)
+                    FirebaseAnalyticsHelper.logHomeEvent(
+                        "promotion_banner_product",
+                        promotionBanner.category_product_id
+                    )
 
                     val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
                     navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")

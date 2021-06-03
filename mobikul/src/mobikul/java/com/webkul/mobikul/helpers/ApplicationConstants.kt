@@ -59,7 +59,7 @@ object ApplicationConstants {
 
     const val ENABLE_SPLASH_ANIMATION = false
     const val ENABLE_VERSION_CHECKER = true
-    const val ENABLE_FIREBASE_ANALYTICS = false
+    const val ENABLE_FIREBASE_ANALYTICS = true
 
     var DEFAULT_PAGE_COUNT = 1
 

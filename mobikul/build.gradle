@@ -62,7 +62,7 @@ android {
     }
     buildTypes {
         debug {
-            debuggable false
+            //debuggable true
             minifyEnabled false
             shrinkResources false
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
@@ -78,7 +78,7 @@ android {
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
 
             if (!is_marketplace_app) {
-                debuggable false
+                //debuggable true
                 minifyEnabled true
                 shrinkResources true
                 proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -69,7 +69,7 @@ class FeaturedCategoriesRvHandler(private val mContext: HomeFragment) {
     }
 
     fun onClickProduct(name: String, id: String, dominantColor: String) {
-        onClickProduct(name, id, dominantColor)
+        onClickProduct(name, id, dominantColor, null)
     }
 
     fun onClickProduct(

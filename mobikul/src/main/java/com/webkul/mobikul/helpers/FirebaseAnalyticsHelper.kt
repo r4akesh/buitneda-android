@@ -2,6 +2,7 @@ package com.webkul.mobikul.helpers
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.json.JSONObject
 
@@ -11,6 +12,8 @@ class FirebaseAnalyticsHelper {
     companion object {
         private var sFirebaseAnalytics: FirebaseAnalytics? = null
         private var sContext: Context? = null
+        private const val TAG = "FirebaseAnalyticsHelper"
+
         fun initFirebaseAnalytics(context: Context) {
             if (ApplicationConstants.ENABLE_FIREBASE_ANALYTICS) {
                 if (sFirebaseAnalytics == null)
@@ -43,13 +46,16 @@ class FirebaseAnalyticsHelper {
 
 
         fun logHomeEvent(name: String, id: String?) {
+            Log.d(TAG, "logHomeEvent: name: $name id: $id")
             if (sFirebaseAnalytics != null) {
+                Log.d(TAG, "logHomeEvent: if name: $name id: $id")
                 val params = Bundle()
-                params.putString("name", name)
-                id.let {
-                    params.putString("id", id)
+                params.putString("name", name.toLowerCase().replace("-", "_"))
+                id?.let {
+                    params.putString("id", id.toLowerCase().replace("-", "_"))
                 }
-
+                println("==========================================")
+                println(sFirebaseAnalytics)
                 sFirebaseAnalytics?.logEvent("home_page_event", params)
             }
         }
