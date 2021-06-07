@@ -194,6 +194,7 @@ class SplashScreenActivity : BaseActivity() {
                     super.onNext(responseModel, hashIdentifier)
                     if (responseModel.success) {
                         mIsFreshHomePageData = true
+                        responseModel.websiteId = "1"
                         onSuccessfulResponse(responseModel)
                     } else {
                         onFailureResponse(responseModel)
@@ -215,9 +216,12 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     private fun setAppSharedPrefConfigDetails() {
-        if (!mHomePageDataModel!!.websiteId.isNullOrEmpty()) {
-            mHomePageDataModel!!.websiteId?.let { AppSharedPref.setWebsiteId(this, it) }
+        if(mHomePageDataModel!!.websiteId!=null){
+            if (!mHomePageDataModel!!.websiteId.isNullOrEmpty()) {
+                mHomePageDataModel!!.websiteId?.let { AppSharedPref.setWebsiteId(this, it) }
+            }
         }
+
         mHomePageDataModel!!.websiteData?.let { setWebsiteData(it) }
         if (!mHomePageDataModel!!.websiteData.isNullOrEmpty()) {
             mHomePageDataModel!!.websiteData?.size?.let {
@@ -321,7 +325,7 @@ class SplashScreenActivity : BaseActivity() {
             startActivity(intent)
             finish()
         } else {
-            startHomeActivity()
+            startHomeActivity(mHomePageDataModel!!)
         }
     }
 
@@ -329,11 +333,12 @@ class SplashScreenActivity : BaseActivity() {
         //Nothing
     }
 
-    private fun startHomeActivity() {
+    private fun startHomeActivity(mHomePageDataModel: HomePageDataModel) {
         if (mIsAnimationFinished && mHomePageDataModel != null) {
+            HomeDataSingleton.getInstance().mHomePageDataModel = mHomePageDataModel
             val intent = Intent(this, HomeActivity::class.java)
 //            HomeActivity.data = mHomePageDataModel
-            intent.putExtra(BUNDLE_KEY_HOME_PAGE_DATA, mHomePageDataModel)
+         //   intent.putExtra(BUNDLE_KEY_HOME_PAGE_DATA, mHomePageDataModel)
             intent.putExtra(BUNDLE_KEY_IS_FRESH_HOME_PAGE_DATA, mIsFreshHomePageData)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -389,7 +394,7 @@ class SplashScreenActivity : BaseActivity() {
                     response.message,
                     false,
                     getString(R.string.ok),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    { dialogInterface: DialogInterface, _: Int ->
                         dialogInterface.dismiss()
                         finish()
                     }, "", null
@@ -427,7 +432,7 @@ class SplashScreenActivity : BaseActivity() {
                             mHomePageDataModel =
                                 mGson.fromJson(response, HomePageDataModel::class.java)
                             mIsFreshHomePageData = false
-                            startHomeActivity()
+                            startHomeActivity(mHomePageDataModel!!)
                         }
                     }
 

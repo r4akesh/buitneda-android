@@ -260,6 +260,8 @@ class HomeActivity : BaseActivity() {
             mHomePageDataModel = intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
         }
 
+       // mHomePageDataModel = HomeDataSingleton.mHomePageDataModel!!
+
        /* data?.let {
             mHomePageDataModel = it
         }*/
@@ -339,10 +341,10 @@ class HomeActivity : BaseActivity() {
                     homeFragment = HomeFragment()
                     fragment = homeFragment
                     val bundle = Bundle()
-                    bundle.putParcelable(
+                   /* bundle.putParcelable(
                         BUNDLE_KEY_HOME_PAGE_DATA,
                         intent.getParcelableExtra(BUNDLE_KEY_HOME_PAGE_DATA)
-                    )
+                    )*/
                     fragment?.arguments = bundle
                     supportFragmentManager.beginTransaction()
                         .add(R.id.main_frame, fragment!!, "HomeFragment")

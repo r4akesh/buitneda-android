@@ -238,7 +238,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
     }
 
     fun hasSpecialPrice(): Boolean {
-        return finalPrice != 0.0 && finalPrice < price && isInRange
+        return finalPrice != 0.0 && finalPrice < price
     }
 
     fun hasSpecialPrices(): Boolean {

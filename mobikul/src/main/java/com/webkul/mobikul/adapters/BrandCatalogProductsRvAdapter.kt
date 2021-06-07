@@ -43,6 +43,7 @@ class BrandCatalogProductsRvAdapter(private val mContext: BrandCatalogActivity, 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         eachListData.productPosition = position
+        eachListData.isInRange = true
         if (getItemViewType(position) == VIEW_TYPE_LIST) {
             (holder.mBinding as ItemCatalogProductListBinding).position = position
             holder.mBinding.data = eachListData

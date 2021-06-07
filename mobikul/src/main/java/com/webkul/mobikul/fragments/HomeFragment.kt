@@ -48,6 +48,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,7 +57,6 @@ import kotlin.concurrent.schedule
 
 
 class HomeFragment : Fragment() {
-
     private var isLoadingTopSellingProducts: Boolean = false
     lateinit var mContentViewBinding: FragmentHomeBinding
     private var mBannerSwitcherTimerList: ArrayList<Timer> = ArrayList()
@@ -152,7 +153,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSwipeRefresh() {
-
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
             if (NetworkHelper.isNetworkAvailable(context!!)) {
@@ -176,20 +176,16 @@ class HomeFragment : Fragment() {
     }
 
     fun initHomePageData() {
-        if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(
+       /* if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(
                 BUNDLE_KEY_HOME_PAGE_DATA
             ) != null
         ) {
-            (context as HomeActivity).mHomePageDataModel =
-                arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
+           *//* (context as HomeActivity).mHomePageDataModel =
+                arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!*//*
 
-            activity?.runOnUiThread {
-                onSuccessfulResponse(
-                    arguments?.getParcelable<HomePageDataModel>(
-                        BUNDLE_KEY_HOME_PAGE_DATA
-                    )!!, true
-                )
-            }
+            activity?.runOnUiThread {(
+                onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!)
+                )}
 
 
 //            Handler().postDelayed(Runnable {
@@ -199,7 +195,19 @@ class HomeFragment : Fragment() {
         } else {
             callApi()
 
+        }*/
+
+        if (HomeDataSingleton.getInstance().mHomePageDataModel != null){
+            GlobalScope.async {
+                onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!)
+            }
+
+        } else {
+            callApi()
+
         }
+
+
         callApiBackground()
         checkAndLoadLocalData()
     }
