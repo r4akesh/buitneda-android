@@ -32,7 +32,7 @@ import com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler
 import com.webkul.mobikul.handlers.HomePageBannerVpHandler
 import com.webkul.mobikul.handlers.HomePageProductCarouselHandler
 import com.webkul.mobikul.helpers.*
-import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
+//import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.SortOrder
 import com.webkul.mobikul.models.homepage.Carousel

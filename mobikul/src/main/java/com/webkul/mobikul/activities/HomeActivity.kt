@@ -33,7 +33,7 @@ import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.HomeActivityHandler
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_BOTTOM_NAV_INDEX
-import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
+//import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import com.webkul.mobikul.models.extra.NotificationListResponseModel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.models.homepage.PromotionBanner
@@ -53,7 +53,6 @@ class HomeActivity : BaseActivity() {
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
         private const val TAG = "HomeActivity"
 
-        var data: HomePageDataModel? = null
     }
 
     open var homeFragment: HomeFragment? = null
@@ -256,15 +255,17 @@ class HomeActivity : BaseActivity() {
     }
 
     open fun initIntent() {
-        if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
+       /* if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
             mHomePageDataModel = intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
-        }
+        }*/
 
        // mHomePageDataModel = HomeDataSingleton.mHomePageDataModel!!
 
-       /* data?.let {
+        HomeDataSingleton.getInstance().mHomePageDataModel?.let {
             mHomePageDataModel = it
-        }*/
+        }
+
+
 
 
 

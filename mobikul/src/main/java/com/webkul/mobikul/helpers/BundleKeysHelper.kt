@@ -15,7 +15,7 @@ package com.webkul.mobikul.helpers
 
 object BundleKeysHelper {
 
-    const val BUNDLE_KEY_HOME_PAGE_DATA = "homePageData"
+//    const val BUNDLE_KEY_HOME_PAGE_DATA = "homePageData"
     const val BUNDLE_KEY_IS_FRESH_HOME_PAGE_DATA = "isFreshHomePageData"
     const val BUNDLE_KEY_INCREMENT_ID = "incrementId"
     const val BUNDLE_KEY_REVIEW_ID = "reviewId"
