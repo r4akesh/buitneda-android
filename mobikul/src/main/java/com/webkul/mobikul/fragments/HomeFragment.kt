@@ -32,7 +32,6 @@ import com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler
 import com.webkul.mobikul.handlers.HomePageBannerVpHandler
 import com.webkul.mobikul.handlers.HomePageProductCarouselHandler
 import com.webkul.mobikul.helpers.*
-import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.SortOrder
 import com.webkul.mobikul.models.homepage.Carousel
@@ -48,8 +47,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -176,11 +173,11 @@ class HomeFragment : Fragment() {
     }
 
     fun initHomePageData() {
-       /* if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(
-                BUNDLE_KEY_HOME_PAGE_DATA
-            ) != null
-        ) {
-           *//* (context as HomeActivity).mHomePageDataModel =
+        /* if (arguments?.containsKey(BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA)!! && arguments?.getParcelable<HomePageDataModel>(
+                 BUNDLE_KEY_HOME_PAGE_DATA
+             ) != null
+         ) {
+            *//* (context as HomeActivity).mHomePageDataModel =
                 arguments?.getParcelable<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!*//*
 
             activity?.runOnUiThread {(
@@ -197,9 +194,11 @@ class HomeFragment : Fragment() {
 
         }*/
 
-        if (HomeDataSingleton.getInstance().mHomePageDataModel != null){
-            GlobalScope.async {
-                onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!)
+        if (HomeDataSingleton.getInstance().mHomePageDataModel != null) {
+            activity?.runOnUiThread {
+                (
+                        onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!)
+                        )
             }
 
         } else {

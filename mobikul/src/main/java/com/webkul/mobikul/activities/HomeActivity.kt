@@ -256,9 +256,10 @@ class HomeActivity : BaseActivity() {
     }
 
     open fun initIntent() {
-        if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
+        mHomePageDataModel = HomeDataSingleton.getInstance().mHomePageDataModel!!
+       /* if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
             mHomePageDataModel = intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
-        }
+        }*/
 
        // mHomePageDataModel = HomeDataSingleton.mHomePageDataModel!!
 

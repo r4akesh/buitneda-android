@@ -166,11 +166,11 @@ class MyOrdersActivity : BaseActivity() {
                         response.message,
                         false,
                         getString(R.string.ok),
-                        DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                            dialogInterface.dismiss()
-                            mPageNumber--
-                            callApi()
-                        }
+                    { dialogInterface: DialogInterface, _: Int ->
+                        dialogInterface.dismiss()
+                        mPageNumber--
+                        callApi()
+                    }
                         , ""
                         , null)
             }
