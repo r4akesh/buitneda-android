@@ -338,7 +338,7 @@ class SplashScreenActivity : BaseActivity() {
             HomeDataSingleton.getInstance().mHomePageDataModel = mHomePageDataModel
             val intent = Intent(this, HomeActivity::class.java)
 //            HomeActivity.data = mHomePageDataModel
-         //   intent.putExtra(BUNDLE_KEY_HOME_PAGE_DATA, mHomePageDataModel)
+           // intent.putExtra(BUNDLE_KEY_HOME_PAGE_DATA, mHomePageDataModel)
             intent.putExtra(BUNDLE_KEY_IS_FRESH_HOME_PAGE_DATA, mIsFreshHomePageData)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

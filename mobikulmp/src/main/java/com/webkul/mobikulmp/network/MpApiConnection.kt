@@ -311,7 +311,7 @@ class MpApiConnection {
                     addProductData.specialPrice,
                     addProductData.specialFromDateForRequest,
                     addProductData.specialToDateForRequest,
-                    "1",
+                    addProductData.qty,
                     1,
                     "4",
                     "2",
