@@ -648,33 +648,33 @@ setupFeaturesCategoriesRv(category)*/
 
                     }
                     "image" -> {
-                        addImageCarousel(carousel, "image")
+                        addImageCarousel(carousel, "ImageCarousel")
                     }
                     "banner" -> {
 //top banner with search
 
-                        setupOfferBannerRv(carousel, "banner")
+                        setupOfferBannerRv(carousel, "Banner")
                     }
                     "category" -> {
-                        setupFeaturesCategoriesOtherRv(carousel, "category")
+                        setupFeaturesCategoriesOtherRv(carousel, "Category")
                     }
                     "brandlist" -> {
 //brandlist
-                        setupFeaturesCategoriesRv(carousel, "brandlist")
+                        setupFeaturesCategoriesRv(carousel, "BrandTable")
                     }
                     "bigbannerfirst" -> {
-                        setUpBigBanner(carousel, "bigbannerfirst")
+                        setUpBigBanner(carousel, "BigBannerFirst")
                     }
                     "bigbannersecond" -> {
-                        setUpBigBanner(carousel, "bigbannersecond")
+                        setUpBigBanner(carousel, "BigBannerSecond")
                     }
                     "auctionproductlist" -> {
 //                        carousel.label = "\uD83D\uDD25" + carousel.label
                         carousel.titleIconId = R.drawable.ic_law
-                        addAuctionProduct(carousel, "auctionproductlist")
+                        addAuctionProduct(carousel, "AuctionProductList")
                     }
                     "singlebanner" -> {
-                        setUpSingleBanner(carousel, "singlebanner")
+                        setUpSingleBanner(carousel, "SingleBanner")
                     }
                 }
             }

@@ -5,7 +5,7 @@
     "kind": "Directory"
   },
   "applicationId": "com.buitanda.android",
-  "variantName": "mobikulRelease",
+  "variantName": "processMobikulReleaseResources",
   "elements": [
     {
       "type": "SINGLE",
