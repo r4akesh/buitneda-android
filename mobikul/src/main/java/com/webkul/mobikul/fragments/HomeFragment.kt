@@ -1,6 +1,7 @@
 package com.webkul.mobikul.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
@@ -64,6 +65,15 @@ class HomeFragment : Fragment() {
     private var viewModel: ViewModel? = null
     private var hashIdentifier = ""
 //    private var currentCache = 0
+
+
+    private var mContext: Context? = null
+    private lateinit var appCompatActivity: AppCompatActivity
+
+
+
+
+
 
     companion object {
         var instanceOf: Int = 0
@@ -1286,7 +1296,10 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     fun gotToTop() {
-        mContentViewBinding.mainScroller.fullScroll(View.FOCUS_UP)
+        if(mContentViewBinding!=null){
+            mContentViewBinding.mainScroller.fullScroll(View.FOCUS_UP)
+        }
+
 
     }
 

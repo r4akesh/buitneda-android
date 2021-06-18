@@ -333,8 +333,8 @@ class HomeActivity : BaseActivity() {
                     for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
-                    fragment!!.gotToTop()
-                    supportFragmentManager.beginTransaction().show(fragment)
+                    fragment?.gotToTop()
+                    supportFragmentManager.beginTransaction().show(fragment!!)
 //                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 //                        .setPrimaryNavigationFragment(fragment)
 //                        .setReorderingAllowed(true)

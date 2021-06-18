@@ -68,7 +68,7 @@ class ItemOrderedFragmentHandler(val mFragmentContext: ItemOrderedFragment, val 
 
     private fun onSuccessfulResponse(reorderResponseModel: BaseModel) {
         AlertDialogHelper.showNewCustomDialog(
-                mFragmentContext.context as BaseActivity,
+                mFragmentContext as BaseActivity,
                 mFragmentContext.getString(R.string.reorder),
                 reorderResponseModel.message,
                 false,
@@ -87,7 +87,7 @@ class ItemOrderedFragmentHandler(val mFragmentContext: ItemOrderedFragment, val 
 
     private fun onFailureResponse(reorderResponseModel: BaseModel) {
         AlertDialogHelper.showNewCustomDialog(
-                mFragmentContext.context as BaseActivity,
+                mFragmentContext as BaseActivity,
                 mFragmentContext.getString(R.string.error),
                 reorderResponseModel.message,
                 false,
@@ -104,7 +104,7 @@ class ItemOrderedFragmentHandler(val mFragmentContext: ItemOrderedFragment, val 
 
     private fun onErrorResponse(error: Throwable) {
         AlertDialogHelper.showNewCustomDialog(
-                mFragmentContext.context as BaseActivity,
+                mFragmentContext as BaseActivity,
                 mFragmentContext.getString(R.string.error),
                 NetworkHelper.getErrorMessage(mFragmentContext.context!!, error),
                 false,

@@ -314,7 +314,7 @@ open class CatalogActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (mFromNotification) {
-            val intent = Intent(this, HomeFragment::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         } else {

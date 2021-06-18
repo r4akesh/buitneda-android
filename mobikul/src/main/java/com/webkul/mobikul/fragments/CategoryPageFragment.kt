@@ -42,12 +42,13 @@ class CategoryPageFragment(var mcategories: ArrayList<Category>?) :
         mBinding.handler = CategoryPageFragmentHandler(this)
 //        HomeActivity.mContentViewBinding.handler= HomeActivityHandler(this)
         mBinding.category1.adapter = ItemCategoryListAdapter(this, mcategories)
-        if (mcategories?.get(0) != null) {
+        if(mcategories!!.size>0){
+            if (mcategories?.get(0) != null) {
+                mBinding.category2.adapter =
+                    ItemSubCategoryListAdapter(this, mcategories!![0].subCategories!!)
 
-            mBinding.category2.adapter =
-                ItemSubCategoryListAdapter(this, mcategories!![0].subCategories!!)
-
-            onClickCategoryItem(mcategories!![0].id!!)
+                onClickCategoryItem(mcategories!![0].id!!)
+            }
         }
 
     }

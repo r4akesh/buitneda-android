@@ -31,15 +31,11 @@ import com.webkul.arcore.activities.ArActivity
 import com.webkul.arcore.activities.CameraWithImageActivity
 import com.webkul.mobikul.R
 import com.webkul.mobikul.adapters.BrandCatalogProductsRvAdapter
-import com.webkul.mobikul.adapters.CatalogProductsRvAdapter
 import com.webkul.mobikul.adapters.CategoryBannerVpAdapter
 import com.webkul.mobikul.adapters.CriteriaDataAdapter
-import com.webkul.mobikul.databinding.ActivityCatalogBinding
 import com.webkul.mobikul.databinding.ActivityCatalogBrandBinding
 import com.webkul.mobikul.fragments.EmptyFragment
-import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.BrandCatalogActivityHandler
-import com.webkul.mobikul.handlers.CatalogActivityHandler
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE
@@ -49,7 +45,6 @@ import com.webkul.mobikul.helpers.ConstantsHelper.RC_AR
 import com.webkul.mobikul.helpers.ConstantsHelper.VIEW_TYPE_GRID
 import com.webkul.mobikul.models.catalog.CatalogProductsResponseModel
 import com.webkul.mobikul.models.homepage.BannerImage
-import com.webkul.mobikul.models.product.ProductDetailsPageModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
@@ -60,7 +55,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import retrofit2.HttpException
-
 import java.util.*
 
 open class BrandCatalogActivity : BaseActivity() {
@@ -90,15 +84,22 @@ open class BrandCatalogActivity : BaseActivity() {
     }
 
     open fun startInitialization(intent: Intent) {
-        if (intent.hasExtra(BUNDLE_KEY_CATALOG_TYPE) && intent.hasExtra(BUNDLE_KEY_CATALOG_TITLE) && intent.hasExtra(BUNDLE_KEY_CATALOG_ID)) {
+        if (intent.hasExtra(BUNDLE_KEY_CATALOG_TYPE) && intent.hasExtra(BUNDLE_KEY_CATALOG_TITLE) && intent.hasExtra(
+                BUNDLE_KEY_CATALOG_ID
+            )
+        ) {
             mFromNotification = intent.hasExtra(BUNDLE_KEY_FROM_NOTIFICATION)
             mCatalogType = intent.getStringExtra(BUNDLE_KEY_CATALOG_TYPE)!!
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mCatalogName = Html.fromHtml(intent.getStringExtra(BUNDLE_KEY_CATALOG_TITLE), Html.FROM_HTML_MODE_LEGACY).toString()
+                mCatalogName = Html.fromHtml(
+                    intent.getStringExtra(BUNDLE_KEY_CATALOG_TITLE),
+                    Html.FROM_HTML_MODE_LEGACY
+                ).toString()
 
             } else {
-                mCatalogName = Html.fromHtml(intent.getStringExtra(BUNDLE_KEY_CATALOG_TITLE)).toString()
+                mCatalogName =
+                    Html.fromHtml(intent.getStringExtra(BUNDLE_KEY_CATALOG_TITLE)).toString()
             }
             mCatalogId = intent.getStringExtra(BUNDLE_KEY_CATALOG_ID)!!
         } else {
@@ -123,7 +124,14 @@ open class BrandCatalogActivity : BaseActivity() {
 
         setSupportActionBar(mContentViewBinding.toolbar)
         val title = SpannableString(mCatalogName)
-        title.setSpan(CalligraphyTypefaceSpan(TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD)), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        title.setSpan(
+            CalligraphyTypefaceSpan(
+                TypefaceUtils.load(
+                    assets,
+                    ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD
+                )
+            ), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         supportActionBar?.title = title
         supportActionBar?.elevation = 0f
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -133,53 +141,66 @@ open class BrandCatalogActivity : BaseActivity() {
 
     open fun callApi() {
         mContentViewBinding.loading = true
-        mHashIdentifier = Utils.getMd5String("getCatalogProductData" + AppSharedPref.getStoreId(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCustomerToken(this) + mCatalogType + mCatalogId + mPageNumber + mSortingInputJson + mFilterInputJson)
-        ApiConnection.getBrandCatalogProductData(this, mDataBaseHandler.getETagFromDatabase(mHashIdentifier), mCatalogType, mCatalogId, mPageNumber++, mSortingInputJson, mFilterInputJson)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : ApiCustomCallback<CatalogProductsResponseModel>(this, false) {
-                    override fun onNext(catalogProductsResponseModel: CatalogProductsResponseModel) {
-                        super.onNext(catalogProductsResponseModel)
-                        mContentViewBinding.loading = false
-                        if (catalogProductsResponseModel.success) {
-                            onSuccessfulResponse(catalogProductsResponseModel)
-                        } else {
-                            onFailureResponse(catalogProductsResponseModel)
-                        }
+        mHashIdentifier = Utils.getMd5String(
+            "getCatalogProductData" + AppSharedPref.getStoreId(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCustomerToken(
+                this
+            ) + mCatalogType + mCatalogId + mPageNumber + mSortingInputJson + mFilterInputJson
+        )
+        ApiConnection.getBrandCatalogProductData(
+            this,
+            mDataBaseHandler.getETagFromDatabase(mHashIdentifier),
+            mCatalogType,
+            mCatalogId,
+            mPageNumber++,
+            mSortingInputJson,
+            mFilterInputJson
+        )
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<CatalogProductsResponseModel>(this, false) {
+                override fun onNext(catalogProductsResponseModel: CatalogProductsResponseModel) {
+                    super.onNext(catalogProductsResponseModel)
+                    mContentViewBinding.loading = false
+                    if (catalogProductsResponseModel.success) {
+                        onSuccessfulResponse(catalogProductsResponseModel)
+                    } else {
+                        onFailureResponse(catalogProductsResponseModel)
                     }
+                }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        mContentViewBinding.loading = false
-                        onErrorResponse(e)
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loading = false
+                    onErrorResponse(e)
+                }
+            })
     }
 
     fun checkAndLoadLocalData() {
         mDataBaseHandler.getResponseFromDatabaseOnThread(mHashIdentifier)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(object : Observer<String> {
-                    override fun onNext(response: String) {
-                        if (response.isNotBlank()) {
-                            val catalogResponse = mGson.fromJson(response, CatalogProductsResponseModel::class.java)
-                            if (catalogResponse.productList.isNotEmpty())
-                                onSuccessfulResponse(catalogResponse)
-                        }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : Observer<String> {
+                override fun onNext(response: String) {
+                    if (response.isNotBlank()) {
+                        val catalogResponse =
+                            mGson.fromJson(response, CatalogProductsResponseModel::class.java)
+                        if (catalogResponse.productList.isNotEmpty())
+                            onSuccessfulResponse(catalogResponse)
                     }
+                }
 
-                    override fun onError(e: Throwable) {
-                    }
+                override fun onError(e: Throwable) {
+                }
 
-                    override fun onSubscribe(disposable: Disposable) {
-                        mCompositeDisposable.add(disposable)
-                    }
+                override fun onSubscribe(disposable: Disposable) {
+                    mCompositeDisposable.add(disposable)
+                }
 
-                    override fun onComplete() {
+                override fun onComplete() {
 
-                    }
-                })
+                }
+            })
     }
 
     fun onSuccessfulResponse(catalogProductsResponseModel: CatalogProductsResponseModel) {
@@ -199,12 +220,16 @@ open class BrandCatalogActivity : BaseActivity() {
             }
         } else {
             mContentViewBinding.data!!.productList.addAll(catalogProductsResponseModel.productList)
-            mContentViewBinding.productsRv.adapter?.notifyItemRangeChanged(mContentViewBinding.data!!.productList.size - catalogProductsResponseModel.productList.size, mContentViewBinding.data!!.productList.size)
+            mContentViewBinding.productsRv.adapter?.notifyItemRangeChanged(
+                mContentViewBinding.data!!.productList.size - catalogProductsResponseModel.productList.size,
+                mContentViewBinding.data!!.productList.size
+            )
         }
     }
 
     private fun setupCriteriaDataRv() {
-        mContentViewBinding.criteriaDataRv.adapter = CriteriaDataAdapter(this, mContentViewBinding.data!!.criteriaData)
+        mContentViewBinding.criteriaDataRv.adapter =
+            CriteriaDataAdapter(this, mContentViewBinding.data!!.criteriaData)
     }
 
     private fun setupProductsRv() {
@@ -214,28 +239,43 @@ open class BrandCatalogActivity : BaseActivity() {
             } else {
                 mContentViewBinding.productsRv.layoutManager = LinearLayoutManager(this)
             }
-            mContentViewBinding.productsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            mContentViewBinding.productsRv.addOnScrollListener(object :
+                RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val lastCompletelyVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val lastCompletelyVisibleItemPosition =
+                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     if (!mContentViewBinding.loading!! && mContentViewBinding.data!!.productList.size < mContentViewBinding.data!!.totalCount
-                            && lastCompletelyVisibleItemPosition > mContentViewBinding.data!!.productList.size - 4) {
+                        && lastCompletelyVisibleItemPosition > mContentViewBinding.data!!.productList.size - 4
+                    ) {
                         callApi()
                     }
                 }
             })
         }
-        mContentViewBinding.productsRv.adapter = BrandCatalogProductsRvAdapter(this, mContentViewBinding.data!!.productList)
+        mContentViewBinding.productsRv.adapter =
+            BrandCatalogProductsRvAdapter(this, mContentViewBinding.data!!.productList)
     }
 
     private fun setupBannersViewPager(bannerImage: ArrayList<BannerImage>) {
 
-            if (mContentViewBinding.categoryBannerViewPager.adapter == null) {
-                mContentViewBinding.categorySliderDotsTabLayout.setupWithViewPager(mContentViewBinding.categoryBannerViewPager, true)
-                val imageCarouselSwitcherTimer = Timer()
-                imageCarouselSwitcherTimer.scheduleAtFixedRate(BannerSwitchTimerTask(mContentViewBinding.categoryBannerViewPager, bannerImage.size), 1000.toLong(), ApplicationConstants.DEFAULT_TIME_TO_SWITCH_BANNER_IN_MILLIS.toLong())
-            }
-            mContentViewBinding.categoryBannerViewPager.adapter = CategoryBannerVpAdapter(this, bannerImage)
+        if (mContentViewBinding.categoryBannerViewPager.adapter == null) {
+            mContentViewBinding.categorySliderDotsTabLayout.setupWithViewPager(
+                mContentViewBinding.categoryBannerViewPager,
+                true
+            )
+            val imageCarouselSwitcherTimer = Timer()
+            imageCarouselSwitcherTimer.scheduleAtFixedRate(
+                BannerSwitchTimerTask(
+                    mContentViewBinding.categoryBannerViewPager,
+                    bannerImage.size
+                ),
+                1000.toLong(),
+                ApplicationConstants.DEFAULT_TIME_TO_SWITCH_BANNER_IN_MILLIS.toLong()
+            )
+        }
+        mContentViewBinding.categoryBannerViewPager.adapter =
+            CategoryBannerVpAdapter(this, bannerImage)
 
         mContentViewBinding.categoryBannerViewPager.offscreenPageLimit = 2
     }
@@ -243,19 +283,21 @@ open class BrandCatalogActivity : BaseActivity() {
 
     private fun onFailureResponse(catalogProductsResponseModel: CatalogProductsResponseModel) {
         AlertDialogHelper.showNewCustomDialog(
-                this,
-                getString(R.string.error),
-                catalogProductsResponseModel.message,
-                false,
-                getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    mPageNumber--
-                    callApi()
-                }, getString(R.string.dismiss), DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.dismiss()
-            finish()
-        })
+            this,
+            getString(R.string.error),
+            catalogProductsResponseModel.message,
+            false,
+            getString(R.string.try_again),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                mPageNumber--
+                callApi()
+            },
+            getString(R.string.dismiss),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                finish()
+            })
     }
 
     open fun onErrorResponse(error: Throwable) {
@@ -264,36 +306,54 @@ open class BrandCatalogActivity : BaseActivity() {
             onSuccessfulResponse(mGson.fromJson(response, CatalogProductsResponseModel::class.java))
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                    this,
-                    getString(R.string.error),
-                    NetworkHelper.getErrorMessage(this, error),
-                    false,
-                    getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        mPageNumber--
-                        callApi()
-                    }, getString(R.string.dismiss), DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-                finish()
-            })
+                this,
+                getString(R.string.error),
+                NetworkHelper.getErrorMessage(this, error),
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    mPageNumber--
+                    callApi()
+                },
+                getString(R.string.dismiss),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    finish()
+                })
         }
     }
 
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.catalog_product_list_layout, EmptyFragment.newInstance("empty_cart.json", getString(R.string.empty_product_catalog), getString(R.string.try_different_category_or_search_keyword_maybe),true,""), EmptyFragment::class.java.simpleName)
+        fragmentTransaction.add(
+            R.id.catalog_product_list_layout,
+            EmptyFragment.newInstance(
+                "empty_cart.json",
+                getString(R.string.empty_product_catalog),
+                getString(R.string.try_different_category_or_search_keyword_maybe),
+                true,
+                ""
+            ),
+            EmptyFragment::class.java.simpleName
+        )
         fragmentTransaction.commitAllowingStateLoss()
     }
 
     private fun removeEmptyLayout() {
-        val emptyFragment = supportFragmentManager.findFragmentByTag(EmptyFragment::class.java.simpleName)
+        val emptyFragment =
+            supportFragmentManager.findFragmentByTag(EmptyFragment::class.java.simpleName)
         if (emptyFragment != null) {
-            supportFragmentManager.beginTransaction().remove(emptyFragment).commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().remove(emptyFragment)
+                .commitAllowingStateLoss()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         var allPermissionsGranted = true
         for (eachGrantResult in grantResults) {
@@ -309,19 +369,26 @@ open class BrandCatalogActivity : BaseActivity() {
     }
 
     fun startArActivity() {
-        val intent: Intent = if (mContentViewBinding.data!!.productList[mSelectedProduct].arType == "3D") {
-            Intent(this, ArActivity::class.java)
-        } else {
-            Intent(this, CameraWithImageActivity::class.java)
-        }
-        intent.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME, mContentViewBinding.data!!.productList[mSelectedProduct].name)
-        intent.putExtra(BundleKeysHelper.BUNDLE_KEY_AR_MODEL_URL, mContentViewBinding.data!!.productList[mSelectedProduct].arModelUrl)
+        val intent: Intent =
+            if (mContentViewBinding.data!!.productList[mSelectedProduct].arType == "3D") {
+                Intent(this, ArActivity::class.java)
+            } else {
+                Intent(this, CameraWithImageActivity::class.java)
+            }
+        intent.putExtra(
+            BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME,
+            mContentViewBinding.data!!.productList[mSelectedProduct].name
+        )
+        intent.putExtra(
+            BundleKeysHelper.BUNDLE_KEY_AR_MODEL_URL,
+            mContentViewBinding.data!!.productList[mSelectedProduct].arModelUrl
+        )
         startActivity(intent)
     }
 
     override fun onBackPressed() {
         if (mFromNotification) {
-            val intent = Intent(this, HomeFragment::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         } else {
@@ -329,9 +396,12 @@ open class BrandCatalogActivity : BaseActivity() {
         }
     }
 
-    private inner class BannerSwitchTimerTask internal constructor(private val mViewPager: ViewPager, private val mBannerSize: Int) : TimerTask() {
+    private inner class BannerSwitchTimerTask(
+        private val mViewPager: ViewPager,
+        private val mBannerSize: Int
+    ) : TimerTask() {
 
-        internal var firstTime = true
+        var firstTime = true
 
         override fun run() {
             try {
