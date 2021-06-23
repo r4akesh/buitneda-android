@@ -45,7 +45,7 @@ class FirebaseAnalyticsHelper {
         }
 
 
-        fun logHomeEvent(name: String, id: String?) {
+        fun logHomeEvent(name: String, id: String?,title:String) {
             Log.d(TAG, "logHomeEvent: name: $name id: $id")
             if (sFirebaseAnalytics != null) {
                 Log.d(TAG, "logHomeEvent: if name: $name id: $id")
@@ -54,6 +54,7 @@ class FirebaseAnalyticsHelper {
                 id?.let {
                     params.putString("id", id.toLowerCase().replace("-", "_"))
                 }
+                params.putString("title",title.toLowerCase().replace("-","_"))
                 println("==========================================")
                 println(sFirebaseAnalytics)
                 sFirebaseAnalytics?.logEvent("home_page_event", params)

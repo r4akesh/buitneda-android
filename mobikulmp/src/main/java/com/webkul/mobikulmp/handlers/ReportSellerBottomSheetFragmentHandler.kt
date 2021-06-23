@@ -44,10 +44,10 @@ class ReportSellerBottomSheetFragmentHandler(val mFragmentContext: ReportSellerB
                                                 mFragmentContext.getString(R.string.report_seller_message,mFragmentContext.arguments?.getString(BUNDLE_KEY_PRODUCT_NAME)),
                                                 false,
                                                 mFragmentContext.getString(R.string.close),
-                                                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                                                    dialogInterface.dismiss()
-                                                    mFragmentContext.dismiss()
-                                                }
+                                            { dialogInterface: DialogInterface, _: Int ->
+                                                dialogInterface.dismiss()
+                                                mFragmentContext.dismiss()
+                                            }
                                                 , ""
                                                 , null)
                                     }
@@ -84,10 +84,10 @@ class ReportSellerBottomSheetFragmentHandler(val mFragmentContext: ReportSellerB
                                                 mFragmentContext.getString(R.string.report_product_message,mFragmentContext.arguments?.getString(BUNDLE_KEY_PRODUCT_NAME)),
                                                 false,
                                                 mFragmentContext.getString(R.string.close),
-                                                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                                                    dialogInterface.dismiss()
-                                                    mFragmentContext.dismiss()
-                                                }
+                                            { dialogInterface: DialogInterface, _: Int ->
+                                                dialogInterface.dismiss()
+                                                mFragmentContext.dismiss()
+                                            }
                                                 , ""
                                                 , null)
                                     }
@@ -143,10 +143,10 @@ class ReportSellerBottomSheetFragmentHandler(val mFragmentContext: ReportSellerB
                 (response as BaseModel).message,
                 false,
                 mFragmentContext.getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    mFragmentContext.dismiss()
-                }
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                mFragmentContext.dismiss()
+            }
                 , ""
                 , null)
     }

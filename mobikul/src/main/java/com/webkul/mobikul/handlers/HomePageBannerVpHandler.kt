@@ -26,6 +26,8 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CATEG
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME
+import com.webkul.mobikul.helpers.ConstantsHelper.HOME_CATEGORY_BANNER
+import com.webkul.mobikul.helpers.ConstantsHelper.HOME_PRODUCT_BANNER
 import com.webkul.mobikul.helpers.FirebaseAnalyticsHelper
 import com.webkul.mobikul.helpers.MobikulApplication
 import com.webkul.mobikul.models.product.AnalysisModel
@@ -50,7 +52,7 @@ class HomePageBannerVpHandler(private val mContext: HomeFragment) {
 
                 analysisData?.let {
                     Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-                    FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id)
+                    FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id,HOME_CATEGORY_BANNER)
                 }
 
                 val intent = Intent(mContext.context, CatalogActivity::class.java)
@@ -63,7 +65,7 @@ class HomePageBannerVpHandler(private val mContext: HomeFragment) {
 
                 analysisData?.let {
                     Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-                    FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id)
+                    FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id,HOME_PRODUCT_BANNER)
                 }
                 val intent =
                     (mContext.activity?.applicationContext as MobikulApplication).getProductDetailsActivity(

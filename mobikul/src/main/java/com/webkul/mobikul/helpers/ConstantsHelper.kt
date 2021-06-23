@@ -198,4 +198,12 @@ object ConstantsHelper {
 
     const val DEFAULT_DATE_FORMAT = "MM/dd/yy"
 
+
+    /****************************Event title const****************/
+    const val HOME_CATEGORY_BANNER = "home_category_banner"
+    const val HOME_FEATURE_CATEGORY = "home_feature_category"
+    const val HOME_FEATURE_PRODUCT = "home_feature_product"
+    const val HOME_PRODUCT_BANNER = "home_product_banner"
+    const val HOME_PRODUCT = "home_product"
+
 }

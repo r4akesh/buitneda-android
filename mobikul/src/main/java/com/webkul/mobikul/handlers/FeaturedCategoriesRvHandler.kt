@@ -10,6 +10,7 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE_CATEGORY
+import com.webkul.mobikul.helpers.ConstantsHelper
 import com.webkul.mobikul.helpers.FirebaseAnalyticsHelper
 import com.webkul.mobikul.helpers.MobikulApplication
 import com.webkul.mobikul.models.product.AnalysisModel
@@ -37,12 +38,10 @@ class FeaturedCategoriesRvHandler(private val mContext: HomeFragment) {
     }
 
     fun onClickCategory(name: String, id: String, analysisData: AnalysisModel?) {
-
         analysisData?.let {
             Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id)
+            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id, ConstantsHelper.HOME_FEATURE_CATEGORY)
         }
-
 
         val intent = Intent(mContext.context, BrandCatalogActivity::class.java)
         intent.putExtra(BUNDLE_KEY_CATALOG_TYPE, BUNDLE_KEY_CATALOG_TYPE_CATEGORY)
@@ -58,7 +57,8 @@ class FeaturedCategoriesRvHandler(private val mContext: HomeFragment) {
     fun onClickFeatureCategory(name: String, id: String, analysisData: AnalysisModel?) {
         analysisData?.let {
             Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id)
+            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id, ConstantsHelper.HOME_FEATURE_CATEGORY
+            )
         }
 
         val intent = Intent(mContext.context, CatalogActivity::class.java)
@@ -81,7 +81,7 @@ class FeaturedCategoriesRvHandler(private val mContext: HomeFragment) {
 
         analysisData?.let {
             Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id)
+            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, it.id, ConstantsHelper.HOME_PRODUCT)
         }
 
         val intent =

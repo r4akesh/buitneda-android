@@ -117,7 +117,7 @@ class SellerProfileEditActivity : BaseActivity() {
         mContentViewBinding.data = mSellerEditProfileResponseData
         mContentViewBinding.handler = SellerProfileEditActivityHandler(this)
         setupCountrySpinner(mSellerEditProfileResponseData)
-        mContentViewBinding.contactNoEt.setOnClickListener(View.OnClickListener {
+        mContentViewBinding.contactNoEt.setOnClickListener({
 
         })
         /*Setting up the Rich TextView*/

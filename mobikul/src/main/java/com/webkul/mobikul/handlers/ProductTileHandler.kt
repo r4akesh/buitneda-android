@@ -21,6 +21,7 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_C
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_IMAGE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME
+import com.webkul.mobikul.helpers.ConstantsHelper.HOME_PRODUCT
 import com.webkul.mobikul.helpers.ConstantsHelper.RC_AR
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.checkout.AddToCartResponseModel
@@ -70,7 +71,7 @@ class ProductTileHandler(val mContext: Context, val mProductList: ArrayList<Prod
     fun onClickItem(entityId: String, name: String, thumbNail: String, dominantColor: String, analysisData: AnalysisModel?) {
         analysisData?.let {
 //            Log.d(TAG, "logHomeEvent: ${analysisData.eventName}")
-            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, entityId)
+            FirebaseAnalyticsHelper.logHomeEvent(it.eventName, entityId, HOME_PRODUCT)
         }
         Log.d(TAG, "onClickItem: ProductTileHandler $entityId")
         val intent = (mContext?.applicationContext as MobikulApplication).getProductDetailsActivity(mContext!!)

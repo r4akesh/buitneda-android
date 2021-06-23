@@ -492,6 +492,8 @@ class HomeFragment : Fragment() {
     }
 
 
+
+
     private fun onErrorResponse(error: Throwable) {
         if ((!NetworkHelper.isNetworkAvailable(context!!) || (error is HttpException && error.code() == 304)) && mContentViewBinding.data != null) {
             // Do Nothing as the data is already loaded

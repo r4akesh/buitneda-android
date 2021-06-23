@@ -33,6 +33,8 @@ import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.handlers.HomeActivityHandler
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_BOTTOM_NAV_INDEX
+import com.webkul.mobikul.helpers.ConstantsHelper.HOME_CATEGORY_BANNER
+import com.webkul.mobikul.helpers.ConstantsHelper.HOME_PRODUCT_BANNER
 //import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import com.webkul.mobikul.models.extra.NotificationListResponseModel
 import com.webkul.mobikul.models.homepage.HomePageDataModel
@@ -77,7 +79,6 @@ class HomeActivity : BaseActivity() {
                 MobikulApplication.isCalledPromotionalBanner = true
                 callApi()
             }
-
 
             callNotificationApi()
         }, 500.toLong())
@@ -520,7 +521,7 @@ class HomeActivity : BaseActivity() {
                     getString(R.string.new_version_available),
                     false,
                     getString(R.string.update),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    { dialogInterface: DialogInterface, _: Int ->
                         dialogInterface.dismiss()
                         startActivityForResult(
                             Intent(
@@ -597,7 +598,8 @@ class HomeActivity : BaseActivity() {
 
                     FirebaseAnalyticsHelper.logHomeEvent(
                         "promotion_banner_category",
-                        promotionBanner.category_product_id
+                        promotionBanner.category_product_id,
+                        HOME_CATEGORY_BANNER
                     )
 
                     val navigate = Intent(this@HomeActivity, CatalogActivity::class.java)
@@ -618,7 +620,8 @@ class HomeActivity : BaseActivity() {
 
                     FirebaseAnalyticsHelper.logHomeEvent(
                         "promotion_banner_product",
-                        promotionBanner.category_product_id
+                        promotionBanner.category_product_id,
+                        HOME_PRODUCT_BANNER
                     )
 
                     val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
