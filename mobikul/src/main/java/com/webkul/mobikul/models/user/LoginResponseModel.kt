@@ -63,4 +63,6 @@ class LoginResponseModel : BaseModel() {
 
     @JsonProperty("isPending")
     val isPending: Boolean = false
+
+    var loginMethod:String = ""
 }

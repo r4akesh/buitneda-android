@@ -41,6 +41,7 @@ object BundleKeysHelper {
     const val BUNDLE_KEY_ITEM_ID = "itemId"
     const val BUNDLE_KEY_PRODUCT_ID = "productId"
     const val BUNDLE_KEY_PRODUCT_NAME = "productName"
+    const val BUNDLE_KEY_PRODUCT_CATEGORY = "productCategory"
     const val BUNDLE_KEY_PRODUCT_IMAGE = "productImage"
     const val BUNDLE_KEY_PRODUCT_DOMINANT_COLOR = "productDominantColor"
     const val BUNDLE_KEY_PRODUCT_OPTIONS = "productOptions"
@@ -69,6 +70,7 @@ object BundleKeysHelper {
     const val BUNDLE_KEY_FAILURE_URL = "paymentFailureUrl"
 
     const val BUNDLE_KEY_IS_VIRTUAL_CART = "isVirtualCart"
+    const val BUNDLE_KEY_IS_CART_ITEM = "cartItem"
 
     const val BUNDLE_KEY_NOTIFICATION_ID = "notificationId"
     const val BUNDLE_KEY_EMAIL = "email"

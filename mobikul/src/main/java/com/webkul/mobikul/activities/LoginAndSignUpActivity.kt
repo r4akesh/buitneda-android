@@ -92,6 +92,7 @@ open class LoginAndSignUpActivity : BaseActivity() {
                 mSocialLoginData.emailAddr = socialLoginData.getString("email")
                 mSocialLoginData.password = socialLoginData.getString("password")
                 mSocialLoginData.pictureURL = socialLoginData.getString("pictureURL")
+                mSocialLoginData.socialMethod = socialLoginData.getString("socialMethod")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -110,7 +111,7 @@ open class LoginAndSignUpActivity : BaseActivity() {
                         mContentViewBinding.loading = false
                         ToastHelper.showToast(this@LoginAndSignUpActivity, signUpResponseModel.message)
                         if (signUpResponseModel.success) {
-                            FirebaseAnalyticsHelper.logSignUpEvent(signUpResponseModel.customerName, signUpResponseModel.customerEmail)
+                            FirebaseAnalyticsHelper.logSignUpEvent(mSocialLoginData.socialMethod)
                             updateSharedPref(signUpResponseModel)
                             finishActivity()
                             val intent = Intent(context, HomeActivity::class.java)

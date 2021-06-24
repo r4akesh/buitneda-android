@@ -1069,7 +1069,8 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
     }
 
     fun onClickShareBtn() {
-        Utils.shareProduct(mContext, mContext.mContentViewBinding.data!!.productUrl)
+       // Utils.shareProduct(mContext, mContext.mContentViewBinding.data!!.productUrl)
+        Utils.shareProduct(mContext, mContext.mContentViewBinding.data!!.productUrl,mContext.mContentViewBinding.data!!.id)
 
     }
 

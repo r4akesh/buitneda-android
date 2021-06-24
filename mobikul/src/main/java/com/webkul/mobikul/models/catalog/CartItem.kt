@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.webkul.mobikul.BR
 import com.webkul.mobikul.models.homepage.Currency
 import com.webkul.mobikul.models.user.OptionsItem
+import java.io.Serializable
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

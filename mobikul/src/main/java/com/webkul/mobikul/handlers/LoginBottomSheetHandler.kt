@@ -61,6 +61,7 @@ open class LoginBottomSheetHandler(val mFragmentContext: LoginBottomSheetFragmen
                             super.onNext(loginResponseModel)
                             mFragmentContext.mContentViewBinding.loading = false
                             if (loginResponseModel.success) {
+                                loginResponseModel.loginMethod = "email"
                                 checkFingerprintData(loginFormModel.isFingerPrintEnable(mFragmentContext), loginResponseModel, loginFormModel.username, loginFormModel.password)
                               /*  val intent = Intent(context, HomeActivity::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -162,7 +163,7 @@ open class LoginBottomSheetHandler(val mFragmentContext: LoginBottomSheetFragmen
     }
 
     private fun goToDashboard(loginResponseModel: LoginResponseModel) {
-        FirebaseAnalyticsHelper.logLoginEvent(loginResponseModel.customerName)
+        FirebaseAnalyticsHelper.logLoginEvent(loginResponseModel.loginMethod)
         ToastHelper.showToast(mFragmentContext.context!!, mFragmentContext.getString(R.string.logged_in))
         updateSharedPref(loginResponseModel)
         AppSharedPref.setCustomerCachedNewAddress(mFragmentContext.context!!, AddressDetailsData())

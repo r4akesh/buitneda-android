@@ -630,9 +630,14 @@ class HomeActivity : BaseActivity() {
                         BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME,
                         promotionBanner.title
                     )
+
                     navigate.putExtra(
                         BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID,
                         promotionBanner.category_product_id
+                    )
+                    navigate.putExtra(
+                        BundleKeysHelper.BUNDLE_KEY_PRODUCT_CATEGORY,
+                        promotionBanner.id
                     )
                     startActivity(navigate)
                 }

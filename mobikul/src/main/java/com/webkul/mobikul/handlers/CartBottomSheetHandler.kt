@@ -29,6 +29,7 @@ import com.webkul.mobikul.fragments.CartBottomSheetFragment
 import com.webkul.mobikul.fragments.HomeFragment
 import com.webkul.mobikul.fragments.ProceedCheckoutBottomSheetFragment
 import com.webkul.mobikul.helpers.*
+import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_IS_CART_ITEM
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.network.ApiConnection
@@ -210,6 +211,7 @@ class CartBottomSheetHandler(val mFragmentContext: CartBottomSheetFragment) {
         } else if (AppSharedPref.isLoggedIn(mFragmentContext.context!!)) {
             val intent = Intent(mFragmentContext.context!!, CheckoutActivity::class.java)
             intent.putExtra(BUNDLE_KEY_IS_VIRTUAL_CART, mFragmentContext.mContentViewBinding.data!!.isVirtual)
+            intent.putExtra(BUNDLE_KEY_IS_CART_ITEM,mFragmentContext.mContentViewBinding.data!!.items)
             mFragmentContext.startActivity(intent)
         } else {
             val proceedCheckoutBottomSheetFragment =

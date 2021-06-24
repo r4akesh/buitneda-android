@@ -20,20 +20,21 @@ import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityCheckoutBinding
 import com.webkul.mobikul.fragments.PaymentInfoFragment
 import com.webkul.mobikul.fragments.ShippingInfoFragment
+import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_IS_CART_ITEM
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART
 import com.webkul.mobikul.helpers.FirebaseAnalyticsHelper
+import com.webkul.mobikul.models.catalog.CartItem
 import com.webkul.mobikul.models.checkout.CheckoutAddressInfoResponseModel
 
 class CheckoutActivity : BaseActivity(), PaymentInfoFragment.OnDetachInterface {
-
     lateinit var mContentViewBinding: ActivityCheckoutBinding
     var mIsVirtual = false
-
+    var cartItem : ArrayList<CartItem> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_checkout)
         startInitialization()
-        FirebaseAnalyticsHelper.logCheckoutBeginEvent()
+
 
     }
 
@@ -43,11 +44,14 @@ class CheckoutActivity : BaseActivity(), PaymentInfoFragment.OnDetachInterface {
 
     private fun startInitialization() {
         mIsVirtual = intent.getBooleanExtra(BUNDLE_KEY_IS_VIRTUAL_CART, false)
+        cartItem = intent.getSerializableExtra(BUNDLE_KEY_IS_CART_ITEM) as ArrayList<CartItem>
         if (mIsVirtual) {
             setupPaymentInfoFragment()
         } else {
             setupShippingInfoFragment()
         }
+
+        FirebaseAnalyticsHelper.logCheckoutBeginEvent(cartItem)
     }
 
     private fun setupShippingInfoFragment() {
