@@ -64,8 +64,7 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
                         )
                         if (signUpResponseModel.success) {
                             FirebaseAnalyticsHelper.logSignUpEvent(
-                                signUpResponseModel.customerName,
-                                signUpResponseModel.customerEmail
+                                "email"
                             )
                             AppSharedPref.setCustomerCachedNewAddress(
                                 mFragmentContext.context!!,

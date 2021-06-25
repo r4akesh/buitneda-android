@@ -180,6 +180,7 @@ class MobikulSocialLoginHelper : GoogleApiClient.OnConnectionFailedListener {
                 responseJson.put("email", googleUserData.email)
                 responseJson.put("password", generateRandomPassword())
                 responseJson.put("pictureURL", googleUserData.photoUrl)
+                responseJson.put("socialMethod", "google")
                 return responseJson
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -196,6 +197,7 @@ class MobikulSocialLoginHelper : GoogleApiClient.OnConnectionFailedListener {
                 val responseJson = JSONObject()
                 responseJson.put("firstName", facebookResponseJson.getString("first_name"))
                 responseJson.put("lastName", facebookResponseJson.getString("last_name"))
+                responseJson.put("socialMethod", "facebook")
 
                 if(facebookResponseJson.has("email")){
                     responseJson.put("email", facebookResponseJson.getString("email"))

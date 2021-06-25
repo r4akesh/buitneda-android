@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.webkul.mobikul.models.catalog.CartItem
 import org.json.JSONObject
 
 
@@ -49,11 +50,12 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logSignUpEvent(name: String, email: String) {
+        fun logSignUpEvent(signUpMethod: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("customer_name", name)
-                params.putString("customer_email", email)
+              /*  params.putString("customer_name", name)
+                params.putString("customer_email", email)*/
+                params.putString(FirebaseAnalytics.Param.METHOD, signUpMethod)
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SIGN_UP, params)
             }
         }
@@ -75,10 +77,10 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logLoginEvent(username: String) {
+        fun logLoginEvent(loginMethod: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("customer_username", username)
+                params.putString(FirebaseAnalytics.Param.METHOD, loginMethod)
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.LOGIN, params)
             }
         }
@@ -115,23 +117,41 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logCheckoutBeginEvent() {
+        fun logCheckoutBeginEvent(cartItem:ArrayList<CartItem>) {
             if (sFirebaseAnalytics != null && sContext != null) {
                 val params = Bundle()
+                val items:ArrayList<Bundle> = ArrayList()
+                for(myItem in cartItem){
+                    val creteBundle = Bundle()
+                    creteBundle.putString(FirebaseAnalytics.Param.ITEM_NAME,myItem.name)
+                    items.add(creteBundle)
+
+                }
+                items.forEach {
+                    with(params) {
+                        putParcelableArray(
+                            FirebaseAnalytics.Param.ITEMS,
+                            arrayOf(it)
+                        )
+                    }
+                }
+
+
+               /*
                 params.putString(
                     "customer",
                     if (AppSharedPref.isLoggedIn(sContext!!)) AppSharedPref.getCustomerEmail(
                         sContext!!
                     ) else "guest"
-                )
-                sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
+                )*/
+              //  sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
             }
         }
 
-        fun logShareEvent(url: String) {
+        fun logShareEvent(productId: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("product_id", url)
+                params.putString(FirebaseAnalytics.Param.ITEM_ID, productId)
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SHARE, params)
             }
         }
@@ -139,8 +159,10 @@ class FirebaseAnalyticsHelper {
         fun logViewItemEvent(id: String, name: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("product_id", id)
-                params.putString("product_name", name)
+                val items = Bundle()
+                items.putString(FirebaseAnalytics.Param.ITEM_ID, id)
+                items.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS,arrayOf(items))
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params)
             }
         }

@@ -124,6 +124,7 @@ class SignUpFormModel : BaseModel() {
     var nifNumber: String? = ""
     var shopName: String? = ""
     var orderId: String? = ""
+    var socialMethod = ""
 
     var signUpAsSeller: Boolean = false
 //        @Bindable get

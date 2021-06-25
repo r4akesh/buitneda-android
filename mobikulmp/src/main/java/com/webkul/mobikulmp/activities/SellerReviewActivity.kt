@@ -103,10 +103,10 @@ class SellerReviewActivity : BaseActivity() {
                 (response as BaseModel).message,
                 false,
                 getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    finish()
-                }
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                finish()
+            }
                 , ""
                 , null)
     }

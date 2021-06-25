@@ -173,8 +173,8 @@ class Utils {
             return context.packageManager.queryIntentActivities(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0).size > 0
         }
 
-        fun shareProduct(context: Context, url: String) {
-            FirebaseAnalyticsHelper.logShareEvent(url)
+        fun shareProduct(context: Context, url: String,id:String) {
+            FirebaseAnalyticsHelper.logShareEvent(id)
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, url)

@@ -248,6 +248,12 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                     BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART,
                     mContentViewBinding.data!!.isVirtual
                 )
+
+                intent.putExtra(
+                    BundleKeysHelper.BUNDLE_KEY_IS_CART_ITEM,
+                    mContentViewBinding.data!!.items
+                )
+
                 startActivity(intent)
             }
         }
