@@ -27,6 +27,20 @@ class FirebaseAnalyticsHelper {
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
         }
 
+
+        fun logAppScreenView(screenName: String, screenClass: String) {
+            if (sFirebaseAnalytics != null){
+                val params = Bundle()
+                params.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+                params.putString(FirebaseAnalytics.Param.SCREEN_CLASS, screenClass)
+
+                sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, null)
+            }
+
+
+
+        }
+
         fun logSearchEvent(searchQuery: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
