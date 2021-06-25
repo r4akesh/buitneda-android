@@ -21,7 +21,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class SellerListActivity : BaseActivity() {
+class
+SellerListActivity : BaseActivity() {
 
     lateinit var mContentViewBinding: ActivitySellerListBinding
     var mStoreName = ""
