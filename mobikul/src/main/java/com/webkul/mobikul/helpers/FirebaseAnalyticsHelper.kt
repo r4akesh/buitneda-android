@@ -93,10 +93,14 @@ class FirebaseAnalyticsHelper {
         ) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("product_id", id)
-                params.putString("product_name", name)
+                val item = Bundle()
+                item.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
+                item.putString(FirebaseAnalytics.Param.ITEM_ID, id)
+               /* params.putString("product_id", )
+                params.putString("product_name", )
                 params.putString("qty", qty)
-                params.putString("productOptions", mProductParamsJSON.toString())
+                params.putString("productOptions", mProductParamsJSON.toString())*/
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS, arrayOf(item))
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.ADD_TO_WISHLIST, params)
             }
         }
@@ -109,10 +113,14 @@ class FirebaseAnalyticsHelper {
         ) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-                params.putString("product_id", id)
-                params.putString("product_name", name)
+                val item = Bundle()
+                item.putString(FirebaseAnalytics.Param.ITEM_NAME,name)
+                item.putString(FirebaseAnalytics.Param.ITEM_ID, id)
+                /*params.putString("product_id", )
+                params.putString("product_name", )
                 params.putString("qty", qty)
-                params.putString("productOptions", mProductParamsJSON.toString())
+                params.putString("productOptions", mProductParamsJSON.toString())*/
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS, arrayOf(item))
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, params)
             }
         }
@@ -127,14 +135,8 @@ class FirebaseAnalyticsHelper {
                     items.add(creteBundle)
 
                 }
-                items.forEach {
-                    with(params) {
-                        putParcelableArray(
-                            FirebaseAnalytics.Param.ITEMS,
-                            arrayOf(it)
-                        )
-                    }
-                }
+
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS,items.toTypedArray())
 
 
                /*
@@ -144,7 +146,7 @@ class FirebaseAnalyticsHelper {
                         sContext!!
                     ) else "guest"
                 )*/
-              //  sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
+                sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
             }
         }
 
