@@ -14,6 +14,9 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler" />
+        <variable
+            name="analysisData"
+            type="com.webkul.mobikul.models.product.AnalysisModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -31,7 +34,7 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_horizontal"
-        android:onClick="@{()->handler.onClickProduct(data.name, data.entityId , data.dominantColor)}"
+        android:onClick="@{()->handler.onClickProduct(data.name, data.entityId , data.dominantColor, analysisData)}"
         android:paddingEnd="@dimen/spacing_generic"
         android:paddingStart="@dimen/spacing_generic"
         android:paddingBottom="@dimen/spacing_generic"
@@ -46,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:onClick="@{()->handler.onClickProduct(data.name, data.entityId, data.dominantColor)}"
+                android:onClick="@{()->handler.onClickProduct(data.name, data.entityId, data.dominantColor, analysisData)}"
                 android:scaleType="fitXY"
                 app:imageUrl="@{data.thumbNail}"
                 app:placeholder="@{data.dominantColor}"
