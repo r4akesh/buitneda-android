@@ -71,10 +71,6 @@ class HomeFragment : Fragment() {
     private lateinit var appCompatActivity: AppCompatActivity
 
 
-
-
-
-
     companion object {
         var instanceOf: Int = 0
     }
@@ -492,8 +488,6 @@ class HomeFragment : Fragment() {
     }
 
 
-
-
     private fun onErrorResponse(error: Throwable) {
         if ((!NetworkHelper.isNetworkAvailable(context!!) || (error is HttpException && error.code() == 304)) && mContentViewBinding.data != null) {
             // Do Nothing as the data is already loaded
@@ -646,9 +640,20 @@ setupFeaturesCategoriesRv(category)*/
                         if (carousel.id == "flashDeals") {
                             carousel.label = "\uD83D\uDD25" + carousel.label
 //                            addFlashDealProduct(carousel)
-                            addProductCarousel(carousel, "flashDeals")
+                            addProductCarousel(carousel, "FlashDeals")
                         } else {
-                            addProductCarousel(carousel, "${carousel.type}-${carousel.id}")
+                            var eventType = "Product"
+
+                            val idInInt: Int? = carousel.id?.toIntOrNull()
+                            idInInt?.let {
+                                eventType = "${carousel.label}"
+                            } ?: run {
+                                eventType = "${carousel.id}"
+                            }
+
+
+
+                            addProductCarousel(carousel, eventType)
 //                            carousel.type?.let {
 //                                Log.d(TAG, "logHomeEvent: asdasdasdd${it}")
 //                                addProductCarousel(carousel, it)
@@ -660,7 +665,16 @@ setupFeaturesCategoriesRv(category)*/
 
                     }
                     "image" -> {
-                        addImageCarousel(carousel, "ImageCarousel")
+                        var eventType = "Product"
+
+                        val idInInt: Int? = carousel.id?.toIntOrNull()
+                        idInInt?.let {
+                            eventType = "${carousel.label}"
+                        } ?: run {
+                            eventType = "${carousel.id}"
+                        }
+
+                        addImageCarousel(carousel, eventType)
                     }
                     "banner" -> {
 //top banner with search
@@ -1298,7 +1312,7 @@ setupFeaturesCategoriesRv(category)*/
     }
 
     fun gotToTop() {
-        if(mContentViewBinding!=null){
+        if (mContentViewBinding != null) {
             mContentViewBinding.mainScroller.fullScroll(View.FOCUS_UP)
         }
 
