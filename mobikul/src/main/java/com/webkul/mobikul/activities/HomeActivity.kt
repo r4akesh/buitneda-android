@@ -596,11 +596,13 @@ class HomeActivity : BaseActivity() {
             image.setOnClickListener {
                 if (promotionBanner.type == "1") {
 
-                    FirebaseAnalyticsHelper.logHomeEvent(
+                    /*FirebaseAnalyticsHelper.logHomeEvent(
                         "promotion_banner_category",
                         promotionBanner.category_product_id,
                         HOME_CATEGORY_BANNER
-                    )
+                    )*/
+
+                    FirebaseAnalyticsHelper.logHomeEvent("PromotionBanner", "0", "0")
 
                     val navigate = Intent(this@HomeActivity, CatalogActivity::class.java)
                     navigate.putExtra(
@@ -618,11 +620,12 @@ class HomeActivity : BaseActivity() {
                     startActivity(navigate)
                 } else {
 
-                    FirebaseAnalyticsHelper.logHomeEvent(
+                    /*FirebaseAnalyticsHelper.logHomeEvent(
                         "promotion_banner_product",
                         promotionBanner.category_product_id,
                         HOME_PRODUCT_BANNER
-                    )
+                    )*/
+                    FirebaseAnalyticsHelper.logHomeEvent("PromotionBanner", "0", "0")
 
                     val navigate = Intent(this@HomeActivity, ProductDetailsActivity::class.java)
                     navigate.putExtra(BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR, "")

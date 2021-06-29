@@ -2,7 +2,6 @@ package com.webkul.mobikul.helpers
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.webkul.mobikul.models.catalog.CartItem
 import org.json.JSONObject
@@ -30,14 +29,13 @@ class FirebaseAnalyticsHelper {
 
 
         fun logAppScreenView(screenName: String, screenClass: String) {
-            if (sFirebaseAnalytics != null){
+            if (sFirebaseAnalytics != null) {
                 val params = Bundle()
                 params.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
                 params.putString(FirebaseAnalytics.Param.SCREEN_CLASS, screenClass)
 
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, null)
             }
-
 
 
         }
@@ -53,18 +51,18 @@ class FirebaseAnalyticsHelper {
         fun logSignUpEvent(signUpMethod: String) {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
-              /*  params.putString("customer_name", name)
-                params.putString("customer_email", email)*/
+                /*  params.putString("customer_name", name)
+                  params.putString("customer_email", email)*/
                 params.putString(FirebaseAnalytics.Param.METHOD, signUpMethod)
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SIGN_UP, params)
             }
         }
 
 
-        fun logHomeEvent(name: String, id: String?,title:String) {
-            Log.d(TAG, "logHomeEvent: name: $name id: $id")
+        fun logHomeEvent(name: String, id: String?, title: String) {
+//            Log.d(TAG, "logHomeEvent: name: $name id: $id")
             if (sFirebaseAnalytics != null) {
-                Log.d(TAG, "logHomeEvent: if name: $name id: $id")
+//                Log.d(TAG, "logHomeEvent: if name: $name id: $id")
                 val params = Bundle()
 
 
@@ -100,10 +98,10 @@ class FirebaseAnalyticsHelper {
                 val item = Bundle()
                 item.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
                 item.putString(FirebaseAnalytics.Param.ITEM_ID, id)
-               /* params.putString("product_id", )
-                params.putString("product_name", )
-                params.putString("qty", qty)
-                params.putString("productOptions", mProductParamsJSON.toString())*/
+                /* params.putString("product_id", )
+                 params.putString("product_name", )
+                 params.putString("qty", qty)
+                 params.putString("productOptions", mProductParamsJSON.toString())*/
                 params.putParcelableArray(FirebaseAnalytics.Param.ITEMS, arrayOf(item))
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.ADD_TO_WISHLIST, params)
             }
@@ -118,7 +116,7 @@ class FirebaseAnalyticsHelper {
             if (sFirebaseAnalytics != null) {
                 val params = Bundle()
                 val item = Bundle()
-                item.putString(FirebaseAnalytics.Param.ITEM_NAME,name)
+                item.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
                 item.putString(FirebaseAnalytics.Param.ITEM_ID, id)
                 /*params.putString("product_id", )
                 params.putString("product_name", )
@@ -129,27 +127,27 @@ class FirebaseAnalyticsHelper {
             }
         }
 
-        fun logCheckoutBeginEvent(cartItem:ArrayList<CartItem>) {
+        fun logCheckoutBeginEvent(cartItem: ArrayList<CartItem>) {
             if (sFirebaseAnalytics != null && sContext != null) {
                 val params = Bundle()
-                val items:ArrayList<Bundle> = ArrayList()
-                for(myItem in cartItem){
+                val items: ArrayList<Bundle> = ArrayList()
+                for (myItem in cartItem) {
                     val creteBundle = Bundle()
-                    creteBundle.putString(FirebaseAnalytics.Param.ITEM_NAME,myItem.name)
+                    creteBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, myItem.name)
                     items.add(creteBundle)
 
                 }
 
-                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS,items.toTypedArray())
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS, items.toTypedArray())
 
 
-               /*
-                params.putString(
-                    "customer",
-                    if (AppSharedPref.isLoggedIn(sContext!!)) AppSharedPref.getCustomerEmail(
-                        sContext!!
-                    ) else "guest"
-                )*/
+                /*
+                 params.putString(
+                     "customer",
+                     if (AppSharedPref.isLoggedIn(sContext!!)) AppSharedPref.getCustomerEmail(
+                         sContext!!
+                     ) else "guest"
+                 )*/
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT, params)
             }
         }
@@ -168,7 +166,7 @@ class FirebaseAnalyticsHelper {
                 val items = Bundle()
                 items.putString(FirebaseAnalytics.Param.ITEM_ID, id)
                 items.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
-                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS,arrayOf(items))
+                params.putParcelableArray(FirebaseAnalytics.Param.ITEMS, arrayOf(items))
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params)
             }
         }
