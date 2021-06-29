@@ -39,8 +39,8 @@ class AddAuctionOnProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_auction_on_product)
 //        setActionbarTitle(getResources().getString(R.string.add_auction_on_product_activity_title))
-        mProductId = getIntent().getStringExtra(BUNDLE_KEY_PRODUCT_ID)
-        mAuctionId = getIntent().getStringExtra(BUNDLE_KEY_AUCTION_ID)
+        mProductId = intent.getStringExtra(BUNDLE_KEY_PRODUCT_ID)
+        mAuctionId = intent.getStringExtra(BUNDLE_KEY_AUCTION_ID)
         callApi()
     }
 
@@ -98,7 +98,7 @@ class AddAuctionOnProductActivity : BaseActivity() {
 
 
     private fun startInitialization() {
-        mBinding!!.setData(mAuctionFormData)
+        mBinding!!.data = mAuctionFormData
         mBinding!!.handler = AddAuctionOnProductActivityHandler(this)
         setupAuctionOption()
         setupAdminIncrementRules()
@@ -113,20 +113,21 @@ class AddAuctionOnProductActivity : BaseActivity() {
 
     private fun setupAuctionOption() {
         if (mAuctionFormData!!.auctionType == null || mAuctionFormData!!.auctionType!!.size == 0) {
-            mBinding!!.auctionCb.setChecked(true)
+            mBinding!!.auctionCb.isChecked = true
         } else {
             if (mAuctionFormData!!.auctionType!!.contains("1")) {
-                mBinding!!.buyItNowCb.setChecked(true)
+                mBinding!!.buyItNowCb.isChecked = true
             }
             if (mAuctionFormData!!.auctionType!!.contains("2")) {
-                mBinding!!.auctionCb.setChecked(true)
+                mBinding!!.auctionCb.isChecked = true
             }
         }
     }
 
     private fun setupAdminIncrementRules() {
         if (mAuctionFormData!!.adminIncrementalRule != null && mAuctionFormData!!.adminIncrementalRule!!.size > 0) {
-            mBinding!!.adminIncrementBidRulesRv.setAdapter(IncrementRuleRvAdapter(this, mAuctionFormData!!.adminIncrementalRule, false))
+            mBinding!!.adminIncrementBidRulesRv.adapter =
+                IncrementRuleRvAdapter(this, mAuctionFormData!!.adminIncrementalRule, false)
             mBinding!!.adminIncrementBidRulesRv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         }
     }
@@ -135,7 +136,8 @@ class AddAuctionOnProductActivity : BaseActivity() {
         if (mAuctionFormData!!.getIncrementalRule() == null) {
             mAuctionFormData!!.setIncrementalRule(ArrayList<IncrementalRule>())
         }
-        mBinding!!.sellerIncrementBidRulesRv.setAdapter(IncrementRuleRvAdapter(this, mAuctionFormData!!.getIncrementalRule(), true))
+        mBinding!!.sellerIncrementBidRulesRv.adapter =
+            IncrementRuleRvAdapter(this, mAuctionFormData!!.getIncrementalRule(), true)
         mBinding!!.sellerIncrementBidRulesRv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 }

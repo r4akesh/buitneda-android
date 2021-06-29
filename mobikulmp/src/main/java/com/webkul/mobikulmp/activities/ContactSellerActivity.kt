@@ -23,7 +23,6 @@ import com.webkul.mobikulmp.handlers.ContactSellerActivityHandler
 import com.webkul.mobikulmp.models.seller.ContactSellerRequestData
 
 class ContactSellerActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityContactSellerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

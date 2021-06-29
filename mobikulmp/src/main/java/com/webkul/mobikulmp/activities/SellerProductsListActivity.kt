@@ -136,9 +136,9 @@ class SellerProductsListActivity : BaseActivity(), SellerProductsFilterFragment.
                 (response as BaseModel).message,
                 false,
                 getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                }
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
                 , ""
                 , null)
     }

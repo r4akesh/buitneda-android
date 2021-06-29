@@ -37,11 +37,8 @@ import retrofit2.HttpException
  */
 
 class SellerOrdersListActivity : BaseActivity(), SellerOrdersFilterFragment.OnDetachInterface {
-
     lateinit var mContentViewBinding: ActivitySellerOrdersListBinding
-
     var mPageNumber = 1
-
     var mIncrementId = ""
     var mDateFrom = ""
     var mDateTo = ""

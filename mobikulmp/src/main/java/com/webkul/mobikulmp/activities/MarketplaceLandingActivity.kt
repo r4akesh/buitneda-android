@@ -76,9 +76,9 @@ class MarketplaceLandingActivity : BaseActivity() {
                 (response as BaseModel).message,
                 false,
                 getString(com.webkul.mobikul.R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                }
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
                 , ""
                 , null)
     }

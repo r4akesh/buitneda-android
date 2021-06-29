@@ -23,7 +23,6 @@ import retrofit2.HttpException
 
 class
 SellerListActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivitySellerListBinding
     var mStoreName = ""
 
