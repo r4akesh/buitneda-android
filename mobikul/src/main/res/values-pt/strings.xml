@@ -2,9 +2,12 @@
 <resources>
     <string name="app_name">Buitanda</string>
     <string name="new_version_available">
+
 Há uma versão mais recente do aplicativo Buitanda disponível, clique em \"UPDATE\" para atualizar agora?
 </string>
-    <string name="maps_api_key"/>
+    <string name="whats_app_number" translatable="false">+244922112105</string>
+
+    <string name="maps_api_key" />
     <string name="drawer_open">Gaveta de navegação aberta</string>
     <string name="drawer_close">Fechar gaveta de navegação</string>
     <string name="error">Erro</string>
@@ -226,7 +229,7 @@ Este endereço será removido da sua agenda de endereços.
     <string name="invoices">Facturas</string>
     <string name="invoice">Factura</string>
     <string name="order_shipment">Envio de pedidos</string>
-    <string name="refunds"/>
+    <string name="refunds" />
     <string name="refund">Reembolso</string>
     <string name="x_items_ordered">%d Item(s) Encomendado</string>
     <string name="price_details">Detalhes de preço</string>
@@ -431,7 +434,7 @@ Este item será removido da sua lista de comparação.
     <string name="select_checkout_method">Selecione o método de checkout</string>
     <string name="please_enter_coupon_code">Por favor, digite o código do cupom.</string>
     <string name="shipping">Transporte</string>
-    <string name="review_payment"/>
+    <string name="review_payment" />
     <string name="change_address">Alterar endereço</string>
     <string name="edit_address">Editar endereço</string>
     <string name="new_address">Novo endereço</string>
@@ -464,7 +467,7 @@ Você receberá um e-mail de confirmação de pedidos com detalhes do seu pedido
 Você pode rastrear seu status de pedido criando uma conta.
 </string>
     <string name="email_address_x">Endereço de e-mail: %s</string>
-    <string name="thank_you_for_registering"/>
+    <string name="thank_you_for_registering" />
     <string name="empty_product_catalog">Desculpe nenhum produto encontrado!</string>
     <string name="try_different_category_or_search_keyword_maybe">
 Tente diferente categoria ou pesquise palavras-chave talvez... ?
@@ -503,7 +506,7 @@ O modelo 3D está pronto, agora toque na superfície detectada.
     <string name="products_waiting_in_cart_msg">
 Você tem produtos esperando em seu carrinho para checkout. Ficando sem estoque! Pressa!
 </string>
-    <string name="added_to_offline_cart"/>
+    <string name="added_to_offline_cart" />
     <string name="offline_mode_add_to_cart_message">
 No momento, você não está conectado à Internet. Não há garantia de que você definitivamente vai obter o produto, pois isso depende da disponibilidade do produto no momento da sincronização.
 </string>

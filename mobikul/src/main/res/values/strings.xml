@@ -4,7 +4,7 @@
 
     <!-- Maps API key-->
     <string name="maps_api_key" translatable="false"></string>
-    <string name="whats_app_number" translatable="false">+244923474222</string>
+    <string name="whats_app_number" translatable="false">+244922112105</string>
 
     <!-- Drawer related strings (No need to translate)-->
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
