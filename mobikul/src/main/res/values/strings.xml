@@ -384,7 +384,7 @@
     <string name="alert_please_select_one_of_each_rating">Please select one of each of the ratings above</string>
     <string name="login_to_checkout">Please login to checkout</string>
     <string name="product_disabled">This product is not available anymore</string>
-    <string name="x_off">%s Off</string>
+    <string name="x_off">-%s</string>
     <string name="offer">Offer</string>
     <string name="update_cart">Update Cart</string>
     <string name="new_text">New</string>

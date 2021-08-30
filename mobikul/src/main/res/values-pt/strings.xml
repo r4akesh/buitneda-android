@@ -382,7 +382,7 @@ Faça login para adicionar este produto à sua lista de desejos
     <string name="alert_please_select_one_of_each_rating">Por favor, selecione uma das classificações acima</string>
     <string name="login_to_checkout">Faça login no checkout</string>
     <string name="product_disabled">Este produto não está mais disponível</string>
-    <string name="x_off">%s Fora</string>
+    <string name="x_off">-%s</string>
     <string name="offer">Oferecer</string>
     <string name="update_cart">Carrinho de atualização</string>
     <string name="new_text">Novo</string>

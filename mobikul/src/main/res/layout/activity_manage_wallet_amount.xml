@@ -176,6 +176,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{()->handler.onClickTransferAmountToBank()}"
                 android:padding="@dimen/spacing_generic"
+                android:visibility="gone"
                 android:text="@string/transfer_amount_to_bank_account"
 
 

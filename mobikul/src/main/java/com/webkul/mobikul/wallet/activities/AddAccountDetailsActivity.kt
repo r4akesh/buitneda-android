@@ -19,9 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
 class AddAccountDetailsActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityAddAccountDetailsBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_account_details)
