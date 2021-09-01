@@ -4,7 +4,8 @@
 
     <data>
 
-        <import type="com.webkul.mobikul.helpers.Utils"/>
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
         <variable
             name="position"
             type="Integer" />
@@ -23,24 +24,23 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
         android:onClick="@{()->handler.onClickItem(data.hasChildren, data.name, data.id)}"
-        android:orientation="vertical"
-        android:foreground="?attr/selectableItemBackground">
+        android:orientation="vertical">
 
 
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/product_image_height"
-                android:id="@+id/imageview"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:onClick="@{()->handler.onClickItem(data.hasChildren, data.name, data.id)}"
-                app:imageUrl="@{data.icon}"
-                app:layout_width="@{(Utils.screenWidth / 3 - 100)}"
-                app:placeholder="@{data.thumbnailDominantColor}"
-                tools:layout_width="200dp"
-                tools:src="@drawable/placeholder" />
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/product_image_height"
+            android:adjustViewBounds="true"
+            android:onClick="@{()->handler.onClickItem(data.hasChildren, data.name, data.id)}"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{data.icon}"
+            app:layout_width="@{(Utils.screenWidth / 3 - 100)}"
+            app:placeholder="@{data.thumbnailDominantColor}"
+            tools:layout_width="200dp"
+            tools:src="@drawable/placeholder" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -51,14 +51,13 @@
             android:background="@color/color_background"
             android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="2"
             android:padding="@dimen/spacing_tiny"
             android:text="@{data.name}"
             android:textColor="@color/text_color_secondary"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"
             tools:text="Fitness Equipment" />
-
-
 
 
     </LinearLayout>
