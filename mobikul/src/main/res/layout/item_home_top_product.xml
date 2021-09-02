@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/top_selling_tv"
             android:layout_marginBottom="@dimen/spacing_small"
-
             android:text="@string/you_may_also_like"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
