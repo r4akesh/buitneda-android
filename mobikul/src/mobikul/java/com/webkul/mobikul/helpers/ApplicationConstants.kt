@@ -14,10 +14,7 @@ package com.webkul.mobikul.helpers
  */
 
 object ApplicationConstants {
-
     /* Server Configurations */
-
-
     //    const val BASE_URL = "http://161.97.110.25"
 //    const val BASE_URL = "http://18.158.155.18"
     // const val BASE_URL = "https://buitanda.com" //Live instance

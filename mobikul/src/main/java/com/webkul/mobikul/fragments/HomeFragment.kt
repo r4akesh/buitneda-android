@@ -53,6 +53,10 @@ import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
+import android.content.pm.PackageManager
+
+
+
 
 
 class HomeFragment : Fragment() {
@@ -134,26 +138,61 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+
+                val isAppInstalled = appInstalledOrNot("com.whatsapp.w4b")
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.setPackage("com.whatsapp")
-                intent.data =
-                    Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
-                if (context!!.packageManager.resolveActivity(intent, 0) != null) {
-                    startActivity(intent)
-                } else {
-                    ToastHelper.showToast(
-                        context!!,
-                        context!!.getString(R.string.please_install_whatsapp)
-                    )
-                    val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
+                if(isAppInstalled){
+                    intent.setPackage("com.whatsapp.w4b")
+                    intent.data =
+                        Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
+                    if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                        startActivity(intent)
+                    } else {
+                        ToastHelper.showToast(
+                            context!!,
+                            context!!.getString(R.string.please_install_whatsapp)
+                        )
+                        val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                        val whatsBusinessIntent = Intent(Intent.ACTION_VIEW)
+                        whatsBusinessIntent.data = Uri.parse(url)
+                        startActivity(whatsBusinessIntent)
+                    }
+                }else{
+                    intent.setPackage("com.whatsapp")
+                    intent.data =
+                        Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
+                    if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                        startActivity(intent)
+                    } else {
+                        ToastHelper.showToast(
+                            context!!,
+                            context!!.getString(R.string.please_install_whatsapp)
+                        )
+                        val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                        val whatsAppIntent = Intent(Intent.ACTION_VIEW)
+                        whatsAppIntent.data = Uri.parse(url)
+                        startActivity(whatsAppIntent)
+                    }
                 }
+
+
+
+
+
 //                return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun appInstalledOrNot(uri: String): Boolean {
+        val pm: PackageManager = requireActivity().packageManager
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+            return true
+        } catch (e: PackageManager.NameNotFoundException) {
+        }
+        return false
     }
 
     private fun initSwipeRefresh() {

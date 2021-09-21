@@ -130,11 +130,7 @@ class ApiClient {
 
             oktHttpClientBuilder.sslSocketFactory(sslSocketFactory)
 //            HttpsURLConnection.setDefaultSSLSocketFactory(sslSocketFactory)
-            oktHttpClientBuilder.hostnameVerifier(object : HostnameVerifier {
-                override fun verify(hostname: String, session: SSLSession): Boolean {
-                    return true
-                }
-            })
+            oktHttpClientBuilder.hostnameVerifier { hostname, session -> true }
 
             oktHttpClientBuilder.addInterceptor { chain ->
                 val builder = chain.request().newBuilder()

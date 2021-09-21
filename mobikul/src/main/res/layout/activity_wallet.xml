@@ -35,6 +35,7 @@
             android:layout_margin="@dimen/spacing_generic"
             android:onClick="@{() -> handler.onClickTransferAmount()}"
             android:padding="@dimen/spacing_normal"
+            android:visibility="gone"
             android:text="@string/transfer_wallet_amount"
             android:textAllCaps="true"
             android:textColor="@android:color/white"

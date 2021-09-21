@@ -23,7 +23,8 @@ import com.webkul.mobikulmp.models.AccountMpRvModel
  * @link https://store.webkul.com/license.html
  */
 
-class NavDrawerAccountMpRvAdapter(private val mFragmentContext: NavDrawerStartFragmentExtend, private val mListData: ArrayList<AccountMpRvModel>) : RecyclerView.Adapter<NavDrawerAccountMpRvAdapter.ViewHolder>() {
+class NavDrawerAccountMpRvAdapter(private val mFragmentContext: NavDrawerStartFragmentExtend,
+                                  private val mListData: ArrayList<AccountMpRvModel>) : RecyclerView.Adapter<NavDrawerAccountMpRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(mFragmentContext.context).inflate(R.layout.item_nav_drawer_account_mp, p0, false)
