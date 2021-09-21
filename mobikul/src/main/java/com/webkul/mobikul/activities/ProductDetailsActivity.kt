@@ -44,6 +44,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -77,6 +78,7 @@ import com.webkul.mobikul.helpers.DownloadHelper.Companion.downloadFile
 import com.webkul.mobikul.helpers.ToastHelper.Companion.showToast
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.catalog.CartItem
+import com.webkul.mobikul.models.extra.AutoRelatedProductList
 import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.models.product.Attribute
 import com.webkul.mobikul.models.product.ImageGalleryData
@@ -354,6 +356,7 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     fun onSuccessfulResponse(productDetailsPageModel: ProductDetailsPageModel) {
+        callAutoRelatedProduct()
         productDetailsPageModel.showBackInStockAlert = true
         mContentViewBinding.data = productDetailsPageModel
         mContentViewBinding.productName = productDetailsPageModel.name
@@ -584,12 +587,12 @@ open class ProductDetailsActivity : BaseActivity() {
                                         mContentViewBinding.loading = false
                                         if (orderListResponseModel != null && orderListResponseModel.success) {
                                             callApi()
-                                            ToastHelper.showToast(
+                                            showToast(
                                                 this@ProductDetailsActivity,
                                                 orderListResponseModel.message
                                             )
                                         } else {
-                                            ToastHelper.showToast(
+                                            showToast(
                                                 this@ProductDetailsActivity,
                                                 orderListResponseModel.message
                                             )
@@ -2814,7 +2817,7 @@ open class ProductDetailsActivity : BaseActivity() {
 
     open fun onFailureResponse(productDetailsPageModel: ProductDetailsPageModel) {
         if (productDetailsPageModel.message == "disabled") {
-            ToastHelper.showToast(this, getString(R.string.product_disabled))
+            showToast(this, getString(R.string.product_disabled))
             mDataBaseHandler.deleteRecentlyViewedProduct(mProductId)
             finish()
         } else {
@@ -2963,5 +2966,72 @@ open class ProductDetailsActivity : BaseActivity() {
             return
         }
         super.applyOverrideConfiguration(overrideConfiguration)
+    }
+
+    //Auto Related Product Gp Api Calling
+
+    open fun callAutoRelatedProduct() {
+        mContentViewBinding.loading = true
+        ApiConnection.getAutoRelatedProductList(mProductId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<AutoRelatedProductList>(this, false) {
+                override fun onNext(autoRelatedProductList: AutoRelatedProductList) {
+                    super.onNext(autoRelatedProductList)
+                    mContentViewBinding.loading = false
+                    if (autoRelatedProductList.success) {
+                        onSuccessfullyResponseList(autoRelatedProductList)
+                    } else {
+                        onFailureResponse(autoRelatedProductList)
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loading = false
+                    onErrorResponse(e)
+                }
+            })
+
+    }
+
+    fun onSuccessfullyResponseList(autoRelatedProductResponse: AutoRelatedProductList) {
+        if(autoRelatedProductResponse.autoRelatedProducts.isNotEmpty()){
+            mContentViewBinding.autoRelatedProductRv.visibility = View.VISIBLE
+            setUpAutoRelatedList(autoRelatedProductResponse)
+        }else{
+            mContentViewBinding.autoRelatedProductRv.visibility = View.GONE
+        }
+
+    }
+
+    open fun onFailureResponse(autoRelatedProductResponse: AutoRelatedProductList) {
+        if (autoRelatedProductResponse.message == "disabled") {
+            showToast(this, getString(R.string.product_disabled))
+            mDataBaseHandler.deleteRecentlyViewedProduct(mProductId)
+            finish()
+        } else {
+            AlertDialogHelper.showNewCustomDialog(
+                this,
+                getString(R.string.error),
+                autoRelatedProductResponse.message,
+                false,
+                getString(R.string.try_again),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                },
+                getString(R.string.dismiss),
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    if (mContentViewBinding.data == null)
+                        finish()
+                })
+        }
+    }
+
+    private fun setUpAutoRelatedList(autoRelatedProductResponse: AutoRelatedProductList) {
+        mContentViewBinding.autoRelatedProductRv.layoutManager = LinearLayoutManager(this)
+        val autoRelatedProductAdapter = AutoRelatedProductAdapter(this,autoRelatedProductResponse.autoRelatedProducts)
+        mContentViewBinding.autoRelatedProductRv.adapter = autoRelatedProductAdapter
     }
 }

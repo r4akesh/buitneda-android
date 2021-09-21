@@ -17,6 +17,7 @@ import com.webkul.mobikul.helpers.ConstantsHelper
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_ADD_BID
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_AUCTION_BID_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_AUTO_BID_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_AUTO_RELATED_PRODUCT
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_ADD_TO_COMPARE
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_ADD_TO_WISH_LIST
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_CATALOG_ADVANCED_SEARCH_FORM_DATA
@@ -988,5 +989,9 @@ interface ApiDetails {
     fun getGeneratedInvoice(@Query("increment_id") increment_id: String,
                        @Query("language") language: String):
             Observable<InvoiceModel>
+
+    @GET(MOBIKUL_AUTO_RELATED_PRODUCT)
+    fun getAutoRelatedProduct(@Query("productId") productId: String):
+            Observable<AutoRelatedProductList>
 
 }

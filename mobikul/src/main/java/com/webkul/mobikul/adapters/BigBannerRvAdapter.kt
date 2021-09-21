@@ -34,7 +34,7 @@ class BigBannerRvAdapter(private val mContext: Context, private val mListData: A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val eachListData = mListData.get(position)
+        val eachListData = mListData[position]
         holder.mBinding?.position = position
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)

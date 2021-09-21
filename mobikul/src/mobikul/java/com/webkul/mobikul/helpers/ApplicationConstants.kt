@@ -20,8 +20,9 @@ object ApplicationConstants {
 
     //    const val BASE_URL = "http://161.97.110.25"
 //    const val BASE_URL = "http://18.158.155.18"
-    const val BASE_URL = "https://buitanda.com" //Live instance
+    // const val BASE_URL = "https://buitanda.com" //Live instance
 //    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
+    const val BASE_URL = "https://test.buitanda.com" //demo url
     const val API_USER_NAME = "mobikul"
     const val API_PASSWORD = "#uU=T{t{m~Tv2PxG"
 
@@ -38,7 +39,12 @@ object ApplicationConstants {
     private const val PAYMENT_CODE_CHECK_MONEY_ORDER = "checkmo"
     const val PAYMENT_MP_WALLET = "walletsystem"
 
-    val AVAILABLE_PAYMENT_METHOD = arrayOf(PAYMENT_CODE_COD, PAYMENT_CODE_BANK_TRANSFER, PAYMENT_CODE_CHECK_MONEY_ORDER, PAYMENT_MP_WALLET)
+    val AVAILABLE_PAYMENT_METHOD = arrayOf(
+        PAYMENT_CODE_COD,
+        PAYMENT_CODE_BANK_TRANSFER,
+        PAYMENT_CODE_CHECK_MONEY_ORDER,
+        PAYMENT_MP_WALLET
+    )
 
     /* Font Path */
     const val CALLIGRAPHY_FONT_PATH_SEMI_BOLD = "fonts/Montserrat-SemiBold.ttf"

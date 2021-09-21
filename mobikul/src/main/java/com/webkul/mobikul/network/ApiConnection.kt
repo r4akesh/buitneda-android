@@ -923,5 +923,9 @@ class ApiConnection {
                 language)
         }
 
+        fun getAutoRelatedProductList(productId: String): Observable<AutoRelatedProductList> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java).getAutoRelatedProduct(productId)
+        }
+
     }
 }

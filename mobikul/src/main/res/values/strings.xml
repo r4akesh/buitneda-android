@@ -717,6 +717,7 @@
     <string name="send">Send</string>
     <string name="notify_me">Notify me</string>
     <string name="individual">Individual</string>
+    <string name="dynamic_title">Dynamic Title</string>
 
 
 </resources>

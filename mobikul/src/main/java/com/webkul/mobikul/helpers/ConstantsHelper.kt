@@ -86,6 +86,7 @@ object ConstantsHelper {
     const val MOBIKUL_PRODUCT_ALERT_PRICE = "mobikulhttp/productalert/price"
     const val MOBIKUL_PRODUCT_ALERT_STOCK = "mobikulhttp/productalert/stock"
     const val MOBIKUL_SALES_GUEST_VIEW = "mobikulhttp/sales/guestview"
+    const val MOBIKUL_AUTO_RELATED_PRODUCT = "rest/V1/automatic-related-products"
 
     /* Checkout */
     const val MOBIKUL_CHECKOUT_ADD_TO_CART = "mobikulhttp/checkout/addtoCart"

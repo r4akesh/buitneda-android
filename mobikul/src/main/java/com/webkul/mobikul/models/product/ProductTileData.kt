@@ -31,13 +31,9 @@ import com.webkul.mobikul.helpers.ApplicationConstants
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 class ProductTileData() : Parcelable, BaseObservable() {
-
     @JsonProperty("configurableData")
-
     var configurableData: ConfigurableData? = ConfigurableData()
-
     @JsonProperty("isInWishlist")
-
     var isInWishList: Boolean = false
         @Bindable get() = field
         set(value) {
@@ -46,13 +42,9 @@ class ProductTileData() : Parcelable, BaseObservable() {
         }
 
     @JsonProperty("wishlistItemId")
-
     var wishListItemId: String? = ""
-
     @JsonProperty("typeId")
-
     var typeId: String? = ""
-
     @JsonProperty(value = "entityId")
     @JsonAlias("entityId", "id")
     var id: String? = ""
@@ -60,100 +52,55 @@ class ProductTileData() : Parcelable, BaseObservable() {
 
     @JsonProperty("shortDescription")
     var shortDescription: String? = ""
-
     @JsonProperty("rating")
-
     var rating: String? = ""
-
     @JsonProperty("isAvailable")
-
     var isAvailable: Boolean = false
-
     @JsonProperty("isNeww")
-
     var isNew: Boolean = false
-
     @JsonProperty("price")
-
     var price: Double = 0.0
-
     @JsonProperty("finalPrice")
-
     var finalPrice: Double = 0.0
-
     @JsonProperty("formattedPrice")
-
     var formattedPrice: String? = ""
-
     @JsonProperty("formattedFinalPrice")
-
     var formattedFinalPrice: String? = ""
-
     @JsonProperty("name")
-
     var name: String? = ""
         get() = field ?: ""
 
     @JsonProperty("hasRequiredOptions")
-
     var hasRequiredOptions: Boolean = false
-
     @JsonProperty("isInRange")
-
     var isInRange: Boolean = false
-
     @JsonProperty("thumbNail")
     @JsonAlias("thumbNail", "image_link")
 
     var thumbNail: String? = ""
-
     @JsonProperty("dominantColor")
-
-
     var dominantColor: String? = ""
-
     var ratingValue: Float = 0f
-
     @JsonProperty("minAddToCartQty")
-
     var minAddToCartQty: Int = 1
-
     @JsonProperty("priceView")
-
     var priceView: String? = ""
-
     @JsonProperty("minPrice")
-
     var minPrice: Double = 0.0
-
     @JsonProperty("maxPrice")
-
     var maxPrice: Double = 0.0
-
     @JsonProperty("formattedMinPrice")
-
     var formattedMinPrice: String? = ""
-
     @JsonProperty("formattedMaxPrice")
-
     var formattedMaxPrice: String? = ""
-
     @JsonProperty("groupedPrice")
-
     var groupedPrice: String? = ""
-
     @JsonProperty("availability")
-
     var availability: String? = ""
-
     @JsonProperty("arType")
-
     var arType: String? = ""
-
     @JsonProperty("arUrl")
-
     var arModelUrl: String? = ""
-
     var productPosition = -1
     var addToCart = false // For related products only
 

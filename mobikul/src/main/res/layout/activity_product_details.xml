@@ -1064,6 +1064,20 @@
                     tools:layout_height="100dp"
                     tools:targetApi="lollipop" />
 
+                <!---Dynamic Related Product By Gp -->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/autoRelatedProductRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/related_products_rv"
+                    android:background="@color/color_background"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_auto_related_product_list" />
+
+
                 <androidx.appcompat.widget.AppCompatTextView
                     fontPath="fonts/Montserrat-SemiBold.ttf"
                     android:layout_width="match_parent"
