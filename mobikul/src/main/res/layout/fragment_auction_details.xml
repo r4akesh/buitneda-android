@@ -22,7 +22,7 @@
         android:background="@color/color_background"
         tools:context="com.webkul.mobikul.activity.AuctionDetailsActivity">
 
-    
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/auction_bid_list_rv"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/no_bids_found"
-            android:visibility="@{data == null || data.totalCount == 0 ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{data == null || data.totalCount != 0 ? View.GONE : View.VISIBLE}" />
 
         <ProgressBar
             android:id="@+id/progressBar2"

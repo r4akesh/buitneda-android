@@ -17,18 +17,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
-import com.webkul.mobikul.databinding.ItemProductReviewBinding
+import com.webkul.mobikul.activities.ProductDetailsActivity
 import com.webkul.mobikul.helpers.HorizontalMarginItemDecoration
 import com.webkul.mobikul.models.extra.AutoRelatedProduct
-import com.webkul.mobikul.models.extra.AutoRelatedProductList
-import com.webkul.mobikul.models.extra.Product
+import com.webkul.mobikul.models.product.ProductTileData
 import kotlinx.android.synthetic.main.item_auto_related_product_list.view.*
 
 class AutoRelatedProductAdapter(
     private val mContext: Context,
+    private val activity:ProductDetailsActivity,
     private val mListData: ArrayList<AutoRelatedProduct>
 ) : RecyclerView.Adapter<AutoRelatedProductAdapter.ViewHolder>() {
 
@@ -49,12 +48,11 @@ class AutoRelatedProductAdapter(
         return mListData.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private fun setupRelatedProductsRv(
         recyclerView: RecyclerView,
-        list: List<Product>
+        list: List<ProductTileData>
     ) {
         if (recyclerView.adapter == null) {
             recyclerView.addItemDecoration(
@@ -64,6 +62,6 @@ class AutoRelatedProductAdapter(
             )
             recyclerView.isNestedScrollingEnabled = false
         }
-        recyclerView.adapter = AutoRelatedProductListAdapter(mContext, list as ArrayList)
+        recyclerView.adapter = AutoRelatedProductListAdapter(mContext,activity,list as ArrayList)
     }
 }

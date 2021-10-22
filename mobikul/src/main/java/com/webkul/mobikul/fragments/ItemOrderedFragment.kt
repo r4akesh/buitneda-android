@@ -24,16 +24,14 @@ import com.webkul.mobikul.adapters.AssignedDeliveryBoysRvAdapter
 import com.webkul.mobikul.adapters.OrderInvoicesRvAdapter
 import com.webkul.mobikul.adapters.OrderItemsRvAdapter
 import com.webkul.mobikul.adapters.OrderTotalsRvAdapter
-import com.webkul.mobikul.databinding.FragmentItemOrderedBinding
+import com.webkul.mobikul.databinding.FragmentItemOrderBinding
 import com.webkul.mobikul.handlers.ItemOrderedFragmentHandler
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_INCREMENT_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_ORDER_DETAILS
 import com.webkul.mobikul.models.user.OrderDetailsModel
 
 class ItemOrderedFragment : BaseFragment() {
-
-    lateinit var mContentViewBinding: FragmentItemOrderedBinding
-
+    lateinit var mContentViewBinding: FragmentItemOrderBinding
     companion object {
         fun newInstance(incrementId: String, orderDetailsModel: OrderDetailsModel): ItemOrderedFragment {
             val itemOrderedFragment = ItemOrderedFragment()
@@ -46,7 +44,7 @@ class ItemOrderedFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_ordered, container, false)
+        mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_order, container, false)
         return mContentViewBinding.root
     }
 

@@ -36,7 +36,7 @@ class AuctionFragment : Fragment() {
         val adapter = ViewPagerAdapter(fragmentManager)
         adapter.addFragment(AuctionDetailsFragment(), getString(R.string.auction_details))
         adapter.addFragment(AutoBiddingDetailsFragment(), getString(R.string.auction_bid_details))
-        mContentViewBinding.viewpager.setAdapter(adapter)
+        mContentViewBinding.viewpager.adapter = adapter
     }
 
     private inner class ViewPagerAdapter(manager: FragmentManager?) : FragmentPagerAdapter(manager!!) {

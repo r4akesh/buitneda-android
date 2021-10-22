@@ -40,6 +40,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.webkul.arcore.activities.ArActivity
@@ -60,6 +61,7 @@ import com.webkul.mobikul.helpers.ApplicationConstants.BACKSTACK_SUFFIX
 import com.webkul.mobikul.helpers.ToastHelper.Companion.showToast
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.checkout.AddToCartResponseModel
+import com.webkul.mobikul.models.product.ProductTileData
 import com.webkul.mobikul.models.user.AddToWishListResponseModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
@@ -86,6 +88,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
     private var mProductQty: Int = 0
     private val repeatUpdateHandler = Handler(Looper.getMainLooper())
     private var mIsIncrement: Boolean = false
+    private val localBroadcastReceiver: LocalBroadcastManager = LocalBroadcastManager.getInstance(mContext)
     private val mAutoChangeQty = object : Runnable {
         override fun run() {
             if (mIsIncrement) {
@@ -162,7 +165,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
     }
 
     fun showLoginAlertDialog(content: String?) {
-        AlertDialogHelper.showNewCustomDialog(
+        showNewCustomDialog(
             mContext as BaseActivity,
             mContext.getString(R.string.login_required),
             content,
@@ -276,7 +279,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
     }
 
     private fun removeItemFromWishList() {
-        AlertDialogHelper.showNewCustomDialog(
+        showNewCustomDialog(
             mContext as BaseActivity,
             mContext.getString(R.string.remove_item),
             mContext.getString(R.string.remove_wish_list_item_msg),
@@ -370,7 +373,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
                         mContext.mContentViewBinding.wishlistAnimationView.progress = 0f
                         when (addItemToWishList.otherError) {
                             ConstantsHelper.CUSTOMER_NOT_EXIST -> {
-                                AlertDialogHelper.showNewCustomDialog(
+                                showNewCustomDialog(
                                     mContext,
                                     mContext.getString(R.string.error),
                                     addItemToWishList.message,
@@ -1135,14 +1138,12 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
                                 super.onNext(addToCartResponse)
                                 mContext.mContentViewBinding.loading = false
                                 if (addToCartResponse.success) {
-
-                                    mContext.updateCartCount(addToCartResponse.cartCount)
-                                    (context as BaseActivity).updateCartCount(addToCartResponse.cartCount)
-
                                     AppSharedPref.setCartCount(
                                         mContext,
-                                        addToCartResponse.cartCount
-                                    )
+                                        addToCartResponse.cartCount)
+                                    mContext.updateCartCount(addToCartResponse.cartCount)
+                                    (context as BaseActivity).updateCartCount(addToCartResponse.cartCount)
+                                    (context as BaseActivity).updateCartBadge()
                                     FirebaseAnalyticsHelper.logAddToCartEvent(
                                         mContext.mContentViewBinding.data!!.id,
                                         mContext.mContentViewBinding.data!!.name,
@@ -1182,7 +1183,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
                                 } else {
                                     when (addToCartResponse.otherError) {
                                         ConstantsHelper.CUSTOMER_NOT_EXIST -> {
-                                            AlertDialogHelper.showNewCustomDialog(
+                                            showNewCustomDialog(
                                                 mContext,
                                                 mContext.getString(R.string.error),
                                                 addToCartResponse.message,
@@ -1249,7 +1250,7 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
 
     private fun addToOfflineCart() {
         mContext.mContentViewBinding.loading = false
-        AlertDialogHelper.showNewCustomDialog(
+        showNewCustomDialog(
             mContext,
             mContext.getString(R.string.added_to_offline_cart),
             mContext.getString(R.string.offline_mode_add_to_cart_message),
@@ -1485,4 +1486,165 @@ class ProductDetailsActivityHandler(private val mContext: ProductDetailsActivity
 
         mContext.startActivity(intent)
     }
+
+
+    fun onAutoItemAddToCart(goToCheckout: Boolean,productTileData: ProductTileData) {
+        if (collectAllOptionData(true)) {
+            mContext.mContentViewBinding.loading = true
+
+            if (mContext.mItemId.isBlank()) {
+                if (NetworkHelper.isNetworkAvailable(mContext)) {
+                    ApiConnection.addToCart(
+                        mContext,
+                        productTileData.id!!,
+                        productTileData.minAddToCartQty.toString(),
+                        mProductParamsJSON,
+                        mFiles,
+                        mRelatedProductsJSONArray
+                    )
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(object :
+                            ApiCustomCallback<AddToCartResponseModel>(mContext, true) {
+                            override fun onNext(addToCartResponse: AddToCartResponseModel) {
+                                super.onNext(addToCartResponse)
+                                mContext.mContentViewBinding.loading = false
+                                if (addToCartResponse.success) {
+
+                                    mContext.updateCartCount(addToCartResponse.cartCount)
+                                    (context as BaseActivity).updateCartCount(addToCartResponse.cartCount)
+
+                                    AppSharedPref.setCartCount(
+                                        mContext,
+                                        addToCartResponse.cartCount
+                                    )
+                                    FirebaseAnalyticsHelper.logAddToCartEvent(
+                                       productTileData.id!!,
+                                        productTileData.name!!,
+                                        productTileData.minAddToCartQty.toString(),
+                                        mProductParamsJSON
+                                    )
+                                    showToast(mContext, addToCartResponse.message)
+                                    if (addToCartResponse.quoteId != 0) {
+                                        AppSharedPref.setQuoteId(
+                                            mContext,
+                                            addToCartResponse.quoteId
+                                        )
+                                    }
+                                    if (goToCheckout) {
+
+                                        if (!AppSharedPref.isLoggedIn(mContext) && (mContext.mContentViewBinding.data!!.typeId == "downloadable") && !mContext.mContentViewBinding.data!!.canGuestCheckoutDownloadable) {
+                                            showToast(
+                                                mContext,
+                                                mContext.resources.getString(R.string.login_to_checkout)
+                                            )
+                                        } else
+                                            if (AppSharedPref.isLoggedIn(mContext) || mContext.mContentViewBinding.data!!.isCheckoutAllowed) {
+                                                val intent =
+                                                    Intent(mContext, CheckoutActivity::class.java)
+                                                intent.putExtra(
+                                                    BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART,
+                                                    addToCartResponse.isVirtual
+                                                )
+                                                mContext.startActivity(intent)
+                                            } else {
+                                                showToast(
+                                                    mContext,
+                                                    mContext.resources.getString(R.string.login_to_checkout)
+                                                )
+                                            }
+                                    }
+                                } else {
+                                    when (addToCartResponse.otherError) {
+                                        ConstantsHelper.CUSTOMER_NOT_EXIST -> {
+                                            showNewCustomDialog(
+                                                mContext,
+                                                mContext.getString(R.string.error),
+                                                addToCartResponse.message,
+                                                false,
+                                                mContext.getString(R.string.ok),
+                                                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                                                    dialogInterface.dismiss()
+                                                    Utils.logoutAndGoToHome(mContext)
+                                                }, "", null
+                                            )
+                                        }
+                                        else -> showToast(mContext, addToCartResponse.message)
+                                    }
+                                }
+                            }
+
+                            override fun onError(e: Throwable) {
+                                super.onError(e)
+                                mContext.mContentViewBinding.loading = false
+                                showToast(
+                                    mContext,
+                                    mContext.resources.getString(R.string.something_went_wrong)
+                                )
+                            }
+                        })
+                } else {
+                    addRelatedItemOffline(productTileData)
+                }
+            } else {
+                ApiConnection.updateProduct(
+                    mContext,
+                    productTileData.id!!,
+                    productTileData.minAddToCartQty.toString(),
+                    mProductParamsJSON,
+                    mFiles,
+                    mRelatedProductsJSONArray,
+                    productTileData.id!!
+                )
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(object : ApiCustomCallback<AddToCartResponseModel>(mContext, true) {
+                        override fun onNext(addToCartResponse: AddToCartResponseModel) {
+                            super.onNext(addToCartResponse)
+                            mContext.mContentViewBinding.loading = false
+                            showToast(mContext, addToCartResponse.message)
+                            mContext.updateCartCount(addToCartResponse.cartCount)
+                            if (addToCartResponse.success) {
+                                mContext.finish()
+                            }
+                        }
+
+                        override fun onError(e: Throwable) {
+                            super.onError(e)
+                            mContext.mContentViewBinding.loading = false
+                            showToast(
+                                mContext,
+                                mContext.resources.getString(R.string.something_went_wrong)
+                            )
+                        }
+                    })
+            }
+        }
+    }
+
+    private fun addRelatedItemOffline(productTileData: ProductTileData) {
+        mContext.mContentViewBinding.loading = false
+        showNewCustomDialog(
+            mContext,
+            mContext.getString(R.string.added_to_offline_cart),
+            mContext.getString(R.string.offline_mode_add_to_cart_message),
+            false,
+            mContext.getString(R.string.ok),
+            DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            })
+
+        try {
+            mDataBaseHandler.addToCartOffline(
+                productTileData.id!!,
+                productTileData.minAddToCartQty.toString(),
+                mProductParamsJSON.toString(),
+                mRelatedProductsJSONArray.toString()
+            )
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            showToast(mContext, mContext.getString(R.string.something_went_wrong))
+        }
+    }
+
 }

@@ -34,9 +34,7 @@ import com.webkul.mobikul.helpers.ToastHelper
 import java.util.*
 
 class WebPaymentActivity : BaseActivity() {
-
     private lateinit var mBinding: ActivityWebPaymentBinding
-
     private var mMakePaymentUrl: String? = null
     private var mPaymentSuccessUrl: ArrayList<String> = ArrayList()
     private var mPaymentCancelUrl: ArrayList<String> = ArrayList()

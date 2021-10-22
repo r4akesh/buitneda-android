@@ -157,9 +157,11 @@ class BindingAdapterUtils {
         fun setLoadHtmlText(textView: TextView, htmlText: String?) {
             if (htmlText != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    textView.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
+                    val method = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY).toString().replace("Webkul","")
+                    textView.text = method
                 } else {
-                    textView.text = Html.fromHtml(htmlText)
+                    val wallet = Html.fromHtml(htmlText).toString().replace("Webkul","")
+                    textView.text = wallet
                 }
             }
         }

@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/no_bids_found"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="@{data == null || data.totalCount != 0 ? View.GONE : View.VISIBLE}" />
 
 

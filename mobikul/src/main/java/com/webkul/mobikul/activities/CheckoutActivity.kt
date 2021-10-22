@@ -43,8 +43,14 @@ class CheckoutActivity : BaseActivity(), PaymentInfoFragment.OnDetachInterface {
     }
 
     private fun startInitialization() {
-        mIsVirtual = intent.getBooleanExtra(BUNDLE_KEY_IS_VIRTUAL_CART, false)
-        cartItem = intent.getSerializableExtra(BUNDLE_KEY_IS_CART_ITEM) as ArrayList<CartItem>
+        if(intent!=null && intent.hasExtra(BUNDLE_KEY_IS_VIRTUAL_CART)){
+            mIsVirtual = intent.getBooleanExtra(BUNDLE_KEY_IS_VIRTUAL_CART, false)
+        }
+
+
+        if(intent!=null && intent.hasExtra(BUNDLE_KEY_IS_CART_ITEM)){
+            cartItem = intent.getSerializableExtra(BUNDLE_KEY_IS_CART_ITEM) as ArrayList<CartItem>
+        }
         if (mIsVirtual) {
             setupPaymentInfoFragment()
         } else {

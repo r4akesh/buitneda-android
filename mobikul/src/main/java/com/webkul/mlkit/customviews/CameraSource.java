@@ -265,7 +265,6 @@ public class CameraSource {
             stop();
             processingRunnable.release();
             cleanScreen();
-
             if (frameProcessor != null) {
                 frameProcessor.stop();
             }
@@ -618,9 +617,11 @@ public class CameraSource {
          * Releases the underlying receiver. This is only safe to do after the associated thread has
          * completed, which is managed in camera source's release method above.
          */
-        @SuppressLint("Assert")
+
         void release() {
-            assert (processingThread.getState() == State.TERMINATED);
+            if(processingThread!=null){
+                processingThread.interrupt();
+            }
         }
 
         /**

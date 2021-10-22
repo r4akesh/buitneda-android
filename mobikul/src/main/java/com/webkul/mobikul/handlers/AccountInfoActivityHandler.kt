@@ -79,10 +79,14 @@ class AccountInfoActivityHandler(private val mContext: AccountInfoActivity) {
                                 val customerDataSharedPref = AppSharedPref.getSharedPreferenceEditor(mContext, CUSTOMER_PREF)
                                 if (saveAccountInfoResponse.customerName.isNotBlank())
                                     customerDataSharedPref.putString(KEY_CUSTOMER_NAME, saveAccountInfoResponse.customerName)
+                                AppPreference.savePreference(mContext,AppPreference.KEY_CUSTOMER_NAME,saveAccountInfoResponse.customerName)
+
                                 if (mContext.mContentViewBinding.changeEmail.isChecked)
                                     customerDataSharedPref.putString(KEY_CUSTOMER_EMAIL, accountInfoResponseModel.email)
+                                AppPreference.savePreference(mContext,AppPreference.KEY_CUSTOMER_EMAIL,accountInfoResponseModel.email)
                                 customerDataSharedPref.apply()
                                 mContext.setResult(AppCompatActivity.RESULT_OK, Intent())
+                                mContext.finish()
                             }
                         }
 

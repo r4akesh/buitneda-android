@@ -592,8 +592,8 @@
     <string name="you_may_also_like">top selling products</string>
     <string name="seller_account">seller account</string>
     <string name="end_in">End in</string>
-    <string name="no_bids_found">no bids found</string>
-    <string name="product_name_bid">product name</string>
+    <string name="no_bids_found">No bids found</string>
+    <string name="product_name_bid">Product name</string>
     <string name="bidding_price_bid">Bidding Price:</string>
     <string name="winning_price_bid">Winning Price:</string>
     <string name="bid_status_bid">Bid Status:</string>

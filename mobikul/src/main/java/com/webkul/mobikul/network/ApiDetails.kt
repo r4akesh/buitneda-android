@@ -959,8 +959,8 @@ interface ApiDetails {
     //auction
 
     @GET(MOBIKUL_AUCTION_BID_LIST)
-    fun getAuctionBidList(@Query("quoteId") quoteId: Int,
-                          @Query("storeId") storeId: String,
+    fun getAuctionBidList(@Query("storeId") storeId: String,
+                          @Query("quoteId") quoteId: Int,
                           @Query("currency") currency: String,
                           @Query("customerToken") customerToken: String,
                           @Query("websiteId") websiteId: String,
@@ -969,8 +969,8 @@ interface ApiDetails {
             Observable<GetAuctionBidListResponseData>
 
     @GET(MOBIKUL_AUTO_BID_LIST)
-    fun getAutoBidList(@Query("quoteId") quoteId: Int,
-                       @Query("storeId") storeId: String,
+    fun getAutoBidList(@Query("storeId") storeId: String,
+                       @Query("quoteId") quoteId: Int,
                        @Query("currency") currency: String,
                        @Query("customerToken") customerToken: String,
                        @Query("websiteId") websiteId: String,

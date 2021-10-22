@@ -28,6 +28,10 @@
             type="Boolean" />
 
         <variable
+            name="userName"
+            type="String" />
+
+        <variable
             name="data"
             type="com.webkul.mobikul.models.homepage.HomePageDataModel" />
 
@@ -130,7 +134,7 @@
                         android:ellipsize="end"
                         android:gravity="start|center_vertical"
                         android:maxLines="1"
-                        android:text="@{AppSharedPref.isLoggedIn(context) ? AppSharedPref.getCustomerName(context) : @string/to_your_account}"
+                        android:text="@{AppSharedPref.isLoggedIn(context) ? userName : @string/to_your_account}"
                         android:textAlignment="viewStart"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_medium"

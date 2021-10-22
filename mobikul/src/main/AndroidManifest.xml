@@ -27,6 +27,7 @@
         android:allowBackup="false"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -104,6 +105,7 @@
             android:name=".activities.AccountInfoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.OrderDetailsActivity"
@@ -134,6 +136,7 @@
             android:name=".activities.AddEditAddressActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.WishListSharingActivity"
@@ -309,7 +312,6 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        
 
         <provider
             android:name="androidx.core.content.FileProvider"

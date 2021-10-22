@@ -25,6 +25,7 @@
         app:layout_width="@{(Utils.screenWidth / 2-20) }"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginTop="5dp"
         app:cardBackgroundColor="@color/color_background"
         app:cardElevation="@dimen/card_elevation_high">
 
@@ -141,13 +142,38 @@
             android:textSize="@dimen/text_size_tiny"
             tools:text="Fitness Equipment" />
 
-        <com.facebook.shimmer.ShimmerFrameLayout
+       <!-- <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/new_tag_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/product_image"
             android:layout_alignBottom="@id/product_image"
             android:visibility="@{data.new ? View.GONE : View.GONE}"
+            app:auto_start="true"
+            app:repeat_mode="restart">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/single_star_color"
+                android:gravity="center"
+                android:paddingStart="@dimen/spacing_tiny"
+                android:paddingEnd="@dimen/spacing_tiny"
+                android:text="@string/new_text"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="New" />
+        </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/new_tag_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/product_image"
+            android:layout_alignBottom="@id/product_image"
+            android:visibility="invisible"
             app:auto_start="true"
             app:repeat_mode="restart">
 

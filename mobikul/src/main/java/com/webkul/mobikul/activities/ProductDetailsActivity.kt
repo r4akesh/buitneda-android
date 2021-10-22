@@ -365,7 +365,7 @@ open class ProductDetailsActivity : BaseActivity() {
 
         setupImageGallery()
         setupTierPriceGallery()
-        setupProductOptions()
+        setupProductOptions(productDetailsPageModel)
         setupMoreInfoRv()
         setupReviewsLayoutAndRv()
         setupRelatedProductsRv()
@@ -396,7 +396,7 @@ open class ProductDetailsActivity : BaseActivity() {
             TierPriceRvAdapter(this, mContentViewBinding.data!!.tierPrices)
     }
 
-    private fun setupProductOptions() {
+    private fun setupProductOptions(productDetailsPageModel: ProductDetailsPageModel) {
         mContentViewBinding.productCustomOptionsContainer.removeAllViews()
         if (mContentViewBinding.data!!.customOptions.size != 0 && mContentViewBinding.data!!.isAvailable) {
             loadCustomOption()
@@ -407,13 +407,13 @@ open class ProductDetailsActivity : BaseActivity() {
             "bundle" -> loadBundledProductData()
             "grouped" -> loadGroupedProductData()
             "downloadable" -> loadDownloadableProductData()
-            "configurable" -> loadConfigurableProductData()
+            "configurable" -> loadConfigurableProductData(productDetailsPageModel)
         }
 
         mContentViewBinding.auctionDetailsContainer.removeAllViews()
-        if (mProductDetailsPageModel.isAuction) {
+        if (mProductDetailsPageModel.isAuction){
             loadAuctionDetails()
-        } else {
+        }else{
             mContentViewBinding.auctionDetailsContainer.visibility = View.VISIBLE
             mContentViewBinding.productCustomOptionsContainer.visibility = View.VISIBLE
             mContentViewBinding.otherProductOptionsContainer.visibility = View.VISIBLE
@@ -1031,13 +1031,10 @@ open class ProductDetailsActivity : BaseActivity() {
                 val imageSizeY = TextView(this)
                 imageSizeY.setPadding(0, 2, 0, 2)
                 imageSizeY.textSize = 12f
-                imageSizeY.typeface =
-                    TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_REGULAR)
+                imageSizeY.typeface = TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_REGULAR)
                 imageSizeY.setTextColor(ContextCompat.getColor(this, R.color.text_color_secondary))
-                val imageSizeYValue =
-                    "<b>" + mContentViewBinding.data!!.customOptions[customOptIndex].image_size_y + "</b>"
-                imageSizeY.text =
-                    Html.fromHtml(resources.getString(R.string.maximum_image_height) + imageSizeYValue)
+                val imageSizeYValue = "<b>" + mContentViewBinding.data!!.customOptions[customOptIndex].image_size_y + "</b>"
+                imageSizeY.text = Html.fromHtml(resources.getString(R.string.maximum_image_height) + imageSizeYValue)
                 mContentViewBinding.productCustomOptionsContainer.addView(imageSizeY)
             }
         } catch (e: Exception) {
@@ -1089,8 +1086,7 @@ open class ProductDetailsActivity : BaseActivity() {
                 ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions)
             val spinner = AppCompatSpinner(this)
             spinner.tag = customOptIndex
-            spinner.background =
-                ContextCompat.getDrawable(this, R.drawable.shape_rect_white_bg_black_border_1_dp)
+            spinner.background = ContextCompat.getDrawable(this, R.drawable.shape_rect_white_bg_black_border_1_dp)
             spinner.adapter = spinnerArrayAdapter
             spinner.setSelection(0, false)
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -1395,7 +1391,7 @@ open class ProductDetailsActivity : BaseActivity() {
                     val mTimePicker: TimePickerDialog
                     mTimePicker = TimePickerDialog(
                         this,
-                        TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+                        { _, selectedHour, selectedMinute ->
                             var aMpM = "AM"
                             if (selectedHour > 11) {
                                 aMpM = "PM"
@@ -1449,7 +1445,7 @@ open class ProductDetailsActivity : BaseActivity() {
                 val mTimePicker: TimePickerDialog
                 mTimePicker = TimePickerDialog(
                     this,
-                    TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+                    { _, selectedHour, selectedMinute ->
                         var aMpM = "AM"
                         if (selectedHour > 11) {
                             aMpM = "PM"
@@ -2050,7 +2046,8 @@ open class ProductDetailsActivity : BaseActivity() {
         return true
     }
 
-    private fun loadConfigurableProductData() {
+    private fun loadConfigurableProductData(productDetailsPageModel: ProductDetailsPageModel) {
+        mContentViewBinding.configData = productDetailsPageModel.configurableData.optionPrices!![0].finalPrice
         try {
             mContentViewBinding.otherProductOptionsContainer.background = null
             mContentViewBinding.data!!.configurableData.attributes?.forEachIndexed { index, element ->
@@ -2772,7 +2769,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.relatedProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.relatedProductsRv.adapter =
-            RelatedProductsRvAdapter(this, mContentViewBinding.data!!.relatedProductList)
+            RelatedProductsRvAdapter(this,this, mContentViewBinding.data!!.relatedProductList)
     }
 
     private fun setupUpsellProductsRv() {
@@ -2982,7 +2979,7 @@ open class ProductDetailsActivity : BaseActivity() {
                     if (autoRelatedProductList.success) {
                         onSuccessfullyResponseList(autoRelatedProductList)
                     } else {
-                        onFailureResponse(autoRelatedProductList)
+                       // onFailureResponse(autoRelatedProductList)
                     }
                 }
 
@@ -3031,7 +3028,7 @@ open class ProductDetailsActivity : BaseActivity() {
 
     private fun setUpAutoRelatedList(autoRelatedProductResponse: AutoRelatedProductList) {
         mContentViewBinding.autoRelatedProductRv.layoutManager = LinearLayoutManager(this)
-        val autoRelatedProductAdapter = AutoRelatedProductAdapter(this,autoRelatedProductResponse.autoRelatedProducts)
+        val autoRelatedProductAdapter = AutoRelatedProductAdapter(this,this,autoRelatedProductResponse.autoRelatedProducts)
         mContentViewBinding.autoRelatedProductRv.adapter = autoRelatedProductAdapter
     }
 }

@@ -26,6 +26,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.activities.CheckoutActivity
@@ -47,7 +48,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
 
     lateinit var mContentViewBinding: FragmentCartBottomSheetBinding
     private val TAG = "CartBottomSheetFragment"
-
+    lateinit var localBroadcastReceiver: LocalBroadcastManager
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,7 +60,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
 
         mContentViewBinding.discountCode.visibility = View.GONE
         mContentViewBinding.discountCodeHeading.visibility = View.GONE
-
+        localBroadcastReceiver = LocalBroadcastManager.getInstance(context!!)
 
         return mContentViewBinding.root
     }
@@ -101,8 +102,10 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         if (context != null) {
             mContentViewBinding.data = cartDetailsResponseModel
 
-            (context as BaseActivity).updateCartCount(mContentViewBinding.data!!.cartCount)
             AppSharedPref.setCartCount(context!!, mContentViewBinding.data!!.cartCount)
+            (context as BaseActivity).updateCartCount(mContentViewBinding.data!!.cartCount)
+            val localIntent = Intent("UPDATE_CART")
+            localBroadcastReceiver.sendBroadcast(localIntent)
             if (mContentViewBinding.data!!.items.isEmpty()) {
                 val fragmentTransaction = childFragmentManager.beginTransaction()
                 fragmentTransaction.add(
@@ -156,7 +159,11 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
             mContentViewBinding.crossSellProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.crossSellProductsRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, mContentViewBinding.data!!.crossSellList, null)
+            ProductCarouselHorizontalRvAdapter(
+                context!!,
+                mContentViewBinding.data!!.crossSellList,
+                null
+            )
     }
 
     private fun setupPriceDetailsItems() {

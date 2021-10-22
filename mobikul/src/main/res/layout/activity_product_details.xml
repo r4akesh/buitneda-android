@@ -38,6 +38,10 @@
             type="com.webkul.mobikul.models.product.ProductDetailsPageModel" />
 
         <variable
+            name="configData"
+            type="com.webkul.mobikul.models.product.Price" />
+
+        <variable
             name="handler"
             type="com.webkul.mobikul.handlers.ProductDetailsActivityHandler" />
     </data>
@@ -60,6 +64,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonContainer"
             android:background="@color/color_whiteBlack"
             android:scrollbars="none">
 
@@ -93,7 +98,7 @@
                             tools:ignore="UnusedAttribute"
                             tools:visibility="visible" />
 
-                        <com.facebook.shimmer.ShimmerFrameLayout
+                        <!--<com.facebook.shimmer.ShimmerFrameLayout
                             android:id="@+id/new_tag_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -115,7 +120,7 @@
                                 android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold"
                                 tools:text="New" />
-                        </com.facebook.shimmer.ShimmerFrameLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 
                         <!-- android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"-->
@@ -137,7 +142,7 @@
                             android:visibility="gone"
                             tools:text="@string/offer" />
 
-                        <com.google.android.material.card.MaterialCardView
+                        <!-- <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_alignBottom="@id/product_slider_view_pager"
@@ -156,6 +161,64 @@
                                 android:scaleType="fitXY"
                                 app:srcCompat="@drawable/ic_ar"
                                 tools:src="@drawable/ic_ar" />
+                        </com.google.android.material.card.MaterialCardView>-->
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/shareCard"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="10dp"
+                            android:onClick="@{()->handler.onClickShareBtn()}"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="@dimen/card_elevation_low">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="5dp"
+                                    android:src="@drawable/ic_share_grey_wrapper" />
+
+                            </RelativeLayout>
+
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_below="@+id/shareCard"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="10dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="@dimen/card_elevation_low">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:onClick="@{(v)->handler.onClickAddToWishListBtn(v)}"
+                                android:visibility="@{ApplicationConstants.ENABLE_WISHLIST &amp;&amp; AppSharedPref.isWishlistEnabled(context) ? View.VISIBLE : View.GONE}">
+
+                                <com.airbnb.lottie.LottieAnimationView
+                                    android:id="@+id/wishlist_animation_view"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:isInWishList="@{data.isInWishList}"
+                                    app:lottie_fileName="wishlist_heart.json"
+                                    app:lottie_loop="false" />
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
                         </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
 
@@ -197,7 +260,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:text="@{data.formattedFinalPrice}"
+                            android:text="@{configData!=null ? String.format(`%.2f`,configData.amount) : data.formattedFinalPrice}"
                             android:textColor="@color/product_price_color"
                             android:textSize="@dimen/text_size_large"
                             android:textStyle="bold"
@@ -301,61 +364,68 @@
                         android:layout_marginEnd="@dimen/spacing_normal"
                         android:layout_marginBottom="@dimen/spacing_tiny"
                         android:gravity="center_vertical"
+                        android:orientation="vertical"
                         android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
 
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/product_rating"
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorAccent"
+                                android:drawableEnd="@drawable/ic_star_wrapper"
+                                android:drawablePadding="@dimen/spacing_tiny"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/spacing_generic"
+                                android:paddingTop="@dimen/spacing_tiny"
+                                android:paddingEnd="@dimen/spacing_generic"
+                                android:paddingBottom="@dimen/spacing_tiny"
+                                android:text="@{data.rating}"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.GONE : View.VISIBLE}"
+                                tools:text="2.07" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/no_product_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="@string/no_reviews_yet"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_tiny"
+                                android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.VISIBLE : View.GONE}"
+                                tools:text="@string/no_reviews_yet"
+                                tools:visibility="gone" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                fontPath="fonts/Montserrat-SemiBold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_generic"
+                                android:maxLines="1"
+                                android:onClick="@{() -> handler.onClickReviewCountBtn()}"
+                                android:text="@{@string/x_reviews(data.reviewCount)}"
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="@dimen/text_size_small"
+                                android:visibility="@{data.reviewCount != 0 ? View.VISIBLE : View.GONE}"
+                                tools:text="3 Reviews" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/product_rating"
                             fontPath="fonts/Montserrat-SemiBold.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorAccent"
-                            android:drawableEnd="@drawable/ic_star_wrapper"
-                            android:drawablePadding="@dimen/spacing_tiny"
-                            android:gravity="center"
-                            android:paddingStart="@dimen/spacing_generic"
-                            android:paddingTop="@dimen/spacing_tiny"
-                            android:paddingEnd="@dimen/spacing_generic"
-                            android:paddingBottom="@dimen/spacing_tiny"
-                            android:text="@{data.rating}"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_small"
-                            android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.GONE : View.VISIBLE}"
-                            tools:text="2.07" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/no_product_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="@string/no_reviews_yet"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="@dimen/text_size_tiny"
-                            android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.VISIBLE : View.GONE}"
-                            tools:text="@string/no_reviews_yet"
-                            tools:visibility="gone" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/Montserrat-SemiBold.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_generic"
-                            android:maxLines="1"
-                            android:onClick="@{() -> handler.onClickReviewCountBtn()}"
-                            android:text="@{@string/x_reviews(data.reviewCount)}"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="@dimen/text_size_small"
-                            android:visibility="@{data.reviewCount != 0 ? View.VISIBLE : View.GONE}"
-                            tools:text="3 Reviews" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/Montserrat-SemiBold.ttf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_small"
+                            android:layout_marginTop="5dp"
                             android:foreground="?attr/selectableItemBackground"
                             android:gravity="end"
                             android:onClick="@{()->handler.onClickAddYourReviewBtn()}"
-                            android:paddingStart="@dimen/spacing_generic"
                             android:paddingTop="@dimen/spacing_tiny"
                             android:paddingEnd="@dimen/spacing_generic"
                             android:paddingBottom="@dimen/spacing_tiny"
@@ -451,14 +521,14 @@
                         android:background="@color/divider_color"
                         android:visibility="@{data == null ? View.GONE : View.VISIBLE}" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <!-- <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="@{data == null ? View.GONE : View.VISIBLE}">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
+                       &lt;!&ndash; <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -485,9 +555,9 @@
                                 android:textAllCaps="true"
                                 android:textColor="@color/text_color_primary"
                                 android:textSize="@dimen/text_size_small" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        </androidx.appcompat.widget.LinearLayoutCompat>&ndash;&gt;
 
-                        <!--<RelativeLayout
+                        &lt;!&ndash;<RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -511,7 +581,7 @@
                                 android:textAllCaps="true"
                                 android:textColor="@color/single_star_color"
                                 android:textSize="@dimen/text_size_small" />
-                        </RelativeLayout>-->
+                        </RelativeLayout>&ndash;&gt;
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -561,7 +631,7 @@
                                 android:textSize="@dimen/text_size_small" />
                         </RelativeLayout>
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -666,14 +736,12 @@
                         fontPath="fonts/Montserrat-SemiBold.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
+                        android:background="@drawable/rounded_shape_border"
                         android:foreground="?attr/selectableItemBackground"
                         android:onClick="@{()->handler.onClickQtyDecrementBtn()}"
                         android:onLongClick="@{(v)->handler.onLongClickQtyDecrementBtn(v, data.qty)}"
-                        android:paddingStart="@dimen/spacing_large"
-                        android:paddingTop="@dimen/spacing_normal"
-                        android:paddingEnd="@dimen/spacing_large"
-                        android:paddingBottom="@dimen/spacing_normal"
+                        android:padding="15dp"
+                        android:tint="@color/colorPrimaryDark"
                         app:srcCompat="@drawable/ic_decrement"
                         tools:ignore="HardcodedText" />
 
@@ -691,63 +759,17 @@
                         fontPath="fonts/Montserrat-SemiBold.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
+                        android:background="@drawable/rounded_shape_border"
                         android:foreground="?attr/selectableItemBackground"
                         android:onClick="@{()->handler.onClickQtyIncrementBtn()}"
                         android:onLongClick="@{(v)->handler.onLongClickQtyIncrementBtn(v, data.qty)}"
-                        android:paddingStart="@dimen/spacing_large"
-                        android:paddingTop="@dimen/spacing_normal"
-                        android:paddingEnd="@dimen/spacing_large"
-                        android:paddingBottom="@dimen/spacing_normal"
+                        android:padding="15dp"
+                        android:tint="@color/colorPrimaryDark"
                         app:srcCompat="@drawable/ic_increment"
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/static_buy_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/color_whiteBlack"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="@{data == null || !data.isAvailable || data.remainingTime > 0 ? View.GONE : View.VISIBLE}">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/static_add_to_cart_btn"
-                        fontPath="fonts/Montserrat-SemiBold.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/grey_300"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:onClick="@{()->handler.onClickAddToCartBtn(false)}"
-                        android:paddingTop="@dimen/spacing_normal"
-                        android:paddingBottom="@dimen/spacing_normal"
-                        android:text="@string/add_to_cart"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorAccent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/static_buy_now_btn"
-                        fontPath="fonts/Montserrat-SemiBold.ttf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/spacing_generic"
-                        android:layout_weight="1"
-                        android:background="@color/colorAccent"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:onClick="@{()->handler.onClickAddToCartBtn(true)}"
-                        android:paddingTop="@dimen/spacing_normal"
-                        android:paddingBottom="@dimen/spacing_normal"
-                        android:text="@string/buy_now"
-                        android:textAllCaps="true"
-                        android:textColor="@color/color_whiteBlack"
-                        android:visibility="gone" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/description_heading"
@@ -1020,6 +1042,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
                         tools:listitem="@layout/item_product_review" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -1073,10 +1096,9 @@
                     android:layout_below="@id/related_products_rv"
                     android:background="@color/color_background"
                     android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    tools:itemCount="2"
+                    android:orientation="horizontal"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_auto_related_product_list" />
-
 
                 <androidx.appcompat.widget.AppCompatTextView
                     fontPath="fonts/Montserrat-SemiBold.ttf"
@@ -1232,5 +1254,87 @@
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/static_buy_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:visibility="@{data == null || !data.isAvailable || data.remainingTime > 0 ? View.GONE : View.VISIBLE}">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/static_add_to_cart_btn"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.onClickAddToCartBtn(false)}"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingBottom="@dimen/spacing_normal"
+                    android:text="@string/add_to_cart"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_whiteBlack" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/static_buy_now_btn"
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_generic"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.onClickAddToCartBtn(true)}"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingBottom="@dimen/spacing_normal"
+                    android:text="@string/buy_now"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_whiteBlack"
+                    android:visibility="gone" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
+                android:padding="@dimen/spacing_small"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="@dimen/spacing_tiny"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="@string/notify_me"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_background"
+                    android:textSize="@dimen/text_size_small" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 </layout>

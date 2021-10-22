@@ -10,6 +10,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivityMediaPlayerWebviewBinding
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_MEDIA_URL
@@ -26,7 +28,7 @@ class MediaPlayerWebviewActivity : AppCompatActivity() {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_media_player_webview)
 
-        mBinding.webview.settings.pluginState = WebSettings.PluginState.ON
+     /*   mBinding.webview.settings.pluginState = WebSettings.PluginState.ON
         mBinding.webview.settings.javaScriptEnabled = true
         mBinding.webview.settings.setAppCacheEnabled(true)
         // mBinding.webview.setInitialScale(1);
@@ -51,18 +53,26 @@ class MediaPlayerWebviewActivity : AppCompatActivity() {
                 isFirstCall = false
             }
         }
-        mBinding.webview.webChromeClient = WebChromeClient()
+        mBinding.webview.webChromeClient = WebChromeClient()*/
 
 
         val videoID = intent.getStringExtra(BUNDLE_KEY_MEDIA_URL)?.let { getVideoIdFromYoutubeUrl(it) }
-        if (videoID != null) {
+        lifecycle.addObserver(mBinding.webview)
+        mBinding.webview.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(videoID!!, 0f);
+            }
+        })
+       /* if (videoID != null) {
+            mBinding.webview.webChromeClient = WebChromeClient()
             mBinding.webview.loadData(getHTML(videoID), "text/html", "utf-8")
         } else {
             intent.getStringExtra(BUNDLE_KEY_MEDIA_URL)?.let { mBinding.webview.loadUrl(it) }
-        }
+        }*/
 
 
     }
+/*
 
     fun getHTML(videoId: String): String {
 
@@ -89,8 +99,9 @@ class MediaPlayerWebviewActivity : AppCompatActivity() {
                 + "</body>\n"
                 + "</html>\n")
     }
+*/
 
-    fun getVideoIdFromYoutubeUrl(url: String): String? {
+    private fun getVideoIdFromYoutubeUrl(url: String): String? {
         var videoId: String? = null
         val regex = "http(?:s)?://(?:m.)?(?:www\\.)?youtu(?:\\.be/|be\\.com/(?:watch\\?(?:feature=youtu.be&)?v=|v/|embed/|user/(?:[\\w#]+/)+))([^&#?\\n]+)"
         val pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)

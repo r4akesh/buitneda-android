@@ -48,7 +48,7 @@ import org.json.JSONObject
  * @link https://store.webkul.com/license.html
  */
 
-class ProductTileHandler(val mContext: Context, val mProductList: ArrayList<ProductTileData>) {
+class ProductTileHandler(val mContext: Context,val mProductList: ArrayList<ProductTileData>) {
 
     private var mIsProcessing: Boolean = false
 

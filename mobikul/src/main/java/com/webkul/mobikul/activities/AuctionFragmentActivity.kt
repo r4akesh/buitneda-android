@@ -30,6 +30,7 @@ class AuctionFragmentActivity : BaseActivity() {
     }
 
     private fun startInitialization() {
+      //  setUpCustomToolbar("activity","")
         mBinding!!.tabs.setupWithViewPager(mBinding!!.viewpager)
         setupViewPager()
     }

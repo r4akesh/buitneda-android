@@ -95,6 +95,9 @@ open class LoginBottomSheetHandler(val mFragmentContext: LoginBottomSheetFragmen
         customerDataSharedPref.putString(KEY_CUSTOMER_BANNER_URL, loginResponseModel.bannerImage)
         customerDataSharedPref.putString(KEY_CUSTOMER_BANNER_DOMINANT_COLOR, loginResponseModel.bannerDominantColor)
         customerDataSharedPref.apply()
+
+        AppPreference.savePreference(mFragmentContext.context!!,AppPreference.KEY_CUSTOMER_NAME,loginResponseModel.customerName)
+        AppPreference.savePreference(mFragmentContext.context!!,AppPreference.KEY_CUSTOMER_EMAIL,loginResponseModel.customerEmail)
     }
 
     private fun onErrorResponse(error: Throwable, loginFormModel: LoginFormModel) {

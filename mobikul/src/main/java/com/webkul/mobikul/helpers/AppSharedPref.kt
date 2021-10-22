@@ -3,6 +3,7 @@ package com.webkul.mobikul.helpers
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import androidx.databinding.BaseObservable
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.webkul.mobikul.helpers.ApplicationConstants.DEFAULT_CURRENCY_CODE
@@ -312,6 +313,7 @@ open class AppSharedPref {
         fun isLoggedIn(context: Context): Boolean {
             return getSharedPreference(context, CUSTOMER_PREF).getBoolean(KEY_LOGGED_IN, false)
         }
+
 
         fun getCustomerToken(context: Context): String {
             return getSharedPreference(context, CUSTOMER_PREF).getString(KEY_CUSTOMER_TOKEN, "")?:""

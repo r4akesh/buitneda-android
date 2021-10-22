@@ -119,6 +119,8 @@ open class SignUpBottomSheetHandler(val mFragmentContext: SignUpBottomSheetFragm
         customerDataSharedPref.putBoolean(AppSharedPref.KEY_LOGGED_IN, true)
         customerDataSharedPref.putInt(AppSharedPref.KEY_QUOTE_ID, 0)
         customerDataSharedPref.putInt(AppSharedPref.KEY_CART_COUNT, signUpResponseModel.cartCount)
+        AppPreference.savePreference(mFragmentContext.context!!,AppPreference.KEY_CUSTOMER_NAME,signUpResponseModel.customerName)
+        AppPreference.savePreference(mFragmentContext.context!!,AppPreference.KEY_CUSTOMER_EMAIL,signUpResponseModel.customerEmail)
         customerDataSharedPref.putString(
             AppSharedPref.KEY_CUSTOMER_TOKEN,
             signUpResponseModel.customerToken

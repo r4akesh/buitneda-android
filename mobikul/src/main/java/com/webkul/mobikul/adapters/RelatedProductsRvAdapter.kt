@@ -20,22 +20,27 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.webkul.mobikul.R
+import com.webkul.mobikul.activities.ProductDetailsActivity
 import com.webkul.mobikul.databinding.ItemRelatedProductBinding
+import com.webkul.mobikul.handlers.ProductDetailsActivityHandler
 import com.webkul.mobikul.handlers.ProductTileHandler
 import com.webkul.mobikul.models.product.ProductTileData
 
-class RelatedProductsRvAdapter(private val mContext: Context, private val mListData: ArrayList<ProductTileData>) : RecyclerView.Adapter<RelatedProductsRvAdapter.ViewHolder>() {
+class RelatedProductsRvAdapter(private val mContext: Context,
+                               private val activity:ProductDetailsActivity,
+                               private val mListData: ArrayList<ProductTileData>) : RecyclerView.Adapter<RelatedProductsRvAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): RelatedProductsRvAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.item_related_product, viewGroup, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RelatedProductsRvAdapter.ViewHolder, position: Int) {
-        val eachListData = mListData.get(position)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val eachListData = mListData[position]
         holder.mBinding?.position = position
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)
+        holder.mBinding?.addHandler = ProductDetailsActivityHandler(activity)
         holder.mBinding?.executePendingBindings()
     }
 

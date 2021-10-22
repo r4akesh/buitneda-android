@@ -1,6 +1,7 @@
 package com.webkul.mobikul.activities
 
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.*
 import android.graphics.Color
@@ -256,7 +257,9 @@ class HomeActivity : BaseActivity() {
     }
 
     open fun initIntent() {
-        mHomePageDataModel = HomeDataSingleton.getInstance().mHomePageDataModel!!
+        if(HomeDataSingleton.getInstance().mHomePageDataModel!=null){
+            mHomePageDataModel = HomeDataSingleton.getInstance().mHomePageDataModel!!
+        }
        /* if (intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA) != null){
             mHomePageDataModel = intent.getParcelableExtra<HomePageDataModel>(BUNDLE_KEY_HOME_PAGE_DATA)!!
         }*/
@@ -266,11 +269,6 @@ class HomeActivity : BaseActivity() {
         HomeDataSingleton.getInstance().mHomePageDataModel?.let {
             mHomePageDataModel = it
         }
-
-
-
-
-
         setupFragment(intent.getIntExtra(BUNDLE_KEY_BOTTOM_NAV_INDEX, 2))
     }
 
@@ -298,6 +296,7 @@ class HomeActivity : BaseActivity() {
             true
         }
 
+    @SuppressLint("RestrictedApi")
     open fun setupFragment(index: Int) {
         var fragment: Fragment? = null
         updateBadge()
@@ -362,6 +361,7 @@ class HomeActivity : BaseActivity() {
             }
             3 -> {
                 mContentViewBinding.bottomAppCl.visibility = View.GONE
+                mContentViewBinding.fab.visibility = View.GONE
 //                if (cartBottomFragment != null){
 //
 //                    for (frag in supportFragmentManager.fragments){
@@ -429,6 +429,7 @@ class HomeActivity : BaseActivity() {
         mBadge = LayoutInflater.from(this).inflate(R.layout.notification_badge, itemView, true)
     }
 
+    @SuppressLint("RestrictedApi")
     open override fun onBackPressed() {
         if (mMaterialSearchView.isOpen()) {
             mMaterialSearchView.closeSearch()
@@ -441,6 +442,7 @@ class HomeActivity : BaseActivity() {
                     finishMainActivity()
                 } else {
                     mContentViewBinding.bottomAppCl.visibility = View.VISIBLE
+                    mContentViewBinding.fab.visibility = View.VISIBLE
                     if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
                             supportFragmentManager.backStackEntryCount
                         ).toString().contains("CartBottomSheetFragment")
@@ -540,7 +542,12 @@ class HomeActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1010) {
+        for (fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
+
+
+        if (requestCode == 1010){
             if (supportFragmentManager.backStackEntryCount > 0)
                 if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
                         .contains("AccountDetailsFragment")

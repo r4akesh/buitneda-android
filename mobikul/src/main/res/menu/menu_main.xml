@@ -18,6 +18,13 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/menu_item_wallet"
+        android:icon="@drawable/ic_wallet_app_icon"
+        android:title="@string/wallet"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/menu_item_notification"
         android:icon="@drawable/layer_list_menu_notification"
         android:title="@string/notifications"

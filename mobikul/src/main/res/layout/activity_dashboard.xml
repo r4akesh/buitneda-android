@@ -130,7 +130,6 @@
                             android:layout_marginTop="@dimen/spacing_generic"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="@{AppSharedPref.getCustomerName(context)}"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold"
@@ -142,7 +141,6 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="@{AppSharedPref.getCustomerEmail(context)}"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_small"
                             tools:text="to your account" />

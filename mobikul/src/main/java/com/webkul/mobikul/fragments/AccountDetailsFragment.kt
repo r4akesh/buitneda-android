@@ -46,7 +46,7 @@ import java.io.File
 open class AccountDetailsFragment : BaseFragment() {
 
     lateinit var mContentViewBinding: FragmentAccountDetailsBinding
-    var mIsUpdatingProfilePic: Boolean = true
+    var mIsUpdatingProfilePic: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -62,6 +62,10 @@ open class AccountDetailsFragment : BaseFragment() {
         updateNameAndEmail()
         setupAccountRv()
         setupPreferencesRv()
+        mContentViewBinding.isLogin = AppSharedPref.isLoggedIn(context!!)
+        mContentViewBinding.customerEmail = AppPreference.getPreferenceValueByKey(context!!,AppPreference.KEY_CUSTOMER_EMAIL)
+        mContentViewBinding.customerName = AppPreference.getPreferenceValueByKey(context!!,AppPreference.KEY_CUSTOMER_NAME)
+
         mContentViewBinding.handler = AccountFragmentHandler(this)
     }
 
@@ -174,6 +178,12 @@ open class AccountDetailsFragment : BaseFragment() {
                 uploadPic(CropImage.getActivityResult(data).uri)
             }
         }
+
+        if(resultCode==AppCompatActivity.RESULT_OK){
+            mContentViewBinding.isLogin = AppSharedPref.isLoggedIn(context!!)
+            mContentViewBinding.customerEmail = AppPreference.getPreferenceValueByKey(context!!,AppPreference.KEY_CUSTOMER_EMAIL)
+            mContentViewBinding.customerName = AppPreference.getPreferenceValueByKey(context!!,AppPreference.KEY_CUSTOMER_NAME)
+        }
     }
 
     private fun uploadPic(data: Uri) {
@@ -187,7 +197,11 @@ open class AccountDetailsFragment : BaseFragment() {
             val multipartFileBody = MultipartBody.Part.createFormData("files", File(data.path).name, fileBody)
 
 
-            uploadBanner(multipartFileBody)
+            if(mIsUpdatingProfilePic){
+                uploadProfilePic(multipartFileBody)
+            }else{
+                uploadBanner(multipartFileBody)
+            }
 
         } catch (e: Exception) {
             ToastHelper.showToast(context!!, getString(R.string.something_went_wrong))
@@ -234,4 +248,41 @@ open class AccountDetailsFragment : BaseFragment() {
             }
         }
     }
+
+    private fun uploadProfilePic(multipartFileBody: MultipartBody.Part) {
+        mContentViewBinding.loadingProfile = true
+        ApiConnection.uploadProfileImage(context!!, multipartFileBody)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : ApiCustomCallback<ImageUploadResponseData>(context!!, true) {
+                override fun onNext(imageUploadResponseData: ImageUploadResponseData) {
+                    super.onNext(imageUploadResponseData)
+                    mContentViewBinding.loadingProfile = false
+                    if (imageUploadResponseData.success) {
+                        AppSharedPref.setCustomerImageUrl(context, imageUploadResponseData.url)
+                        updateProfilePic()
+                    } else {
+                        ToastHelper.showToast(context, imageUploadResponseData.message)
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    mContentViewBinding.loadingProfile = false
+                    ToastHelper.showToast(context, getString(R.string.something_went_wrong))
+                }
+            })
+    }
+
+    private fun updateProfilePic() {
+        try {
+            if (AppSharedPref.getCustomerImageUrl(context!!).isNotBlank()) {
+                Glide.with(this).load(AppSharedPref.getCustomerImageUrl(context!!)).apply(RequestOptions.circleCropTransform()).into(mContentViewBinding.profileImage)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
 }

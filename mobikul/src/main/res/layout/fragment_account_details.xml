@@ -23,7 +23,20 @@
 
         <import type="com.webkul.mobikul.helpers.Utils" />
 
-        <import type="com.webkul.mobikul.helpers.AppSharedPref" />
+
+        <variable
+            name="isLogin"
+            type="Boolean" />
+
+
+        <variable
+            name="customerName"
+            type="String" />
+
+        <variable
+            name="customerEmail"
+            type="String" />
+
 
         <variable
             name="loadingProfile"
@@ -89,7 +102,7 @@
                     android:layout_height="wrap_content"
 
                     android:theme="@style/AppTheme.AppBarOverlay"
-                    android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{isLogin ? View.VISIBLE : View.GONE}"
                     app:layout_height="@{(2 * Utils.getScreenWidth()) / 3}">
 
                     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -133,6 +146,38 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/spacing_huge">
 
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/profile_image"
+                                        android:layout_width="64dp"
+                                        android:layout_height="64dp"
+                                        android:layout_centerInParent="true"
+                                        android:onClick="@{() -> handler.onClickProfileImage()}"
+                                        android:scaleType="fitXY"
+                                        app:srcCompat="@drawable/placeholder" />
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/edit_profile_image"
+                                        android:layout_width="22dp"
+                                        android:layout_height="22dp"
+                                        android:layout_alignEnd="@id/profile_image"
+                                        android:layout_alignBottom="@+id/profile_image"
+                                        android:onClick="@{() -> handler.onClickProfileImageEdit()}"
+                                        app:srcCompat="@drawable/ic_edit_round"
+                                        tools:src="@drawable/ic_edit_round" />
+
+                                    <!-- <ProgressBar
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_centerInParent="true"
+                                        android:background="@drawable/progress_bar_bg"
+                                        android:indeterminate="true"
+                                        android:visibility="@{safeUnbox(loadingProfile) ? View.VISIBLE : View.GONE}" />-->
+                                </RelativeLayout>
+
                                 <!--
                                                         <RelativeLayout
                                                             android:layout_width="match_parent"
@@ -175,7 +220,7 @@
                                     android:layout_marginTop="@dimen/spacing_generic"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="@{AppSharedPref.getCustomerName(context)}"
+                                    android:text="@{customerName}"
                                     android:textColor="@android:color/white"
                                     android:textSize="@dimen/text_size_medium"
                                     android:textStyle="bold"
@@ -187,7 +232,7 @@
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="@{AppSharedPref.getCustomerEmail(context)}"
+                                    android:text="@{customerEmail}"
                                     android:textColor="@android:color/white"
                                     android:textSize="@dimen/text_size_small"
                                     tools:text="to your account" />
@@ -218,7 +263,10 @@
                                 android:layout_height="22dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_margin="@dimen/spacing_normal"
+                                android:layout_marginStart="@dimen/spacing_normal"
+                                android:layout_marginTop="@dimen/spacing_normal"
+                                android:layout_marginEnd="@dimen/spacing_normal"
+                                android:layout_marginBottom="@dimen/spacing_normal"
                                 android:onClick="@{() -> handler.onClickBannerImage()}"
                                 app:srcCompat="@drawable/ic_edit_round"
                                 tools:src="@drawable/ic_edit_round" />
@@ -271,7 +319,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_color"
-                    android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{isLogin ? View.VISIBLE : View.GONE}" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -307,7 +355,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_color"
-                    android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{isLogin ? View.VISIBLE : View.GONE}" />
 
                 <ViewStub
                     android:id="@+id/nav_drawer_seller_account_view"
@@ -331,7 +379,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
-                    android:visibility="@{AppSharedPref.isLoggedIn(context) ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{isLogin ? View.VISIBLE : View.GONE}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"

@@ -14,6 +14,7 @@
 package com.webkul.mobikul.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -97,7 +98,6 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-
         mItemCart = menu.findItem(R.id.menu_item_cart)
         updateCartBadge()
         return true
@@ -160,7 +160,6 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
     fun updateBadge() {
-
         if (AppSharedPref.getCartCount(this) > 0) {
             addBadge()
         } else {
@@ -169,10 +168,10 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
     }
 
 
-    fun addBadge() {
+    @SuppressLint("CutPasteId")
+    private fun addBadge() {
         mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.visibility = View.VISIBLE
-        mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.text =
-            AppSharedPref.getCartCount(this).toString()
+        mBadge?.findViewById<AppCompatTextView>(R.id.notification_badge)?.text = AppSharedPref.getCartCount(this).toString()
     }
 
     fun removeBadge() {
@@ -189,6 +188,13 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
             mMaterialSearchView.openSearch()
         }
         supportActionBar?.hide()
+    }
+
+    fun openNotificationFragment(){
+        NotificationBottomSheetFragment(this).show(
+            supportFragmentManager,
+            NotificationBottomSheetFragment::class.java.simpleName
+        )
     }
 
     override fun attachBaseContext(newBase: Context) {

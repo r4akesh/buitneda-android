@@ -60,8 +60,7 @@ class PaymentInfoFragment : BaseFragment() {
     var appliedCoupon = false
 
     internal var onDetachInterface: OnDetachInterface? = null
-
-
+    private lateinit var reviewsAndPaymentsResponseModelData:ReviewsAndPaymentsResponseModel
     fun setOnDetachInterface(onDetachInterface: OnDetachInterface) {
         this.onDetachInterface = onDetachInterface
     }
@@ -132,6 +131,7 @@ class PaymentInfoFragment : BaseFragment() {
     private fun onSuccessfulResponse(reviewsAndPaymentsResponseModel: ReviewsAndPaymentsResponseModel) {
         if (mContentViewBinding.data == null) {
             reviewsAndPaymentsResponseModel.couponCode = null
+            reviewsAndPaymentsResponseModelData = reviewsAndPaymentsResponseModel
             mContentViewBinding.data = reviewsAndPaymentsResponseModel
             if (arguments!!.containsKey(BUNDLE_KEY_CHECKOUT_ADDRESS_DATA)) {
                 onGetAddressSuccessfulResponse(arguments?.getParcelable(BUNDLE_KEY_CHECKOUT_ADDRESS_DATA))
@@ -241,6 +241,7 @@ class PaymentInfoFragment : BaseFragment() {
                                 callWalletApi("set", mContentViewBinding.walletData!!.walletData.unformattedPaymentToMade.toString())
                         } else {
                             callWalletApi("reset", "0")
+                            mContentViewBinding.toPayTotalAmount.text = reviewsAndPaymentsResponseModelData.cartTotal
                         }
                     }
                     callWalletApi("reset", "0")
@@ -272,6 +273,7 @@ class PaymentInfoFragment : BaseFragment() {
                                     mContentViewBinding.data!!.selectedPaymentMethod = ""
                                 }
                                 mContentViewBinding.walletDetailsLayout.visibility = View.VISIBLE
+                                mContentViewBinding.toPayTotalAmount.text = applyPaymentAmountResponseData.walletData.formattedLeftAmountToPay
                             } else {
                                 for (i in 0 until mContentViewBinding.paymentMethodRg.childCount) {
                                     mContentViewBinding.paymentMethodRg.getChildAt(i).isEnabled = true
@@ -280,6 +282,7 @@ class PaymentInfoFragment : BaseFragment() {
                                 if (applyPaymentAmountResponseData.walletData.unformattedAmountInWallet == 0.toDouble()) {
                                     mContentViewBinding.noAmountWalletMsg.visibility = View.VISIBLE
                                     mContentViewBinding.payWithWalletCb.visibility = View.GONE
+                                    mContentViewBinding.toPayTotalAmount.text = reviewsAndPaymentsResponseModelData.cartTotal
                                 }
                             }
                         } else {

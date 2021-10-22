@@ -50,6 +50,8 @@ class CartBottomSheetHandler(val mFragmentContext: CartBottomSheetFragment) {
 
 
         if (mFragmentContext.context is HomeActivity) {
+            //(mFragmentContext.context as HomeActivity).onBackPressed()
+            mFragmentContext.dismiss()
             (mFragmentContext.context as HomeActivity).onBackPressed()
         } else {
             mFragmentContext.dismiss()
@@ -208,7 +210,7 @@ class CartBottomSheetHandler(val mFragmentContext: CartBottomSheetFragment) {
     fun onClickProceedBtn() {
         if ((mFragmentContext.mContentViewBinding.cartItemsRv.adapter as CartItemsRvAdapter).isCartItemQtyChanged()) {
             ToastHelper.showToast(mFragmentContext.context!!, mFragmentContext.getString(R.string.error_update_cart_to_proceed))
-        } else if (AppSharedPref.isLoggedIn(mFragmentContext.context!!)) {
+        }else if(AppSharedPref.isLoggedIn(mFragmentContext.context!!)) {
             val intent = Intent(mFragmentContext.context!!, CheckoutActivity::class.java)
             intent.putExtra(BUNDLE_KEY_IS_VIRTUAL_CART, mFragmentContext.mContentViewBinding.data!!.isVirtual)
             intent.putExtra(BUNDLE_KEY_IS_CART_ITEM,mFragmentContext.mContentViewBinding.data!!.items)

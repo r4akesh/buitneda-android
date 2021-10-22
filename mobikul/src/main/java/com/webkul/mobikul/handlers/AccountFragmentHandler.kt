@@ -112,6 +112,8 @@ class AccountFragmentHandler(private val mContext: AccountDetailsFragment) {
                     val customerSharedPrefEditor = AppSharedPref.getSharedPreferenceEditor(context, AppSharedPref.CUSTOMER_PREF)
                     customerSharedPrefEditor.clear()
                     customerSharedPrefEditor.apply()
+                    customerSharedPrefEditor.commit()
+                    AppPreference.logout(context)
                     AppSharedPref.setCustomerCachedNewAddress(context, AddressDetailsData())
                     ToastHelper.showToast(context as BaseActivity, context.getString(R.string.logout_message))
                     val intent = Intent(context, HomeActivity::class.java)

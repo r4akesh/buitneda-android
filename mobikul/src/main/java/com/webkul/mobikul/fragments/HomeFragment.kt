@@ -54,9 +54,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
 import android.content.pm.PackageManager
-
-
-
+import com.webkul.mobikul.wallet.activities.ManageWalletAmountActivity
+import com.webkul.mobikul.wallet.activities.WalletActivity
 
 
 class HomeFragment : Fragment() {
@@ -115,7 +114,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSupportActionBar() {
-        (activity as AppCompatActivity).setSupportActionBar(mContentViewBinding.toolbar)
+      //  (activity as AppCompatActivity).setSupportActionBar(mContentViewBinding.toolbar!!)
         var title = SpannableString(getString(R.string.activity_title_home))
         title.setSpan(
             CalligraphyTypefaceSpan(
@@ -130,51 +129,30 @@ class HomeFragment : Fragment() {
          val bitmap = (drawable as BitmapDrawable).bitmap
          val newdrawable: Drawable =
              BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))*/
-        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
+       /* (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
+        mContentViewBinding.toolbar.whatAppBtn.setOnClickListener {
+            openWhatsApp()
+        }
+
+        mContentViewBinding.toolbar.walletBtn.setOnClickListener {
+           startActivity(Intent(context, ManageWalletAmountActivity::class.java))
+          // startActivity(Intent(context, WalletActivity::class.java))
+        }
+
+        mContentViewBinding.toolbar.searchBtn.setOnClickListener {
+            (activity as HomeActivity).openMaterialSearchView()
+        }
+
+        mContentViewBinding.toolbar.notificationBtn.setOnClickListener {
+            (activity as HomeActivity).openNotificationFragment()
+        }
     }
 
     override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-
-                val isAppInstalled = appInstalledOrNot("com.whatsapp.w4b")
-                val intent = Intent(Intent.ACTION_VIEW)
-                if(isAppInstalled){
-                    intent.setPackage("com.whatsapp.w4b")
-                    intent.data =
-                        Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
-                    if (context!!.packageManager.resolveActivity(intent, 0) != null) {
-                        startActivity(intent)
-                    } else {
-                        ToastHelper.showToast(
-                            context!!,
-                            context!!.getString(R.string.please_install_whatsapp)
-                        )
-                        val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
-                        val whatsBusinessIntent = Intent(Intent.ACTION_VIEW)
-                        whatsBusinessIntent.data = Uri.parse(url)
-                        startActivity(whatsBusinessIntent)
-                    }
-                }else{
-                    intent.setPackage("com.whatsapp")
-                    intent.data =
-                        Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
-                    if (context!!.packageManager.resolveActivity(intent, 0) != null) {
-                        startActivity(intent)
-                    } else {
-                        ToastHelper.showToast(
-                            context!!,
-                            context!!.getString(R.string.please_install_whatsapp)
-                        )
-                        val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
-                        val whatsAppIntent = Intent(Intent.ACTION_VIEW)
-                        whatsAppIntent.data = Uri.parse(url)
-                        startActivity(whatsAppIntent)
-                    }
-                }
-
 
 
 
@@ -193,6 +171,44 @@ class HomeFragment : Fragment() {
         } catch (e: PackageManager.NameNotFoundException) {
         }
         return false
+    }
+
+    private fun openWhatsApp(){
+        val isAppInstalled = appInstalledOrNot("com.whatsapp.w4b")
+        val intent = Intent(Intent.ACTION_VIEW)
+        if(isAppInstalled){
+            intent.setPackage("com.whatsapp.w4b")
+            intent.data =
+                Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
+            if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                startActivity(intent)
+            } else {
+                ToastHelper.showToast(
+                    context!!,
+                    context!!.getString(R.string.please_install_whatsapp)
+                )
+                val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                val whatsBusinessIntent = Intent(Intent.ACTION_VIEW)
+                whatsBusinessIntent.data = Uri.parse(url)
+                startActivity(whatsBusinessIntent)
+            }
+        }else{
+            intent.setPackage("com.whatsapp")
+            intent.data =
+                Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
+            if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                startActivity(intent)
+            } else {
+                ToastHelper.showToast(
+                    context!!,
+                    context!!.getString(R.string.please_install_whatsapp)
+                )
+                val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                val whatsAppIntent = Intent(Intent.ACTION_VIEW)
+                whatsAppIntent.data = Uri.parse(url)
+                startActivity(whatsAppIntent)
+            }
+        }
     }
 
     private fun initSwipeRefresh() {

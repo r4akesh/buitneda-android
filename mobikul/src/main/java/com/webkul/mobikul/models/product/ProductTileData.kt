@@ -33,9 +33,10 @@ import com.webkul.mobikul.helpers.ApplicationConstants
 class ProductTileData() : Parcelable, BaseObservable() {
     @JsonProperty("configurableData")
     var configurableData: ConfigurableData? = ConfigurableData()
+
     @JsonProperty("isInWishlist")
     var isInWishList: Boolean = false
-        @Bindable get() = field
+        @Bindable get
         set(value) {
             field = value
             notifyPropertyChanged(BR.inWishList)
@@ -43,8 +44,10 @@ class ProductTileData() : Parcelable, BaseObservable() {
 
     @JsonProperty("wishlistItemId")
     var wishListItemId: String? = ""
+
     @JsonProperty("typeId")
     var typeId: String? = ""
+
     @JsonProperty(value = "entityId")
     @JsonAlias("entityId", "id")
     var id: String? = ""
@@ -52,53 +55,74 @@ class ProductTileData() : Parcelable, BaseObservable() {
 
     @JsonProperty("shortDescription")
     var shortDescription: String? = ""
+
     @JsonProperty("rating")
     var rating: String? = ""
+
     @JsonProperty("isAvailable")
     var isAvailable: Boolean = false
+
     @JsonProperty("isNeww")
     var isNew: Boolean = false
+
     @JsonProperty("price")
     var price: Double = 0.0
+
     @JsonProperty("finalPrice")
     var finalPrice: Double = 0.0
+
     @JsonProperty("formattedPrice")
     var formattedPrice: String? = ""
+
     @JsonProperty("formattedFinalPrice")
     var formattedFinalPrice: String? = ""
+
     @JsonProperty("name")
     var name: String? = ""
         get() = field ?: ""
 
     @JsonProperty("hasRequiredOptions")
     var hasRequiredOptions: Boolean = false
+
     @JsonProperty("isInRange")
     var isInRange: Boolean = false
+
     @JsonProperty("thumbNail")
     @JsonAlias("thumbNail", "image_link")
 
     var thumbNail: String? = ""
+
     @JsonProperty("dominantColor")
     var dominantColor: String? = ""
     var ratingValue: Float = 0f
+
     @JsonProperty("minAddToCartQty")
     var minAddToCartQty: Int = 1
+
     @JsonProperty("priceView")
     var priceView: String? = ""
+
     @JsonProperty("minPrice")
     var minPrice: Double = 0.0
+
     @JsonProperty("maxPrice")
     var maxPrice: Double = 0.0
+
     @JsonProperty("formattedMinPrice")
     var formattedMinPrice: String? = ""
+
     @JsonProperty("formattedMaxPrice")
     var formattedMaxPrice: String? = ""
+
     @JsonProperty("groupedPrice")
     var groupedPrice: String? = ""
+
     @JsonProperty("availability")
     var availability: String? = ""
+
     @JsonProperty("arType")
     var arType: String? = ""
+
     @JsonProperty("arUrl")
     var arModelUrl: String? = ""
     var productPosition = -1
@@ -191,6 +215,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
     fun hasSpecialPrices(): Boolean {
         return finalPrice != 0.0 && finalPrice < price
     }
+
     fun hasPrice(): Boolean {
         return !(hasMinPrice() || hasGroupedPrice())
     }
@@ -230,11 +255,16 @@ class ProductTileData() : Parcelable, BaseObservable() {
             }
         } else {
             return false
+
         }
     }
 
     fun getRequiredOptions(): Boolean {
-        return if (typeId.equals("configurable", ignoreCase = true) || typeId.equals("grouped", ignoreCase = true) || typeId.equals("bundle", ignoreCase = true)) {
+        return if (typeId.equals("configurable", ignoreCase = true) || typeId.equals(
+                "grouped",
+                ignoreCase = true
+            ) || typeId.equals("bundle", ignoreCase = true)
+        ) {
             true
         } else {
             hasRequiredOptions
@@ -242,7 +272,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
     }
 
     fun getSelectedRatingValue(): String {
-        return rating?.get((ratingValue - 1).toInt()).toString() ?:""
+        return rating?.get((ratingValue - 1).toInt()).toString()
     }
 
 }

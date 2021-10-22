@@ -39,7 +39,7 @@
     <dimen name="card_elevation_low">2dp</dimen>
     <dimen name="card_elevation_lowest">1dp</dimen>
     <dimen name="card_elevation_medium">4dp</dimen>
-    <dimen name="card_elevation_high">6dp</dimen>
+    <dimen name="card_elevation_high">3dp</dimen>
 
     <!-- Featured Categories -->
     <dimen name="featured_category_image_size">120dp</dimen>

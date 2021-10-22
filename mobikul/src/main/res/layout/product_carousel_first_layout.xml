@@ -56,11 +56,13 @@
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:maxLength="25"
                 android:paddingTop="@dimen/spacing_generic"
                 android:paddingBottom="@dimen/spacing_generic"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="@{data.label}"
+                android:singleLine="true"
                 android:textAllCaps="true"
                 android:textColor="@color/text_color_primary"
                 android:textSize="@dimen/text_size_medium_"
@@ -149,12 +151,13 @@
                 android:visibility="@{data.id.isEmpty() || data.productList.size() &lt; 3? View.GONE : View.VISIBLE}">
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_rect_round_cnr_gray_bg_gray_border_1dp"
                     android:onClick="@{()->handler.onClickViewAllBtn(data.label, data.id)}"
                     android:paddingStart="@dimen/button_corner_radius"
                     android:paddingEnd="@dimen/button_corner_radius"
+                    android:minWidth="60dp"
                     android:text="@string/view_all"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_primary"
