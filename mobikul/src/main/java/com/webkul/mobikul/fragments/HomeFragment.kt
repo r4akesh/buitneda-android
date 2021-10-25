@@ -1,9 +1,11 @@
 package com.webkul.mobikul.fragments
 
+//import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
 import android.os.*
@@ -33,7 +35,6 @@ import com.webkul.mobikul.handlers.FeaturedCategoriesRvHandler
 import com.webkul.mobikul.handlers.HomePageBannerVpHandler
 import com.webkul.mobikul.handlers.HomePageProductCarouselHandler
 import com.webkul.mobikul.helpers.*
-//import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.SortOrder
 import com.webkul.mobikul.models.homepage.Carousel
@@ -42,6 +43,7 @@ import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
 import com.webkul.mobikul.view_model.ViewModel
+import com.webkul.mobikul.wallet.activities.ManageWalletAmountActivity
 import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
 import io.github.inflationx.calligraphy3.TypefaceUtils
 import io.reactivex.Observer
@@ -53,9 +55,6 @@ import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
-import android.content.pm.PackageManager
-import com.webkul.mobikul.wallet.activities.ManageWalletAmountActivity
-import com.webkul.mobikul.wallet.activities.WalletActivity
 
 
 class HomeFragment : Fragment() {
@@ -70,7 +69,7 @@ class HomeFragment : Fragment() {
 //    private var currentCache = 0
 
 
-    private var mContext: Context? = null
+//    private var mContext: Context? = null
     private lateinit var appCompatActivity: AppCompatActivity
 
 
@@ -114,7 +113,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSupportActionBar() {
-      //  (activity as AppCompatActivity).setSupportActionBar(mContentViewBinding.toolbar!!)
+        //  (activity as AppCompatActivity).setSupportActionBar(mContentViewBinding.toolbar!!)
         var title = SpannableString(getString(R.string.activity_title_home))
         title.setSpan(
             CalligraphyTypefaceSpan(
@@ -129,16 +128,27 @@ class HomeFragment : Fragment() {
          val bitmap = (drawable as BitmapDrawable).bitmap
          val newdrawable: Drawable =
              BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 25, 25, true))*/
-       /* (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
+        /* (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
+         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
         mContentViewBinding.toolbar.whatAppBtn.setOnClickListener {
             openWhatsApp()
         }
 
         mContentViewBinding.toolbar.walletBtn.setOnClickListener {
-           startActivity(Intent(context, ManageWalletAmountActivity::class.java))
-          // startActivity(Intent(context, WalletActivity::class.java))
+            context?.let { context ->
+                if (AppSharedPref.isLoggedIn(context)) {
+                    startActivity(Intent(context, ManageWalletAmountActivity::class.java))
+                } else {
+                    context.startActivity(
+                        (context.applicationContext as MobikulApplication).getLoginAndSignUpActivity(
+                            context
+                        )
+                    )
+                }
+
+            }
+            // startActivity(Intent(context, WalletActivity::class.java))
         }
 
         mContentViewBinding.toolbar.searchBtn.setOnClickListener {
@@ -150,11 +160,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-
-
 
 
 //                return true
@@ -173,10 +182,10 @@ class HomeFragment : Fragment() {
         return false
     }
 
-    private fun openWhatsApp(){
+    private fun openWhatsApp() {
         val isAppInstalled = appInstalledOrNot("com.whatsapp.w4b")
         val intent = Intent(Intent.ACTION_VIEW)
-        if(isAppInstalled){
+        if (isAppInstalled) {
             intent.setPackage("com.whatsapp.w4b")
             intent.data =
                 Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
@@ -192,7 +201,7 @@ class HomeFragment : Fragment() {
                 whatsBusinessIntent.data = Uri.parse(url)
                 startActivity(whatsBusinessIntent)
             }
-        }else{
+        } else {
             intent.setPackage("com.whatsapp")
             intent.data =
                 Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")

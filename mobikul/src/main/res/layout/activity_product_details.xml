@@ -473,7 +473,7 @@
                         android:visibility="@{data.showPriceDropAlert ? View.VISIBLE : View.GONE}"
                         tools:text="Notify me when the price drops" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                   <!-- <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/notify_product_in_stock"
                         fontPath="fonts/Montserrat-SemiBold.ttf"
                         android:layout_width="match_parent"
@@ -493,7 +493,7 @@
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="gone"
-                        tools:text="Notify me when this product is in stock" />
+                        tools:text="Notify me when this product is in stock" />-->
 
 
                     <View
@@ -1271,7 +1271,8 @@
                 android:gravity="center_vertical"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
-                android:visibility="@{data == null || !data.isAvailable || data.remainingTime > 0 ? View.GONE : View.VISIBLE}">
+                >
+                <!--                android:visibility="@{data == null || !data.isAvailable || data.remainingTime > 0 ? View.GONE : View.VISIBLE}"-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/static_add_to_cart_btn"
@@ -1287,6 +1288,7 @@
                     android:paddingBottom="@dimen/spacing_normal"
                     android:text="@string/add_to_cart"
                     android:textAllCaps="true"
+                    android:visibility="@{data == null || !data.isAvailable || data.remainingTime > 0 ? View.GONE : View.VISIBLE}"
                     android:textColor="@color/color_whiteBlack" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -1314,9 +1316,10 @@
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorPrimary"
+                android:visibility="@{data == null || data.isAvailable ? View.GONE : View.VISIBLE}"
                 android:onClick="@{()->handler.onClickNotifyProductInStockBtn()}"
                 android:padding="@dimen/spacing_small"
-                android:visibility="gone">
+            >
 
                 <androidx.appcompat.widget.AppCompatTextView
                     fontPath="fonts/Montserrat-SemiBold.ttf"
