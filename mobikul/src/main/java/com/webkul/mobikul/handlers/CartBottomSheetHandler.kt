@@ -47,11 +47,7 @@ class CartBottomSheetHandler(val mFragmentContext: CartBottomSheetFragment) {
 //       var fragment :Fragment=HomeFragment()
 //        mFragmentContext.fragmentManager?.beginTransaction()?.replace(R.id.main_frame, fragment!!, fragment.javaClass.simpleName)!!.commit()
 //        HomeActivity.mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked=true
-
-
         if (mFragmentContext.context is HomeActivity) {
-            //(mFragmentContext.context as HomeActivity).onBackPressed()
-            mFragmentContext.dismiss()
             (mFragmentContext.context as HomeActivity).onBackPressed()
         } else {
             mFragmentContext.dismiss()

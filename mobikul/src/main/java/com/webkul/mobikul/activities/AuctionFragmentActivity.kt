@@ -2,6 +2,7 @@ package com.webkul.mobikul.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -62,5 +63,19 @@ class AuctionFragmentActivity : BaseActivity() {
             mFragmentList.add(fragment)
             mFragmentTitleList.add(title)
         }
+    }
+
+    override fun onBackPressed() {
+        setResult(1010)
+        super.onBackPressed()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home->{
+                onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

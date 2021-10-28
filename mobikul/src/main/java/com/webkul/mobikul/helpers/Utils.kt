@@ -27,6 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -281,6 +282,29 @@ class Utils {
             val pattern = Pattern.compile(PHONE_PATTERN)
             val matcher = pattern.matcher(phone)
             return matcher.matches()
+        }
+
+
+        fun strToTimemills(dt: String?): Long {
+            val sdf = SimpleDateFormat("MMMMM dd, yyyyy", Locale.US)
+            var date: Date? = null
+            try {
+                date = sdf.parse(dt)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            val calendar = Calendar.getInstance(Locale.US)
+            calendar.time = date
+            println("Calender - Time in milliseconds : " + calendar.timeInMillis)
+            return calendar.timeInMillis
+        }
+
+
+        fun millsToDate(mills: Long): String {
+            val cal = Calendar.getInstance(Locale.US)
+            cal.timeInMillis = mills
+            val format = "MMM dd, yyyy"
+            return SimpleDateFormat(format).format(cal.time)
         }
     }
 }

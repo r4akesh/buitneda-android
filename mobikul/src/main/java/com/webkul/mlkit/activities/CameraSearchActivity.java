@@ -147,21 +147,18 @@ public class CameraSearchActivity extends AppCompatActivity {
 
         if (hasFlash) {
             flashButton.setVisibility(View.VISIBLE);
-            flashButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (cameraSource != null) {
-                        Camera camera = cameraSource.getCamera();
-                        Camera.Parameters parameters = camera.getParameters();
-                        if (isChecked) {
-                            parameters.setFlashMode(parameters.FLASH_MODE_TORCH);
-                        } else {
-                            parameters.setFlashMode(parameters.FLASH_MODE_OFF);
-                        }
-                        camera.setParameters(parameters);
+            flashButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (cameraSource != null) {
+                    Camera camera = cameraSource.getCamera();
+                    Camera.Parameters parameters = camera.getParameters();
+                    if (isChecked) {
+                        parameters.setFlashMode(parameters.FLASH_MODE_TORCH);
                     } else {
-                        ToastHelper.Companion.showToast(CameraSearchActivity.this, getString(R.string.error_while_using_flash), Toast.LENGTH_LONG);
+                        parameters.setFlashMode(parameters.FLASH_MODE_OFF);
                     }
+                    camera.setParameters(parameters);
+                } else {
+                    ToastHelper.Companion.showToast(CameraSearchActivity.this, getString(R.string.error_while_using_flash), Toast.LENGTH_LONG);
                 }
             });
         } else {

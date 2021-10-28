@@ -47,6 +47,7 @@ class CheckoutActivity : BaseActivity(), PaymentInfoFragment.OnDetachInterface {
             mIsVirtual = intent.getBooleanExtra(BUNDLE_KEY_IS_VIRTUAL_CART, false)
         }
 
+        title = resources.getString(R.string.review_payment)
 
         if(intent!=null && intent.hasExtra(BUNDLE_KEY_IS_CART_ITEM)){
             cartItem = intent.getSerializableExtra(BUNDLE_KEY_IS_CART_ITEM) as ArrayList<CartItem>

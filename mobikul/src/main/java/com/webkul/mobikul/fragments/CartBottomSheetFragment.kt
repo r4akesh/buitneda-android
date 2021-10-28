@@ -14,6 +14,7 @@
 package com.webkul.mobikul.fragments
 
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -49,6 +50,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
     lateinit var mContentViewBinding: FragmentCartBottomSheetBinding
     private val TAG = "CartBottomSheetFragment"
     lateinit var localBroadcastReceiver: LocalBroadcastManager
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +63,9 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         mContentViewBinding.discountCode.visibility = View.GONE
         mContentViewBinding.discountCodeHeading.visibility = View.GONE
         localBroadcastReceiver = LocalBroadcastManager.getInstance(context!!)
+        mContentViewBinding.cartHeaderLayout.setOnTouchListener { v, event ->
+            true
+        }
 
         return mContentViewBinding.root
     }
@@ -101,7 +106,6 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
     private fun onSuccessfulResponse(cartDetailsResponseModel: CartDetailsResponseModel) {
         if (context != null) {
             mContentViewBinding.data = cartDetailsResponseModel
-
             AppSharedPref.setCartCount(context!!, mContentViewBinding.data!!.cartCount)
             (context as BaseActivity).updateCartCount(mContentViewBinding.data!!.cartCount)
             val localIntent = Intent("UPDATE_CART")

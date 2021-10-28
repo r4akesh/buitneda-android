@@ -1129,7 +1129,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.card.MaterialCardView
+      <!--  <com.google.android.material.card.MaterialCardView
             android:id="@+id/floating_buy_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -1149,6 +1149,7 @@
                     android:id="@+id/floating_add_to_cart_btn"
                     fontPath="fonts/Montserrat-SemiBold.ttf"
                     android:layout_width="0dp"
+                    android:background="@color/colorPrimary"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:foreground="?attr/selectableItemBackground"
@@ -1158,7 +1159,7 @@
                     android:paddingBottom="@dimen/spacing_normal"
                     android:text="@string/add_to_cart"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@color/color_whiteBlack" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/floating_buy_now_btn"
@@ -1179,7 +1180,7 @@
                     android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>-->
 
         <ProgressBar
             android:layout_width="wrap_content"

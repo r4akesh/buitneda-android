@@ -22,6 +22,7 @@ class VersionChecker(private val context: Context) : AsyncTask<String, String, S
 
     override fun doInBackground(vararg params: String?): String {
         var newVersion = "1.00"
+        var updatedDate = "October 22, 2021"
         try {
             val document = Jsoup.connect("https://play.google.com/store/apps/details?id=${context.packageName}")
                     .timeout(10000)
@@ -30,6 +31,7 @@ class VersionChecker(private val context: Context) : AsyncTask<String, String, S
                     .get()
             if (document != null) {
                 val element = document.getElementsContainingOwnText("Current Version")
+                val updateDate = document.getElementsContainingOwnText("Updated")
                 for (ele in element) {
                     if (ele.siblingElements() != null) {
                         val sibElements = ele.siblingElements()
@@ -38,12 +40,21 @@ class VersionChecker(private val context: Context) : AsyncTask<String, String, S
                         }
                     }
                 }
+                for (update in updateDate) {
+                    if (update.siblingElements() != null) {
+                        val sibElements = update.siblingElements()
+                        for (sibElement in sibElements) {
+                            updatedDate = sibElement.text()
+                        }
+                    }
+                }
+
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return newVersion
+        return "$newVersion,$updatedDate"
     }
 
     override fun onPostExecute(result: String?) {

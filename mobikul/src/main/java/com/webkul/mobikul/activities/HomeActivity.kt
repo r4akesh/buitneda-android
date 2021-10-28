@@ -45,6 +45,11 @@ import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 class HomeActivity : BaseActivity() {
@@ -54,6 +59,7 @@ class HomeActivity : BaseActivity() {
     companion object {
         lateinit var mContentViewBinding: ActivityHomeBinding
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
+        const val BROADCAST_DEFAULT_UPDATE_CART_BADGE = "BROADCAST_DEFAULT_UPDATE_CART_BADGE"
         private const val TAG = "HomeActivity"
 
     }
@@ -64,12 +70,13 @@ class HomeActivity : BaseActivity() {
     open var accountDetailsFragment: AccountDetailsFragment? = null
     open var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
     var mTopSellingHomePageDataModel: HomePageDataModel? = null
+    private var lastIndex = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_DEFAULT_ALBUM_CHANGED))
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_DEFAULT_ALBUM_CHANGED))
+        LocalBroadcastManager.getInstance(this).registerReceiver(updateCartBadgeReceiver, IntentFilter(BROADCAST_DEFAULT_UPDATE_CART_BADGE))
 
         startInitialization()
 
@@ -254,6 +261,8 @@ class HomeActivity : BaseActivity() {
         inflateBadge()
         updateBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
+
+
     }
 
     open fun initIntent() {
@@ -269,6 +278,7 @@ class HomeActivity : BaseActivity() {
         HomeDataSingleton.getInstance().mHomePageDataModel?.let {
             mHomePageDataModel = it
         }
+        lastIndex = 2
         setupFragment(intent.getIntExtra(BUNDLE_KEY_BOTTOM_NAV_INDEX, 2))
     }
 
@@ -305,7 +315,6 @@ class HomeActivity : BaseActivity() {
             0 -> {
                 if (categoryFragment != null) {
                     fragment = categoryFragment
-
                     for (frag in supportFragmentManager.fragments) {
                         supportFragmentManager.beginTransaction().hide(frag).commit()
                     }
@@ -316,6 +325,7 @@ class HomeActivity : BaseActivity() {
                         .setReorderingAllowed(true)
                         .commit()
                 } else {
+                    lastIndex = 0
                     categoryFragment = CategoryPageFragment(mHomePageDataModel.categories)
                     fragment = categoryFragment
                     supportFragmentManager.beginTransaction()
@@ -341,6 +351,7 @@ class HomeActivity : BaseActivity() {
                         .commit()
                 } else {
                     homeFragment = HomeFragment()
+                    lastIndex = 2
                     fragment = homeFragment
                     val bundle = Bundle()
                    /* bundle.putParcelable(
@@ -388,7 +399,6 @@ class HomeActivity : BaseActivity() {
 
 
                 if (accountDetailsFragment != null) {
-
                     categoryFragment?.let { categoryFragmentSafe ->
                         supportFragmentManager.beginTransaction().hide(categoryFragmentSafe)
                             .commit()
@@ -404,6 +414,7 @@ class HomeActivity : BaseActivity() {
 //                        .setReorderingAllowed(true)
                         .commit()
                 } else {
+                    lastIndex = 4
                     accountDetailsFragment =
                         (applicationContext as MobikulApplication).gettAccounntDetailsFragment()
                     fragment = accountDetailsFragment
@@ -431,60 +442,22 @@ class HomeActivity : BaseActivity() {
 
     @SuppressLint("RestrictedApi")
     open override fun onBackPressed() {
+        updateBadge()
         if (mMaterialSearchView.isOpen()) {
             mMaterialSearchView.closeSearch()
         } else {
-//            if (bottom_nav_view.selectedItemId == R.id.bottom_home)
-//                finishMainActivity()
-//            else {
-            if (supportFragmentManager.backStackEntryCount > 0)
-                if (supportFragmentManager.backStackEntryCount == 1) {
-                    finishMainActivity()
-                } else {
-                    mContentViewBinding.bottomAppCl.visibility = View.VISIBLE
-                    mContentViewBinding.fab.visibility = View.VISIBLE
-                    if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount
-                        ).toString().contains("CartBottomSheetFragment")
-                        && supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount - 1) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount - 1
-                        ).toString().contains("AccountDetailsFragment")
-                    ) {
-                        mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_profile).isChecked =
-                            true
-                        supportFragmentManager.popBackStackImmediate()
-                    } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount
-                        ).toString().contains("CartBottomSheetFragment")
-                        && supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount - 1) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount - 1
-                        ).toString().contains("CategoryPageFragment")
-                    ) {
-                        mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_category).isChecked =
-                            true
-                        supportFragmentManager.popBackStackImmediate()
-                    } else if (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount
-                        ).toString().contains("CartBottomSheetFragment")
-                        && (supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount - 1) != null && supportFragmentManager.fragments.get(
-                            supportFragmentManager.backStackEntryCount - 1
-                        ).toString().contains("HomeFragment")
-                                || supportFragmentManager.fragments.get(supportFragmentManager.backStackEntryCount - 1)
-                            .toString().contains("SupportRequestManagerFragment"))
-                    ) {
-                        mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked =
-                            true
-                        supportFragmentManager.popBackStackImmediate()
-                    } else {
-                        finishMainActivity()
-//                        supportFragmentManager.popBackStackImmediate()
+                    if (supportFragmentManager.backStackEntryCount > 0)
+                        if (supportFragmentManager.backStackEntryCount == 1) {
+                            finishMainActivity()
+                        } else {
+                            mContentViewBinding.bottomAppCl.visibility = View.VISIBLE
+                            mContentViewBinding.fab.visibility = View.VISIBLE
+                            mContentViewBinding.bottomNavView.menu.getItem(lastIndex).isChecked = true
+                            supportFragmentManager.popBackStackImmediate()
+                        }
+                    else {
+                        super.onBackPressed()
                     }
-                }
-            else {
-                super.onBackPressed()
-            }
-
-//            }
         }
     }
 
@@ -509,30 +482,40 @@ class HomeActivity : BaseActivity() {
         VersionChecker(this).execute()
     }
 
+    @SuppressLint("NewApi")
     fun onLatestVersionResponse(result: String?) {
         try {
-            if (java.lang.Double.parseDouble(BuildConfig.VERSION_NAME) < java.lang.Double.parseDouble(
-                    result
-                )
+            val list: List<String> = listOf(*result!!.split(",").toTypedArray())
+            val version  = list[0]
+            val updateDate = list[1]+", "+list[2]
+            val currentTimeStamp = Utils.strToTimemills(updateDate)
+            val nextCurrentTimeStamp = currentTimeStamp + 86400000
+            if (java.lang.Double.parseDouble(BuildConfig.VERSION_NAME) < java.lang.Double.parseDouble(version)
             ) {
-//                if (true) {
 
-                AlertDialogHelper.showNewCustomDialog(
-                    this,
-                    getString(R.string.update_alert_title),
-                    getString(R.string.new_version_available),
-                    false,
-                    getString(R.string.update),
-                    { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        startActivityForResult(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-                            ), ConstantsHelper.RC_UPDATE_APP_FROM_PLAY_STORE
-                        )
-                    },
-                )
+                val currentDate = Utils.millsToDate(System.currentTimeMillis())
+                val nextDate = Utils.millsToDate(nextCurrentTimeStamp)
+                println(currentDate==nextDate)
+//                if (true) {
+                if(currentDate==nextDate){
+                    AlertDialogHelper.showNewCustomDialog(
+                        this,
+                        getString(R.string.update_alert_title),
+                        getString(R.string.new_version_available),
+                        false,
+                        getString(R.string.update),
+                        { dialogInterface: DialogInterface, _: Int ->
+                            dialogInterface.dismiss()
+                            startActivityForResult(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                                ), ConstantsHelper.RC_UPDATE_APP_FROM_PLAY_STORE
+                            )
+                        },
+                    )
+                }
+
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -548,8 +531,10 @@ class HomeActivity : BaseActivity() {
 
 
         if (requestCode == 1010){
-            if (supportFragmentManager.backStackEntryCount > 0)
-                if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
+            if (supportFragmentManager.backStackEntryCount > 0){
+                mContentViewBinding.bottomNavView.menu.getItem(lastIndex).isChecked = true
+            }
+                /*if (supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount] != null && supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount].toString()
                         .contains("AccountDetailsFragment")
                 ) {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_profile).isChecked =
@@ -567,7 +552,7 @@ class HomeActivity : BaseActivity() {
                     mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked =
                         true
                 } else {
-                }
+                }*/
         }
     }
 
@@ -688,6 +673,17 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    val updateCartBadgeReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            when (intent?.action) {
+                BROADCAST_DEFAULT_UPDATE_CART_BADGE -> {
+                    updateCartBadge()
+                    updateCartCount(AppSharedPref.getCartCount(this@HomeActivity))
+                }
+            }
+        }
+    }
+
     private fun clearAllNotification() {
         homeFragment!!.showBadge(0)
     }
@@ -718,5 +714,10 @@ class HomeActivity : BaseActivity() {
                 }
 
             })
+    }
+
+    override fun onResume() {
+        updateBadge()
+        super.onResume()
     }
 }

@@ -65,6 +65,7 @@ import com.webkul.mobikul.fragments.CategoryPageFragment
 import com.webkul.mobikul.handlers.ProductDetailsActivityHandler
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.ApplicationConstants.ENABLE_WISHLIST
+import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CART_UPDATE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_FROM_NOTIFICATION
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_ITEM_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR
@@ -238,17 +239,22 @@ open class ProductDetailsActivity : BaseActivity() {
     private fun getDataFromIntent() {
         mFromNotification = intent.hasExtra(BUNDLE_KEY_FROM_NOTIFICATION)
 
+        if (intent != null && intent.hasExtra(BUNDLE_KEY_CART_UPDATE)) {
+           // mContentViewBinding.staticBuyNowBtn.text = getString(R.string.update_cart)
+            mContentViewBinding.staticAddToCartBtn.text = getString(R.string.update_cart)
+        }
+
         if (intent.hasExtra(BUNDLE_KEY_ITEM_ID)) {
             mItemId = intent.getStringExtra(BUNDLE_KEY_ITEM_ID)!!
-            mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
+            //   mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
             mContentViewBinding.staticAddToCartBtn.visibility = View.GONE
-            mContentViewBinding.floatingBuyNowBtn.text = getString(R.string.update_cart)
+            // mContentViewBinding.floatingBuyNowBtn.text = getString(R.string.update_cart)
             mContentViewBinding.staticBuyNowBtn.text = getString(R.string.update_cart)
         } else {
             LocaleUtils.updateConfig(this)
             // retrieve resources from desired locale
-            mContentViewBinding.floatingBuyNowBtn.text = getString(R.string.buy_now)
-            mContentViewBinding.floatingAddToCartBtn.text = getString(R.string.add_to_cart)
+            // mContentViewBinding.floatingBuyNowBtn.text = getString(R.string.buy_now)
+            // mContentViewBinding.floatingAddToCartBtn.text = getString(R.string.add_to_cart)
             mContentViewBinding.staticBuyNowBtn.text = getString(R.string.buy_now)
             mContentViewBinding.staticAddToCartBtn.text = getString(R.string.add_to_cart)
             mContentViewBinding.descriptionHeading.text = getString(R.string.details)
@@ -279,6 +285,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.productSliderDotsTabLayout.rotationY = 180f
 
         mContentViewBinding.productName = mProductName
+        title = mProductName
     }
 
     open fun callApi() {
@@ -363,6 +370,10 @@ open class ProductDetailsActivity : BaseActivity() {
         mProductDetailsPageModel = productDetailsPageModel
         mContentViewBinding.handler = ProductDetailsActivityHandler(this)
 
+        if (intent != null && intent.hasExtra(BUNDLE_KEY_CART_UPDATE)) {
+            mContentViewBinding.staticBuyNowBtn.text = "Update Cart"
+        }
+
         setupImageGallery()
         setupTierPriceGallery()
         setupProductOptions(productDetailsPageModel)
@@ -411,13 +422,13 @@ open class ProductDetailsActivity : BaseActivity() {
         }
 
         mContentViewBinding.auctionDetailsContainer.removeAllViews()
-        if (mProductDetailsPageModel.isAuction){
+        if (mProductDetailsPageModel.isAuction) {
             loadAuctionDetails()
-        }else{
+        } else {
             mContentViewBinding.auctionDetailsContainer.visibility = View.VISIBLE
             mContentViewBinding.productCustomOptionsContainer.visibility = View.VISIBLE
             mContentViewBinding.otherProductOptionsContainer.visibility = View.VISIBLE
-            mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
+            //mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
             mContentViewBinding.staticBuyLayout.visibility = View.VISIBLE
         }
     }
@@ -429,7 +440,7 @@ open class ProductDetailsActivity : BaseActivity() {
         if (!mProductDetailsPageModel.buyitNow) {
             mContentViewBinding.productCustomOptionsContainer.visibility = View.GONE
             mContentViewBinding.otherProductOptionsContainer.visibility = View.GONE
-            mContentViewBinding.floatingBuyLayout.visibility = View.GONE
+            //  mContentViewBinding.floatingBuyLayout.visibility = View.GONE
             mContentViewBinding.staticBuyLayout.visibility = View.GONE
             mContentViewBinding.priceLl.visibility = View.GONE
         }
@@ -456,15 +467,15 @@ open class ProductDetailsActivity : BaseActivity() {
                     if (mProductDetailsPageModel.hasAnyOptions()) {
                         mContentViewBinding.otherProductOptionsContainer.visibility = View.VISIBLE
                     }
-                    mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
+                    // mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
                     mContentViewBinding.staticBuyLayout.visibility = View.VISIBLE
 //                    mContentViewBinding.addToCartBtnLayout.setVisibility(View.GONE)
 //                    mContentViewBinding.staticAddToCartBtnLayout.setVisibility(View.GONE)
-                    mContentViewBinding.floatingBuyNowBtn.text = java.lang.String.format(
-                        Locale.US,
-                        getString(R.string.buy_with_x),
-                        mProductDetailsPageModel.winning?.amount
-                    )
+                    /* mContentViewBinding.floatingBuyNowBtn.text = java.lang.String.format(
+                         Locale.US,
+                         getString(R.string.buy_with_x),
+                         mProductDetailsPageModel.winning?.amount
+                     )*/
                     mContentViewBinding.staticBuyNowBtn.text = java.lang.String.format(
                         Locale.US,
                         getString(R.string.buy_with_x),
@@ -514,7 +525,7 @@ open class ProductDetailsActivity : BaseActivity() {
                       }.start()*/
                 } else {
                     if (mProductDetailsPageModel.winning?.remainingTime == 0) {
-                        mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
+                        // mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
                         mContentViewBinding.staticAddToCartBtn.visibility = View.GONE
 /*
                         if(mProductDetailsPageModel.winning?.message!=null)
@@ -527,7 +538,7 @@ open class ProductDetailsActivity : BaseActivity() {
                     mContentViewBinding.auctionDetailsContainer.visibility = View.GONE
                     mContentViewBinding.productCustomOptionsContainer.visibility = View.GONE
                     mContentViewBinding.otherProductOptionsContainer.visibility = View.GONE
-                    mContentViewBinding.floatingBuyLayout.visibility = View.GONE
+                    //  mContentViewBinding.floatingBuyLayout.visibility = View.GONE
                     mContentViewBinding.staticBuyLayout.visibility = View.GONE
                 }
             } else if (mProductDetailsPageModel.auctionFinish) {
@@ -679,7 +690,7 @@ open class ProductDetailsActivity : BaseActivity() {
         } else {
 //            if (!mProductDetailsPageModel.won && mProductDetailsPageModel.remainingTime.equals(0) && mProductDetailsPageModel.winning?.remainingTime == 0) {
             mContentViewBinding.auctionTv.visibility = View.VISIBLE
-            mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
+            //  mContentViewBinding.floatingAddToCartBtn.visibility = View.GONE
             mContentViewBinding.staticAddToCartBtn.visibility = View.GONE
 //            }
             mContentViewBinding.auctionDetailsContainer.visibility = View.GONE
@@ -1031,10 +1042,13 @@ open class ProductDetailsActivity : BaseActivity() {
                 val imageSizeY = TextView(this)
                 imageSizeY.setPadding(0, 2, 0, 2)
                 imageSizeY.textSize = 12f
-                imageSizeY.typeface = TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_REGULAR)
+                imageSizeY.typeface =
+                    TypefaceUtils.load(assets, ApplicationConstants.CALLIGRAPHY_FONT_PATH_REGULAR)
                 imageSizeY.setTextColor(ContextCompat.getColor(this, R.color.text_color_secondary))
-                val imageSizeYValue = "<b>" + mContentViewBinding.data!!.customOptions[customOptIndex].image_size_y + "</b>"
-                imageSizeY.text = Html.fromHtml(resources.getString(R.string.maximum_image_height) + imageSizeYValue)
+                val imageSizeYValue =
+                    "<b>" + mContentViewBinding.data!!.customOptions[customOptIndex].image_size_y + "</b>"
+                imageSizeY.text =
+                    Html.fromHtml(resources.getString(R.string.maximum_image_height) + imageSizeYValue)
                 mContentViewBinding.productCustomOptionsContainer.addView(imageSizeY)
             }
         } catch (e: Exception) {
@@ -1086,7 +1100,8 @@ open class ProductDetailsActivity : BaseActivity() {
                 ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions)
             val spinner = AppCompatSpinner(this)
             spinner.tag = customOptIndex
-            spinner.background = ContextCompat.getDrawable(this, R.drawable.shape_rect_white_bg_black_border_1_dp)
+            spinner.background =
+                ContextCompat.getDrawable(this, R.drawable.shape_rect_white_bg_black_border_1_dp)
             spinner.adapter = spinnerArrayAdapter
             spinner.setSelection(0, false)
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -2047,7 +2062,8 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     private fun loadConfigurableProductData(productDetailsPageModel: ProductDetailsPageModel) {
-        mContentViewBinding.configData = productDetailsPageModel.configurableData.optionPrices!![0].finalPrice
+        mContentViewBinding.configData =
+            productDetailsPageModel.configurableData.optionPrices!![0].finalPrice
         try {
             mContentViewBinding.otherProductOptionsContainer.background = null
             mContentViewBinding.data!!.configurableData.attributes?.forEachIndexed { index, element ->
@@ -2769,7 +2785,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.relatedProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.relatedProductsRv.adapter =
-            RelatedProductsRvAdapter(this,this, mContentViewBinding.data!!.relatedProductList)
+            RelatedProductsRvAdapter(this, this, mContentViewBinding.data!!.relatedProductList)
     }
 
     private fun setupUpsellProductsRv() {
@@ -2782,7 +2798,11 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.upsellProductsRv.isNestedScrollingEnabled = false
         }
         mContentViewBinding.upsellProductsRv.adapter =
-            ProductCarouselHorizontalRvAdapter(this, mContentViewBinding.data!!.upsellProductList, null)
+            ProductCarouselHorizontalRvAdapter(
+                this,
+                mContentViewBinding.data!!.upsellProductList,
+                null
+            )
     }
 
     private fun setupFloatingBuyLayoutHiding() {
@@ -2793,9 +2813,9 @@ open class ProductDetailsActivity : BaseActivity() {
                 ) && mContentViewBinding.staticBuyLayout.height == rect.height() &&
                         mContentViewBinding.staticBuyLayout.width == rect.width()) || scrollY > mContentViewBinding.staticBuyLayout.y
             ) {
-                mContentViewBinding.floatingBuyLayout.visibility = View.GONE
+                // mContentViewBinding.floatingBuyLayout.visibility = View.GONE
             } else {
-                mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
+                //  mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
             }
         })
 
@@ -2805,9 +2825,9 @@ open class ProductDetailsActivity : BaseActivity() {
                 ) && mContentViewBinding.staticBuyLayout.height == rect.height() &&
                         mContentViewBinding.staticBuyLayout.width == rect.width())
             ) {
-                mContentViewBinding.floatingBuyLayout.visibility = View.GONE
+                // mContentViewBinding.floatingBuyLayout.visibility = View.GONE
             } else {
-                mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
+                //  mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
             }
         }, 500)
     }
@@ -2979,7 +2999,7 @@ open class ProductDetailsActivity : BaseActivity() {
                     if (autoRelatedProductList.success) {
                         onSuccessfullyResponseList(autoRelatedProductList)
                     } else {
-                       // onFailureResponse(autoRelatedProductList)
+                        // onFailureResponse(autoRelatedProductList)
                     }
                 }
 
@@ -2993,10 +3013,10 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     fun onSuccessfullyResponseList(autoRelatedProductResponse: AutoRelatedProductList) {
-        if(autoRelatedProductResponse.autoRelatedProducts.isNotEmpty()){
+        if (autoRelatedProductResponse.autoRelatedProducts.isNotEmpty()) {
             mContentViewBinding.autoRelatedProductRv.visibility = View.VISIBLE
             setUpAutoRelatedList(autoRelatedProductResponse)
-        }else{
+        } else {
             mContentViewBinding.autoRelatedProductRv.visibility = View.GONE
         }
 
@@ -3028,7 +3048,8 @@ open class ProductDetailsActivity : BaseActivity() {
 
     private fun setUpAutoRelatedList(autoRelatedProductResponse: AutoRelatedProductList) {
         mContentViewBinding.autoRelatedProductRv.layoutManager = LinearLayoutManager(this)
-        val autoRelatedProductAdapter = AutoRelatedProductAdapter(this,this,autoRelatedProductResponse.autoRelatedProducts)
+        val autoRelatedProductAdapter =
+            AutoRelatedProductAdapter(this, this, autoRelatedProductResponse.autoRelatedProducts)
         mContentViewBinding.autoRelatedProductRv.adapter = autoRelatedProductAdapter
     }
 }

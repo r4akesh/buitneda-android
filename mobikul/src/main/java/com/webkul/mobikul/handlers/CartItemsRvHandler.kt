@@ -28,6 +28,7 @@ import com.webkul.mobikul.databinding.QtyPopupMenuBinding
 import com.webkul.mobikul.fragments.CartBottomSheetFragment
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CART_DATA
+import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CART_UPDATE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_ITEM_ID
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID
@@ -209,6 +210,7 @@ class CartItemsRvHandler(val mFragmentContext: CartBottomSheetFragment) {
         intent.putExtra(BUNDLE_KEY_PRODUCT_ID, cartItem.productId)
         intent.putExtra(BUNDLE_KEY_ITEM_ID, cartItem.id)
         intent.putExtra(BUNDLE_KEY_CART_DATA, cartItem)
+        intent.putExtra(BUNDLE_KEY_CART_UPDATE, "update")
         mFragmentContext.startActivity(intent)
     }
 }

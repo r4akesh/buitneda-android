@@ -57,6 +57,7 @@
                 android:layout_gravity="bottom"
                 app:itemBackground="@android:color/white"
                 app:itemIconSize="20dp"
+                style="@style/Widget.Design.BottomNavigationView"
                 app:itemIconTint="@drawable/btm_nav_item_selector"
                 app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
                 app:itemTextAppearanceInactive="@style/BottomNavigationView"

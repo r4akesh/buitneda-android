@@ -105,6 +105,7 @@ object BundleKeysHelper {
     const val BUNDLE_KEY_USER_NAME = "userName"
     const val BUNDLE_KEY__ID_FROM_ORDER_DETAIL="idFromOrderDetail"
     const val BUNDLE_KEY_CART_DATA="cartData"
+    const val BUNDLE_KEY_CART_UPDATE="cartUpdate"
     const val BUNDLE_KEY_AR_MEASURED = "arMeasured"
 
     const val BUNDLE_KEY_BOTTOM_NAV_INDEX = "bottomNavIndex"

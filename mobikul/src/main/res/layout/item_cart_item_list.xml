@@ -34,7 +34,6 @@
         android:layout_marginBottom="@dimen/spacing_normal"
         android:background="@color/color_whiteBlack"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{()->handler.onClickItem(data.productId, data.name, data.dominantColor, data.groupedProductId)}"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -47,6 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
+                android:onClick="@{()->handler.onClickItem(data.productId, data.name, data.dominantColor, data.groupedProductId)}"
                 android:background="@color/color_background"
                 android:orientation="vertical">
 
@@ -218,6 +218,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginStart="@dimen/spacing_tiny"
                 android:onClick="@{()->handler.onClickEditProduct(data)}"
                 app:srcCompat="@drawable/ic_edit_round" />

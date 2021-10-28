@@ -52,6 +52,7 @@
         app:layout_height="@{Utils.getScreenHeight()}">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cartHeaderLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/color_whiteBlack"
@@ -60,6 +61,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:elevation="@dimen/text_size_medium"
                 android:background="@color/color_whiteBlack">
 
                 <androidx.appcompat.widget.AppCompatImageView
