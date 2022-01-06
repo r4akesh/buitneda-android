@@ -35,6 +35,28 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
+        <include layout="@layout/custom_toolbar_layout"
+            android:id="@+id/toolbar"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/whatsAppHomeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/mdtp_white"
+            android:backgroundTint="@color/green_400"
+            android:src="@drawable/whats_app_icon"
+            app:backgroundTint="@color/color_63E4FF"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.96">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
         <!-- <androidx.appcompat.widget.Toolbar
              android:id="@+id/toolbar"
              android:layout_width="match_parent"
@@ -49,7 +71,7 @@
              android:theme="@style/AppTheme.AppBarOverlay"
              app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />-->
 
-        <include layout="@layout/custom_toolbar_layout"
+     <!--   <include layout="@layout/custom_toolbar_layout"
             android:id="@+id/toolbar"/>
 
 
@@ -69,7 +91,7 @@
             app:layout_constraintHorizontal_bias="0.98"
             app:layout_constraintStart_toStartOf="@+id/toolbar"
             app:layout_constraintTop_toTopOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.38" />
+            app:layout_constraintVertical_bias="0.38" />-->
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -102,6 +124,7 @@
                             android:id="@+id/carousels_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/grey_100"
                             android:orientation="vertical"
                             android:visibility="@{data.carousel.size() > 0 ? View.VISIBLE : View.GONE}" />
 

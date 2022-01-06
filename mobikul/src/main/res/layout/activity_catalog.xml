@@ -66,7 +66,7 @@
                           app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                           app:placeholder="@{data.dominantColor}" />-->
 
-                <RelativeLayout
+              <!--  <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_huge"
@@ -93,25 +93,20 @@
                         app:tabBackground="@drawable/selector_dots_tab_layout"
                         app:tabGravity="center"
                         app:tabIndicatorHeight="0dp" />
-                </RelativeLayout>
+                </RelativeLayout>-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_color" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/products_options_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/color_background"
                     android:orientation="horizontal">
 
                     <RelativeLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@color/color_background"
+                        android:background="@color/color_C0F4FF"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->handler.onClickSortBtn()}">
@@ -122,14 +117,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:drawableStart="@drawable/ic_sort_wrapper"
+                            android:drawableStart="@drawable/ic_sort_svg_img"
                             android:drawablePadding="@dimen/spacing_tiny"
                             android:gravity="center"
                             android:paddingTop="@dimen/spacing_normal"
                             android:paddingEnd="@dimen/spacing_generic"
                             android:paddingBottom="@dimen/spacing_normal"
                             android:text="@string/sort"
-                            android:textAllCaps="true"
                             android:textColor="@color/text_color_primary" />
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -141,11 +135,16 @@
                             app:srcCompat="@drawable/ic_red_dot" />
                     </RelativeLayout>
 
+                    <View
+                        android:layout_width="0.8dp"
+                        android:background="@color/grey_100"
+                        android:layout_height="match_parent"/>
+
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@color/color_background"
+                        android:background="@color/color_C0F4FF"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->handler.onClickFilterBtn()}">
@@ -155,14 +154,13 @@
                             fontPath="fonts/Montserrat-SemiBold.ttf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_filter_wrapper"
+                            android:drawableStart="@drawable/ic_filter_svg_img"
                             android:drawablePadding="@dimen/spacing_tiny"
                             android:gravity="center"
                             android:paddingTop="@dimen/spacing_normal"
                             android:paddingEnd="@dimen/spacing_generic"
                             android:paddingBottom="@dimen/spacing_normal"
                             android:text="@string/filter"
-                            android:textAllCaps="true"
                             android:textColor="@color/text_color_primary" />
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -174,7 +172,7 @@
                             app:srcCompat="@drawable/ic_red_dot" />
                     </RelativeLayout>
 
-                    <RelativeLayout
+                   <!-- <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -194,10 +192,10 @@
                             android:text="@{AppSharedPref.getViewType(context) == 1 ? @string/list : @string/grid}"
                             android:textAllCaps="true"
                             android:textColor="@color/text_color_primary" />
-                    </RelativeLayout>
+                    </RelativeLayout>-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <View
+              <!--  <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_color" />
@@ -208,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/color_background"
                     android:visibility="@{data.criteriaData.size() == 0 ? View.GONE : View.VISIBLE}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
             </com.google.android.material.appbar.AppBarLayout>
 
             <RelativeLayout
@@ -224,9 +222,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/spacing_huge"
-                    tools:listitem="@layout/item_catalog_product_list"
                     android:background="@color/color_background"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_catalog_product_list" />
             </RelativeLayout>
 
             <ProgressBar
@@ -239,13 +237,16 @@
                 android:visibility="@{safeUnbox(loading) ? View.VISIBLE : View.GONE}" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <androidx.appcompat.widget.Toolbar
+       <!-- <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/AppTheme.AppBarOverlay"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />-->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar_activity" />
     </RelativeLayout>
 </layout>

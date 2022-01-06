@@ -20,14 +20,10 @@
             type="com.webkul.mobikul.models.product.AnalysisModel" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_tiny"
-        android:background="@color/color_background"
-        android:onClick="@{()->handler.onClickFeatureCategory(data.categoryName, data.categoryId, analysisData)}"
-        app:cardBackgroundColor="@color/color_whiteBlack"
-        app:cardElevation="@dimen/card_elevation_medium">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,9 +31,8 @@
             android:orientation="vertical">
 
             <com.facebook.shimmer.ShimmerFrameLayout
-                android:layout_width="@dimen/featured_category_image_size"
-                layout_width="@{Utils.screenWidth/5}"
-                android:layout_height="@dimen/category_height"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@color/color_background">
 
                 <com.webkul.mobikul.customviews.ZoomImageView
@@ -50,21 +45,36 @@
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/category_label"
-                fontPath="fonts/Montserrat-SemiBold.ttf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_background"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:padding="@dimen/spacing_generic"
-                android:singleLine="true"
-                android:text="@{data.categoryName}"
-                android:textColor="@color/text_color_secondary"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"
-                tools:text="Fitness Equipment" />
+
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+
+      <!--  <com.google.android.material.card.MaterialCardView
+            android:layout_width="83dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="-1dp"
+            android:onClick="@{()->handler.onClickFeatureCategory(data.categoryName, data.categoryId, analysisData)}">
+
+
+        </com.google.android.material.card.MaterialCardView>-->
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/category_label"
+            fontPath="fonts/Montserrat-SemiBold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="@dimen/spacing_generic"
+            android:singleLine="true"
+            android:text="@{data.categoryName}"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            tools:text="Fitness Equipment" />
+
+    </LinearLayout>
+
+
 </layout>

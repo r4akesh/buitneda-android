@@ -26,13 +26,12 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/product_card_view"
-        android:layout_width="@dimen/product_horizontal_carousel_item_width"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_tiny"
+        android:layout_marginTop="@dimen/spacing_tiny"
         app:cardBackgroundColor="@color/color_background"
-        app:cardElevation="@dimen/card_elevation_high"
-        android:layout_marginTop="8dp"
-        app:layout_width="@{(Utils.screenWidth / 2) - 40}">
+        app:cardElevation="@dimen/card_elevation_high">
 
         <include
             android:id="@+id/item_product_grid_view"
@@ -40,7 +39,8 @@
             app:data="@{data}"
             app:analysisData="@{analysisData}"
             app:handler="@{handler}"
-            app:position="@{position}" />
+            app:position="@{position}"
+            />
 
         <View
             android:layout_width="1dp"

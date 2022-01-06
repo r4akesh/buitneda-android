@@ -25,14 +25,24 @@ import com.webkul.mobikul.handlers.ProductTileHandler
 import com.webkul.mobikul.models.product.ProductTileData
 import java.util.*
 
-class CompareProductsAddToCartRvAdapter(private val mContext: Context, private val mListData: ArrayList<ProductTileData>) : RecyclerView.Adapter<CompareProductsAddToCartRvAdapter.ViewHolder>() {
+class CompareProductsAddToCartRvAdapter(
+    private val mContext: Context,
+    private val mListData: ArrayList<ProductTileData>
+) : RecyclerView.Adapter<CompareProductsAddToCartRvAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CompareProductsAddToCartRvAdapter.ViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.item_compare_products_add_to_cart, p0, false)
+    override fun onCreateViewHolder(
+        p0: ViewGroup,
+        p1: Int
+    ): CompareProductsAddToCartRvAdapter.ViewHolder {
+        val view = LayoutInflater.from(mContext)
+            .inflate(R.layout.item_compare_products_add_to_cart, p0, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CompareProductsAddToCartRvAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CompareProductsAddToCartRvAdapter.ViewHolder,
+        position: Int
+    ) {
         val eachListData = mListData[position]
         holder.mBinding?.data = eachListData
         holder.mBinding?.handler = ProductTileHandler(mContext, mListData)

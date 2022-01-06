@@ -37,7 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
-class CompareProductsActivity : BaseActivity() {
+class   CompareProductsActivity : BaseActivity() {
 
     lateinit var mContentViewBinding: ActivityCompareProductsBinding
     private var mTouchedRvTag = -1
@@ -215,12 +215,12 @@ class CompareProductsActivity : BaseActivity() {
                     NetworkHelper.getErrorMessage(this, error),
                     false,
                     getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
+                { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                }
                     , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    , { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
                 if (mContentViewBinding.data == null) {
                     finish()

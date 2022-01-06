@@ -22,16 +22,19 @@ import com.webkul.mobikul.R
  * @link https://store.webkul.com/license.html
  */
 
-class CameraSearchResultAdapter(private val context: Context, private val labelList: List<String>) : RecyclerView.Adapter<CameraSearchResultAdapter.ViewHolder>() {
+class CameraSearchResultAdapter(private val context: Context, private val labelList: List<String>) :
+    RecyclerView.Adapter<CameraSearchResultAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.camera_simple_spinner_item, parent, false)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.camera_simple_spinner_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         (holder.itemView.findViewById<View>(R.id.label_tv) as TextView).text = labelList[position]
-        holder.itemView.findViewById<View>(R.id.label_tv).setOnClickListener { (context as CameraSearchActivity).sendResultBack(position) }
+        holder.itemView.findViewById<View>(R.id.label_tv)
+            .setOnClickListener { (context as CameraSearchActivity).sendResultBack(position) }
 
     }
 

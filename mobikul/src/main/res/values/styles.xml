@@ -2,8 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/color_63E4FF</item>
+        <item name="colorPrimaryDark">@color/color_63E4FF</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:buttonStyle">@style/ButtonStyle</item>
@@ -31,12 +31,13 @@
    <style name="AppTheme.NoActionBar.Home">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+       <item name="statusBarBackground">@color/color_63E4FF</item>
        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="FullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/color_63E4FF</item>
+        <item name="colorPrimaryDark">@color/color_63E4FF</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowNoTitle">true</item>
@@ -48,8 +49,8 @@
 
 
     <style name="FullscreenTheme.OrderPlace" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/color_63E4FF</item>
+        <item name="colorPrimaryDark">@color/color_63E4FF</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowNoTitle">true</item>
@@ -141,11 +142,15 @@
     <!--Bottom navigation-->
 
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">@dimen/text_size_tiny</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:padding">0dp</item>
+        <item name="iconPadding">-5dp</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">@dimen/text_size_tiny</item>
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
 </resources>

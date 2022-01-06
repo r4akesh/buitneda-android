@@ -46,8 +46,10 @@ class BannerImage() : Parcelable {
     var id: String ?= ""
 
     @JsonProperty("name")
-
     var name: String ?= ""
+
+    @JsonProperty("promotion_type")
+    var promotion_type: String ?= ""
 
     constructor(parcel: Parcel) : this() {
         url = parcel.readString()
@@ -56,6 +58,7 @@ class BannerImage() : Parcelable {
         bannerType = parcel.readString()
         id = parcel.readString()
         name = parcel.readString()
+        promotion_type = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -65,6 +68,7 @@ class BannerImage() : Parcelable {
         parcel.writeString(bannerType)
         parcel.writeString(id)
         parcel.writeString(name)
+        parcel.writeString(promotion_type)
     }
 
     override fun describeContents(): Int {

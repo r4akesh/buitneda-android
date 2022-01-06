@@ -80,11 +80,11 @@ android {
             if (!is_marketplace_app) {
                 //debuggable true
                 minifyEnabled true
-               // shrinkResources true
+                shrinkResources true
                 proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             } else {
                 minifyEnabled false
-              //  shrinkResources false
+                shrinkResources false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
@@ -271,6 +271,9 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     //QR code scanner
 //    implementation project(':mobikulscanner')
+
+    //GIF ImageView
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
 
     api project(':cropper')
 }

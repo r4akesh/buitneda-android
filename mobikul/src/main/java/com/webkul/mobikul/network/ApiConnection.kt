@@ -843,6 +843,36 @@ class ApiConnection {
             )
         }
 
+        //Update from direct add to cart
+        fun updateDirectProduct(
+            context: Context,
+            productId: String,
+            qty: String,
+            params: JSONObject,
+            files: ArrayList<MultipartBody.Part>?,
+            relatedProducts: JSONArray,
+            itemId: String,
+            quoteId:Int
+        ): Observable<AddToCartResponseModel> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java).updateProduct(
+                RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    AppSharedPref.getStoreId(context)
+                ),
+                RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    AppSharedPref.getCustomerToken(context)
+                ),
+                quoteId,
+                RequestBody.create(MediaType.parse("text/plain"), productId),
+                RequestBody.create(MediaType.parse("text/plain"), qty),
+                RequestBody.create(MediaType.parse("text/plain"), params.toString()),
+                files,
+                RequestBody.create(MediaType.parse("text/plain"), relatedProducts.toString()),
+                RequestBody.create(MediaType.parse("text/plain"), itemId)
+            )
+        }
+
         fun getCartDetails(context: Context, eTag: String): Observable<CartDetailsResponseModel> {
             return ApiClient.getClient()!!.create(ApiDetails::class.java).getCartDetails(
                 eTag,

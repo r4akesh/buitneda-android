@@ -21,20 +21,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_generic"
-        android:background="@color/color_background"
+        android:background="@color/grey_100"
         app:backgroundColor="@{data.color}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/carousel_background_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/color_background"
             android:contentDescription="background_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tiledBackgroundImageUrl="@{data.image}"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
@@ -52,18 +50,14 @@
                 fontPath="fonts/Montserrat-SemiBold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_rect_round_cnr_white_translucent_bg_and_border"
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:maxLength="25"
-                android:paddingTop="@dimen/spacing_generic"
-                android:paddingBottom="@dimen/spacing_generic"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:padding="5dp"
+                android:layout_gravity="top"
                 android:text="@{data.label}"
                 android:singleLine="true"
-                android:textAllCaps="true"
                 android:textColor="@color/text_color_primary"
                 android:textSize="@dimen/text_size_medium_"
                 android:textStyle="bold"
@@ -150,18 +144,18 @@
                 android:gravity="end"
                 android:visibility="@{data.id.isEmpty() || data.productList.size() &lt; 3? View.GONE : View.VISIBLE}">
 
-                <Button
-                    android:layout_width="60dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_rect_round_cnr_gray_bg_gray_border_1dp"
                     android:onClick="@{()->handler.onClickViewAllBtn(data.label, data.id)}"
-                    android:paddingStart="@dimen/button_corner_radius"
-                    android:paddingEnd="@dimen/button_corner_radius"
-                    android:minWidth="60dp"
-                    android:text="@string/view_all"
-                    android:textAllCaps="true"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="@dimen/text_size_tiny"
+                   android:padding="5dp"
+                    android:text="@string/all"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_icon_plus_circle"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
                      />
 
 
@@ -181,7 +175,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/carousel_heading"
-            tools:layout_height="100dp"
+            tools:listitem="@layout/item_horizontal_scroller_product_view"
             tools:targetApi="lollipop" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

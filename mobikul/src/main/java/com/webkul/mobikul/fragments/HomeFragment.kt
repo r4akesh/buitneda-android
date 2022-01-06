@@ -66,12 +66,12 @@ class HomeFragment : Fragment() {
     var mResendTimer: CountDownTimer? = null
     private var viewModel: ViewModel? = null
     private var hashIdentifier = ""
+    lateinit var bannerCarouselLayoutBinding:BannerCarouselLayoutBinding
 //    private var currentCache = 0
 
 
 //    private var mContext: Context? = null
     private lateinit var appCompatActivity: AppCompatActivity
-
 
     companion object {
         var instanceOf: Int = 0
@@ -107,9 +107,20 @@ class HomeFragment : Fragment() {
 //    }
 
     private fun startInitialization() {
+        bannerCarouselLayoutBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.banner_carousel_layout,
+            mContentViewBinding.carouselsLayout,
+            false
+        )
         initSwipeRefresh()
         initHomePageData()
         initSupportActionBar()
+
+
+        mContentViewBinding.whatsAppHomeBtn.setOnClickListener {
+            openWhatsApp()
+        }
     }
 
     private fun initSupportActionBar() {
@@ -131,9 +142,9 @@ class HomeFragment : Fragment() {
         /* (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_whatsapp)
          (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
          (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
-        mContentViewBinding.toolbar.whatAppBtn.setOnClickListener {
+       /* mContentViewBinding.toolbar.whatAppBtn.setOnClickListener {
             openWhatsApp()
-        }
+        }*/
 
         mContentViewBinding.toolbar.walletBtn.setOnClickListener {
             context?.let { context ->
@@ -151,7 +162,7 @@ class HomeFragment : Fragment() {
             // startActivity(Intent(context, WalletActivity::class.java))
         }
 
-        mContentViewBinding.toolbar.searchBtn.setOnClickListener {
+        mContentViewBinding.toolbar.searchEditorBtn.setOnClickListener {
             (activity as HomeActivity).openMaterialSearchView()
         }
 
@@ -164,7 +175,6 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-
 
 //                return true
             }
@@ -320,7 +330,6 @@ class HomeFragment : Fragment() {
                 (context as HomeActivity).mHomePageDataModel =
                     BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
                 Log.d(TAG, "updateAnimationCheckAndProceed: $response")
-
                 onSuccessfulResponse((context as HomeActivity).mHomePageDataModel)
             }
 
@@ -952,9 +961,9 @@ setupFeaturesCategoriesRv(category)*/
     private fun addAuctionProduct(carousel: Carousel, eventName: String) {
         if (carousel.productList!!.isNotEmpty()) {
             val productCarouselFirstLayoutBinding =
-                DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
+                DataBindingUtil.inflate<AuctionProductCarouselLayoutBinding>(
                     layoutInflater,
-                    R.layout.product_carousel_first_layout,
+                    R.layout.auction_product_carousel_layout,
                     mContentViewBinding.carouselsLayout,
                     false
                 )
@@ -979,7 +988,7 @@ setupFeaturesCategoriesRv(category)*/
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager =
                     GridLayoutManager(context!!, 4)
             productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-                ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
+                ProductAuctionHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
             productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
                 HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
             )
@@ -996,10 +1005,19 @@ setupFeaturesCategoriesRv(category)*/
             false
         )
         imageCarouselLayoutBinding.data = carousel
-        imageCarouselLayoutBinding.carouselBannerViewPager.adapter =
-            HomePageBannerVpAdapter(this, carousel.banners!!, eventName)
-        imageCarouselLayoutBinding.carouselBannerViewPager.offscreenPageLimit = 2
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+        carousel.banners!!.forEach {
+            if(it.promotion_type=="yes"){
+                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = GridLayoutManager(context,2)
+                imageCarouselLayoutBinding.carouselBannerViewPager.addItemDecoration(GridSpacingItemDecoration(2,1,false))
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(requireContext(),this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_GRID)
+            }else{
+                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = LinearLayoutManager(requireContext())
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(requireContext(),this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_LIST)
+            }
+        }
+
+        //imageCarouselLayoutBinding.carouselBannerViewPager.offscreenPageLimit = 2
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
             imageCarouselLayoutBinding.carouselBannerViewPager.pageMargin =
                 resources.displayMetrics.widthPixels / -16
         if (AppSharedPref.getStoreCode(context!!) == "ar")
@@ -1019,7 +1037,7 @@ setupFeaturesCategoriesRv(category)*/
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
+        }*/
 
         mContentViewBinding.carouselsLayout.addView(imageCarouselLayoutBinding.root)
     }
@@ -1033,6 +1051,8 @@ setupFeaturesCategoriesRv(category)*/
                     mContentViewBinding.carouselsLayout,
                     false
                 )
+            categoryCarouselLayoutBinding.carouselLabel.visibility = View.VISIBLE
+            categoryCarouselLayoutBinding.carouselLabel.text = context!!.resources.getString(R.string.more_brands)
             categoryCarouselLayoutBinding.data = carousel
             categoryCarouselLayoutBinding.themeType = mHomePageDataModel.themeType
             categoryCarouselLayoutBinding.featuredCategoriesRv.addItemDecoration(
@@ -1079,19 +1099,18 @@ setupFeaturesCategoriesRv(category)*/
             )
 
             if (mHomePageDataModel.themeType == 1) {
-
                 categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
                     carousel.featuredCategories?.let {
                         // TODO: 24/05/21 FIX ME
                         val tmp = it//.take(3) as ArrayList
-                        categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
-                            GridLayoutManager(
+                        /*categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
+                            LinearLayoutManager(
                                 context,
-                                if (tmp.size >= 5) 2 else 1,
-                                GridLayoutManager.HORIZONTAL,
+                                LinearLayoutManager.HORIZONTAL,
                                 false
-                            )
-                        FeaturedCategoriesOtherRvAdapter(
+                            )*/
+                        GridLayoutManager(context,4,LinearLayoutManager.HORIZONTAL,false)
+                        HomeFeaturedCategoriesRvAdapter(
                             this,
                             tmp,
                             ConstantsHelper.VIEW_TYPE_GRID,
@@ -1144,8 +1163,6 @@ setupFeaturesCategoriesRv(category)*/
             )
         bannerCarouselLayoutBinding.data = carousel
         bannerCarouselLayoutBinding?.analysisData = AnalysisModel(eventName, carousel.categoryId)
-
-
         bannerCarouselLayoutBinding.handler = HomePageBannerVpHandler(this)
         mContentViewBinding.carouselsLayout.addView(bannerCarouselLayoutBinding.root)
 
@@ -1274,19 +1291,15 @@ setupFeaturesCategoriesRv(category)*/
 
     private fun setupOfferBannerRv(carousel: Carousel, eventName: String) {
         if (carousel.banners!!.isNotEmpty()) {
-            val bannerCarouselLayoutBinding = DataBindingUtil.inflate<BannerCarouselLayoutBinding>(
-                layoutInflater,
-                R.layout.banner_carousel_layout,
-                mContentViewBinding.carouselsLayout,
-                false
-            )
             bannerCarouselLayoutBinding.data = carousel
             bannerCarouselLayoutBinding.themeType = mHomePageDataModel.themeType
 
             if (mHomePageDataModel.themeType == 1) {
-
-                bannerCarouselLayoutBinding.carouselBannerViewPager.adapter =
-                    HomePageTopBannerVpAdapter(this, carousel.banners, eventName)
+               /* bannerCarouselLayoutBinding.carouselBannerViewPager.pageMargin = -50
+                bannerCarouselLayoutBinding.carouselBannerViewPager.isHorizontalFadingEdgeEnabled =
+                    true
+                bannerCarouselLayoutBinding.carouselBannerViewPager.setFadingEdgeLength(30)*/
+                bannerCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageTopBannerVpAdapter(this, carousel.banners, eventName)
                 if (AppSharedPref.getStoreCode(context!!) == "ar")
                     bannerCarouselLayoutBinding.carouselBannerViewPager.rotationY = 180f
 
@@ -1367,11 +1380,11 @@ setupFeaturesCategoriesRv(category)*/
 
     fun showBadge(count: Int) {
         if (count == 0) {
-            mContentViewBinding.bellNotificationBadge.visibility = View.GONE
-            mContentViewBinding.bellNotificationBadge.text = "0"
+            mContentViewBinding.toolbar.bellNotificationBadge.visibility = View.GONE
+            mContentViewBinding.toolbar.bellNotificationBadge.text = "0"
         } else {
-            mContentViewBinding.bellNotificationBadge.visibility = View.VISIBLE
-            mContentViewBinding.bellNotificationBadge.text = count.toString()
+            mContentViewBinding.toolbar.bellNotificationBadge.visibility = View.VISIBLE
+            mContentViewBinding.toolbar.bellNotificationBadge.text = count.toString()
         }
     }
 

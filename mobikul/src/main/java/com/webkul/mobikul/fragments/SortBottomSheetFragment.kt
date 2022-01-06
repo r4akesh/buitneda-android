@@ -93,7 +93,7 @@ class SortBottomSheetFragment : BottomSheetDialogFragment() {
             (context as CatalogActivity).mSortingInputJson.put(selectedRbPosition % 2)
             (context as CatalogActivity).mPageNumber = 1
             (context as CatalogActivity).mContentViewBinding.isSorted = (context as CatalogActivity).mSortingInputJson.length() > 0
-            (context as CatalogActivity).callApi()
+            (context as CatalogActivity).callApi(false,0)
             dismiss()
         }
     }

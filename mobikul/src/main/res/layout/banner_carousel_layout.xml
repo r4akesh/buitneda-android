@@ -21,10 +21,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_generic"
-        android:background="@color/color_background"
         android:orientation="vertical">
 
+     <!--   <include layout="@layout/custom_toolbar_layout"
+            android:id="@+id/toolbar"/>-->
 <!--
         <TextView
             android:id="@+id/carousel_label"
@@ -42,37 +42,50 @@
             android:textSize="@dimen/text_size_small" />
 -->
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{themeType==1? View.VISIBLE : View.GONE}"
             tools:visibility="gone">
 
-            <androidx.viewpager.widget.ViewPager
+          <!--  <androidx.viewpager.widget.ViewPager
                 android:id="@+id/carousel_banner_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_height="@{( Utils.screenWidth/ 2 +20)}"
-                tools:ignore="UnusedAttribute" />
+                tools:ignore="UnusedAttribute" />-->
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/carousel_banner_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="lollipop" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/banner_dots_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_large"
-                android:layout_alignBottom="@+id/carousel_banner_view_pager"
+                android:layout_marginBottom="5dp"
                 android:paddingBottom="@dimen/spacing_generic"
+                app:layout_constraintBottom_toBottomOf="@+id/carousel_banner_view_pager"
+                app:layout_constraintTop_toTopOf="@+id/carousel_banner_view_pager"
+                app:layout_constraintVertical_bias="0.88"
                 app:tabBackground="@drawable/selector_dots_tab_layout"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/offer_banners_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/spacing_small"
+            android:paddingTop="1dp"
             android:visibility="@{themeType==0 ? View.VISIBLE : View.GONE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:layout_height="100dp"

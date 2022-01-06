@@ -34,9 +34,7 @@ import retrofit2.HttpException
  */
 
 class AddressBookActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityAddressBookBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_address_book)

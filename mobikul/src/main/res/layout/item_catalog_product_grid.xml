@@ -21,6 +21,12 @@
         <variable
             name="handler"
             type="com.webkul.mobikul.handlers.ProductTileHandler" />
+
+        <variable
+            name="baseHandler"
+            type="com.webkul.mobikul.handlers.CatalogActivityHandler" />
+
+
     </data>
 
     <RelativeLayout
@@ -31,12 +37,12 @@
         android:background="@drawable/shape_rectangular_white_bg_gray_border_half_dp"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_horizontal"
-        android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor)}"
-        android:padding="@dimen/spacing_generic">
+        android:onClick="@{()->handler.onClickItem(data.id, data.name, data.thumbNail, data.dominantColor)}">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/product_image"
             android:layout_width="match_parent"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content">
 
             <com.webkul.mobikul.customviews.ZoomImageView
@@ -79,10 +85,12 @@
             fontPath="fonts/Montserrat-SemiBold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/product_image"
-            android:layout_margin="@dimen/spacing_tiny"
             android:background="@color/product_discount_text_color"
             android:padding="@dimen/spacing_tiny"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignTop="@+id/wishListCardBtn"
+            android:layout_toStartOf="@+id/wishListCardBtn"
             android:text="@{@string/x_off(data.getDiscountPercentage())}"
             android:textAllCaps="true"
             android:textColor="@color/product_discount_color"
@@ -95,9 +103,11 @@
             fontPath="fonts/Montserrat-SemiBold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/product_image"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:background="@color/out_of_stock_color"
+            android:layout_alignTop="@+id/wishListCardBtn"
+            android:layout_toStartOf="@+id/wishListCardBtn"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/out_stock_rounded_background"
             android:padding="@dimen/spacing_tiny"
             android:text="@{data.availability}"
             android:textAllCaps="true"
@@ -110,8 +120,10 @@
             android:id="@+id/price_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/product_image"
+            android:layout_below="@id/product_label"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="8dp"
             android:orientation="horizontal">
 
             <com.webkul.mobikul.customviews.FlowLayout
@@ -120,34 +132,42 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="1">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/product_price_tv"
-                    fontPath="fonts/Montserrat-SemiBold.ttf"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="@{data.formattedFinalPrice}"
-                    android:textColor="@color/product_price_color"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="@dimen/spacing_tiny"
-                    android:visibility="@{data.hasPrice() ? View.VISIBLE : View.GONE}"
-                    tools:text="$210.00" />
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/product_price_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_tiny"
+                        android:maxLines="1"
+                        android:text="@{data.formattedFinalPrice}"
+                        android:textColor="@color/product_price_color"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        android:visibility="@{data.hasPrice() ? View.VISIBLE : View.GONE}"
+                        tools:text="$210.00" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/product_special_price_tv"
-                    fontPath="fonts/Montserrat-SemiBold.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_strikethrough"
-                    android:maxLines="1"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp"
-                    android:text="@{data.formattedPrice}"
-                    android:textColor="@color/grey_400"
-                    android:textSize="@dimen/text_size_tiny"
-                    android:visibility="@{data.hasSpecialPrices() ? View.VISIBLE : View.GONE}"
-                    tools:text="$310.00" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/product_special_price_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_strikethrough"
+                        android:maxLines="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@{data.formattedPrice}"
+                        android:textColor="@color/grey_400"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:visibility="@{data.hasSpecialPrices() ? View.VISIBLE : View.INVISIBLE}"
+                        tools:text="$310.00" />
+
+                </LinearLayout>
+
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/product_min_price_tv"
@@ -203,7 +223,7 @@
 
             </com.webkul.mobikul.customviews.FlowLayout>
 
-            <com.airbnb.lottie.LottieAnimationView
+            <!-- <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/wishlist_animation_view"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -211,16 +231,48 @@
                 android:visibility="@{ApplicationConstants.ENABLE_WISHLIST &amp;&amp; AppSharedPref.isWishlistEnabled(context) ? View.VISIBLE : View.GONE}"
                 app:isInWishList="@{data.isInWishList}"
                 app:lottie_fileName="wishlist_heart.json"
-                app:lottie_loop="false" />
+                app:lottie_loop="false" />-->
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/wishListCardBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="13dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/wishlist_animation_view"
+                    android:layout_width="@dimen/product_layout_icon_size"
+                    android:layout_height="@dimen/product_layout_icon_size"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="@{(v)->handler.onClickWishListButton(v, position, data.id, data.isInWishList, data.wishListItemId)}"
+                    android:visibility="@{ApplicationConstants.ENABLE_WISHLIST &amp;&amp; AppSharedPref.isWishlistEnabled(context) ? View.VISIBLE : View.GONE}"
+                    app:isInWishList="@{data.isInWishList}"
+                    app:lottie_fileName="wishlist_heart.json"
+                    app:lottie_loop="false" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/product_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/price_ll"
+            android:layout_below="@id/product_image"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:lines="2"
@@ -230,39 +282,57 @@
             android:textSize="@dimen/text_size_small"
             tools:text="Fitness Equipment" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/product_rating"
-            fontPath="fonts/Montserrat-SemiBold.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/product_label"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:background="@color/colorAccent"
-            android:drawableEnd="@drawable/ic_star_wrapper"
-            android:drawablePadding="@dimen/spacing_tiny"
-            android:gravity="center"
-            android:paddingStart="@dimen/spacing_generic"
-            android:paddingTop="@dimen/spacing_tiny"
-            android:paddingEnd="@dimen/spacing_generic"
-            android:paddingBottom="@dimen/spacing_tiny"
-            android:text="@{data.rating}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
-            android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.GONE : View.VISIBLE}"
-            tools:text="2.07" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/no_product_rating"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ratingContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/product_label"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:maxLines="1"
-            android:text="@string/no_reviews_yet"
-            android:textColor="@color/text_color_secondary"
-            android:textSize="@dimen/text_size_tiny"
-            android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.VISIBLE : View.GONE}"
-            tools:text="Fitness Equipment" />
+            android:layout_below="@id/price_ll"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/product_rating"
+                fontPath="fonts/Montserrat-SemiBold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:background="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_star_wrapper"
+                android:drawablePadding="@dimen/spacing_tiny"
+                android:gravity="center"
+                android:paddingStart="@dimen/spacing_generic"
+                android:paddingTop="@dimen/spacing_tiny"
+                android:paddingEnd="@dimen/spacing_generic"
+                android:paddingBottom="@dimen/spacing_tiny"
+                android:text="@{data.rating}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.GONE : View.VISIBLE}"
+                tools:text="2.07" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/no_product_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:maxLines="1"
+                android:text="@string/no_reviews_yet"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="@{data.rating.equals(&quot;0&quot;) ? View.VISIBLE : View.GONE}"
+                tools:text="Fitness Equipment" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/new_tag_iv"
@@ -291,5 +361,74 @@
                 android:textStyle="bold"
                 tools:text="New" />
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/ratingContainer"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_border_cart_item"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/montserrat_regular"
+            android:visibility="@{data.addedInfoCart== `false` &amp;&amp; data.cartItemId==``  ? View.VISIBLE : View.GONE}"
+            android:onClick="@{()->baseHandler.onClickAdd(data.getRequiredOptions(), data.id, data.name, data.thumbNail, data.dominantColor,position,`add`,data.quoteId)}"
+            android:text="@string/add"
+            android:textAllCaps="true"
+             />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/ratingContainer"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="@{data.cartQty &gt; 0 ? View.VISIBLE : View.GONE}"
+            android:background="@drawable/rounded_border_cart_item"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="5dp"
+                android:background="@drawable/ic_decrement_bg"
+                app:srcCompat="@drawable/ic_decrement"
+                android:onClick="@{()->baseHandler.onClickAdd(data.getRequiredOptions(), data.id, data.name, data.thumbNail, data.dominantColor,position,`minus`,data.quoteId)}"
+                android:tint="@color/colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/productQty"
+                android:layout_width="0dp"
+                tools:text="5"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:fontFamily="@font/font_montserrat"
+                android:textColor="@color/button_background_color"
+                android:text="@{Integer.toString(data.cartQty)}"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="5dp"
+                android:onClick="@{()->baseHandler.onClickAdd(data.getRequiredOptions(), data.id, data.name, data.thumbNail, data.dominantColor,position,`add`,data.quoteId)}"
+                android:background="@drawable/ic_decrement_bg"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_add" />
+
+
+        </LinearLayout>
+
     </RelativeLayout>
 </layout>

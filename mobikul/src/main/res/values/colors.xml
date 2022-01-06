@@ -2,18 +2,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#00d4ff</color>
     <color name="colorPrimaryDark">#00bef6</color>
+    <color name="color_63E4FF">#63E4FF</color>
     <color name="colorAccent">#FF000000</color>
 
     <color name="button_background_color">@color/colorAccent</color>
 
     <color name="color_background">@android:color/white</color>
     <color name="darkBackground">#f9f9f9</color>
+    <color name="color_C0F4FF">#C0F4FF</color>
 
     <color name="color_whiteBlack">#f9f9f9</color>
     <color name="actionBarItemsColor">#000000</color>
     <color name="space_color">#D5F0F6</color>
 
     <color name="divider_color">#E9E9E9</color>
+    <color name="color_B4B4B4">#B4B4B4</color>
 
     <!-- Text Colors-->
     <color name="text_color_primary">#000000</color>
@@ -24,6 +27,7 @@
     <color name="text_color_primary_customize">#8F000000</color>
     <color name="text_color_secondary_customize">#6A6A6A</color>
     <color name="text_color_heading_customize">#DB000000</color>
+    <color name="color_C4C4C4">#C4C4C4</color>
     <color name="text_color_sub_cat_customize">#1B3764</color>
 
     <!--Gray Shades-->

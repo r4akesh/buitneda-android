@@ -24,6 +24,7 @@ import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.CatalogActivity
 import com.webkul.mobikul.databinding.ItemCatalogProductGridBinding
 import com.webkul.mobikul.databinding.ItemCatalogProductListBinding
+import com.webkul.mobikul.handlers.CatalogActivityHandler
 import com.webkul.mobikul.handlers.ProductTileHandler
 import com.webkul.mobikul.helpers.ConstantsHelper.VIEW_TYPE_GRID
 import com.webkul.mobikul.helpers.ConstantsHelper.VIEW_TYPE_LIST
@@ -42,6 +43,11 @@ class CatalogProductsRvAdapter(private val mContext: CatalogActivity, private va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         eachListData.productPosition = position
+        if(eachListData.cartItemId!=""){
+            eachListData.addedInfoCart = "true"
+        }
+
+
         if (getItemViewType(position) == VIEW_TYPE_LIST) {
             (holder.mBinding as ItemCatalogProductListBinding).position = position
             holder.mBinding.data = eachListData
@@ -50,6 +56,8 @@ class CatalogProductsRvAdapter(private val mContext: CatalogActivity, private va
             (holder.mBinding as ItemCatalogProductGridBinding).position = position
             holder.mBinding.data = eachListData
             holder.mBinding.handler = ProductTileHandler(mContext, mListData)
+            holder.mBinding.baseHandler = CatalogActivityHandler(mContext)
+
         }
         holder.mBinding.executePendingBindings()
     }

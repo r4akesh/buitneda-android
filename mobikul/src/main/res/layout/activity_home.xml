@@ -14,8 +14,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
             <!--<androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -53,10 +51,10 @@
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?actionBarSize"
                 android:layout_gravity="bottom"
                 app:itemBackground="@android:color/white"
-                app:itemIconSize="20dp"
+                app:itemIconSize="18dp"
                 style="@style/Widget.Design.BottomNavigationView"
                 app:itemIconTint="@drawable/btm_nav_item_selector"
                 app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
@@ -70,7 +68,7 @@
 
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+       <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,6 +84,18 @@
             app:layout_constraintStart_toStartOf="@id/bottom_app_cl"
             app:layout_constraintEnd_toEndOf="@id/bottom_app_cl"
             app:layout_constraintBottom_toBottomOf="@id/bottom_app_cl"
-            app:maxImageSize="@dimen/floating_button_size" />
+            app:maxImageSize="@dimen/floating_button_size" />-->
+
+        <ImageView
+            android:id="@+id/fab"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:src="@drawable/placeholder"
+            app:layout_anchorGravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_app_cl"
+            app:layout_constraintEnd_toEndOf="@id/bottom_app_cl"
+            app:layout_constraintStart_toStartOf="@id/bottom_app_cl"
+            app:layout_constraintTop_toBottomOf="@+id/main_frame"
+            app:tint="@color/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

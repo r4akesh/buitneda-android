@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="242dp"
+        android:background="@drawable/slider_banner_bg">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/searchBoxCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/notificationBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="@null"
+                android:background="@null"
+                android:hint="@string/search"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="14sp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:drawableEnd="@drawable/ic_search_black_24dp"
+                android:drawableTint="@color/color_B4B4B4"
+                tools:targetApi="m" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <ImageView
+            android:id="@+id/notificationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/searchBoxCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/searchBoxCard"
+            app:srcCompat="@drawable/ic_notification_vector" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/sliderPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchBoxCard"
+            app:layout_constraintStart_toStartOf="@+id/searchBoxCard"
+            app:layout_constraintEnd_toEndOf="@+id/notificationBtn">
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</LinearLayout>

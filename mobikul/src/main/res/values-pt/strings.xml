@@ -704,4 +704,6 @@ Selecione Payee para quem você deseja transferir o valor
 
     <string name="first_name_company">Empresa</string>
     <string name="your_name_company">Lda</string>
+    <string name="more_brands">Suas Marcas Favoritas</string>
+    <string name="add">ADICIONAR</string>
 </resources>

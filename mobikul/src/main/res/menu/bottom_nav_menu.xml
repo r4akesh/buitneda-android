@@ -5,14 +5,14 @@
 
     <item
         android:id="@+id/bottom_category"
-        android:icon="@drawable/home_category_icon"
+        android:icon="@drawable/ic_category_svg_icon"
         android:title="@string/menu"
         app:showAsAction="always" />
 
 
     <item
         android:id="@+id/bottom_auction"
-        android:icon="@drawable/home_law_icon"
+        android:icon="@drawable/ic_auction_img_svg"
         android:title="@string/auction"
         app:showAsAction="always" />
 
@@ -25,13 +25,13 @@
 
     <item
         android:id="@+id/bottom_cart"
-        android:icon="@drawable/home_shopping_icon"
+        android:icon="@drawable/ic_cart_bottom_menu_svg"
         android:title="@string/cart"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/bottom_profile"
-        android:icon="@drawable/home_user_icon"
+        android:icon="@drawable/ic_profile_svg_icon"
         android:title="@string/account"
         app:showAsAction="always" />
 

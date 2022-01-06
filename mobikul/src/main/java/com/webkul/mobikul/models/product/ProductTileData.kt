@@ -123,10 +123,20 @@ class ProductTileData() : Parcelable, BaseObservable() {
     @JsonProperty("arType")
     var arType: String? = ""
 
+   @JsonProperty("cartQty")
+    var cartQty: Int = 0
+
+   @JsonProperty("cartItemId")
+    var cartItemId: String? = ""
+
     @JsonProperty("arUrl")
     var arModelUrl: String? = ""
     var productPosition = -1
     var addToCart = false // For related products only
+    var addedInfoCart:String = "false"
+    var mPageNumber:Int = 0
+    var quantity:Int = 1
+    var quoteId = 0
 
     constructor(parcel: Parcel) : this() {
         configurableData = parcel.readParcelable(ConfigurableData::class.java.classLoader)
@@ -148,11 +158,13 @@ class ProductTileData() : Parcelable, BaseObservable() {
         thumbNail = parcel.readString()
         dominantColor = parcel.readString()
         minAddToCartQty = parcel.readInt()
+        cartQty = parcel.readInt()
         priceView = parcel.readString()
         minPrice = parcel.readDouble()
         maxPrice = parcel.readDouble()
         formattedMinPrice = parcel.readString()
         formattedMaxPrice = parcel.readString()
+        cartItemId = parcel.readString()
         groupedPrice = parcel.readString()
         availability = parcel.readString()
         arType = parcel.readString()
@@ -189,8 +201,10 @@ class ProductTileData() : Parcelable, BaseObservable() {
         parcel.writeString(groupedPrice)
         parcel.writeString(availability)
         parcel.writeString(arType)
+        parcel.writeString(cartItemId)
         parcel.writeString(arModelUrl)
         parcel.writeInt(productPosition)
+        parcel.writeInt(cartQty)
         parcel.writeByte(if (addToCart) 1 else 0)
     }
 

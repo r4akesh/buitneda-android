@@ -27,62 +27,73 @@
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_background"
-        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
         android:onClick="@{()->handler.onClickBanner(data.bannerType, data.name, data.id, data.dominantColor, analysisData)}">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
+        
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_background">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/banner_image"
+            android:layout_height="160dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="1dp">
+            <com.facebook.shimmer.ShimmerFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_background"
-                android:scaleType="fitXY"
-                app:imageUrl="@{data.url}"
-                app:placeholder="@{data.dominantColor}"
-                tools:ignore="ContentDescription"
-                tools:src="@drawable/placeholder" />
+                android:layout_centerInParent="true"
+                android:background="@color/color_background">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/banner_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_background"
+                    app:imageUrl="@{data.url}"
+                    android:scaleType="fitXY"
+                    app:placeholder="@{data.dominantColor}"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/placeholder" />
 
 
-            <!--
-                        <LinearLayout
-                            android:layout_width="@dimen/nav_drawer_width"
-                            android:layout_height="@dimen/spacing_huge"
-                            android:layout_gravity="center_horizontal"
-                            android:visibility="gone"
-                            android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
-                            android:onClick="@{()->handler.onClickSearch()}"
-                            app:layout_height="@{Utils.screenHeight /20}"
-                            app:layout_width="@{2* Utils.screenWidth / 3}"
-                            app:searchIcon="@drawable/ic_search_white">
+                <!--
+                            <LinearLayout
+                                android:layout_width="@dimen/nav_drawer_width"
+                                android:layout_height="@dimen/spacing_huge"
+                                android:layout_gravity="center_horizontal"
+                                android:visibility="gone"
+                                android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
+                                android:onClick="@{()->handler.onClickSearch()}"
+                                app:layout_height="@{Utils.screenHeight /20}"
+                                app:layout_width="@{2* Utils.screenWidth / 3}"
+                                app:searchIcon="@drawable/ic_search_white">
 
-                            <ImageView
-                                android:layout_width="@dimen/spacing_max"
-                                android:layout_height="match_parent"
-                                app:layout_width="@{2* Utils.screenWidth / 15}"
-                                android:src="@drawable/ic_search_white"
-                                android:background="@drawable/shape_rect_round_cnr_accent_bg_black_search"
-                                />
-                        </LinearLayout>
-            -->
+                                <ImageView
+                                    android:layout_width="@dimen/spacing_max"
+                                    android:layout_height="match_parent"
+                                    app:layout_width="@{2* Utils.screenWidth / 15}"
+                                    android:src="@drawable/ic_search_white"
+                                    android:background="@drawable/shape_rect_round_cnr_accent_bg_black_search"
+                                    />
+                            </LinearLayout>
+                -->
 
-            <!--
-                        <androidx.appcompat.widget.SearchView
-                            android:layout_width="@dimen/nav_drawer_width"
-                            android:layout_height="@dimen/spacing_huge"
-                            app:layout_width="@{2* Utils.screenWidth / 3}"
-                            app:layout_height="@{Utils.screenHeight /20}"
-                            android:layout_gravity="center_horizontal"
-                            app:searchIcon="@drawable/ic_search_white"
-                            android:layout_marginTop="@dimen/featured_category_grid_image_size"
-                            android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
-                            android:onClick="@{()->handler.onClickSearch()}" />
-            -->
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                <!--
+                            <androidx.appcompat.widget.SearchView
+                                android:layout_width="@dimen/nav_drawer_width"
+                                android:layout_height="@dimen/spacing_huge"
+                                app:layout_width="@{2* Utils.screenWidth / 3}"
+                                app:layout_height="@{Utils.screenHeight /20}"
+                                android:layout_gravity="center_horizontal"
+                                app:searchIcon="@drawable/ic_search_white"
+                                android:layout_marginTop="@dimen/featured_category_grid_image_size"
+                                android:background="@drawable/shape_rect_round_cnr_accent_bg_search"
+                                android:onClick="@{()->handler.onClickSearch()}" />
+                -->
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.cardview.widget.CardView>
+        
+        
+
     </RelativeLayout>
 
 

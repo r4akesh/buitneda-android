@@ -58,10 +58,8 @@ import retrofit2.HttpException
 import java.util.*
 
 open class BrandCatalogActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityCatalogBrandBinding
     var mFromNotification: Boolean = false
-
     var mPageNumber = 1
     var mCatalogType = ""
     var mCatalogName = ""

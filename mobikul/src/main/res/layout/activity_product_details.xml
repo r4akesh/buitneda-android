@@ -473,7 +473,7 @@
                         android:visibility="@{data.showPriceDropAlert ? View.VISIBLE : View.GONE}"
                         tools:text="Notify me when the price drops" />
 
-                   <!-- <androidx.appcompat.widget.AppCompatTextView
+                    <!-- <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/notify_product_in_stock"
                         fontPath="fonts/Montserrat-SemiBold.ttf"
                         android:layout_width="match_parent"

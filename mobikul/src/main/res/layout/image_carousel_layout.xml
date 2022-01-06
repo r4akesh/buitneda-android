@@ -16,8 +16,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_generic"
-        android:background="@color/color_background"
         android:orientation="vertical"
         app:backgroundColor="@{data.color}">
 
@@ -25,16 +23,14 @@
             android:id="@+id/carousel_background_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/color_background"
             android:contentDescription="background_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tiledBackgroundImageUrl="@{data.image}"
             tools:ignore="HardcodedText" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/carousel_heading"
             fontPath="fonts/Montserrat-SemiBold.ttf"
             android:layout_width="wrap_content"
@@ -52,9 +48,9 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Most Visited" />
+            tools:text="Most Visited" />-->
 
-        <androidx.viewpager.widget.ViewPager
+        <!--<androidx.viewpager.widget.ViewPager
             android:id="@+id/carousel_banner_view_pager"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -63,6 +59,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/carousel_heading"
             app:layout_height="@{(2 * Utils.screenWidth) / 3}"
+            tools:ignore="UnusedAttribute" />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/carousel_banner_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="UnusedAttribute" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

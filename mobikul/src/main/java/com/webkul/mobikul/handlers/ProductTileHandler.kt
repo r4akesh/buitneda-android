@@ -3,6 +3,7 @@ package com.webkul.mobikul.handlers
 import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -12,10 +13,7 @@ import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.google.gson.Gson
 import com.webkul.mobikul.R
-import com.webkul.mobikul.activities.BaseActivity
-import com.webkul.mobikul.activities.CatalogActivity
-import com.webkul.mobikul.activities.CompareProductsActivity
-import com.webkul.mobikul.activities.HomeActivity
+import com.webkul.mobikul.activities.*
 import com.webkul.mobikul.helpers.*
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_DOMINANT_COLOR
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_PRODUCT_ID
@@ -284,6 +282,11 @@ class ProductTileHandler(val mContext: Context,val mProductList: ArrayList<Produ
             }
         }
     }
+
+
+
+
+
 
     private fun addToOfflineCart(entityId: String) {
         AlertDialogHelper.showNewCustomDialog(

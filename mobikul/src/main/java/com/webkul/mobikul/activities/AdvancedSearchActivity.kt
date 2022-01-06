@@ -305,20 +305,20 @@ class AdvancedSearchActivity : BaseActivity() {
 
     private fun onFailureResponse(advancedSearchFormModel: AdvancedSearchFormModel) {
         AlertDialogHelper.showNewCustomDialog(
-                this,
-                getString(R.string.error),
-                advancedSearchFormModel.message,
-                false,
-                getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    callApi()
-                }
-                , getString(R.string.dismiss)
-                , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.dismiss()
-            finish()
-        })
+            this,
+            getString(R.string.error),
+            advancedSearchFormModel.message,
+            false,
+            getString(R.string.try_again),
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                callApi()
+            },
+            getString(R.string.dismiss),
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                finish()
+            })
     }
 
     private fun onErrorResponse(error: Throwable) {
@@ -332,12 +332,12 @@ class AdvancedSearchActivity : BaseActivity() {
                     NetworkHelper.getErrorMessage(this, error),
                     false,
                     getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
+                { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                }
                     , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    , { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
                 finish()
             })

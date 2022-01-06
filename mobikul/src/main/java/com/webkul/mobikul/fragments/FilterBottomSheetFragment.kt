@@ -110,7 +110,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment(), RadioGroup.OnChec
         (context as CatalogActivity).mFilterInputJson.put(selectedAttributeIdArr)
         (context as CatalogActivity).mPageNumber = 1
         (context as CatalogActivity).mContentViewBinding.isFiltered = (context as CatalogActivity).mFilterInputJson.length() > 0
-        (context as CatalogActivity).callApi()
+        (context as CatalogActivity).callApi(false,0)
         dismiss()
     }
 
@@ -166,7 +166,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment(), RadioGroup.OnChec
         (context as CatalogActivity).mSellerAttributesIdOptionCodeMap.clear()
         (context as CatalogActivity).mPageNumber = 1
         (context as CatalogActivity).mContentViewBinding.isFiltered = (context as CatalogActivity).mFilterInputJson.length() > 0
-        (context as CatalogActivity).callApi()
+        (context as CatalogActivity).callApi(false,0)
         dismiss()
     }
 }

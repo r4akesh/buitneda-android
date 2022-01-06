@@ -18,8 +18,8 @@ object ApplicationConstants {
     //    const val BASE_URL = "http://161.97.110.25"
 //    const val BASE_URL = "http://18.158.155.18"
     const val BASE_URL = "https://buitanda.com" //Live instance
-//    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
-//    const val BASE_URL = "https://test.buitanda.com" //demo url
+    //const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
+    //const val BASE_URL = "https://test.buitanda.com" //demo url
     const val API_USER_NAME = "mobikul"
     const val API_PASSWORD = "#uU=T{t{m~Tv2PxG"
     const val DEMO_USERNAME = ""
@@ -57,7 +57,6 @@ object ApplicationConstants {
     const val ENABLE_HOME_BANNER_AUTO_SCROLLING = true
     const val ENABLE_AR_CORE = true
     const val ENABLE_IMAGE_ZOOMING = true
-
     const val ENABLE_SPLASH_ANIMATION = false
     const val ENABLE_VERSION_CHECKER = true
     const val ENABLE_FIREBASE_ANALYTICS = true

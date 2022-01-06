@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
-    android:background="@color/colorPrimary"
+    android:layout_height="50dp"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:layout_constraintEnd_toEndOf="parent"
+    android:background="@drawable/header_app_bg"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
@@ -17,6 +18,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="10dp"
             android:padding="5dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,12 +30,13 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:padding="5dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/whatAppBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/wallet_icon" />
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/notificationBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,9 +45,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_notification" />
+            app:srcCompat="@drawable/ic_notification" />-->
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/searchBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -55,10 +58,55 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/search_product"
             app:tint="@color/text_color_primary"
-            />
+            />-->
 
 
-        <TextView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/searchBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/notificationBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintStart_toStartOf="parent">
+
+                <EditText
+                    android:id="@+id/searchEditorBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@null"
+                    android:background="@null"
+                    android:hint="@string/search"
+                    android:textColorHint="@color/color_B4B4B4"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14sp"
+                    android:focusable="false"
+                    android:editable="false"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:drawableEnd="@drawable/ic_search_black_24dp"
+                    android:drawableTint="@color/color_B4B4B4"
+                    tools:targetApi="m" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <ImageView
+            android:id="@+id/notificationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/searchBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/searchBtn"
+            app:srcCompat="@drawable/ic_notification_vector" />
+
+        <!--<TextView
             android:id="@+id/activityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +118,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+
+        <TextView
+            android:id="@+id/bellNotificationBadge"
+            android:layout_width="18dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_circle_red_bg"
+            android:backgroundTint="@color/out_of_stock_color"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:padding="2dp"
+            android:textColor="@color/color_whiteBlack"
+            android:textSize="10sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.26999998" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

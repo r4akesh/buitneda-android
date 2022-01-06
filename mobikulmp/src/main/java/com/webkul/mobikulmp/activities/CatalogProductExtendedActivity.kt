@@ -30,7 +30,6 @@ import retrofit2.HttpException
  */
 
 class CatalogProductExtendedActivity : CatalogActivity() {
-
     var mSellerId = 0
 
     override fun startInitialization(intent: Intent) {
@@ -50,11 +49,11 @@ class CatalogProductExtendedActivity : CatalogActivity() {
             }
         initSupportActionBar()
         mPageNumber = 1
-        callApi()
+        callApi(false,0)
         checkAndLoadLocalData()
     }
 
-    override fun callApi() {
+    override fun callApi(isClicked: Boolean, position: Int) {
         if (mSellerId != 0) {
             mContentViewBinding.loading = true
             mHashIdentifier = Utils.getMd5String("getSellerCatalogProductData" + AppSharedPref.getStoreId(this) + AppSharedPref.getQuoteId(this) + AppSharedPref.getCustomerToken(this) + mCatalogType + mCatalogId + mPageNumber + mSortingInputJson + mFilterInputJson)
@@ -73,7 +72,7 @@ class CatalogProductExtendedActivity : CatalogActivity() {
                             super.onNext(catalogProductsResponseModel)
                             mContentViewBinding.loading = false
                             if (catalogProductsResponseModel.success) {
-                                onSuccessfulResponse(catalogProductsResponseModel)
+                                onSuccessfulResponse(catalogProductsResponseModel,false,0)
                             } else {
                                 onFailureResponse(catalogProductsResponseModel)
                             }
@@ -86,7 +85,7 @@ class CatalogProductExtendedActivity : CatalogActivity() {
                         }
                     })
         } else {
-            super.callApi()
+            super.callApi(false,0)
         }
 
     }
@@ -95,7 +94,7 @@ class CatalogProductExtendedActivity : CatalogActivity() {
     override fun onErrorResponse(error: Throwable) {
         val response = mDataBaseHandler.getResponseFromDatabase(mHashIdentifier)
         if ((!NetworkHelper.isNetworkAvailable(this) || (error is HttpException && error.code() == 304)) && response.isNotBlank()) {
-            onSuccessfulResponse(mGson.fromJson(response, CatalogProductsResponseModel::class.java))
+            onSuccessfulResponse(mGson.fromJson(response, CatalogProductsResponseModel::class.java),false,0)
         } else {
             AlertDialogHelper.showNewCustomDialog(
                     this,
@@ -106,7 +105,7 @@ class CatalogProductExtendedActivity : CatalogActivity() {
                     DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                         dialogInterface.dismiss()
                         mPageNumber--
-                        callApi()
+                        callApi(false,0)
                     }
                     , getString(R.string.dismiss)
                     , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->

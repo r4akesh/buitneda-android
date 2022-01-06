@@ -17,6 +17,7 @@
     <color name="text_color_link">#FF3F60DA</color>
     <color name="product_price_color">@android:color/white</color>
 
+
     <!--Gray Shades-->
     <color name="grey_800">#ff4d70</color>
     <color name="grey_700">#ff6685</color>

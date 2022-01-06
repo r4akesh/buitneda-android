@@ -57,9 +57,6 @@ class FeaturedCategoriesOtherRvAdapter(private val mContext: HomeFragment,
             holder.mBinding.analysisData = AnalysisModel(carouselType, eachListData.categoryId)
         }
 
-
-
-
         holder.mBinding.executePendingBindings()
     }
 

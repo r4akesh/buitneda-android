@@ -22,9 +22,7 @@ import com.webkul.mobikul.models.user.WishListShareFormModel
  */
 
 class WishListSharingActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityWishListSharingBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_wish_list_sharing)

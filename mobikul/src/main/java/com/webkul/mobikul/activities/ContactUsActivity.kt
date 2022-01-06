@@ -22,9 +22,7 @@ import com.webkul.mobikul.handlers.ContactUsActivityHandler
 import com.webkul.mobikul.helpers.AppSharedPref
 
 class ContactUsActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityContactUsBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_contact_us)

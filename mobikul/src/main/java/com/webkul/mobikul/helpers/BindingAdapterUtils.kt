@@ -83,6 +83,13 @@ class BindingAdapterUtils {
         }
 
         @JvmStatic
+        @BindingAdapter(value = ["gifImageUrl", "placeholder"], requireAll = false)
+        fun setGifImage(view: ImageView, gifImageUrl: String?, placeholder: String?){
+            ImageHelper.loadGifImage(view, gifImageUrl, placeholder)
+        }
+
+
+        @JvmStatic
         @BindingAdapter("tiledBackgroundImageUrl")
         fun setTiledBackgroundImageUrl(view: ImageView, imageUrl: String?) {
             if (!imageUrl.isNullOrBlank()) {
