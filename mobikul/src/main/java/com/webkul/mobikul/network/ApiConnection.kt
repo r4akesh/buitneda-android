@@ -33,9 +33,14 @@ import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.models.product.ProductDetailsPageModel
 import com.webkul.mobikul.models.product.ProductRatingFormDataModel
 import com.webkul.mobikul.models.product.ReviewListData
+import com.webkul.mobikul.models.service.*
 import com.webkul.mobikul.models.user.*
 import com.webkul.mobikul.wallet.models.wallet.*
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -1301,6 +1306,144 @@ class ApiConnection {
             return ApiClient.getClient()!!.create(ApiDetails::class.java)
                 .getAutoRelatedProduct(productId)
         }
+
+        fun getServiceHomeTopBanner(): Observable<HomeTopBannerModel> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java)
+                .getServiceHomeTopBanner()
+        }
+
+        fun getHomeServiceList(): Observable<HomeServiceModel> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java)
+                .getHomeServiceList()
+        }
+
+        fun getHomeServiceBannerList(): Observable<HomeServiceBannerModel> {
+            return ApiClient.getClient()!!.create(ApiDetails::class.java)
+                .getHomeServiceBannerList()
+        }
+
+
+
+/*
+        suspend fun getServiceHomeTopBanner(): Flow<ResponseState<HomeTopBannerModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getServiceHomeTopBanner()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun getHomeServiceBannerList(): Flow<ResponseState<HomeServiceBannerModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getHomeServiceBannerList()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun getHomeServiceList(): Flow<ResponseState<HomeServiceModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getHomeServiceList()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }*/
+
+
+
+
+
+        suspend fun getServiceList(serviceId:Int,sortByRating:String): Flow<ResponseState<ServiceListModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getServiceList(serviceId,sortByRating)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun getServiceProviderInfo(providerId:Int): Flow<ResponseState<ServiceInfoModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getServiceInfoApi(providerId)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun getProviderReviewList(providerId:Int): Flow<ResponseState<ServiceReviewListModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getServiceProviderReviewList(providerId)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun makeRequestSubmitReview(providerId: String,rating: String,name: String,description: String): Flow<ResponseState<BaseModel>> {
+            return flow {
+               /* val builder = MultipartBody.Builder()
+                builder.setType(MultipartBody.FORM)
+                builder.addFormDataPart("providerid", providerId)
+                builder.addFormDataPart("rating", rating)
+                builder.addFormDataPart("name", name)
+                builder.addFormDataPart("description", description)*/
+                val providerIdPart = MultipartBody.Part.createFormData("providerid",providerId)
+                val ratingPart = MultipartBody.Part.createFormData("rating",rating)
+                val namePart = MultipartBody.Part.createFormData("name",name)
+                val descriptionPart = MultipartBody.Part.createFormData("description",description)
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestSubmitReview(providerIdPart,ratingPart,namePart,descriptionPart)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun makeRequestGetAllService(): Flow<ResponseState<AllServiceModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestAllService()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun makeRequestGetArea(): Flow<ResponseState<AreaModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).getAreaOfServiceProvider()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun makeRequestVisitor(page:String,clickOn:String,providerId: Int): Flow<ResponseState<VisitorModel>> {
+            return flow {
+
+                val pagePart = MultipartBody.Part.createFormData("page",page)
+                val devicePart = MultipartBody.Part.createFormData("device","Android")
+                val clickOnPart = MultipartBody.Part.createFormData("clickon",clickOn)
+                val providerIdPart = if(providerId!=0) MultipartBody.Part.createFormData("providerid",providerId.toString()) else MultipartBody.Part.createFormData("providerid","")
+
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestServiceVisitor(pagePart,devicePart,clickOnPart,providerIdPart)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+
+        suspend fun makeRequestHomeVisitor(page:String,clickOn:String): Flow<ResponseState<VisitorModel>> {
+            return flow {
+
+                val pagePart = MultipartBody.Part.createFormData("page",page)
+                val devicePart = MultipartBody.Part.createFormData("device","Android")
+                val clickOnPart = MultipartBody.Part.createFormData("clickon",clickOn)
+
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestHomeServiceVisitor(pagePart,devicePart,clickOnPart)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+
+
+        suspend fun makeRequestSearchService(area:String,service:String): Flow<ResponseState<SearchServiceModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestSearchService(area,service)
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
+        suspend fun makeRequestBecomeServiceProvider(): Flow<ResponseState<BecomeServiceModel>> {
+            return flow {
+                val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestBottomIcon()
+                emit(ResponseState.success(comment))
+            }.flowOn(Dispatchers.IO)
+        }
+
 
     }
 }

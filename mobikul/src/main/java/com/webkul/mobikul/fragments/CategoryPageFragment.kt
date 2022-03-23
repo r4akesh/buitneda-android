@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.webkul.mobikul.R
 import com.webkul.mobikul.adapters.ItemCategoryListAdapter
 import com.webkul.mobikul.adapters.ItemSubCategoryListAdapter
@@ -17,12 +18,8 @@ import com.webkul.mobikul.network.ApiCustomCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class CategoryPageFragment(var mcategories: ArrayList<Category>?) :
-    FullScreenBottomSheetDialogFragment() {
-
+class CategoryPageFragment(var mcategories: ArrayList<Category>?) :FullScreenBottomSheetDialogFragment() {
     lateinit var mBinding: FragmentCategoryPageBinding
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

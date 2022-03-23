@@ -12,9 +12,7 @@ class CustomerListResponse : BaseModel() {
 
 
     @JsonProperty("totalCount")
-
     var totalCount: Int = 0
-
     @JsonProperty("customerList")
 
     var customerList: ArrayList<CustomerList>? = ArrayList()

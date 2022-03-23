@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.security.ProviderInstaller
+import com.google.gson.Gson
 import com.webkul.mobikul.R
 import com.webkul.mobikul.databinding.ActivitySplashScreenBinding
 import com.webkul.mobikul.helpers.*
@@ -170,7 +171,13 @@ class SplashScreenActivity : BaseActivity() {
             mIsAnimationFinished = true
         }*/
         mIsAnimationFinished = true
-        onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
+        try{
+            onSuccessfulResponse(Gson().fromJson(response, HomePageDataModel::class.java))
+        }catch(ex:Exception){
+            ex.printStackTrace()
+            callApi(hashIdentifier)
+        }
+
         /* Handler(Looper.myLooper()!!).postDelayed({
              onSuccessfulResponse(mGson.fromJson(response, HomePageDataModel::class.java))
          }, if (ENABLE_SPLASH_ANIMATION) 0.toLong() else 2000.toLong())*/

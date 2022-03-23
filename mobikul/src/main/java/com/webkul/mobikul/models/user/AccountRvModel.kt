@@ -27,6 +27,7 @@ class AccountRvModel(var type: Int, var name: String = "", var drawableId: Int =
         const val LOG_IN = 109
         const val WALLET = 110
         const val WHATS_APP = 111
+        const val AUCTION_PRODUCT = 112
         const val SUGGESTION = 222
 
     }

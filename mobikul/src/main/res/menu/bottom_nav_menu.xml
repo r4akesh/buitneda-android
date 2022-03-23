@@ -12,8 +12,8 @@
 
     <item
         android:id="@+id/bottom_auction"
-        android:icon="@drawable/ic_auction_img_svg"
-        android:title="@string/auction"
+        android:icon="@drawable/ic_service_menu"
+        android:title="@string/service"
         app:showAsAction="always" />
 
 

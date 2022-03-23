@@ -125,7 +125,7 @@ class ProductCreateReviewBottomSheetFragment : FullScreenBottomSheetDialogFragme
         val createReviewData = CreateReviewData()
         createReviewData.productImage = arguments?.getString(BundleKeysHelper.BUNDLE_KEY_PRODUCT_NAME)?:""
         createReviewData.productName = arguments!!.getString(BundleKeysHelper.BUNDLE_KEY_PRODUCT_IMAGE)?:""
-        createReviewData.nickName = AppSharedPref.getCustomerName(context!!)
+        createReviewData.nickName = AppPreference.getPreferenceValueByKey(context!!,AppPreference.KEY_CUSTOMER_NAME)!!
         mContentViewBinding.data = createReviewData
         mContentViewBinding.handler = ProductCreateReviewBottomSheetFragmentHandler(this)
 

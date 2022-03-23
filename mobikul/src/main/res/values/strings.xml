@@ -5,6 +5,7 @@
     <!-- Maps API key-->
     <string name="maps_api_key" translatable="false"></string>
     <string name="whats_app_number" translatable="false">+244922112105</string>
+    <string name="service_contact_number" translatable="false">+244938099265</string>
 
     <!-- Drawer related strings (No need to translate)-->
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
@@ -376,7 +377,7 @@
     <string name="login_first">Please login to add this product to your wishlist</string>
     <string name="login_to_see_wishlist">Please login to see your wishlist</string>
     <string name="please_login_to_write_reviews">Please login to write reviews!!!</string>
-    <string name="nickname">Nickname</string>
+    <string name="nickname">Name</string>
     <string name="summary">Summary</string>
     <string name="your_comment">Review</string>
     <string name="submit">Submit</string>
@@ -720,6 +721,17 @@
     <string name="dynamic_title">Dynamic Title</string>
     <string name="more_brands">More Brands</string>
     <string name="add">Add</string>
+    <string name="view_details">View details</string>
+    <string name="service">Service</string>
+    <string name="about">About</string>
+    <string name="our_service">Our Service</string>
+    <string name="rating_review">Rating &amp; Review</string>
+    <string name="become_service_provider">Become a Service Provider</string>
+    <string name="note_message">Let Us Call or Chat to get our\nServices</string>
+    <string name="low_to_high">Low to High</string>
+    <string name="high_to_low">High to Low</string>
+    <string name="sort_by_rating">Sort by (Rating)</string>
+    <string name="replied">Replied :</string>
 
 
 </resources>

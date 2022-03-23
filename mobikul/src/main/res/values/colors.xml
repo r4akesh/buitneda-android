@@ -4,12 +4,15 @@
     <color name="colorPrimaryDark">#00bef6</color>
     <color name="color_63E4FF">#63E4FF</color>
     <color name="colorAccent">#FF000000</color>
+    <color name="color_01D4FF">#01D4FF</color>
+    <color name="color_78E7FE">#78E7FE</color>
 
     <color name="button_background_color">@color/colorAccent</color>
 
     <color name="color_background">@android:color/white</color>
     <color name="darkBackground">#f9f9f9</color>
     <color name="color_C0F4FF">#C0F4FF</color>
+    <color name="color_C2ECF4">#C2ECF4</color>
 
     <color name="color_whiteBlack">#f9f9f9</color>
     <color name="actionBarItemsColor">#000000</color>
@@ -80,4 +83,5 @@
 
     <color name="green_400">#66BB6A</color><!--complete order-->
     <color name="red_600">#E53935</color><!--canceled order-->
+    <color name="color_F9F9F9">#F9F9F9</color><!--canceled order-->
 </resources>

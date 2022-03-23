@@ -24,7 +24,7 @@ import io.reactivex.disposables.Disposable
  * @link https://store.webkul.com/license.html
  */
 
-open class ApiCustomCallback<R : BaseModel>(
+open class ApiCustomCallback<R : BaseModel?>(
     val context: Context,
     val isDisableInteraction: Boolean
 ) : Observer<R> {

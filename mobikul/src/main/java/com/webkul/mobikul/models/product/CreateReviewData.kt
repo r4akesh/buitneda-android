@@ -40,7 +40,7 @@ class CreateReviewData {
             fragmentContext.mContentViewBinding.commentTil.error = null
         }
 
-        if (summary.isBlank()) {
+       /* if (summary.isBlank()) {
             isFormValidated = false
             fragmentContext.mContentViewBinding.summaryTil.error = fragmentContext.getString(R.string.summary) + " " + fragmentContext.getString(R.string.is_required)
             Utils.showShakeError(fragmentContext.context!!, fragmentContext.mContentViewBinding.summaryTil)
@@ -48,7 +48,7 @@ class CreateReviewData {
         } else {
             fragmentContext.mContentViewBinding.summaryTil.isErrorEnabled = false
             fragmentContext.mContentViewBinding.summaryTil.error = null
-        }
+        }*/
 
         if (nickName.isBlank()) {
             isFormValidated = false

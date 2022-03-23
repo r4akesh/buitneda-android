@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.webkul.mobikul.helpers.Utils" />
+
+        <variable
+            name="themeType"
+            type="Integer" />
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.service.HomeServiceListModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/carousel_label"
+                fontPath="fonts/helvetica.ttf"
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:padding="8dp"
+                android:text="@{data.group_title}"
+                android:textStyle="bold"
+                android:textColor="@color/text_color_primary"
+                android:textSize="@dimen/text_size_medium"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="end|top"
+                >
+
+                <TextView
+                    android:id="@+id/allBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/all"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:drawableStart="@drawable/ic_icon_plus_circle"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/serviceCategoryList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/grey_200"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_service_category_layout"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:nestedScrollingEnabled="false"
+            tools:targetApi="lollipop" />
+    </LinearLayout>
+</layout>

@@ -102,7 +102,6 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
                             onFailureResponse(addressFormResponseModel)
                         }
                     }
-
                     override fun onError(e: Throwable) {
                         super.onError(e)
                         mContentViewBinding.loading = false
@@ -158,10 +157,7 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
                         mContentViewBinding.data?.addressData?.prefix = it.toString()
                     }
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-
-                }
+                override fun onNothingSelected(parent: AdapterView<*>) {}
             }
 
             mContentViewBinding.prefixSp.setSelection(mContentViewBinding.data!!.getSelectedPrefixPosition())
@@ -240,8 +236,6 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
         mContentViewBinding.stateSp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Log.d("Tag", "setBackResultAndFinish==regionId=-->" + stateSpinnerData[position].region_id)
-
-
                 mContentViewBinding.data!!.addressData.region_id = stateSpinnerData[position].region_id
                 mContentViewBinding.data!!.addressData.selectedRegion = stateSpinnerData[position].name
                 mContentViewBinding.data!!.addressData.region = ""

@@ -374,7 +374,7 @@ Faça login para adicionar este produto à sua lista de desejos
 </string>
     <string name="login_to_see_wishlist">Faça login para ver sua lista de desejos</string>
     <string name="please_login_to_write_reviews">Faça login para escrever comentários!!!</string>
-    <string name="nickname">Alcunha</string>
+    <string name="nickname">Nome</string>
     <string name="summary">Resumo</string>
     <string name="your_comment">Revisão</string>
     <string name="submit">Enviar</string>
@@ -706,4 +706,15 @@ Selecione Payee para quem você deseja transferir o valor
     <string name="your_name_company">Lda</string>
     <string name="more_brands">Suas Marcas Favoritas</string>
     <string name="add">ADICIONAR</string>
+    <string name="view_details">Ver detalhes</string>
+    <string name="service">Serviço</string>
+    <string name="about">Cerca de</string>
+    <string name="our_service">Nosso serviço</string>
+    <string name="rating_review">Classificação &amp; Análise</string>
+    <string name="become_service_provider">Quer ganhar dinheiro ? torne-se um prestador de serviços</string>
+    <string name="note_message">Contate-Nos</string>
+    <string name="low_to_high">Low to High</string>
+    <string name="high_to_low">High to Low</string>
+    <string name="sort_by_rating">Sort by (Rating)</string>
+    <string name="replied">Respondeu :</string>
 </resources>

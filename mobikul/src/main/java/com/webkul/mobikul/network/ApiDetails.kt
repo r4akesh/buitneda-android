@@ -89,10 +89,15 @@ import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_OTHER_NOTIFICAT
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SAVE_ANDROID_TOKEN
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SEARCH_SUGGESTION
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_EXTRAS_SEARCH_TERMS_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_HOME_PAGE_BANNER_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_HOME_SERVICE_LIST
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_HOME_TOP_BANNER
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_INVOICE
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_PRODUCT_ALERT_PRICE
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_PRODUCT_ALERT_STOCK
 import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_SALES_GUEST_VIEW
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_SERVICE_PROVIDER_INFO
+import com.webkul.mobikul.helpers.ConstantsHelper.MOBIKUL_SERVICE_PROVIDER_LIST
 import com.webkul.mobikul.models.BaseModel
 import com.webkul.mobikul.models.ImageUploadResponseData
 import com.webkul.mobikul.models.ReOrderModel
@@ -107,6 +112,7 @@ import com.webkul.mobikul.models.homepage.PromotionBanner
 import com.webkul.mobikul.models.product.ProductDetailsPageModel
 import com.webkul.mobikul.models.product.ProductRatingFormDataModel
 import com.webkul.mobikul.models.product.ReviewListData
+import com.webkul.mobikul.models.service.*
 import com.webkul.mobikul.models.user.*
 import com.webkul.mobikul.wallet.models.wallet.*
 import io.reactivex.Observable
@@ -993,5 +999,83 @@ interface ApiDetails {
     @GET(MOBIKUL_AUTO_RELATED_PRODUCT)
     fun getAutoRelatedProduct(@Query("productId") productId: String):
             Observable<AutoRelatedProductList>
+
+    @GET(MOBIKUL_HOME_TOP_BANNER)
+    fun getServiceHomeTopBanner(): Observable<HomeTopBannerModel>
+
+    @GET(MOBIKUL_HOME_PAGE_BANNER_LIST)
+    fun getHomeServiceBannerList(): Observable<HomeServiceBannerModel>
+
+    @GET(MOBIKUL_HOME_SERVICE_LIST)
+    fun getHomeServiceList(): Observable<HomeServiceModel>
+
+    @GET(MOBIKUL_SERVICE_PROVIDER_LIST)
+    suspend fun getServiceList(
+        @Query("serviceid") serviceId:Int,
+        @Query("sortByRating") sortByRating:String
+    ): ServiceListModel
+
+    @GET(MOBIKUL_SERVICE_PROVIDER_INFO)
+    suspend fun getServiceInfoApi(@Query("providerid") providerId:Int): ServiceInfoModel
+
+    @GET(ConstantsHelper.MOBIKUL_SERVICE_PROVIDER_REVIEW_LIST)
+    suspend fun getServiceProviderReviewList(@Query("providerid") providerId:Int): ServiceReviewListModel
+
+
+
+    @Multipart
+    @POST(ConstantsHelper.MOBIKUL_SERVICE_SUBMIT_REVIEW)
+    suspend fun makeRequestSubmitReview(
+        @Part providerid: MultipartBody.Part,
+        @Part rating: MultipartBody.Part,
+        @Part name: MultipartBody.Part,
+        @Part description: MultipartBody.Part): BaseModel
+
+
+
+    @GET(ConstantsHelper.MOBIKUL_SERVICE_ALL_SERVICE_LIST)
+    suspend fun makeRequestAllService(): AllServiceModel
+
+
+    @GET(ConstantsHelper.MOBIKUL_SERVICE_AREA_LIST)
+    suspend fun getAreaOfServiceProvider(): AreaModel
+
+   /* @Multipart
+    @POST(ConstantsHelper.MOBIKUL_SERVICE_VISITOR)
+    suspend fun makeRequestServiceVisitor(
+        @Part("page") providerId: RequestBody,
+        @Part("device") rating: RequestBody,
+        @Part("clickon") name: RequestBody,
+    ): VisitorModel
+*/
+
+    @Multipart
+    @POST(ConstantsHelper.MOBIKUL_SERVICE_VISITOR)
+    suspend fun makeRequestServiceVisitor( @Part page: MultipartBody.Part,
+                                           @Part device: MultipartBody.Part,
+                                           @Part clickon: MultipartBody.Part,
+                                           @Part providerid: MultipartBody.Part): VisitorModel
+
+    @Multipart
+    @POST(ConstantsHelper.MOBIKUL_SERVICE_VISITOR)
+    suspend fun makeRequestHomeServiceVisitor( @Part page: MultipartBody.Part,
+                                           @Part device: MultipartBody.Part,
+                                           @Part clickon: MultipartBody.Part): VisitorModel
+
+    @GET(ConstantsHelper.MOBIKUL_SEARCH_SERVICE)
+    suspend fun makeRequestSearchService(
+        @Query("area") area:String,
+        @Query("service") service:String
+    ): SearchServiceModel
+
+    @GET(ConstantsHelper.MOBIKUL_ICON_BANNER_SERVICE)
+    suspend fun makeRequestBottomIcon(
+    ): BecomeServiceModel
+
+
+
+
+
+
 
 }

@@ -26,6 +26,10 @@
             name="baseHandler"
             type="com.webkul.mobikul.handlers.CatalogActivityHandler" />
 
+        <variable
+            name="configData"
+            type="com.webkul.mobikul.models.product.Price" />
+
 
     </data>
 
@@ -126,7 +130,7 @@
             android:layout_marginEnd="8dp"
             android:orientation="horizontal">
 
-            <com.webkul.mobikul.customviews.FlowLayout
+            <!--<com.webkul.mobikul.customviews.FlowLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -136,6 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/product_price_tv"
                         fontPath="fonts/Montserrat-SemiBold.ttf"
@@ -143,11 +148,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_tiny"
                         android:maxLines="1"
-                        android:text="@{data.formattedFinalPrice}"
+                        android:text="@{data.typeId!=`configurable` ? data.formattedPrice : data.formattedFinalPrice}"
                         android:textColor="@color/product_price_color"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="@{data.hasPrice() ? View.VISIBLE : View.GONE}"
                         tools:text="$210.00" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -168,8 +172,7 @@
                 </LinearLayout>
 
 
-
-                <androidx.appcompat.widget.AppCompatTextView
+                &lt;!&ndash; <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/product_min_price_tv"
                     fontPath="fonts/Montserrat-SemiBold.ttf"
                     android:layout_width="wrap_content"
@@ -219,9 +222,115 @@
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                     android:visibility="@{data.hasGroupedPrice() ? View.VISIBLE : View.GONE}"
-                    tools:text="$410.00" />
+                    tools:text="$410.00" />&ndash;&gt;
+
+            </com.webkul.mobikul.customviews.FlowLayout>-->
+
+            <com.webkul.mobikul.customviews.FlowLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/product_price_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_tiny"
+                        android:maxLines="1"
+                        android:text="@{data.formattedFinalPrice}"
+                        android:textColor="@color/product_price_color"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        android:visibility="@{data.hasPrice() ? View.VISIBLE : View.GONE}"
+                        tools:text="$210.00" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/product_special_price_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_strikethrough"
+                        android:maxLines="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@{data.formattedPrice}"
+                        android:textColor="@color/grey_400"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:visibility="@{data.hasSpecialPrices() ? View.VISIBLE : View.GONE}"
+                        tools:text="$310.00" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/product_min_price_tv"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@{data.formattedMinPrice}"
+                            android:textColor="@color/product_price_color"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:visibility="@{data.hasMinPrice() ? View.VISIBLE : View.GONE}"
+                            tools:text="$410.00" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/product_min_max_price_dash_tv"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" - "
+                            android:textColor="@color/product_price_color"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:visibility="@{data.hasMaxPrice() &amp;&amp; data.hasMinMaxRange() ? View.VISIBLE : View.GONE}"
+                            tools:text="-" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/product_max_price_tv"
+                            fontPath="fonts/Montserrat-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="@{data.formattedMaxPrice}"
+                            android:textColor="@color/product_price_color"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:visibility="@{data.hasMaxPrice() &amp;&amp; data.hasMinMaxRange() ? View.VISIBLE : View.GONE}"
+                            tools:text="$410.00" />
+
+                    </LinearLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/product_grp_price_tv"
+                        fontPath="fonts/Montserrat-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{data.groupedPrice}"
+                        android:textColor="@color/product_price_color"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        android:visibility="@{data.hasGroupedPrice() ? View.VISIBLE : View.GONE}"
+                        tools:text="$410.00" />
+
+                </LinearLayout>
+
+
 
             </com.webkul.mobikul.customviews.FlowLayout>
+
 
             <!-- <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/wishlist_animation_view"
@@ -374,7 +483,6 @@
             android:background="@drawable/rounded_border_cart_item"
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/montserrat_regular"
-            android:visibility="@{data.addedInfoCart== `false` &amp;&amp; data.cartItemId==``  ? View.VISIBLE : View.GONE}"
             android:onClick="@{()->baseHandler.onClickAdd(data.getRequiredOptions(), data.id, data.name, data.thumbNail, data.dominantColor,position,`add`,data.quoteId)}"
             android:text="@string/add"
             android:textAllCaps="true"

@@ -2,8 +2,10 @@ package com.webkul.mobikul.models.product
 
 
 import android.content.Context
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.fasterxml.jackson.annotation.JsonAlias
@@ -120,6 +122,9 @@ class ProductTileData() : Parcelable, BaseObservable() {
     @JsonProperty("availability")
     var availability: String? = ""
 
+    @JsonProperty("isAuctionProduct")
+    var isAuctionProduct: Boolean = false
+
     @JsonProperty("arType")
     var arType: String? = ""
 
@@ -138,6 +143,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
     var quantity:Int = 1
     var quoteId = 0
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this() {
         configurableData = parcel.readParcelable(ConfigurableData::class.java.classLoader)
         isInWishList = parcel.readByte() != 0.toByte()
@@ -170,9 +176,11 @@ class ProductTileData() : Parcelable, BaseObservable() {
         arType = parcel.readString()
         arModelUrl = parcel.readString()
         productPosition = parcel.readInt()
+        isAuctionProduct = parcel.readBoolean()
         addToCart = parcel.readByte() != 0.toByte()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(configurableData, flags)
         parcel.writeByte(if (isInWishList) 1 else 0)
@@ -205,6 +213,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
         parcel.writeString(arModelUrl)
         parcel.writeInt(productPosition)
         parcel.writeInt(cartQty)
+        parcel.writeBoolean(isAuctionProduct)
         parcel.writeByte(if (addToCart) 1 else 0)
     }
 
@@ -213,6 +222,7 @@ class ProductTileData() : Parcelable, BaseObservable() {
     }
 
     companion object CREATOR : Parcelable.Creator<ProductTileData> {
+        @RequiresApi(Build.VERSION_CODES.Q)
         override fun createFromParcel(parcel: Parcel): ProductTileData {
             return ProductTileData(parcel)
         }

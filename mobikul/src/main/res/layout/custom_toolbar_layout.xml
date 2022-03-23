@@ -132,7 +132,7 @@
             android:padding="2dp"
             android:textColor="@color/color_whiteBlack"
             android:textSize="10sp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="@+id/toolbar"
             app:layout_constraintHorizontal_bias="0.98"

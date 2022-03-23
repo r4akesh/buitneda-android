@@ -103,7 +103,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 open class ProductDetailsActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityProductDetailsBinding
     private var mFromNotification: Boolean = false
     var mProductDetailsPageModel = ProductDetailsPageModel()
@@ -167,6 +166,11 @@ open class ProductDetailsActivity : BaseActivity() {
         mContentViewBinding.bottomNavView.setOnNavigationItemSelectedListener(
             mOnNavigationItemSelectedListener
         )
+
+        mContentViewBinding.backDetailBtn.setOnClickListener {
+            finish()
+        }
+        setToolbarUpView()
         updateCartBadge()
         inflateBadge()
         updateBadge()
@@ -174,6 +178,11 @@ open class ProductDetailsActivity : BaseActivity() {
         callApi()
     }
 
+    override fun setToolbarUpView() {
+        super.setToolbarUpView()
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -259,7 +268,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.staticAddToCartBtn.text = getString(R.string.add_to_cart)
             mContentViewBinding.descriptionHeading.text = getString(R.string.details)
             mContentViewBinding.moreInformationHeading.text = getString(R.string.more_information)
-            mContentViewBinding.qtyTv.text = getString(R.string.quantity)
+           // mContentViewBinding.qtyTv.text = getString(R.string.quantity)
         }
 
         mProductId = intent.getStringExtra(BUNDLE_KEY_PRODUCT_ID) ?: ""
@@ -285,7 +294,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.productSliderDotsTabLayout.rotationY = 180f
 
         mContentViewBinding.productName = mProductName
-        title = mProductName
+        supportActionBar!!.hide()
     }
 
     open fun callApi() {
@@ -442,7 +451,7 @@ open class ProductDetailsActivity : BaseActivity() {
             mContentViewBinding.otherProductOptionsContainer.visibility = View.GONE
             //  mContentViewBinding.floatingBuyLayout.visibility = View.GONE
             mContentViewBinding.staticBuyLayout.visibility = View.GONE
-            mContentViewBinding.priceLl.visibility = View.GONE
+            mContentViewBinding.buttonContainer.visibility = View.GONE
         }
         if (mProductDetailsPageModel.remainingTime > 0 || mProductDetailsPageModel.auctionFinish || mProductDetailsPageModel.won) {
             val auctionDetailsLayoutBinding: AuctionDetailsLayoutBinding =
@@ -467,6 +476,8 @@ open class ProductDetailsActivity : BaseActivity() {
                     if (mProductDetailsPageModel.hasAnyOptions()) {
                         mContentViewBinding.otherProductOptionsContainer.visibility = View.VISIBLE
                     }
+                    mContentViewBinding.data!!.formattedFinalPrice = mContentViewBinding.data!!.auctionPriceData!!.currentAcutionAmount!!
+                    mContentViewBinding.buttonContainer.visibility = View.VISIBLE
                     // mContentViewBinding.floatingBuyLayout.visibility = View.VISIBLE
                     mContentViewBinding.staticBuyLayout.visibility = View.VISIBLE
 //                    mContentViewBinding.addToCartBtnLayout.setVisibility(View.GONE)
@@ -2062,8 +2073,7 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     private fun loadConfigurableProductData(productDetailsPageModel: ProductDetailsPageModel) {
-        mContentViewBinding.configData =
-            productDetailsPageModel.configurableData.optionPrices!![0].finalPrice
+        mContentViewBinding.configData = productDetailsPageModel.configurableData.optionPrices!![0].finalPrice
         try {
             mContentViewBinding.otherProductOptionsContainer.background = null
             mContentViewBinding.data!!.configurableData.attributes?.forEachIndexed { index, element ->
@@ -2663,19 +2673,20 @@ open class ProductDetailsActivity : BaseActivity() {
         val newFormattedFinalPrice1 = format.format(updatedFinalPrice)
             .replace(AppSharedPref.getCurrencyCode(this), AppSharedPref.getCurrencyCode(this) + " ")
 
-        val newFormattedPrice1 = format.format(price)
-        if (mContentViewBinding.data!!.typeId != "configurable" || noOfSelectedOptions == mContentViewBinding.data!!.configurableData.attributes?.size) {
+        //val newFormattedPrice1 = format.format(price)
+        /*if (mContentViewBinding.data!!.typeId != "configurable" || noOfSelectedOptions == mContentViewBinding.data!!.configurableData.attributes?.size) {
             mContentViewBinding.productPriceTv.text = newFormattedFinalPrice1
             mContentViewBinding.productSpecialPriceTv.setText(newFormattedPrice1)
         } else {
 
-        }
+        }*/
     } catch (e: Exception) {
         e.printStackTrace()
     }
 
     private fun updateImages(productId: Int) {
         val imageGalleryDataArray = ArrayList<ImageGalleryData>()
+        imageGalleryDataArray.clear()
         for (noOfImages in 0 until mContentViewBinding.data!!.imageGallery.size) {
             val imageGalleryDataObject = ImageGalleryData()
             imageGalleryDataObject.smallImage =

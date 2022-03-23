@@ -2,7 +2,6 @@ package com.webkul.mobikul.fragments
 
 //import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -21,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +42,7 @@ import com.webkul.mobikul.models.homepage.HomePageDataModel
 import com.webkul.mobikul.models.product.AnalysisModel
 import com.webkul.mobikul.network.ApiConnection
 import com.webkul.mobikul.network.ApiCustomCallback
-import com.webkul.mobikul.view_model.ViewModel
+import com.webkul.mobikul.view_model.CommonViewModel
 import com.webkul.mobikul.wallet.activities.ManageWalletAmountActivity
 import io.github.inflationx.calligraphy3.CalligraphyTypefaceSpan
 import io.github.inflationx.calligraphy3.TypefaceUtils
@@ -51,6 +51,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.product_carousel_first_layout.view.*
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,7 +65,7 @@ class HomeFragment : Fragment() {
     var mHomePageDataModel: HomePageDataModel = HomePageDataModel()
     var mPageNumber: Int = 1
     var mResendTimer: CountDownTimer? = null
-    private var viewModel: ViewModel? = null
+    private var commonViewModel: CommonViewModel? = null
     private var hashIdentifier = ""
     lateinit var bannerCarouselLayoutBinding:BannerCarouselLayoutBinding
 //    private var currentCache = 0
@@ -92,7 +93,7 @@ class HomeFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 //        HomeActivity.mContentViewBinding.bottomAppCl.visibility=View.VISIBLE
 //        HomeActivity.mContentViewBinding.bottomNavView.menu.findItem(R.id.bottom_home).isChecked = true
-        viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
+        commonViewModel = ViewModelProviders.of(this).get(CommonViewModel::class.java)
         setHasOptionsMenu(true)
         startInitialization()
         mContentViewBinding.loading = true
@@ -235,16 +236,9 @@ class HomeFragment : Fragment() {
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
             if (NetworkHelper.isNetworkAvailable(context!!)) {
 //                callApiBackground()
-                Thread {
-                    // do background stuff here
-//                    currentCache++
-//
-//                    if (currentCache > 3) {
-//                        currentCache = 1
-//                    }
-//                    Log.d(TAG, "initSwipeRefresh: $currentCache")
+                lifecycleScope.launch{
                     loadDataFromDB()
-                }.start()
+                }
 
             } else {
                 mContentViewBinding.swipeRefreshLayout.isRefreshing = false
@@ -276,10 +270,12 @@ class HomeFragment : Fragment() {
         }*/
 
         if (HomeDataSingleton.getInstance().mHomePageDataModel != null) {
-            activity?.runOnUiThread {
-                (
-                        onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!)
-                        )
+            /*activity?.runOnUiThread {
+                (onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!))
+            }*/
+
+            lifecycleScope.launch{
+                (onSuccessfulResponse(HomeDataSingleton.getInstance().mHomePageDataModel!!))
             }
 
         } else {
@@ -454,64 +450,30 @@ class HomeFragment : Fragment() {
         val response =
             BaseActivity.mDataBaseHandler.getResponseFromDatabase(hashIdentifier)
         if (response.isNotBlank()) {
-            mHomePageDataModel =
-                BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
+            mHomePageDataModel = BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
             initLayout()
         }
     }
 
 
-    private fun onSuccessfulResponse(homePageDataModel: HomePageDataModel) {
+    private fun onSuccessfulResponse(homePageDataModel: HomePageDataModel?) {
         Log.d(TAG, "onSuccessfulResponse: ")
         mContentViewBinding.loading = false
-        mHomePageDataModel = homePageDataModel
-        if (homePageDataModel != null && context != null) {
+        mHomePageDataModel = homePageDataModel!!
+        if (context != null) {
 
             setAppSharedPrefConfigDetails()
             initLayout()
             (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
 //            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
-            if ((activity as HomeActivity).mTopSellingHomePageDataModel == null)
-                TopCategoriesListRv()
-            else
-                onSuccessfulTopSellingResponse((activity as HomeActivity).mTopSellingHomePageDataModel!!)
+            //onSuccessfulTopSellingResponse(homePageDataModel)
+            callTopApi()
+            //TopCategoriesListRv()
         }
     }
 
 
-    private fun onSuccessfulResponse(homePageDataModel: HomePageDataModel, status: Boolean) {
 
-
-        mContentViewBinding.loading = false
-        mHomePageDataModel = homePageDataModel
-        if (homePageDataModel != null && context != null) {
-//            (context as HomeActivity).mHomePageDataModel = homePageDataModel
-            /* activity?.runOnUiThread({
-                 setAppSharedPrefConfigDetails()
-             })
-
-             activity?.runOnUiThread({
-                 initLayout()
-             })
-
-             activity?.runOnUiThread({
-                 (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-             })*/
-
-            activity?.runOnUiThread {
-                setAppSharedPrefConfigDetails()
-                initLayout()
-                (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
-            }
-
-
-//            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
-            if ((activity as HomeActivity).mTopSellingHomePageDataModel == null)
-                TopCategoriesListRv()
-            else
-                onSuccessfulTopSellingResponse((activity as HomeActivity).mTopSellingHomePageDataModel!!)
-        }
-    }
 
     private fun setAppSharedPrefConfigDetails() {
         AppSharedPref.setIsWishlistEnabled(context!!, mHomePageDataModel.wishlistEnable)
@@ -584,9 +546,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initLayout() {
-
         mPageNumber = 1
-
         mContentViewBinding.mainScroller.visibility = View.VISIBLE
         mContentViewBinding.data = mHomePageDataModel
 //        HomeActivity.mContentViewBinding.handler = HomeActivityHandler(this)
@@ -1187,24 +1147,6 @@ setupFeaturesCategoriesRv(category)*/
     }
 */
 
-    private fun TopCategoriesListRv() {
-        try {
-            callTopApi()
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        }
-        /* mContentViewBinding.topProductsRv.adapter = mContentViewBinding.data!!.topSellingProducts?.let { TopSellingProductRvAdapter(this, it) }
-         mContentViewBinding.topProductsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                 super.onScrollStateChanged(recyclerView, newState)
-                 val lastCompletelyVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                 if (!mContentViewBinding.loading!! && mContentViewBinding.data!!.topSellingProducts!!.size < mContentViewBinding.data!!.topSellingProducts!!.size
-                         && lastCompletelyVisibleItemPosition > mContentViewBinding.data!!.topSellingProducts!!.size - 4) {
-                     callTopApi()
-                 }
-             }
-         })*/
-    }
 
     private fun callTopApi() {
         isLoadingTopSellingProducts = true
@@ -1212,18 +1154,18 @@ setupFeaturesCategoriesRv(category)*/
         ApiConnection.getTopSellingProducts(context!!, mPageNumber)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
-                override fun onNext(homePageDataModel: HomePageDataModel) {
+            .subscribe(object : ApiCustomCallback<HomePageDataModel?>(context!!, false) {
+                override fun onNext(homePageDataModel: HomePageDataModel?) {
                     super.onNext(homePageDataModel)
 //                        mContentViewBinding.progressBar = false
-
-                    if (homePageDataModel.success) {
-                        (activity as HomeActivity).mTopSellingHomePageDataModel = homePageDataModel
-                        onSuccessfulTopSellingResponse(homePageDataModel)
+                    if(homePageDataModel!=null){
+                        if (homePageDataModel.success) {
+                            onSuccessfulTopSellingResponse(homePageDataModel)
 //                            onSuccessfulResponse(homePageDataModel)
-                    } else {
-                        mContentViewBinding.progressBar = false
+                        } else {
+                            mContentViewBinding.progressBar = false
 //                            onFailureResponse(homePageDataModel)
+                        }
                     }
 
                     isLoadingTopSellingProducts = false

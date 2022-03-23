@@ -31,12 +31,9 @@ class ApiClient {
         private const val DEFAULT_CONNECT_TIMEOUT_IN_SEC = 60 * CONNECT_TIMEOUT_MULTIPLIER
         private const val DEFAULT_WRITE_TIMEOUT_IN_SEC = 60 * CONNECT_TIMEOUT_MULTIPLIER
         private const val DEFAULT_READ_TIMEOUT_IN_SEC = 60 * CONNECT_TIMEOUT_MULTIPLIER
-
         private const val NO_OF_LOG_CHAR = 1000
-
         private var sRetrofitClient: Retrofit? = null
         private val sDispatcher: Dispatcher? = null
-
         fun getClient(): Retrofit? {
             if (sRetrofitClient == null) {
                 sRetrofitClient = Retrofit.Builder()
@@ -79,9 +76,7 @@ class ApiClient {
             oktHttpClientBuilder.addInterceptor(getHttpLoggingInterceptor())
             oktHttpClientBuilder.addInterceptor { chain ->
                 var request = chain.request()
-
                 printPostmanFormattedLog(request)
-
                 var response = chain.proceed(request)
                 Log.d(TAG, "intercept: " + response.code())
                 val token = response.header("token")
@@ -159,7 +154,6 @@ class ApiClient {
                 }
                 response
             }
-
             return oktHttpClientBuilder
         }
 

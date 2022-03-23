@@ -57,6 +57,21 @@ class CatalogProductsRvAdapter(private val mContext: CatalogActivity, private va
             holder.mBinding.data = eachListData
             holder.mBinding.handler = ProductTileHandler(mContext, mListData)
             holder.mBinding.baseHandler = CatalogActivityHandler(mContext)
+            /*android:visibility="@{data.addedInfoCart== `false` &amp;&amp; data.cartItemId==`` || data.typeId!=`configurable`  ? View.VISIBLE : View.GONE}"*/
+
+            if(eachListData.typeId!="configurable"){
+                      if(!eachListData.isAuctionProduct && eachListData.isAvailable){
+                          if(eachListData.addedInfoCart=="false" && eachListData.cartItemId==""){
+                              holder.mBinding.addBtn.visibility = View.VISIBLE
+                          }else{
+                              holder.mBinding.addBtn.visibility = View.GONE
+                          }
+                      }else{
+                          holder.mBinding.addBtn.visibility = View.GONE
+                      }
+            }else{
+                holder.mBinding.addBtn.visibility = View.GONE
+            }
 
         }
         holder.mBinding.executePendingBindings()

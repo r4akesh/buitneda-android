@@ -14,6 +14,7 @@ import com.webkul.mobikul.helpers.MobikulApplication
 import com.webkul.mobikul.helpers.ToastHelper
 import com.webkul.mobikul.models.user.AccountRvModel.Companion.ACCOUNT_INFORMATION
 import com.webkul.mobikul.models.user.AccountRvModel.Companion.ADDRESS_BOOK
+import com.webkul.mobikul.models.user.AccountRvModel.Companion.AUCTION_PRODUCT
 import com.webkul.mobikul.models.user.AccountRvModel.Companion.DASHBOARD
 import com.webkul.mobikul.models.user.AccountRvModel.Companion.DOWNLOADABLE_PRODUCTS
 import com.webkul.mobikul.models.user.AccountRvModel.Companion.LOG_IN
@@ -80,6 +81,10 @@ class AccountDetailsRvHandler(val mFragmentContext: AccountDetailsFragment) {
             }
             WALLET -> {
                 mFragmentContext.startActivity(Intent(mFragmentContext.context, WalletActivity::class.java))
+            }
+
+            AUCTION_PRODUCT -> {
+                mFragmentContext.startActivity(Intent(mFragmentContext.context, AuctionFragmentActivity::class.java))
             }
             WHATS_APP -> {
 

@@ -1,12 +1,15 @@
 package com.webkul.mobikul.helpers
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
+import android.net.Uri
 import android.os.Build
 import android.speech.RecognizerIntent
 import android.util.DisplayMetrics
@@ -16,6 +19,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import com.webkul.mobikul.R
 import com.webkul.mobikul.activities.BaseActivity
 import com.webkul.mobikul.activities.HomeActivity
@@ -60,6 +64,10 @@ class Utils {
                 (context as BaseActivity).window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             } catch (e: Exception) {
             }
+        }
+
+        fun showToast(mContext: Context, message: String) {
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
         }
 
         fun enableUserInteraction(context: Context) {
@@ -305,6 +313,69 @@ class Utils {
             cal.timeInMillis = mills
             val format = "MMM dd, yyyy"
             return SimpleDateFormat(format).format(cal.time)
+        }
+
+
+        fun openDialer(mContext:Context,phone:String){
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:$phone")
+            mContext.startActivity(intent)
+        }
+
+        fun openChat(mContext: Context,phone:String) {
+            val isAppInstalled = appInstalledOrNot(mContext,"com.whatsapp.w4b")
+            val intent = Intent(Intent.ACTION_VIEW)
+            if (isAppInstalled) {
+                intent.setPackage("com.whatsapp.w4b")
+                intent.data =
+                    Uri.parse("https://api.whatsapp.com/send?phone=${phone}")
+                if (mContext.packageManager.resolveActivity(intent, 0) != null) {
+                    mContext.startActivity(intent)
+                } else {
+                    ToastHelper.showToast(
+                        mContext,
+                        mContext.getString(R.string.please_install_whatsapp)
+                    )
+                    val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                    val whatsBusinessIntent = Intent(Intent.ACTION_VIEW)
+                    whatsBusinessIntent.data = Uri.parse(url)
+                    mContext.startActivity(whatsBusinessIntent)
+                }
+            } else {
+                intent.setPackage("com.whatsapp")
+                intent.data =
+                    Uri.parse("https://api.whatsapp.com/send?phone=${phone}")
+                if (mContext.packageManager.resolveActivity(intent, 0) != null) {
+                    mContext.startActivity(intent)
+                } else {
+                    ToastHelper.showToast(
+                        mContext,
+                        mContext.getString(R.string.please_install_whatsapp)
+                    )
+                    val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
+                    val whatsAppIntent = Intent(Intent.ACTION_VIEW)
+                    whatsAppIntent.data = Uri.parse(url)
+                    mContext.startActivity(whatsAppIntent)
+                }
+            }
+        }
+
+        private fun appInstalledOrNot(mContext: Context,uri: String): Boolean {
+            val pm: PackageManager = mContext.packageManager
+            try {
+                pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+                return true
+            } catch (e: PackageManager.NameNotFoundException) {
+            }
+            return false
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun normalDate(input: String): String {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            val outputFormat = SimpleDateFormat("dd MMM yyyy")
+            val date: Date = inputFormat.parse(input)!!
+            return outputFormat.format(date)
         }
     }
 }

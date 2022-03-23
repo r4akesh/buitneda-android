@@ -14,26 +14,36 @@
 package com.webkul.mobikul.activities
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
+import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.AbsListView
 import androidx.databinding.DataBindingUtil
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.webkul.arcore.activities.ArActivity
 import com.webkul.arcore.activities.CameraWithImageActivity
 import com.webkul.mobikul.R
+import com.webkul.mobikul.adapters.CatalogAuctionProductsRvAdapter
 import com.webkul.mobikul.adapters.CatalogProductsRvAdapter
 import com.webkul.mobikul.adapters.CategoryBannerVpAdapter
 import com.webkul.mobikul.adapters.CriteriaDataAdapter
+
 import com.webkul.mobikul.databinding.ActivityCatalogBinding
 import com.webkul.mobikul.fragments.EmptyFragment
 import com.webkul.mobikul.handlers.CatalogActivityHandler
@@ -44,6 +54,7 @@ import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_CATALOG_TYPE
 import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_FROM_NOTIFICATION
 import com.webkul.mobikul.helpers.ConstantsHelper.RC_AR
 import com.webkul.mobikul.helpers.ConstantsHelper.VIEW_TYPE_GRID
+import com.webkul.mobikul.interfaces.OnMenuSelectListener
 import com.webkul.mobikul.models.catalog.CatalogProductsResponseModel
 import com.webkul.mobikul.models.homepage.BannerImage
 import com.webkul.mobikul.network.ApiConnection
@@ -54,15 +65,14 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONArray
 import retrofit2.HttpException
 import java.util.*
 
 open class CatalogActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityCatalogBinding
     var mFromNotification: Boolean = false
-
     var mPageNumber = 1
     var mCatalogType = ""
     var mCatalogName = ""
@@ -72,11 +82,25 @@ open class CatalogActivity : BaseActivity() {
     var mSellerAttributesIdOptionCodeMap: HashMap<String, String> = HashMap()
     var mSelectedProduct: Int = 0
     var clickedPageNumber:Int = 0
+
+    var intentFilter:IntentFilter? = null
     private lateinit var categoryAdapter:CatalogProductsRvAdapter
+
+
+
+    companion object{
+        const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"
+        const val BROADCAST_DEFAULT_UPDATE_CART_BADGE = "BROADCAST_DEFAULT_UPDATE_CART_BADGE"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_catalog)
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            updateCartBadgeReceiver,
+            IntentFilter(BROADCAST_DEFAULT_UPDATE_CART_BADGE)
+        )
         startInitialization(intent)
     }
 
@@ -87,6 +111,7 @@ open class CatalogActivity : BaseActivity() {
     }
 
     open fun startInitialization(intent: Intent) {
+        intentFilter = IntentFilter("com.journaldev.broadcastreceiver.SOME_ACTION")
         if (intent.hasExtra(BUNDLE_KEY_CATALOG_TYPE) && intent.hasExtra(BUNDLE_KEY_CATALOG_TITLE) && intent.hasExtra(
                 BUNDLE_KEY_CATALOG_ID
             )
@@ -110,26 +135,22 @@ open class CatalogActivity : BaseActivity() {
         }
         initSupportActionBar()
         mPageNumber = 1
+
+
         callApi(false,0)
         checkAndLoadLocalData()
     }
 
+    private fun inflateBadge() {
+        val bottomNavigationMenuView = mContentViewBinding.bottomNavView.getChildAt(0) as BottomNavigationMenuView
+        val v = bottomNavigationMenuView.getChildAt(3)
+        val itemView = v as BottomNavigationItemView
+        mBadge = LayoutInflater.from(this).inflate(R.layout.notification_badge, itemView, true)
+    }
+
     fun initSupportActionBar() {
-       // setSupportActionBar(mContentViewBinding.toolbar)
-      //  val title = SpannableString(mCatalogName)
-      /*  title.setSpan(
-            CalligraphyTypefaceSpan(
-                TypefaceUtils.load(
-                    assets,
-                    ApplicationConstants.CALLIGRAPHY_FONT_PATH_SEMI_BOLD
-                )
-            ), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )*/
-       // supportActionBar?.title = title
-       // supportActionBar?.elevation = 0f
-       // supportActionBar?.setDisplayShowHomeEnabled(true)
-       // supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // mContentViewBinding.toolbar.notificationBtn.visibility = View.GONE
+
+
         mContentViewBinding.toolbar.backBtn.setOnClickListener {
             finish()
         }
@@ -138,7 +159,71 @@ open class CatalogActivity : BaseActivity() {
             openMaterialSearchView()
         }
 
+        mContentViewBinding.bottomNavView.menu.getItem(2).isChecked = true
 
+        mContentViewBinding.bottomNavView.setOnNavigationItemSelectedListener { menuItem ->
+            updateCartBadge()
+            updateCartCount(AppSharedPref.getCartCount(this@CatalogActivity))
+            when (menuItem.itemId) {
+                R.id.bottom_category -> {
+                    val intent = Intent()
+                    intent.action = "bottom.menu.action"
+                    intent.putExtra("menuName", "category")
+                    intent.putExtra("menuIndex", 0)
+                    sendBroadcast(intent)
+                    finish()
+                }
+                R.id.bottom_auction -> {
+                    val intent = Intent()
+                    intent.action = "bottom.menu.action"
+                    intent.putExtra("menuName", "auction")
+                    intent.putExtra("menuIndex", 1)
+                    sendBroadcast(intent)
+                    finish()
+                }
+                R.id.bottom_home -> {
+                    val intent = Intent()
+                    intent.action = "bottom.menu.action"
+                    intent.putExtra("menuName", "Home")
+                    intent.putExtra("menuIndex", 2)
+                    sendBroadcast(intent)
+                    finish()
+                }
+                R.id.bottom_cart -> {
+                    val intent = Intent()
+                    intent.action = "bottom.menu.action"
+                    intent.putExtra("menuName", "cart")
+                    intent.putExtra("menuIndex", 3)
+                    sendBroadcast(intent)
+                    finish()
+                }
+                R.id.bottom_profile -> {
+                    val intent = Intent()
+                    intent.action = "bottom.menu.action"
+                    intent.putExtra("menuName", "profile")
+                    intent.putExtra("menuIndex", 4)
+                    sendBroadcast(intent)
+                    finish()
+                }
+            }
+
+            true
+        }
+
+        /* mContentViewBinding.productsRv.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                 super.onScrollStateChanged(recyclerView, newState)
+                 if(newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    mContentViewBinding.appBarLayout.visibility = View.GONE
+                 } else {
+
+                     // Do something
+                 }
+             }
+         })*/
+        updateCartBadge()
+        inflateBadge()
+        updateCartCount(AppSharedPref.getCartCount(this))
     }
 
     open fun callApi(isClicked:Boolean,position:Int) {
@@ -165,6 +250,7 @@ open class CatalogActivity : BaseActivity() {
                         super.onNext(catalogProductsResponseModel)
                         mContentViewBinding.loading = false
                         if (catalogProductsResponseModel.success) {
+
                             onSuccessfulResponse(catalogProductsResponseModel,isClicked, position)
                         } else {
                             onFailureResponse(catalogProductsResponseModel)
@@ -243,9 +329,6 @@ open class CatalogActivity : BaseActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun onSuccessfulResponse(catalogProductsResponseModel: CatalogProductsResponseModel, isClicked: Boolean, position: Int) {
-        for(i in 0 until catalogProductsResponseModel.productList.size){
-            catalogProductsResponseModel.productList[i].mPageNumber = mPageNumber-1
-        }
         if (mPageNumber == 2) {
             mContentViewBinding.data = catalogProductsResponseModel
             mContentViewBinding.handler = CatalogActivityHandler(this)
@@ -271,7 +354,6 @@ open class CatalogActivity : BaseActivity() {
 
             }else{
                 mContentViewBinding.data!!.productList.addAll(catalogProductsResponseModel.productList)
-                mContentViewBinding.productsRv.adapter?.notifyItemChanged(position)
                 mContentViewBinding.productsRv.adapter?.notifyItemRangeChanged(
                     mContentViewBinding.data!!.productList.size - catalogProductsResponseModel.productList.size,
                     mContentViewBinding.data!!.productList.size
@@ -295,7 +377,6 @@ open class CatalogActivity : BaseActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun setupProductsRv(isClicked: Boolean, position: Int) {
         if (mContentViewBinding.productsRv.adapter == null) {
-
             if (AppSharedPref.getViewType(this) == VIEW_TYPE_GRID) {
                 mContentViewBinding.productsRv.layoutManager = GridLayoutManager(this, 2)
             } else {
@@ -315,7 +396,13 @@ open class CatalogActivity : BaseActivity() {
                 }
             })
         }
-        mContentViewBinding.productsRv.adapter = CatalogProductsRvAdapter(this, mContentViewBinding.data!!.productList)
+
+        if(mCatalogId=="auctionproductlist"){
+            mContentViewBinding.productsRv.adapter = CatalogAuctionProductsRvAdapter(this, mContentViewBinding.data!!.productList)
+        }else{
+            mContentViewBinding.productsRv.adapter = CatalogProductsRvAdapter(this, mContentViewBinding.data!!.productList)
+        }
+
 
     }
 
@@ -387,7 +474,7 @@ open class CatalogActivity : BaseActivity() {
     private fun addEmptyLayout() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(
-            R.id.catalog_product_list_layout,
+            R.id.product_list_container,
             EmptyFragment.newInstance(
                 "empty_cart.json",
                 getString(R.string.empty_product_catalog),
@@ -482,4 +569,26 @@ open class CatalogActivity : BaseActivity() {
             }
         }
     }
+
+
+
+    val updateCartBadgeReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            when (intent?.action) {
+                BROADCAST_DEFAULT_UPDATE_CART_BADGE -> {
+                    updateCartBadge()
+                    updateCartCount(AppSharedPref.getCartCount(this@CatalogActivity))
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateBadge()
+    }
+
+
 }
+
+

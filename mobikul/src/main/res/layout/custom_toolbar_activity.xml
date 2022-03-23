@@ -73,8 +73,6 @@
                     android:textColorHint="@color/color_B4B4B4"
                     android:fontFamily="@font/montserrat_regular"
                     android:textSize="14sp"
-                    android:focusable="false"
-                    android:editable="false"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:drawableEnd="@drawable/ic_search_black_24dp"

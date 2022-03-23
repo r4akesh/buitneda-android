@@ -61,7 +61,6 @@ open class AppSharedPref {
         const val KEY_IS_AR_SUPPORTED = "isArSupported"
         const val KEY_CATEGORY_DATA = "categoryData"
         const val KEY_SHOW_SPLASH = "showSplash"
-
         const val KEY_LOGGED_IN = "loggedIn"
         const val KEY_QUOTE_ID = "quoteId"
         const val KEY_CART_COUNT = "cartCount"

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.service.ServiceProviderModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        android:layout_marginTop="0.5dp">
+
+
+        <TextView
+            android:id="@+id/serviceTitle"
+            fontPath="fonts/montserrat_bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:layout_margin="10dp"
+            android:text="@{data.company_name}"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_medium_"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fitness Equipment" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/avgRating"
+            fontPath="fonts/helvetica.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/ic_avg_rating_icon"
+            android:drawablePadding="5dp"
+            android:text="@{data.review_avg==null ? `0` : String.format(`%,.1f`,Double.parseDouble(data.review_avg)) }"
+            android:textColor="@color/color_01D4FF"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintStart_toStartOf="@+id/serviceTitle"
+            app:layout_constraintTop_toBottomOf="@+id/serviceTitle"
+            tools:text="4.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/totalRating"
+            fontPath="fonts/helvetica.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="@{data.total_review==null  ? `(0)` : `(`+data.total_review+`)` }"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/avgRating"
+            app:layout_constraintStart_toEndOf="@+id/avgRating"
+            app:layout_constraintTop_toTopOf="@+id/avgRating"
+            tools:text="(4.0)" />
+
+        <View
+            android:id="@+id/dotDivider"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@drawable/dotted_vertical_line"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/serviceProviderIcon"
+            app:layout_constraintStart_toStartOf="@+id/serviceTitle"
+            app:layout_constraintTop_toBottomOf="@+id/totalRating"/>
+
+
+        <ImageView
+            android:id="@+id/serviceProviderIcon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/placeholder"
+            imageUrl="@{data.image}"
+            app:layout_constraintBottom_toBottomOf="@+id/dotDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/totalRating"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/serviceInfoList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/dotDivider"
+            app:layout_constraintStart_toStartOf="@+id/dotDivider"
+            app:layout_constraintEnd_toStartOf="@+id/serviceProviderIcon"
+            android:layout_marginTop="10dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <TextView
+            android:id="@+id/viewFullInfoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_details"
+            fontPath="fonts/helvetica.ttf"
+            app:layout_constraintTop_toBottomOf="@+id/serviceInfoList"
+            app:layout_constraintStart_toStartOf="@+id/serviceInfoList"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/color_01D4FF"
+            android:layout_marginTop="10dp"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+

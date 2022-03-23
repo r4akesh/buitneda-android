@@ -57,10 +57,8 @@ class OrderDetailsActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_order_details, menu)
-
         mMenuItemMoreOptions = menu.findItem(R.id.menu_item_more_options)
         mMenuItemMoreOptions.isVisible = false
-
         return true
     }
 

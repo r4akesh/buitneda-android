@@ -1,0 +1,81 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.webkul.mobikul.models.service.ServiceBannerListModel" />
+
+        <variable
+            name="handler"
+            type="com.webkul.mobikul.handlers.ServiceCategoryHandler" />
+
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/categoryContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0.1dp"
+        android:layout_marginEnd="0.1dp"
+        android:layout_marginTop="0.1dp"
+        android:layout_marginBottom="0.1dp"
+        android:background="@color/color_background"
+        android:onClick="@{()->handler.onClickCategory(data.service_id)}"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/serviceTileBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/serviceIconBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->handler.onClickCategory(data.service_id)}"
+                android:background="@color/color_background">
+
+                <com.webkul.mobikul.customviews.ZoomImageView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="center"
+                    android:onClick="@{()->handler.onClickCategory(data.service_id)}"
+                    android:background="@color/color_background"
+                    app:imageUrl="@{data.image}"
+                     />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/category_label"
+                fontPath="fonts/helvetica.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="@{data.service_title}"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_tiny"
+                tools:text="Fitness Equipment" />
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</layout>

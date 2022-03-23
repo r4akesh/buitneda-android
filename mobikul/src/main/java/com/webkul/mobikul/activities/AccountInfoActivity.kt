@@ -34,9 +34,7 @@ import java.util.*
 */
 
 class AccountInfoActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityAccountInfoBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_info)

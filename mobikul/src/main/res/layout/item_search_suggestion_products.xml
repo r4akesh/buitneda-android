@@ -61,19 +61,28 @@
                 app:loadHtmlText="@{data.productName}"
                 tools:text="Magento Marketplace Multi Vendor Module" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+           <!-- <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.specialPrice}"
                 android:textColor="@color/product_price_color"
                 android:textStyle="bold"
                 android:visibility="@{data.hasSpecialPrice ? View.VISIBLE : View.GONE}"
-                tools:text="$349.00" />
+                tools:text="$349.00" />-->
+
+           <!-- <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{data.hasSpecialPrice ? @drawable/bg_strikethrough : null }"
+                android:text="@{data.price}"
+                android:textColor="@{data.hasSpecialPrice ? @color/grey_400 : @color/product_price_color}"
+                android:textStyle="bold"
+                tools:text="$349.00" />-->
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@{data.hasSpecialPrice ? @drawable/bg_strikethrough : null }"
                 android:text="@{data.price}"
                 android:textColor="@{data.hasSpecialPrice ? @color/grey_400 : @color/product_price_color}"
                 android:textStyle="bold"

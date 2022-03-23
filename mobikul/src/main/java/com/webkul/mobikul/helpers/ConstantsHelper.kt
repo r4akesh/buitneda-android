@@ -132,6 +132,25 @@ object ConstantsHelper {
     const val MOBIKUL_AUTO_BID_LIST = "mobikulmpauction/api/autobidList"
     const val MOBIKUL_ADD_BID = "mobikulmpauction/api/addbid"
     const val MOBIKUL_INVOICE = "rest/V1/invoiceapi/post"
+
+    //serviceProvider Apis
+    const val MOBIKUL_HOME_TOP_BANNER = "rest/V1/emizentech-serviceprovider/homepage-top-banner"
+    const val MOBIKUL_HOME_SERVICE_LIST = "rest/V1/emizentech-serviceprovider/homepage-services"
+    const val MOBIKUL_HOME_PAGE_BANNER_LIST = "rest/V1/emizentech-serviceprovider/homepage-banner"
+    const val MOBIKUL_SERVICE_PROVIDER_LIST = "rest/V1/emizentech-serviceprovider/serviceprovider/"
+    const val MOBIKUL_SERVICE_PROVIDER_INFO = "rest/V1/emizentech-serviceprovider/serviceproviderbyid"
+    const val MOBIKUL_SERVICE_PROVIDER_REVIEW_LIST = "rest/V1/emizentech-serviceprovider/review"
+    const val MOBIKUL_SERVICE_SUBMIT_REVIEW = "rest/V1/emizentech-serviceprovider/review-submit"
+    const val MOBIKUL_SERVICE_ALL_SERVICE_LIST = "rest/V1/emizentech-serviceprovider/services/"
+    const val MOBIKUL_SERVICE_AREA_LIST = "rest/V1/emizentech-serviceprovider/area"
+    const val MOBIKUL_SERVICE_VISITOR = "rest/V1/emizentech-serviceprovider/visitor"
+    const val MOBIKUL_SEARCH_SERVICE = "rest/V1/emizentech-serviceprovider/service-search"
+    const val MOBIKUL_ICON_BANNER_SERVICE = "rest/V1/emizentech-serviceprovider/icon-banner"
+
+
+
+
+
     /************************************************************
      *
      * Request Code Constants

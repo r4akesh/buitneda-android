@@ -94,6 +94,26 @@
         <item name="colorControlActivated">#000000</item>
     </style>
 
+    <style name="MyRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/grey_400</item>
+        <item name="colorControlActivated">@color/color_63E4FF</item>
+        <item name="minHeight">16dip</item>
+        <item name="maxHeight">16dip</item>
+
+    </style>
+
+    <style name="MyRatingDialog" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/color_78E7FE</item>
+        <item name="colorControlActivated">@color/color_background</item>
+        <item name="minHeight">16dip</item>
+        <item name="maxHeight">16dip</item>
+
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/rounded_dialog_bg</item>
+    </style>
+
     <style name="CustomTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/text_color_secondary</item>
         <item name="boxStrokeColor">@color/colorAccent</item>

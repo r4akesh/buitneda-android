@@ -31,7 +31,7 @@ class DatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 9
+        private const val DATABASE_VERSION = 10
         private const val DATABASE_NAME = "OfflineDatabase.db"
     }
 
@@ -135,6 +135,8 @@ class DatabaseHelper(context: Context) :
             updateIntoOfflineTable(hashIdentifier, eTag, responseData)
         cursor.close()
     }
+
+
 
     private fun insertIntoOfflineTable(hashIdentifier: String, eTag: String, responseData: String) {
         // Create a new map of values, where column names are the keys

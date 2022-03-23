@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+            <variable
+                name="customerName"
+                type="String" />
+
+    </data>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dialog_bg"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_header">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/reviewAndRatingLabel"
+                    fontPath="fonts/helvetica.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/spacing_generic"
+                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_generic"
+                    android:paddingBottom="@dimen/spacing_normal"
+                    android:text="@string/rating_review"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/color_background"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewAndRatingLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="20dp"
+                    android:paddingStart="@dimen/text_size_small"
+                    android:paddingEnd="@dimen/text_size_small"
+                    android:background="@drawable/background_rating"
+                    android:gravity="center_vertical">
+
+                    <RatingBar
+                        android:id="@+id/givenRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.8"
+                        android:rating="1"
+                        android:stepSize="1"
+                        android:theme="@style/MyRatingDialog"
+                        android:scaleY="0.8"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/closeDialogButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/dialog_cornor"
+                    android:gravity="end"
+                    app:layout_constraintVertical_bias="0.0">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/ic_dialog_close_btn"
+                        />
+
+                </LinearLayout>
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/rounded_border_gray_stroke"
+                android:layout_margin="15dp"
+                android:inputType="text"
+                android:hint="@string/name"
+                android:text="@={customerName}"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:fontFamily="@font/helvetica"
+                android:textSize="@dimen/text_size_medium"
+                android:lineSpacingExtra="5dp"/>
+
+            <EditText
+                android:id="@+id/reviewComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_border_gray_stroke"
+                android:layout_margin="15dp"
+                android:inputType="textMultiLine"
+                android:minLines="10"
+                android:hint="@string/please_enter_your_comments"
+                android:gravity="start"
+                android:padding="8dp"
+                android:fontFamily="@font/helvetica"
+                android:textSize="@dimen/text_size_medium"
+                android:lineSpacingExtra="5dp"/>
+
+
+
+            <Button
+                android:id="@+id/submitReviewBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:background="@color/color_01D4FF"
+                android:textStyle="bold"
+                android:fontFamily="@font/helvetica"
+                android:text="@string/submit"/>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</layout>

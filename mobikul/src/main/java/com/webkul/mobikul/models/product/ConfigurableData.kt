@@ -49,7 +49,6 @@ class ConfigurableData() : Parcelable {
     var chooseText: String ?= ""
 
     @JsonProperty("images")
-
     var images: String ?= ""
 
     @JsonProperty("index")

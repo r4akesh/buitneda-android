@@ -172,16 +172,88 @@ class CatalogActivityHandler(private val mContext: CatalogActivity) {
     ) {
         (mContext).mContentViewBinding.loading = true
         if (NetworkHelper.isNetworkAvailable(mContext)) {
-            if (type == "add") {
-                mContext.mContentViewBinding.data!!.productList[position].cartQty++
-                ApiConnection.addToCart(
-                    mContext,
-                    entityId,
-                    mContext.mContentViewBinding.data!!.productList[position].cartQty.toString(),
-                    JSONObject(),
-                    null,
-                    JSONArray()
-                )
+            /* if (type == "add") {
+                 mContext.mContentViewBinding.data!!.productList[position].cartQty++
+                 ApiConnection.addToCart(
+                     mContext,
+                     entityId,
+                     "1",
+                     JSONObject(),
+                     null,
+                     JSONArray()
+                 )
+                     .observeOn(AndroidSchedulers.mainThread())
+                     .subscribeOn(Schedulers.io())
+                     .subscribe(object : ApiCustomCallback<AddToCartResponseModel>(mContext, true) {
+                         override fun onNext(addToCartResponse: AddToCartResponseModel) {
+                             super.onNext(addToCartResponse)
+                             mContext.mContentViewBinding.loading = false
+                             ToastHelper.showToast(mContext, addToCartResponse.message)
+                             mContext.updateCartCount(addToCartResponse.cartCount)
+                             if (addToCartResponse.success) {
+                                 mContext.mContentViewBinding.data!!.productList[position].addedInfoCart =
+                                     "true"
+                                 mContext.mContentViewBinding.data!!.productList[position].quoteId =
+                                     addToCartResponse.quoteId
+                                 mContext.callApi(true, position)
+                                 mContext.mContentViewBinding.productsRv.adapter!!.notifyItemChanged(
+                                     position
+                                 )
+                             }
+                         }
+
+                         override fun onError(e: Throwable) {
+                             super.onError(e)
+                             mContext.mContentViewBinding.loading = false
+                             ToastHelper.showToast(
+                                 mContext,
+                                 mContext.resources.getString(R.string.something_went_wrong)
+                             )
+                         }
+                     })
+             } else {
+                 mContext.mContentViewBinding.data!!.productList[position].cartQty--
+                 ApiConnection.addToCart(
+                     mContext,
+                     entityId,
+                     "0",
+                     JSONObject(),
+                     null,
+                     JSONArray()
+                 )
+                     .observeOn(AndroidSchedulers.mainThread())
+                     .subscribeOn(Schedulers.io())
+                     .subscribe(object : ApiCustomCallback<AddToCartResponseModel>(mContext, true) {
+                         override fun onNext(addToCartResponse: AddToCartResponseModel) {
+                             super.onNext(addToCartResponse)
+                             mContext.mContentViewBinding.loading = false
+                             ToastHelper.showToast(mContext, addToCartResponse.message)
+                             mContext.updateCartCount(addToCartResponse.cartCount)
+                             if (addToCartResponse.success) {
+                                 mContext.mContentViewBinding.data!!.productList[position].addedInfoCart =
+                                     "true"
+                                 mContext.mContentViewBinding.data!!.productList[position].quoteId =
+                                     addToCartResponse.quoteId
+                                 mContext.callApi(true, position)
+                                 mContext.mContentViewBinding.productsRv.adapter!!.notifyItemChanged(
+                                     position
+                                 )
+                             }
+                         }
+
+                         override fun onError(e: Throwable) {
+                             super.onError(e)
+                             mContext.mContentViewBinding.loading = false
+                             ToastHelper.showToast(
+                                 mContext,
+                                 mContext.resources.getString(R.string.something_went_wrong)
+                             )
+                         }
+                     })
+             }*/
+
+            if (mContext.mContentViewBinding.data!!.productList[position].cartItemId == "" && mContext.mContentViewBinding.data!!.productList[position].cartQty == 0) {
+                ApiConnection.addToCart(mContext, entityId, "1", JSONObject(), null, JSONArray())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(object : ApiCustomCallback<AddToCartResponseModel>(mContext, true) {
@@ -193,12 +265,20 @@ class CatalogActivityHandler(private val mContext: CatalogActivity) {
                             if (addToCartResponse.success) {
                                 mContext.mContentViewBinding.data!!.productList[position].addedInfoCart =
                                     "true"
-                                mContext.mContentViewBinding.data!!.productList[position].quoteId =
-                                    addToCartResponse.quoteId
-                                mContext.callApi(true, position)
+                                mContext.mContentViewBinding.data!!.productList[position].quoteId = addToCartResponse.cartQuoteId
+                                AppSharedPref.setQuoteId(mContext,addToCartResponse.cartQuoteId)
+                                mContext.mContentViewBinding.data!!.productList[position].cartItemId = addToCartResponse.cartItemId
+
+                                if (type == "add") {
+                                    mContext.mContentViewBinding.data!!.productList[position].cartQty++
+                                } else {
+                                    mContext.mContentViewBinding.data!!.productList[position].cartQty--
+                                }
                                 mContext.mContentViewBinding.productsRv.adapter!!.notifyItemChanged(
                                     position
                                 )
+                                mContext.updateBadge()
+                                //mContext.callApi(true, position)
                             }
                         }
 
@@ -212,14 +292,20 @@ class CatalogActivityHandler(private val mContext: CatalogActivity) {
                         }
                     })
             } else {
-                mContext.mContentViewBinding.data!!.productList[position].cartQty--
-                ApiConnection.addToCart(
+                if (type == "add") {
+                    mContext.mContentViewBinding.data!!.productList[position].cartQty++
+                } else {
+                    mContext.mContentViewBinding.data!!.productList[position].cartQty--
+                }
+                ApiConnection.updateDirectProduct(
                     mContext,
-                    entityId,
+                    mContext.mContentViewBinding.data!!.productList[position].id!!,
                     mContext.mContentViewBinding.data!!.productList[position].cartQty.toString(),
-                    JSONObject(),
-                    null,
-                    JSONArray()
+                    mProductParamsJSON,
+                    mFiles,
+                    mRelatedProductsJSONArray,
+                    mContext.mContentViewBinding.data!!.productList[position].cartItemId!!,
+                    if(AppSharedPref.getQuoteId(mContext)==0) mContext.mContentViewBinding.data!!.productList[position].quoteId else AppSharedPref.getQuoteId(mContext)
                 )
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -228,17 +314,16 @@ class CatalogActivityHandler(private val mContext: CatalogActivity) {
                             super.onNext(addToCartResponse)
                             mContext.mContentViewBinding.loading = false
                             ToastHelper.showToast(mContext, addToCartResponse.message)
-                            mContext.updateCartCount(addToCartResponse.cartCount)
-                            if (addToCartResponse.success) {
-                                mContext.mContentViewBinding.data!!.productList[position].addedInfoCart =
-                                    "true"
-                                mContext.mContentViewBinding.data!!.productList[position].quoteId =
-                                    addToCartResponse.quoteId
-                                mContext.callApi(true, position)
+                            if(addToCartResponse.success){
+                                mContext.updateCartCount(addToCartResponse.cartCount)
                                 mContext.mContentViewBinding.productsRv.adapter!!.notifyItemChanged(
                                     position
                                 )
+                                mContext.updateBadge()
                             }
+
+                            //mContext.callApi(true, position)
+
                         }
 
                         override fun onError(e: Throwable) {

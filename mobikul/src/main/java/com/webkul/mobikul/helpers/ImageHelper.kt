@@ -81,7 +81,7 @@ class ImageHelper {
 //                        .thumbnail(0.1f)
                         .listener(glideCallBack)
                         .apply(RequestOptions()
-                                .placeholder(ColorDrawable(Color.parseColor(placeholder)))
+                                .placeholder(R.drawable.ic_user_place_holder_icon)
                                 .dontAnimate())
                         .into(view)
             }

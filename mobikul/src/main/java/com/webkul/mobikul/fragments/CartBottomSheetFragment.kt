@@ -46,7 +46,6 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
 class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
-
     lateinit var mContentViewBinding: FragmentCartBottomSheetBinding
     private val TAG = "CartBottomSheetFragment"
     lateinit var localBroadcastReceiver: LocalBroadcastManager
@@ -57,14 +56,11 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        mContentViewBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
-
+        mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart_bottom_sheet, container, false)
         mContentViewBinding.discountCode.visibility = View.GONE
         mContentViewBinding.discountCodeHeading.visibility = View.GONE
         localBroadcastReceiver = LocalBroadcastManager.getInstance(context!!)
-        mContentViewBinding.cartHeaderLayout.setOnTouchListener { v, event ->
-            true
+        mContentViewBinding.cartHeaderLayout.setOnTouchListener { v, event -> true
         }
 
         return mContentViewBinding.root
@@ -93,7 +89,6 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                         onFailureResponse(cartDetailsResponseModel)
                     }
                 }
-
                 override fun onError(e: Throwable) {
                     super.onError(e)
                     mContentViewBinding.loading = false
@@ -172,8 +167,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
 
     private fun setupPriceDetailsItems() {
         mContentViewBinding.priceDetailsRv.isNestedScrollingEnabled = false
-        mContentViewBinding.priceDetailsRv.adapter =
-            PriceDetailsRvAdapter(context!!, mContentViewBinding.data!!.totalsData)
+        mContentViewBinding.priceDetailsRv.adapter = PriceDetailsRvAdapter(context!!, mContentViewBinding.data!!.totalsData)
     }
 
     private fun setupProceedBtnHideShow() {
@@ -183,9 +177,7 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
                     mContentViewBinding.proceedToCheckoutBtn.animate().alpha(1.0f)
                         .translationY(0f).interpolator = DecelerateInterpolator(1.4f)
             } else {
-                mContentViewBinding.proceedToCheckoutBtn.animate().alpha(0f)
-                    .translationY(mContentViewBinding.proceedToCheckoutBtn.height.toFloat()).interpolator =
-                    AccelerateInterpolator(1.4f)
+                mContentViewBinding.proceedToCheckoutBtn.animate().alpha(0f).translationY(mContentViewBinding.proceedToCheckoutBtn.height.toFloat()).interpolator = AccelerateInterpolator(1.4f)
             }
         })
     }
@@ -255,16 +247,8 @@ class CartBottomSheetFragment : FullScreenBottomSheetDialogFragment() {
         if (resultCode == AppCompatActivity.RESULT_OK) {
             if (requestCode == ConstantsHelper.RC_LOGIN || requestCode == ConstantsHelper.RC_SIGN_UP) {
                 val intent = Intent(context!!, CheckoutActivity::class.java)
-                intent.putExtra(
-                    BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART,
-                    mContentViewBinding.data!!.isVirtual
-                )
-
-                intent.putExtra(
-                    BundleKeysHelper.BUNDLE_KEY_IS_CART_ITEM,
-                    mContentViewBinding.data!!.items
-                )
-
+                intent.putExtra(BundleKeysHelper.BUNDLE_KEY_IS_VIRTUAL_CART,mContentViewBinding.data!!.isVirtual)
+                intent.putExtra(BundleKeysHelper.BUNDLE_KEY_IS_CART_ITEM, mContentViewBinding.data!!.items)
                 startActivity(intent)
             }
         }

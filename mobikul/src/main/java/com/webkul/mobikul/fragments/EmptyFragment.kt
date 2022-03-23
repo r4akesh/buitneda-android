@@ -47,8 +47,10 @@ class EmptyFragment : Fragment() {
         }
     }
 
-    private lateinit var mContentViewBinding: FragmentEmptyBinding
 
+
+
+    private lateinit var mContentViewBinding: FragmentEmptyBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mContentViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_empty, container, false)
         return mContentViewBinding.root

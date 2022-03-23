@@ -153,7 +153,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/nickname"
+                        android:hint="@string/name"
                         android:inputType="textPersonName|textCapWords"
                         android:maxLines="1"
                         android:text="@={data.nickName}"
@@ -163,7 +163,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/summary_til"
                     style="@style/CustomTilStyle"
                     android:layout_width="match_parent"
@@ -184,7 +184,7 @@
                         android:textColor="@color/text_color_primary"
                         android:textSize="@dimen/text_size_small" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/comment_til"

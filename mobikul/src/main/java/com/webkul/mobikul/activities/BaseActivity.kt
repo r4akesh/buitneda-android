@@ -154,7 +154,6 @@ open class BaseActivity : AppCompatActivity(), NetworkStateReceiver.NetworkState
                 (mItemCart.icon as LayerDrawable),
                 AppSharedPref.getCartCount(this)
             )
-
             updateBadge()
         }
     }

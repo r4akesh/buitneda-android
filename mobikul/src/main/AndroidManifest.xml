@@ -5,6 +5,7 @@
 
     <queries>
         <package android:name="com.whatsapp" />
+
         <intent>
             <action android:name="com.android.camera.action.CROP" />
         </intent>
@@ -27,16 +28,30 @@
         android:allowBackup="false"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-
+        <activity
+            android:name=".activities.ServiceAllActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.ServiceProviderDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.ServiceProviderListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BaseActivity"
             android:screenOrientation="portrait"
@@ -312,7 +327,6 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.buitanda.android"
@@ -323,6 +337,14 @@
                 android:resource="@xml/file_path" />
         </provider>
 
+        <receiver
+            android:name=".broadcast_receivers.BottomMenuReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="bottom.menu.action" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

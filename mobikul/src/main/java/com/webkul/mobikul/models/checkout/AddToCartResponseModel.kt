@@ -25,8 +25,13 @@ import com.webkul.mobikul.models.BaseModel
 class AddToCartResponseModel : BaseModel() {
 
     @JsonProperty("quoteId")
-
     var quoteId: Int = 0
+
+    @JsonProperty("cart_quote_id")
+    var cartQuoteId: Int = 0
+
+    @JsonProperty("cartItemId")
+    var cartItemId: String = ""
 
     @JsonProperty("isVirtual")
 

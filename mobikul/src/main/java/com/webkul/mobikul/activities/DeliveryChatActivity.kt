@@ -30,7 +30,6 @@ class DeliveryChatActivity : BaseActivity() {
     var mUserName: String = ""
     var mAccountType: String = ""
     lateinit var mBinding: ActivityDeliveryChatBinding
-
     lateinit var mDatabaseReference: DatabaseReference
     private val mMessageList = ArrayList<ChatMessage>()
     private var isFromNotification: Boolean = false
