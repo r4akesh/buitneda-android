@@ -63,7 +63,6 @@ class ServiceProviderListActivity : BaseActivity(), OnSelectSortBy, OnFilterItem
                 "sortServiceBottomSheetFragment"
             )
             sortServiceBottomSheetFragment.isCancelable = true
-
         }
 
         mContentBinding.filterTv.setOnClickListener {

@@ -26,16 +26,12 @@ import com.webkul.mobikul.helpers.BundleKeysHelper
 import com.webkul.mobikul.models.user.AddressDetailsData
 
 class OrderPlacedActivity : BaseActivity() {
-
     lateinit var mContentViewBinding: ActivityOrderPlacedBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_placed)
-
         mContentViewBinding.data = intent.getParcelableExtra(BundleKeysHelper.BUNDLE_KEY_SAVE_ORDER_RESPONSE)
         mContentViewBinding.handler = OrderPlaceActivityHandler()
-
         AppSharedPref.setCustomerCachedNewAddress(this, AddressDetailsData())
     }
 
