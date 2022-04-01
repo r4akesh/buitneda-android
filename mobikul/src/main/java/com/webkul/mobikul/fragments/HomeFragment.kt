@@ -2,6 +2,7 @@ package com.webkul.mobikul.fragments
 
 //import com.webkul.mobikul.helpers.BundleKeysHelper.BUNDLE_KEY_HOME_PAGE_DATA
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -68,6 +69,7 @@ class HomeFragment : Fragment() {
     private var commonViewModel: CommonViewModel? = null
     private var hashIdentifier = ""
     lateinit var bannerCarouselLayoutBinding:BannerCarouselLayoutBinding
+    lateinit var mContext:Context
 //    private var currentCache = 0
 
 
@@ -84,6 +86,10 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "onCreate: $instanceOf")
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext=context
+    }
     private val TAG = "HomeFragment:::"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -148,13 +154,13 @@ class HomeFragment : Fragment() {
         }*/
 
         mContentViewBinding.toolbar.walletBtn.setOnClickListener {
-            context?.let { context ->
-                if (AppSharedPref.isLoggedIn(context)) {
-                    startActivity(Intent(context, ManageWalletAmountActivity::class.java))
+            mContext?.let { mContext ->
+                if (AppSharedPref.isLoggedIn(mContext)) {
+                    startActivity(Intent(mContext, ManageWalletAmountActivity::class.java))
                 } else {
-                    context.startActivity(
-                        (context.applicationContext as MobikulApplication).getLoginAndSignUpActivity(
-                            context
+                    mContext.startActivity(
+                        (mContext.applicationContext as MobikulApplication).getLoginAndSignUpActivity(
+                            mContext
                         )
                     )
                 }
@@ -199,13 +205,13 @@ class HomeFragment : Fragment() {
         if (isAppInstalled) {
             intent.setPackage("com.whatsapp.w4b")
             intent.data =
-                Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
-            if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                Uri.parse("https://api.whatsapp.com/send?phone=${mContext!!.getString(R.string.whats_app_number)}")
+            if (mContext!!.packageManager.resolveActivity(intent, 0) != null) {
                 startActivity(intent)
             } else {
                 ToastHelper.showToast(
-                    context!!,
-                    context!!.getString(R.string.please_install_whatsapp)
+                    mContext!!,
+                    mContext!!.getString(R.string.please_install_whatsapp)
                 )
                 val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
                 val whatsBusinessIntent = Intent(Intent.ACTION_VIEW)
@@ -215,13 +221,13 @@ class HomeFragment : Fragment() {
         } else {
             intent.setPackage("com.whatsapp")
             intent.data =
-                Uri.parse("https://api.whatsapp.com/send?phone=${context!!.getString(R.string.whats_app_number)}")
-            if (context!!.packageManager.resolveActivity(intent, 0) != null) {
+                Uri.parse("https://api.whatsapp.com/send?phone=${mContext!!.getString(R.string.whats_app_number)}")
+            if (mContext!!.packageManager.resolveActivity(intent, 0) != null) {
                 startActivity(intent)
             } else {
                 ToastHelper.showToast(
-                    context!!,
-                    context!!.getString(R.string.please_install_whatsapp)
+                    mContext!!,
+                    mContext!!.getString(R.string.please_install_whatsapp)
                 )
                 val url = "https://play.google.com/store/search?q=whatsapp&c=apps"
                 val whatsAppIntent = Intent(Intent.ACTION_VIEW)
@@ -234,7 +240,7 @@ class HomeFragment : Fragment() {
     private fun initSwipeRefresh() {
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
-            if (NetworkHelper.isNetworkAvailable(context!!)) {
+            if (NetworkHelper.isNetworkAvailable(mContext!!)) {
 //                callApiBackground()
                 lifecycleScope.launch{
                     loadDataFromDB()
@@ -242,7 +248,7 @@ class HomeFragment : Fragment() {
 
             } else {
                 mContentViewBinding.swipeRefreshLayout.isRefreshing = false
-                ToastHelper.showToast(context!!, getString(R.string.you_are_offline))
+                ToastHelper.showToast(mContext!!, getString(R.string.you_are_offline))
             }
         }
     }
@@ -311,7 +317,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onSubscribe(disposable: Disposable) {
-                    (context as BaseActivity).mCompositeDisposable.add(disposable)
+                    (mContext as BaseActivity).mCompositeDisposable.add(disposable)
                 }
 
                 override fun onComplete() {
@@ -321,12 +327,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateAnimationCheckAndProceed(response: String) {
-        (context as HomeActivity).runOnUiThread {
+        (mContext as HomeActivity).runOnUiThread {
             if (response != "") {
-                (context as HomeActivity).mHomePageDataModel =
+                (mContext as HomeActivity).mHomePageDataModel =
                     BaseActivity.mGson.fromJson(response, HomePageDataModel::class.java)
                 Log.d(TAG, "updateAnimationCheckAndProceed: $response")
-                onSuccessfulResponse((context as HomeActivity).mHomePageDataModel)
+                onSuccessfulResponse((mContext as HomeActivity).mHomePageDataModel)
             }
 
         }
@@ -341,19 +347,19 @@ class HomeFragment : Fragment() {
             "callApi: " + BaseActivity.mDataBaseHandler.getETagFromDatabase(hashIdentifier)
         )
         ApiConnection.getHomePageData(
-            context!!,
+            mContext!!,
             BaseActivity.mDataBaseHandler.getETagFromDatabase(hashIdentifier),
             false,
             ""
         )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
+            .subscribe(object : ApiCustomCallback<HomePageDataModel>(mContext!!, false) {
                 override fun onNext(homePageDataModel: HomePageDataModel) {
                     super.onNext(homePageDataModel, hashIdentifier)
                     mContentViewBinding.swipeRefreshLayout.isRefreshing = false
                     if (homePageDataModel.success) {
-                        (context as HomeActivity).mHomePageDataModel = homePageDataModel
+                        (mContext as HomeActivity).mHomePageDataModel = homePageDataModel
                         onSuccessfulResponse(homePageDataModel)
                     } else {
                         onFailureResponse(homePageDataModel)
@@ -369,7 +375,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun callApiBackground() {
-        if (context == null) {
+        if (mContext == null) {
             return
         }
 //        Log.d(TAG, "callApi: refreshCount $refreshCount")
@@ -377,14 +383,14 @@ class HomeFragment : Fragment() {
         val hash = returnHash("")
         Log.d(TAG, "callApi: hash $hash")
         ApiConnection.getHomePageData(
-            context!!,
+            mContext!!,
             BaseActivity.mDataBaseHandler.getETagFromDatabase(hash),
             false,
             ""
         )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomePageDataModel>(context!!, false) {
+            .subscribe(object : ApiCustomCallback<HomePageDataModel>(mContext!!, false) {
                 override fun onNext(homePageDataModel: HomePageDataModel) {
                     super.onNext(homePageDataModel, hash)
 //                    if (homePageDataModel.success && refreshCount != 2) {
@@ -401,21 +407,21 @@ class HomeFragment : Fragment() {
 
     private fun createHash(refreshCount: String) {
         hashIdentifier = Utils.getMd5String(
-            "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
-                context!!
-            ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
-                context!!
+            "homePageData" + AppSharedPref.getWebsiteId(mContext!!) + AppSharedPref.getStoreId(
+                mContext!!
+            ) + AppSharedPref.getCustomerToken(mContext!!) + AppSharedPref.getQuoteId(mContext!!) + AppSharedPref.getCurrencyCode(
+                mContext!!
             ) + refreshCount
         )
 
         Log.d(
             TAG,
-            "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
-                context!!
-            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
-                context!!
+            "cacheData: " + "homePageData" + ":" + AppSharedPref.getWebsiteId(mContext!!) + ":" + AppSharedPref.getStoreId(
+                mContext!!
+            ) + ":" + AppSharedPref.getCustomerToken(mContext!!) + ":" + AppSharedPref.getQuoteId(
+                mContext!!
             ) + ":" + AppSharedPref.getCurrencyCode(
-                context!!
+                mContext!!
             ) + ":" + refreshCount
         )
     }
@@ -423,19 +429,19 @@ class HomeFragment : Fragment() {
     private fun returnHash(refreshCount: String): String {
         Log.d(
             TAG,
-            "cacheData: API " + "homePageData" + ":" + AppSharedPref.getWebsiteId(context!!) + ":" + AppSharedPref.getStoreId(
-                context!!
-            ) + ":" + AppSharedPref.getCustomerToken(context!!) + ":" + AppSharedPref.getQuoteId(
-                context!!
+            "cacheData: API " + "homePageData" + ":" + AppSharedPref.getWebsiteId(mContext!!) + ":" + AppSharedPref.getStoreId(
+                mContext!!
+            ) + ":" + AppSharedPref.getCustomerToken(mContext!!) + ":" + AppSharedPref.getQuoteId(
+                mContext!!
             ) + ":" + AppSharedPref.getCurrencyCode(
-                context!!
+                mContext!!
             ) + ":" + refreshCount
         )
         return Utils.getMd5String(
-            "homePageData" + AppSharedPref.getWebsiteId(context!!) + AppSharedPref.getStoreId(
-                context!!
-            ) + AppSharedPref.getCustomerToken(context!!) + AppSharedPref.getQuoteId(context!!) + AppSharedPref.getCurrencyCode(
-                context!!
+            "homePageData" + AppSharedPref.getWebsiteId(mContext!!) + AppSharedPref.getStoreId(
+                mContext!!
+            ) + AppSharedPref.getCustomerToken(mContext!!) + AppSharedPref.getQuoteId(mContext!!) + AppSharedPref.getCurrencyCode(
+                mContext!!
             ) + refreshCount
         )
 
@@ -460,11 +466,11 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "onSuccessfulResponse: ")
         mContentViewBinding.loading = false
         mHomePageDataModel = homePageDataModel!!
-        if (context != null) {
+        if (mContext != null) {
 
             setAppSharedPrefConfigDetails()
             initLayout()
-            (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(context!!))
+            (activity as HomeActivity).updateCartCount(AppSharedPref.getCartCount(mContext!!))
 //            AppSharedPref.setCartCount(context!!,mContentViewBinding.data!!.cartCount)
             //onSuccessfulTopSellingResponse(homePageDataModel)
             callTopApi()
@@ -476,10 +482,10 @@ class HomeFragment : Fragment() {
 
 
     private fun setAppSharedPrefConfigDetails() {
-        AppSharedPref.setIsWishlistEnabled(context!!, mHomePageDataModel.wishlistEnable)
+        AppSharedPref.setIsWishlistEnabled(mContext!!, mHomePageDataModel.wishlistEnable)
 
         val customerDataSharedPref =
-            AppSharedPref.getSharedPreferenceEditor(context!!, AppSharedPref.CUSTOMER_PREF)
+            AppSharedPref.getSharedPreferenceEditor(mContext!!, AppSharedPref.CUSTOMER_PREF)
         customerDataSharedPref.putString(
             AppSharedPref.KEY_CUSTOMER_NAME,
             mHomePageDataModel.customerName
@@ -498,7 +504,7 @@ class HomeFragment : Fragment() {
 
         customerDataSharedPref.apply()
 
-        AppSharedPref.setCategoryData(context!!, mHomePageDataModel.categories!!)
+        AppSharedPref.setCategoryData(mContext!!, mHomePageDataModel.categories!!)
     }
 
     fun onFailureResponse(response: Any) {
@@ -512,25 +518,26 @@ class HomeFragment : Fragment() {
                     getString(R.string.ok),
                     { dialogInterface: DialogInterface, _: Int ->
                         dialogInterface.dismiss()
-                        Utils.logoutAndGoToHome(context!!)
+                        Utils.logoutAndGoToHome(mContext!!)
                     }, "", null
                 )
             }
             else -> {
-                ToastHelper.showToast(context!!, response.message)
+                ToastHelper.showToast(mContext!!, response.message)
             }
         }
     }
 
 
     private fun onErrorResponse(error: Throwable) {
-        if ((!NetworkHelper.isNetworkAvailable(context!!) || (error is HttpException && error.code() == 304)) && mContentViewBinding.data != null) {
+
+        if ((!NetworkHelper.isNetworkAvailable(mContext!!) || (error is HttpException && error.code() == 304)) && mContentViewBinding.data != null) {
             // Do Nothing as the data is already loaded
         } else {
             AlertDialogHelper.showNewCustomDialog(
                 activity as BaseActivity,
                 getString(R.string.error),
-                NetworkHelper.getErrorMessage(context, error),
+                NetworkHelper.getErrorMessage(mContext, error),
                 false,
                 getString(R.string.try_again),
                 DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
@@ -819,13 +826,13 @@ setupFeaturesCategoriesRv(category)*/
         if (carousel.timerTimeStamp != 0)
             startTimer(carousel.timerTimeStamp * 1000)
         productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(
-            context!!,
+            mContext!!,
             LinearLayoutManager.HORIZONTAL,
             false
         )//GridLayoutManager(context!!,4)
 
         productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-            ProductFlashDealRvAdapter(context!!, carousel.productList!!)
+            ProductFlashDealRvAdapter(mContext!!, carousel.productList!!)
 //        productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt()))
         productCarouselFirstLayoutBinding.productsCarouselRv.isNestedScrollingEnabled = false
         mContentViewBinding.carouselsLayout.addView(productCarouselFirstLayoutBinding.root)
@@ -845,19 +852,19 @@ setupFeaturesCategoriesRv(category)*/
             HomePageProductCarouselHandler(activity as BaseActivity)
         if (carousel.timerTimeStamp != 0)
             startTimer(carousel.timerTimeStamp * 1000)
-        var layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+        var layoutManager = LinearLayoutManager(mContext!!, LinearLayoutManager.HORIZONTAL, false)
         if (carousel.productList!!.size >= 3) {
             layoutManager.scrollToPositionWithOffset(
                 1,
                 Resources.getSystem().displayMetrics.widthPixels / 4
             )
         }
-//        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)//GridLayoutManager(context!!,4)
+//        productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager = LinearLayoutManager(mContext!!, LinearLayoutManager.HORIZONTAL, false)//GridLayoutManager(mContext!!,4)
         productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager =
-            layoutManager //GridLayoutManager(context!!,4)
+            layoutManager //GridLayoutManager(mContext!!,4)
 
         productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-            ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
+            ProductCarouselHorizontalRvAdapter(mContext!!, carousel.productList!!, eventName)
         productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
             HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
         )
@@ -937,7 +944,7 @@ setupFeaturesCategoriesRv(category)*/
                 HomePageProductCarouselHandler(activity as BaseActivity)
             if (carousel.productList!!.size >= 3) {
                 var layoutManager =
-                    LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(mContext!!, LinearLayoutManager.HORIZONTAL, false)
                 layoutManager.scrollToPositionWithOffset(
                     1,
                     Resources.getSystem().displayMetrics.widthPixels / 4
@@ -946,9 +953,9 @@ setupFeaturesCategoriesRv(category)*/
             }
             if (carousel.productList!!.size > 4)
                 productCarouselFirstLayoutBinding.productsCarouselRv.layoutManager =
-                    GridLayoutManager(context!!, 4)
+                    GridLayoutManager(mContext!!, 4)
             productCarouselFirstLayoutBinding.productsCarouselRv.adapter =
-                ProductAuctionHorizontalRvAdapter(context!!, carousel.productList!!, eventName)
+                ProductAuctionHorizontalRvAdapter(mContext!!, carousel.productList!!, eventName)
             productCarouselFirstLayoutBinding.productsCarouselRv.addItemDecoration(
                 HorizontalMarginItemDecoration(resources.getDimension(R.dimen.spacing_tiny).toInt())
             )
@@ -967,12 +974,12 @@ setupFeaturesCategoriesRv(category)*/
         imageCarouselLayoutBinding.data = carousel
         carousel.banners!!.forEach {
             if(it.promotion_type=="yes"){
-                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = GridLayoutManager(context,2)
+                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = GridLayoutManager(mContext,2)
                 imageCarouselLayoutBinding.carouselBannerViewPager.addItemDecoration(GridSpacingItemDecoration(2,1,false))
-                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(requireContext(),this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_GRID)
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_GRID)
             }else{
-                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = LinearLayoutManager(requireContext())
-                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(requireContext(),this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_LIST)
+                imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = LinearLayoutManager(mContext)
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_LIST)
             }
         }
 
@@ -1012,7 +1019,7 @@ setupFeaturesCategoriesRv(category)*/
                     false
                 )
             categoryCarouselLayoutBinding.carouselLabel.visibility = View.VISIBLE
-            categoryCarouselLayoutBinding.carouselLabel.text = context!!.resources.getString(R.string.more_brands)
+            categoryCarouselLayoutBinding.carouselLabel.text = mContext!!.resources.getString(R.string.more_brands)
             categoryCarouselLayoutBinding.data = carousel
             categoryCarouselLayoutBinding.themeType = mHomePageDataModel.themeType
             categoryCarouselLayoutBinding.featuredCategoriesRv.addItemDecoration(
@@ -1022,7 +1029,7 @@ setupFeaturesCategoriesRv(category)*/
             )
 
             categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
             categoryCarouselLayoutBinding.featuredCategoriesRv.adapter =
                 BrandListRvAdapter(
                     this,
@@ -1069,7 +1076,7 @@ setupFeaturesCategoriesRv(category)*/
                                 LinearLayoutManager.HORIZONTAL,
                                 false
                             )*/
-                        GridLayoutManager(context,4,LinearLayoutManager.HORIZONTAL,false)
+                        GridLayoutManager(mContext,4,LinearLayoutManager.HORIZONTAL,false)
                         HomeFeaturedCategoriesRvAdapter(
                             this,
                             tmp,
@@ -1088,7 +1095,7 @@ setupFeaturesCategoriesRv(category)*/
                         )
                     }
                 categoryCarouselLayoutBinding.featuredCategoriesRv.layoutManager =
-                    LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                    LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false)
             }
             mContentViewBinding.carouselsLayout.addView(categoryCarouselLayoutBinding.root)
         }
@@ -1105,10 +1112,10 @@ setupFeaturesCategoriesRv(category)*/
             )
             categoryCarouselLayoutBinding.data = carousel
             categoryCarouselLayoutBinding.handler = BigBannerHandler(this)
-            categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(context, 2)
+            categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(mContext, 2)
             categoryCarouselLayoutBinding.bigBanner1Rv.adapter =
-                BigBannerRvAdapter(context!!, carousel.productList!!, eventName)
-//            productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(context!!, carousel.productList!!)
+                BigBannerRvAdapter(mContext!!, carousel.productList!!, eventName)
+//            productCarouselFirstLayoutBinding.productsCarouselRv.adapter = ProductCarouselHorizontalRvAdapter(mContext!!, carousel.productList!!)
             mContentViewBinding.carouselsLayout.addView(categoryCarouselLayoutBinding.root)
         }
     }
@@ -1137,7 +1144,7 @@ setupFeaturesCategoriesRv(category)*/
             categoryCarouselLayoutBinding.data = carousel
 
 
-            categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(context, 2)
+            categoryCarouselLayoutBinding.bigBanner1Rv.layoutManager = GridLayoutManager(mContext, 2)
 
 //            categoryCarouselLayoutBinding.bigBanner1Rv.adapter = BigBannerRvAdapter(this, carousel.brandlist!!, ConstantsHelper.VIEW_TYPE_GRID)
 
@@ -1151,10 +1158,10 @@ setupFeaturesCategoriesRv(category)*/
     private fun callTopApi() {
         isLoadingTopSellingProducts = true
 //        mContentViewBinding.progressBar = true
-        ApiConnection.getTopSellingProducts(context!!, mPageNumber)
+        ApiConnection.getTopSellingProducts(mContext!!, mPageNumber)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomePageDataModel?>(context!!, false) {
+            .subscribe(object : ApiCustomCallback<HomePageDataModel?>(mContext!!, false) {
                 override fun onNext(homePageDataModel: HomePageDataModel?) {
                     super.onNext(homePageDataModel)
 //                        mContentViewBinding.progressBar = false
@@ -1186,7 +1193,7 @@ setupFeaturesCategoriesRv(category)*/
 
     var count = 0
     private fun onSuccessfulTopSellingResponse(homePageDataModel: HomePageDataModel) {
-        if (homePageDataModel != null && context != null) {
+        if (homePageDataModel != null && mContext != null) {
             val categoryCarouselLayoutBinding = DataBindingUtil.inflate<ItemHomeTopProductBinding>(
                 layoutInflater,
                 R.layout.item_home_top_product,
@@ -1197,7 +1204,7 @@ setupFeaturesCategoriesRv(category)*/
             mContentViewBinding.progressBar = false
             categoryCarouselLayoutBinding.handler = FeaturedCategoriesRvHandler(this)
             categoryCarouselLayoutBinding.topProductsRv.layoutManager =
-                GridLayoutManager(context, 2)
+                GridLayoutManager(mContext, 2)
             categoryCarouselLayoutBinding.topProductsRv.adapter =
                 TopSellingProductRvAdapter(this, homePageDataModel.topSellingProducts)
             mContentViewBinding.carouselsLayout.addView(categoryCarouselLayoutBinding.root)
@@ -1242,7 +1249,7 @@ setupFeaturesCategoriesRv(category)*/
                     true
                 bannerCarouselLayoutBinding.carouselBannerViewPager.setFadingEdgeLength(30)*/
                 bannerCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageTopBannerVpAdapter(this, carousel.banners, eventName)
-                if (AppSharedPref.getStoreCode(context!!) == "ar")
+                if (AppSharedPref.getStoreCode(mContext!!) == "ar")
                     bannerCarouselLayoutBinding.carouselBannerViewPager.rotationY = 180f
 
                 if (ApplicationConstants.ENABLE_HOME_BANNER_AUTO_SCROLLING) {
