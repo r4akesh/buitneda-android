@@ -358,7 +358,7 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
                 Intent(
                     mContext,
                     ServiceProviderDetailActivity::class.java
-                ).putExtra("serviceId", serviceBannerModel.service_provider_id.toString().toInt())
+                ).putExtra("serviceId", serviceBannerModel.service_provider_id.toString())
             )
         } else {
             if (serviceBannerModel.service_id != null) {
@@ -366,7 +366,7 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
                     Intent(
                         mContext,
                         ServiceProviderListActivity::class.java
-                    ).putExtra("serviceId", serviceBannerModel.service_id.toString().toInt())
+                    ).putExtra("serviceId", serviceBannerModel.service_id.toString())
                 )
             }
         }
