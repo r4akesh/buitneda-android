@@ -19,7 +19,7 @@ class ServiceCategoryHandler(private val mContext: Context) {
             Intent(
                 mContext,
                 ServiceProviderListActivity::class.java
-            ).putExtra("serviceId",id.toInt())
+            ).putExtra("serviceId",id)
         )
 
     }

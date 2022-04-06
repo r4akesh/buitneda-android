@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.webkul.mobikul.databinding.ActivityServiceProviderListBinding
 import com.webkul.mobikul.fragments.FilterServiceBottomSheetFragment
 import com.webkul.mobikul.fragments.SortServiceBottomSheetFragment
 import com.webkul.mobikul.helpers.AppSharedPref
+import com.webkul.mobikul.helpers.ToastHelper
 import com.webkul.mobikul.interfaces.OnFilterItemSelectListener
 import com.webkul.mobikul.interfaces.OnSelectSortBy
 import com.webkul.mobikul.models.service.ServiceBannerListModel
@@ -49,7 +51,7 @@ class ServiceProviderListActivity : BaseActivity(), OnSelectSortBy, OnFilterItem
         commonViewModel = ViewModelProviders.of(this).get(CommonViewModel::class.java)
         intentFilter = IntentFilter("com.journaldev.broadcastreceiver.SOME_ACTION")
         if (intent != null && intent.hasExtra("serviceId")) {
-            serviceId = intent.getIntExtra("serviceId", 0)
+            serviceId = intent.getStringExtra("serviceId")!!.toInt()
         }
         commonViewModel.getServiceListApi(serviceId, "")
         mContentBinding.toolbar.backBtn.setOnClickListener {
@@ -181,8 +183,14 @@ class ServiceProviderListActivity : BaseActivity(), OnSelectSortBy, OnFilterItem
                         mContentBinding.loading = false
                         it.data?.let { comment ->
                             list = it.data.service_provider
-                            setUpServiceProviderList(list as ArrayList)
-                            filterItemList()
+                            if(list.isEmpty()){
+                                ToastHelper.showToast(this@ServiceProviderListActivity,"There are no service providers in this service", Toast.LENGTH_LONG)
+
+                            }else{
+                                setUpServiceProviderList(list as ArrayList)
+                                filterItemList()
+                            }
+
                             // setUpTopBannerView(comment.top_banner)
                         }
                     }

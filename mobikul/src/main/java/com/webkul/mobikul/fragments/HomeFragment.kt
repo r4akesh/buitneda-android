@@ -1193,7 +1193,7 @@ setupFeaturesCategoriesRv(category)*/
 
     var count = 0
     private fun onSuccessfulTopSellingResponse(homePageDataModel: HomePageDataModel) {
-        if (homePageDataModel != null && mContext != null) {
+        if (homePageDataModel != null && mContext != null && isAdded) {
             val categoryCarouselLayoutBinding = DataBindingUtil.inflate<ItemHomeTopProductBinding>(
                 layoutInflater,
                 R.layout.item_home_top_product,

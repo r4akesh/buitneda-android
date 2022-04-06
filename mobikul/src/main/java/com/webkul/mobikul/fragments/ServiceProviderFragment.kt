@@ -112,11 +112,11 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
         makeRequestBottomIcon()
         mContentViewBinding.swipeRefreshLayout.setDistanceToTriggerSync(300)
         mContentViewBinding.swipeRefreshLayout.setOnRefreshListener {
-            if (NetworkHelper.isNetworkAvailable(context!!)) {
+            if (NetworkHelper.isNetworkAvailable(mContext!!)) {
                 makeRequestHomeInfo()
             } else {
                 mContentViewBinding.swipeRefreshLayout.isRefreshing = false
-                ToastHelper.showToast(context!!, getString(R.string.you_are_offline))
+                ToastHelper.showToast(mContext!!, getString(R.string.you_are_offline))
             }
         }
 
@@ -158,7 +158,7 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
             startActivity(
                 Intent(mContext,
                     ServiceProviderListActivity::class.java
-                ).putExtra("serviceId",selectedServiceId.toString().toInt())
+                ).putExtra("serviceId",selectedServiceId.toString())
             )
         }
 
@@ -170,7 +170,7 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
         ApiConnection.getServiceHomeTopBanner()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomeTopBannerModel>(context!!, false) {
+            .subscribe(object : ApiCustomCallback<HomeTopBannerModel>(mContext!!, false) {
                 override fun onNext(homeTopBannerResponse: HomeTopBannerModel) {
                     super.onNext(homeTopBannerResponse)
                     mContentViewBinding.swipeRefreshLayout.isRefreshing = false
@@ -238,7 +238,7 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
         ApiConnection.getHomeServiceList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(object : ApiCustomCallback<HomeServiceModel>(context!!, false) {
+            .subscribe(object : ApiCustomCallback<HomeServiceModel>(mContext!!, false) {
                 override fun onNext(homeTopBannerResponse: HomeServiceModel) {
                     super.onNext(homeTopBannerResponse)
                     mContentViewBinding.swipeRefreshLayout.isRefreshing = false
@@ -348,26 +348,18 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
             Intent(
                 mContext,
                 ServiceProviderListActivity::class.java
-            ).putExtra("serviceId", serviceId)
+            ).putExtra("serviceId", serviceId.toString())
         )
     }
 
     override fun onServiceBannerSelect(serviceBannerModel: BannerImage) {
         if (serviceBannerModel.is_service_provider != null) {
-            startActivity(
-                Intent(
-                    mContext,
-                    ServiceProviderDetailActivity::class.java
-                ).putExtra("serviceId", serviceBannerModel.service_provider_id.toString())
-            )
+            startActivity(Intent(mContext, ServiceProviderDetailActivity::class.java).
+            putExtra("serviceId", serviceBannerModel.service_provider_id.toString()))
         } else {
             if (serviceBannerModel.service_id != null) {
-                startActivity(
-                    Intent(
-                        mContext,
-                        ServiceProviderListActivity::class.java
-                    ).putExtra("serviceId", serviceBannerModel.service_id.toString())
-                )
+                startActivity(Intent(mContext, ServiceProviderListActivity::class.java).
+                putExtra("serviceId", serviceBannerModel.service_id.toString()))
             }
         }
     }
@@ -410,25 +402,25 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
                     getString(R.string.ok),
                     { dialogInterface: DialogInterface, _: Int ->
                         dialogInterface.dismiss()
-                        Utils.logoutAndGoToHome(context!!)
+                        Utils.logoutAndGoToHome(mContext!!)
                     }, "", null
                 )
             }
             else -> {
-                ToastHelper.showToast(context!!, response.message)
+                ToastHelper.showToast(mContext!!, response.message)
             }
         }
     }
 
 
     private fun onErrorResponse(error: Throwable) {
-        if ((!NetworkHelper.isNetworkAvailable(context!!) || (error is HttpException && error.code() == 304))) {
+        if ((!NetworkHelper.isNetworkAvailable(mContext!!) || (error is HttpException && error.code() == 304))) {
             // Do Nothing as the data is already loaded
         } else {
             AlertDialogHelper.showNewCustomDialog(
                 activity as BaseActivity,
                 getString(R.string.error),
-                NetworkHelper.getErrorMessage(context, error),
+                NetworkHelper.getErrorMessage(mContext, error),
                 false,
                 getString(R.string.try_again),
                 DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
