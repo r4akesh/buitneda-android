@@ -102,17 +102,15 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/aboutLabel" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <WebView
                         android:id="@+id/aboutInfo"
                         fontPath="fonts/helvetica.ttf"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:gravity="start"
-                        android:lineSpacingExtra="5dp"
                         android:padding="5dp"
                         android:textColor="@color/grey_500"
-                        android:textSize="@dimen/text_size_small"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/myRatingBar"
                         app:layout_constraintStart_toStartOf="@+id/aboutLabel"
@@ -151,7 +149,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <!--<androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/serviceInfoRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -160,7 +158,19 @@
                         app:layout_constraintTop_toBottomOf="@+id/ourServiceLabel">
 
 
-                    </androidx.recyclerview.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>-->
+
+                    <WebView
+                        android:id="@+id/serviceInfoRecyclerView"
+                        fontPath="fonts/helvetica.ttf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ourServiceLabel">
+
+                    </WebView>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/serviceImageRecyclerView"

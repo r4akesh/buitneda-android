@@ -101,7 +101,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
+        <WebView
             android:id="@+id/serviceInfoList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toStartOf="@+id/serviceProviderIcon"
             android:layout_marginTop="10dp">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </WebView>
 
 
         <TextView

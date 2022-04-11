@@ -1,5 +1,6 @@
 package com.webkul.mobikul.activities
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -84,13 +85,13 @@ class ServiceProviderDetailActivity : BaseActivity() {
                                 }
 
                                 if (comment.provider.service_description != null) {
-                                    val serviceList: List<String> =
-                                        comment.provider.service_description!!.split("\\.")
-                                    setUpDetails(serviceList)
+                                   /* val serviceList: List<String> =
+                                        comment.provider.service_description!!.split("\\.")*/
+                                    setUpDetails(comment.provider.service_description!!)
                                 }
                                 try{
                                     if (comment.provider.business_detail != null && comment.provider.business_detail != "") {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                             mContentBinding.aboutInfo.text = Html.fromHtml(
                                                 comment.provider.business_detail,
                                                 Html.FROM_HTML_MODE_LEGACY
@@ -98,9 +99,13 @@ class ServiceProviderDetailActivity : BaseActivity() {
 
                                         } else {
                                             mContentBinding.aboutInfo.text =
-                                                Html.fromHtml(intent.getStringExtra(BundleKeysHelper.BUNDLE_KEY_CATALOG_TITLE))
+                                                Html.fromHtml(comment.provider.business_detail)
                                                     .toString()
-                                        }
+                                        }*/
+
+                                        mContentBinding.aboutInfo.settings.javaScriptEnabled = true
+                                        mContentBinding.aboutInfo.settings.defaultFontSize = 14
+                                        mContentBinding.aboutInfo.loadData(comment.provider.business_detail.toString(), "text/html", "UTF-8");
                                     }
                                 }catch (e: Exception){
                                     e.printStackTrace()
@@ -177,10 +182,38 @@ class ServiceProviderDetailActivity : BaseActivity() {
         mContentBinding.serviceRatingReviewList.adapter = serviceProviderReviewAdapter
     }
 
-    private fun setUpDetails(list: List<String>) {
-        mContentBinding.serviceInfoRecyclerView.layoutManager = LinearLayoutManager(this)
+    /*private fun setUpDetails(list: List<String>) {
+      *//*  mContentBinding.serviceInfoRecyclerView.layoutManager = LinearLayoutManager(this)
         val serviceInfoAdapter = ServiceInfoAdapter(this, list)
-        mContentBinding.serviceInfoRecyclerView.adapter = serviceInfoAdapter
+        mContentBinding.serviceInfoRecyclerView.adapter = serviceInfoAdapter*//*
+
+
+
+    }*/
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setUpDetails(description: String) {
+        try{
+           /* if (description.isNotBlank()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    mContentBinding.serviceInfoRecyclerView.text = Html.fromHtml(
+                        description,
+                        Html.FROM_HTML_MODE_COMPACT
+                    )
+
+                } else {
+                    mContentBinding.serviceInfoRecyclerView.text = Html.fromHtml(description)
+                }
+            }*/
+
+            mContentBinding.serviceInfoRecyclerView.settings.javaScriptEnabled = true
+            mContentBinding.serviceInfoRecyclerView.settings.defaultFontSize = 14
+            mContentBinding.serviceInfoRecyclerView.loadData(description, "text/html", "UTF-8");
+
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun setUpBusinessGallery(list: ArrayList<String>) {

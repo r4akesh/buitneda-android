@@ -25,12 +25,16 @@ class ServiceListAdapter(private val mContext: Context, private var mListData: A
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = mListData[position]
         holder.mBinding.data = eachListData
         if(eachListData.service_description!=null){
-            val serviceList:List<String> = eachListData.service_description!!.split("\\.")
-            setUpServiceList(holder.mBinding.serviceInfoList,serviceList)
+           // val serviceList:List<String> = eachListData.service_description!!.split("\\.")
+           // setUpServiceList(holder.mBinding.serviceInfoList,serviceList)
+            holder.mBinding.serviceInfoList.settings.javaScriptEnabled = true
+            holder.mBinding.serviceInfoList.settings.defaultFontSize = 14
+            holder.mBinding.serviceInfoList.loadData(eachListData.service_description.toString(), "text/html", "UTF-8");
         }
         holder.mBinding.viewFullInfoBtn.setOnClickListener{
             val providerId = eachListData.serviceprovider_id
@@ -46,11 +50,11 @@ class ServiceListAdapter(private val mContext: Context, private var mListData: A
         val mBinding:ItemServiceProvidersListLayoutBinding = ItemServiceProvidersListLayoutBinding.bind(itemView)
     }
 
-    private fun setUpServiceList(recyclerView:RecyclerView, serviceInfoList:List<String>){
+   /* private fun setUpServiceList(recyclerView:RecyclerView, serviceInfoList:List<String>){
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         val serviceInfoAdapter = ServiceInfoAdapter(mContext,serviceInfoList)
         recyclerView.adapter = serviceInfoAdapter
-    }
+    }*/
 
 
     @SuppressLint("NotifyDataSetChanged")
