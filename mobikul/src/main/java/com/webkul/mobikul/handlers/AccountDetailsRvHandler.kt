@@ -101,8 +101,6 @@ class AccountDetailsRvHandler(val mFragmentContext: AccountDetailsFragment) {
                     mFragmentContext.startActivity(intent)
                 }
 
-
-
              /*
                               val contact = "+244923474222" // use country code with your phone number
 

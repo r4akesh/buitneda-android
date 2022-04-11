@@ -82,11 +82,8 @@ open class CatalogActivity : BaseActivity() {
     var mSellerAttributesIdOptionCodeMap: HashMap<String, String> = HashMap()
     var mSelectedProduct: Int = 0
     var clickedPageNumber:Int = 0
-
     var intentFilter:IntentFilter? = null
     private lateinit var categoryAdapter:CatalogProductsRvAdapter
-
-
 
     companion object{
         const val BROADCAST_DEFAULT_ALBUM_CHANGED = "BROADCAST_DEFAULT_ALBUM_CHANGED"

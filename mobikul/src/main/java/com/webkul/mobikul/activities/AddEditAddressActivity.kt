@@ -159,7 +159,6 @@ class AddEditAddressActivity : BaseActivity(), LocationListener {
                 }
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
-
             mContentViewBinding.prefixSp.setSelection(mContentViewBinding.data!!.getSelectedPrefixPosition())
         }
     }

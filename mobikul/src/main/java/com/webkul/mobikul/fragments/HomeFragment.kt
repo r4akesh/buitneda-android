@@ -534,21 +534,25 @@ class HomeFragment : Fragment() {
         if ((!NetworkHelper.isNetworkAvailable(mContext!!) || (error is HttpException && error.code() == 304)) && mContentViewBinding.data != null) {
             // Do Nothing as the data is already loaded
         } else {
-            AlertDialogHelper.showNewCustomDialog(
-                mContext as BaseActivity,
-                getString(R.string.error),
-                NetworkHelper.getErrorMessage(mContext, error),
-                false,
-                getString(R.string.try_again),
-                { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    mContentViewBinding.swipeRefreshLayout.isRefreshing = true
-                    callApi()
-                },
-                getString(R.string.dismiss),
-                { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                })
+           try{
+               AlertDialogHelper.showNewCustomDialog(
+                   mContext as BaseActivity,
+                   getString(R.string.error),
+                   NetworkHelper.getErrorMessage(mContext, error),
+                   false,
+                   getString(R.string.try_again),
+                   { dialogInterface: DialogInterface, _: Int ->
+                       dialogInterface.dismiss()
+                       mContentViewBinding.swipeRefreshLayout.isRefreshing = true
+                       callApi()
+                   },
+                   getString(R.string.dismiss),
+                   { dialogInterface: DialogInterface, _: Int ->
+                       dialogInterface.dismiss()
+                   })
+           }catch(ex:Exception){
+               ex.printStackTrace()
+           }
         }
     }
 
