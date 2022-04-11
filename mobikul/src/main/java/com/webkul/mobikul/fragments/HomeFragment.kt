@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
     private var commonViewModel: CommonViewModel? = null
     private var hashIdentifier = ""
     lateinit var bannerCarouselLayoutBinding:BannerCarouselLayoutBinding
-    lateinit var mContext:Context
+    var mContext:Context? = null
 //    private var currentCache = 0
 
 
@@ -535,18 +535,18 @@ class HomeFragment : Fragment() {
             // Do Nothing as the data is already loaded
         } else {
             AlertDialogHelper.showNewCustomDialog(
-                activity as BaseActivity,
+                mContext as BaseActivity,
                 getString(R.string.error),
                 NetworkHelper.getErrorMessage(mContext, error),
                 false,
                 getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                { dialogInterface: DialogInterface, _: Int ->
                     dialogInterface.dismiss()
                     mContentViewBinding.swipeRefreshLayout.isRefreshing = true
                     callApi()
                 },
                 getString(R.string.dismiss),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                { dialogInterface: DialogInterface, _: Int ->
                     dialogInterface.dismiss()
                 })
         }
@@ -976,10 +976,10 @@ setupFeaturesCategoriesRv(category)*/
             if(it.promotion_type=="yes"){
                 imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = GridLayoutManager(mContext,2)
                 imageCarouselLayoutBinding.carouselBannerViewPager.addItemDecoration(GridSpacingItemDecoration(2,1,false))
-                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_GRID)
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext!!,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_GRID)
             }else{
                 imageCarouselLayoutBinding.carouselBannerViewPager.layoutManager = LinearLayoutManager(mContext)
-                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_LIST)
+                imageCarouselLayoutBinding.carouselBannerViewPager.adapter = HomePageVerticalBannerAdapter(mContext!!,this, carousel.banners!!, eventName,ConstantsHelper.VIEW_TYPE_LIST)
             }
         }
 

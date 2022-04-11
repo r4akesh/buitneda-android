@@ -153,11 +153,13 @@ class ServiceProviderDetailActivity : BaseActivity() {
 
                     }
                     Status.SUCCESS -> {
-                    }
-                    else -> {
 
-                        //  Toast.makeText(this@MainActivity, "${it.message}", Toast.LENGTH_SHORT).show()
                     }
+
+                    Status.ERROR->{
+
+                    }
+
                 }
             }
         }

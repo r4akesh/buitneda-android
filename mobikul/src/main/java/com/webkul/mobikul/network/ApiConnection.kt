@@ -1404,12 +1404,10 @@ class ApiConnection {
 
         suspend fun makeRequestVisitor(page:String,clickOn:String,providerId: Int): Flow<ResponseState<VisitorModel>> {
             return flow {
-
                 val pagePart = MultipartBody.Part.createFormData("page",page)
                 val devicePart = MultipartBody.Part.createFormData("device","Android")
                 val clickOnPart = MultipartBody.Part.createFormData("clickon",clickOn)
                 val providerIdPart = if(providerId!=0) MultipartBody.Part.createFormData("providerid",providerId.toString()) else MultipartBody.Part.createFormData("providerid","")
-
                 val comment= ApiClient.getClient()!!.create(ApiDetails::class.java).makeRequestServiceVisitor(pagePart,devicePart,clickOnPart,providerIdPart)
                 emit(ResponseState.success(comment))
             }.flowOn(Dispatchers.IO)

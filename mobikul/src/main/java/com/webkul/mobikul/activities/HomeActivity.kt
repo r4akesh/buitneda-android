@@ -242,7 +242,7 @@ class HomeActivity : BaseActivity(), OnMenuSelectListener {
     private fun startInitialization() {
 
         getLatestVersionFromPlayStore()
-
+        bottomMenuReceiver = BottomMenuReceiver()
         initIntent()
 //        mContentViewBinding.handler = HomeActivityHandler(this)
 
@@ -255,8 +255,8 @@ class HomeActivity : BaseActivity(), OnMenuSelectListener {
         inflateBadge()
         updateBadge()
         updateCartCount(AppSharedPref.getCartCount(this))
-        bottomMenuReceiver = BottomMenuReceiver(this)
-        registerReceiver(bottomMenuReceiver, IntentFilter("bottom.menu.action"))
+
+        registerReceiver(bottomMenuReceiver,IntentFilter("bottom.menu.action"))
 
     }
 
@@ -650,6 +650,7 @@ class HomeActivity : BaseActivity(), OnMenuSelectListener {
     override fun onResume() {
         super.onResume()
         updateBadge()
+        BottomMenuReceiver.onMenuSelectListener = this
 
 
     }
