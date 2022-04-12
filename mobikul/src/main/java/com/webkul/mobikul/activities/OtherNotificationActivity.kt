@@ -78,12 +78,12 @@ class OtherNotificationActivity : BaseActivity() {
                 otherNotificationResponseModel.message,
                 false,
                 getString(R.string.try_again),
-                DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                    dialogInterface.dismiss()
-                    callApi()
-                }
+            { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+                callApi()
+            }
                 , getString(R.string.dismiss)
-                , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                , { dialogInterface: DialogInterface, _: Int ->
             dialogInterface.dismiss()
             finish()
         })
@@ -100,12 +100,12 @@ class OtherNotificationActivity : BaseActivity() {
                     NetworkHelper.getErrorMessage(this, error),
                     false,
                     getString(R.string.try_again),
-                    DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
-                        dialogInterface.dismiss()
-                        callApi()
-                    }
+                { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    callApi()
+                }
                     , getString(R.string.dismiss)
-                    , DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
+                    , { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
                 finish()
             })

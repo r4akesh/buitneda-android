@@ -55,7 +55,7 @@ class OrdersAndReturnsActivity : BaseActivity() {
         orderBySpinnerData.add(getString(R.string.email))
         orderBySpinnerData.add(getString(R.string.zip_code))
 
-        mContentViewBinding.orderBySpinner.adapter = ArrayAdapter<String>(this, R.layout.custom_spinner_item, orderBySpinnerData)
+        mContentViewBinding.orderBySpinner.adapter = ArrayAdapter(this, R.layout.custom_spinner_item, orderBySpinnerData)
         mContentViewBinding.orderBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if (position == 0) {
