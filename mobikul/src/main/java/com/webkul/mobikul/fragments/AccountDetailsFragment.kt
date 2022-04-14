@@ -97,8 +97,6 @@ open class AccountDetailsFragment : BaseFragment() {
             mContentViewBinding.navDrawerAccountRv.layoutManager = GridLayoutManager(context, 4)
             mContentViewBinding.navDrawerAccountRv.adapter = AccountFragmentRvAdapter(this, accountRvData)
             mContentViewBinding.navDrawerAccountRv.isNestedScrollingEnabled = false
-
-
         }
     }
 

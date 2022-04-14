@@ -64,8 +64,6 @@ class FirebaseAnalyticsHelper {
             if (sFirebaseAnalytics != null) {
 //                Log.d(TAG, "logHomeEvent: if name: $name id: $id")
                 val params = Bundle()
-
-
                 params.putString("name", name)
                 /*
                 params.putString("name", name.toLowerCase().replace("-", "_"))

@@ -17,8 +17,8 @@ object ApplicationConstants {
     /* Server Configurations */
     //    const val BASE_URL = "http://161.97.110.25"
 //    const val BASE_URL = "http://18.158.155.18"
-   const val BASE_URL = "https://buitanda.com" //Live instance
-    //const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
+   //const val BASE_URL = "https://buitanda.com" //Live instance
+    const val BASE_URL = "https://buitanda.ezxdemo.com" //demo url
     //const val BASE_URL = "https://test.buitanda.com" //demo url
     const val API_USER_NAME = "mobikul"
     const val API_PASSWORD = "#uU=T{t{m~Tv2PxG"

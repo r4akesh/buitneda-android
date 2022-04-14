@@ -68,7 +68,7 @@ class ApiClient {
                 val builder = chain.request().newBuilder()
                         .addHeader("Content-Type", "text/html")
                         .addHeader("authKey", AuthKeyHelper.getInstance().authKey)
-//                        .addHeader("Connection", "close")
+                        .addHeader("Authorization","Bearer mtev3ha9xqkyhrsbe62b0qfp5c4b38gr")
                         .addHeader("token", AuthKeyHelper.getInstance().token.toString())
                 chain.proceed(builder.build())
             }
@@ -86,7 +86,7 @@ class ApiClient {
                     Log.d(TAG, "token: $token")
                     Log.d(TAG, "authKey: " + AuthKeyHelper.getInstance().authKey)
                     response.close()
-                    request = request.newBuilder().header("authKey", AuthKeyHelper.getInstance().authKey).build()
+                    request = request.newBuilder().header("Authorization","Bearer mtev3ha9xqkyhrsbe62b0qfp5c4b38gr").build()
                     response = chain.proceed(request)
                 }
                 response
@@ -131,6 +131,7 @@ class ApiClient {
                 val builder = chain.request().newBuilder()
                         .addHeader("Content-Type", "text/html")
                         .addHeader("authKey", AuthKeyHelper.getInstance().authKey)
+                        .addHeader("Authorization","Bearer mtev3ha9xqkyhrsbe62b0qfp5c4b38gr")
                 chain.proceed(builder.build())
             }
 
@@ -149,7 +150,7 @@ class ApiClient {
                     Log.d(TAG, "token: $token")
                     Log.d(TAG, "authKey: " + AuthKeyHelper.getInstance().authKey)
                     response.close()
-                    request = request.newBuilder().header("authKey", AuthKeyHelper.getInstance().authKey).build()
+                    request = request.newBuilder().header("authKey", AuthKeyHelper.getInstance().authKey).header("Authorization","Bearer mtev3ha9xqkyhrsbe62b0qfp5c4b38gr").build()
                     response = chain.proceed(request)
                 }
                 response
