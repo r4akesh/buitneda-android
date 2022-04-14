@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         instanceOf++
         Log.d(TAG, "onCreate: $instanceOf")
-        Log.d(TAG, "onCreate: 1")
+        Log.d(TAG, "onCreate: 2")
 
     }
 
