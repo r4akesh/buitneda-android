@@ -98,12 +98,16 @@ class ServiceProviderFragment : Fragment(), OnServiceTypeSelectListener {
 
         mContentViewBinding.serviceChatBtn.setOnClickListener {
             makeRequestVisitor("whatsapp")
-            Utils.openChat(mContext,iconModel.whatsapp_number)
+            if(this::iconModel.isInitialized) {
+                Utils.openChat(mContext, iconModel.whatsapp_number)
+            }
         }
         
         mContentViewBinding.serviceCallBtn.setOnClickListener {
             makeRequestVisitor("phone")
-            Utils.openDialer(mContext,iconModel.call_number)
+            if(this::iconModel.isInitialized) {
+                Utils.openDialer(mContext, iconModel.call_number)
+            }
         }
 
         makeRequestHomeInfo()
