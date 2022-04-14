@@ -468,7 +468,7 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "onSuccessfulResponse: ")
         mContentViewBinding.loading = false
         mHomePageDataModel = homePageDataModel!!
-        if (mContext != null) {
+        if (mContext != null && isAdded) {
 
             setAppSharedPrefConfigDetails()
             initLayout()
