@@ -43,11 +43,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_whiteBlack"
+        android:elevation="20dp"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:theme="@style/AppTheme"
         app:behavior_hideable="true"
-        android:elevation="20dp"
         app:layout_behavior="@string/bottom_sheet_behavior"
         app:layout_height="@{Utils.getScreenHeight()}">
 
@@ -61,21 +61,21 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:elevation="@dimen/text_size_medium"
-                android:background="@color/color_whiteBlack">
+                android:background="@color/color_whiteBlack"
+                android:elevation="@dimen/text_size_medium">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/closeDialogBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
                     android:layout_marginStart="14dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{()->handler.onClickCancelBtn()}"
-                    app:srcCompat="@drawable/ic_close_accent"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:srcCompat="@drawable/ic_close_accent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     fontPath="fonts/Montserrat-SemiBold.ttf"
@@ -86,26 +86,26 @@
                     android:text="@string/activity_title_cart"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/text_size_large"
-                    app:layout_constraintTop_toTopOf="@+id/closeDialogBtn"
-                    app:layout_constraintStart_toEndOf="@+id/closeDialogBtn"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/closeDialogBtn"
-                    android:textStyle="bold" />
+                    app:layout_constraintStart_toEndOf="@+id/closeDialogBtn"
+                    app:layout_constraintTop_toTopOf="@+id/closeDialogBtn" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginEnd="14dp"
+                    android:gravity="center_vertical"
                     android:onClick="@{()->handler.onClickGoToWishList()}"
-                    android:text="@string/go_to_wish_list"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
+                    android:text="@string/go_to_wish_list"
                     android:textColor="@color/text_color_link"
                     android:textSize="@dimen/text_size_medium"
-                    android:gravity="center_vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="@{ApplicationConstants.ENABLE_WISHLIST &amp;&amp; AppSharedPref.isLoggedIn(context) &amp;&amp; AppSharedPref.isWishlistEnabled(context) ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:visibility="@{ApplicationConstants.ENABLE_WISHLIST &amp;&amp; AppSharedPref.isLoggedIn(context) &amp;&amp; AppSharedPref.isWishlistEnabled(context) ? View.VISIBLE : View.GONE}" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

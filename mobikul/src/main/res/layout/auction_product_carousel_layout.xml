@@ -54,7 +54,7 @@
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:maxLength="25"
+
                 android:text="@{data.label}"
                 android:singleLine="true"
                 android:textColor="@color/text_color_primary"

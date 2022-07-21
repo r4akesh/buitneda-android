@@ -847,12 +847,7 @@ setupFeaturesCategoriesRv(category)*/
 
     private fun loadCarouselFirstLayout(carousel: Carousel, eventName: String) {
         val productCarouselFirstLayoutBinding =
-            DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(
-                layoutInflater,
-                R.layout.product_carousel_first_layout,
-                mContentViewBinding.carouselsLayout,
-                false
-            )
+            DataBindingUtil.inflate<ProductCarouselFirstLayoutBinding>(layoutInflater, R.layout.product_carousel_first_layout, mContentViewBinding.carouselsLayout, false)
         productCarouselFirstLayoutBinding.data = carousel
         productCarouselFirstLayoutBinding.handler =
             HomePageProductCarouselHandler(activity as BaseActivity)

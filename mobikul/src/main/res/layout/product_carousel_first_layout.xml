@@ -48,12 +48,13 @@
             <TextView
                 android:id="@+id/carousel_label"
                 fontPath="fonts/Montserrat-SemiBold.ttf"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
-                android:maxLines="1"
-                android:maxLength="25"
+
+
                 android:padding="5dp"
                 android:layout_gravity="top"
                 android:text="@{data.label}"
@@ -139,7 +140,8 @@
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:visibility="@{data.id.isEmpty() || data.productList.size() &lt; 3? View.GONE : View.VISIBLE}">
