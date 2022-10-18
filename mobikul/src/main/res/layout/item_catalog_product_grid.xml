@@ -89,17 +89,17 @@
             fontPath="fonts/Montserrat-SemiBold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/wishListCardBtn"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/wishListCardBtn"
             android:background="@color/product_discount_text_color"
             android:padding="@dimen/spacing_tiny"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignTop="@+id/wishListCardBtn"
-            android:layout_toStartOf="@+id/wishListCardBtn"
             android:text="@{@string/x_off(data.getDiscountPercentage())}"
             android:textAllCaps="true"
             android:textColor="@color/product_discount_color"
             android:textSize="@dimen/text_size_tiny"
-            android:visibility="@{data.isAvailable &amp;&amp; data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
+            android:visibility="@{data.isAvailable &amp;&amp; data.hasSpecialPrices()   ? View.VISIBLE : View.GONE}"
             tools:text="$310.00" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -263,8 +263,9 @@
                         android:textColor="@color/grey_400"
                         android:textSize="@dimen/text_size_tiny"
                         android:visibility="@{data.hasSpecialPrices() ? View.VISIBLE : View.GONE}"
-                        tools:text="$310.00" />
 
+                        tools:text="$310.00" />
+                  <!--   android:visibility="@{data.isDiscountPercentageZero() ? View.VISIBLE : View.GONE}"-->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

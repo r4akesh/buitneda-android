@@ -15,6 +15,7 @@ package com.webkul.mobikul.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.webkul.mobikul.R
 import com.webkul.mobikul.adapters.SearchTermsRvAdapter
@@ -38,6 +39,7 @@ class SearchTermsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_terms)
         startInitialization()
+        Log.d("Kunal", "SearchTermsActivity")
     }
 
     private fun startInitialization() {

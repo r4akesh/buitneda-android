@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.webkul.mobikul.R
@@ -37,6 +38,7 @@ class SubCategoryActivity : BaseActivity() {
         setContentView(R.layout.activity_sub_category)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_sub_category)
         startInitialization()
+        Log.d("TAG", "onCreate: SubCategoryActivity")
     }
 
     fun startInitialization() {

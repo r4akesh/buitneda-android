@@ -14,6 +14,7 @@
 package com.webkul.mobikul.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class MoreInfoRvAdapter(private val mContext: Context, private val mListData: Ar
 
     override fun onBindViewHolder(holder: MoreInfoRvAdapter.ViewHolder, position: Int) {
         val eachListData = mListData[position]
+        Log.d("TAG", "MoreInfoRvAdapter: "+eachListData.value)
         holder.mBinding?.data = eachListData
         holder.mBinding?.executePendingBindings()
     }

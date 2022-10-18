@@ -15,6 +15,7 @@ package com.webkul.mobikul.models.product
 
 
 import android.content.Context
+import android.util.Log
 import androidx.databinding.Bindable
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -281,6 +282,7 @@ open class ProductDetailsPageModel : BaseModel() {
     }
 
     fun getDiscountPercentage(): String {
+        Log.d("MMM", "getDiscountPercentage: "+ Math.round((100 - finalPrice / price * 100)).toString() + "%")
         return Math.round((100 - finalPrice / price * 100)).toString() + "%"
         // return (100 - finalPrice / price * 100).toInt().toString() + "%"
     }

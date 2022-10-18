@@ -126,6 +126,7 @@ open class ProductDetailsActivity : BaseActivity() {
         mContentViewBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_product_details)
         startInitialization()
+        Log.d(TAG, " ProductDetailsActivity onCreate: ")
     }
 
     private val TAG = "ProductDetailsActivity"
@@ -327,7 +328,9 @@ open class ProductDetailsActivity : BaseActivity() {
                                 Gson().toJson(productDetailsPageModel)
                             )
                         }
+                        Log.d("MMM", "per: "+mContentViewBinding.productDiscountPercentage.text)
                         onSuccessfulResponse(productDetailsPageModel)
+
                     } else {
                         onFailureResponse(productDetailsPageModel)
                     }
@@ -392,6 +395,7 @@ open class ProductDetailsActivity : BaseActivity() {
         setupUpsellProductsRv()
         setupFloatingBuyLayoutHiding()
         setupCartUpdate()
+        Log.d("MMM", "per2: "+mContentViewBinding.productDiscountPercentage.text)
     }
 
     private fun setupCartUpdate() {
@@ -2083,6 +2087,7 @@ open class ProductDetailsActivity : BaseActivity() {
                     addDropDownTypeOptions(index, element)
                 }
             }
+            Log.d("TAG", "recyclerViewOptions: 1A")
             initializeConfigurableAttributeOption(0)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -2109,8 +2114,7 @@ open class ProductDetailsActivity : BaseActivity() {
         eachSwatchRecyclerView.tag = "config$index"
         val attributeSwatchData = ArrayList<SwatchData>()
         try {
-            val mainSwatchDataObject =
-                JSONObject(mContentViewBinding.data!!.configurableData.swatchData)
+            val mainSwatchDataObject = JSONObject(mContentViewBinding.data!!.configurableData.swatchData)
             val eachOptionData = mainSwatchDataObject.getJSONObject(element.id)
             val keys = eachOptionData.keys()
             while (keys.hasNext()) {
@@ -2134,12 +2138,7 @@ open class ProductDetailsActivity : BaseActivity() {
                 ).toInt()
             )
         )
-        eachSwatchRecyclerView.adapter = ProductAttributesSwatchRvAdapter(
-            this,
-            index,
-            element.updateProductPreviewImage,
-            attributeSwatchData
-        )
+        eachSwatchRecyclerView.adapter = ProductAttributesSwatchRvAdapter(this, index, element.updateProductPreviewImage, attributeSwatchData)
         mContentViewBinding.otherProductOptionsContainer.addView(eachConfigurableAttributeLayout)
     }
 
@@ -2178,23 +2177,22 @@ open class ProductDetailsActivity : BaseActivity() {
 
     fun initializeConfigurableAttributeOption(position: Int) {
         try {
-            if (mContentViewBinding.data!!.configurableData.attributes?.get(position)?.swatchType == "visual" || mContentViewBinding.data!!.configurableData.attributes?.get(
-                    position
-                )?.swatchType == "text"
-            ) {
+            if (mContentViewBinding.data!!.configurableData.attributes?.get(position)?.swatchType == "visual" || mContentViewBinding.data!!.configurableData.attributes?.get(position)?.swatchType == "text") {
                 val eachSwatchRecyclerView =
-                    mContentViewBinding.otherProductOptionsContainer.findViewWithTag<LinearLayoutCompat>(
-                        "config$position"
-                    ).findViewById<RecyclerView>(R.id.configurable_item_rv)
-                val recyclerViewOptions =
-                    (eachSwatchRecyclerView.adapter as ProductAttributesSwatchRvAdapter).getSwatchValuesData()
-
+                    mContentViewBinding.otherProductOptionsContainer.findViewWithTag<LinearLayoutCompat>("config$position").findViewById<RecyclerView>(R.id.configurable_item_rv)
+                val recyclerViewOptions = (eachSwatchRecyclerView.adapter as ProductAttributesSwatchRvAdapter).getSwatchValuesData()
+                Log.d("MMM", "Size: "+recyclerViewOptions.size)
+                Log.d("MMM", "value: "+recyclerViewOptions.get(0).value)
+                Log.d("MMM", "id: "+recyclerViewOptions.get(0).id)
+                Log.d("MMM", "type: "+recyclerViewOptions.get(0).type)
                 for (noOfAttribute in recyclerViewOptions.indices) {
                     if (canAddCurrentAttributeOption(position, noOfAttribute)) {
-                        recyclerViewOptions[noOfAttribute].isEnabled = true
+                      //  recyclerViewOptions[noOfAttribute].isEnabled = true
+                        Log.d("MMM", "recyclerViewOptions: if")
                     } else {
-                        recyclerViewOptions[noOfAttribute].isEnabled = false
+                       // recyclerViewOptions[noOfAttribute].isEnabled = false
                         recyclerViewOptions[noOfAttribute].isSelected = false
+                        Log.d("MMM", "recyclerViewOptions: else")
                     }
                 }
                 eachSwatchRecyclerView.adapter!!.notifyDataSetChanged()
@@ -2233,6 +2231,7 @@ open class ProductDetailsActivity : BaseActivity() {
                                 parent.let {
                                     val currentAttributePosition = parent.tag as Int
                                     if (currentAttributePosition + 1 < mContentViewBinding.data!!.configurableData.attributes?.size ?: 0) {
+                                        Log.d("TAG", "recyclerViewOptions: 2B")
                                         initializeConfigurableAttributeOption(
                                             currentAttributePosition + 1
                                         )
@@ -2254,13 +2253,16 @@ open class ProductDetailsActivity : BaseActivity() {
         }
     }
 
-    private fun canAddCurrentAttributeOption(
-        currentAttributePositionToUpdate: Int,
-        attributeOptionPosition: Int
-    ): Boolean {
+    private fun canAddCurrentAttributeOption(currentAttributePositionToUpdate: Int, attributeOptionPosition: Int): Boolean {
         try {
             /*add all attribute option value for the position 0*/
             if (currentAttributePositionToUpdate == 0) {
+                var vv= mContentViewBinding.data!!.configurableData.attributes?.get(currentAttributePositionToUpdate
+                )?.options?.get(attributeOptionPosition)?.products?.size != 0
+                var size=mContentViewBinding.data!!.configurableData.attributes?.get(currentAttributePositionToUpdate
+                )?.options?.get(attributeOptionPosition)?.products?.size
+                Log.d("MMM", " bool  "+vv)//false
+                Log.d("MMM", " boolSize  "+size)//0
                 return mContentViewBinding.data!!.configurableData.attributes?.get(
                     currentAttributePositionToUpdate
                 )?.options?.get(attributeOptionPosition)?.products?.size != 0
@@ -2269,15 +2271,14 @@ open class ProductDetailsActivity : BaseActivity() {
             val currentProductList = mContentViewBinding.data!!.configurableData.attributes?.get(
                 currentAttributePositionToUpdate
             )?.options?.get(attributeOptionPosition)?.products
-
+            Log.d("MMM", " currentProductList  "+currentProductList?.size)//false
             for (noOfProductAssociatedWithCurrentAttributeOption in currentProductList?.indices!!) {
 
                 var noOfMatches = 0
 
                 for (noOfAttributeBeforeTheCurrentAttribute in 0 until currentAttributePositionToUpdate) {
-                    if (mContentViewBinding.data!!.configurableData.attributes?.get(
-                            noOfAttributeBeforeTheCurrentAttribute
-                        )?.swatchType == "visual" || mContentViewBinding.data!!.configurableData.attributes?.get(
+                    if (mContentViewBinding.data!!.configurableData.attributes?.get(noOfAttributeBeforeTheCurrentAttribute)
+                            ?.swatchType == "visual" || mContentViewBinding.data!!.configurableData.attributes?.get(
                             noOfAttributeBeforeTheCurrentAttribute
                         )?.swatchType == "text"
                     ) {
@@ -2351,12 +2352,19 @@ open class ProductDetailsActivity : BaseActivity() {
                     }
                 }
                 if (noOfMatches == currentAttributePositionToUpdate) {
+                    Log.d("MMM", "noOfMatches1"+noOfMatches)
                     return true
+                }else{
+                    Log.d("MMM", "noOfMatches2"+noOfMatches)
                 }
+
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.d("MMM", "noOfMatches3")
         }
+        Log.d("MMM", "noOfMatches4")
         return false
     }
 
@@ -2727,10 +2735,8 @@ open class ProductDetailsActivity : BaseActivity() {
     }
 
     private fun setupMoreInfoRv() {
-        mContentViewBinding.moreInfoRv.adapter =
-            MoreInfoRvAdapter(this, mContentViewBinding.data!!.additionalInformation)
-        mContentViewBinding.moreBidInfoRv.adapter =
-            BidListRvAdapter(this, mContentViewBinding.data!!.normalBidList)
+        mContentViewBinding.moreInfoRv.adapter = MoreInfoRvAdapter(this, mContentViewBinding.data!!.additionalInformation)
+        mContentViewBinding.moreBidInfoRv.adapter = BidListRvAdapter(this, mContentViewBinding.data!!.normalBidList)
 
     }
 

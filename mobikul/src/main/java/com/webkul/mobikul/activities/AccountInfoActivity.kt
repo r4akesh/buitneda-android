@@ -2,6 +2,7 @@ package com.webkul.mobikul.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -39,6 +40,7 @@ class AccountInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_info)
         startInitialization()
+        Log.d("TAG", "git change")
     }
 
     private fun startInitialization() {

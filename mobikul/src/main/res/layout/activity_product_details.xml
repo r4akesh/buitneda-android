@@ -1389,9 +1389,11 @@
                             android:text="@{data.formattedPrice}"
                             android:textColor="@color/grey_400"
                             android:textSize="@dimen/text_size_small"
-                            android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{data.getDiscountPercentage().equals(&quot;0%&quot;) ? View.GONE : View.VISIBLE}"
+
                             tools:text="$310.00" />
 
+                       <!-- android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"-->
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/product_min_price_tv"
@@ -1471,9 +1473,9 @@
                             android:textAllCaps="true"
                             android:textColor="@color/product_discount_text_color"
                             android:textSize="@dimen/text_size_small"
-                            android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{data.getDiscountPercentage().equals(&quot;0%&quot;) ? View.GONE : View.VISIBLE}"
                             tools:text="$310.00" />
-
+                        <!-- android:visibility="@{data.hasSpecialPrice() ? View.VISIBLE : View.GONE}"-->
 
                     </LinearLayout>
 

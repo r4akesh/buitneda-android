@@ -63,12 +63,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/backBtn">
 
-                <EditText
+                <TextView
                     android:id="@+id/searchEditorBtn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:backgroundTint="@null"
                     android:background="@null"
+                    android:gravity="center_vertical"
                     android:hint="@string/search"
                     android:textColorHint="@color/color_B4B4B4"
                     android:fontFamily="@font/montserrat_regular"

@@ -237,7 +237,9 @@ class ProductTileData() : Parcelable, BaseObservable() {
     }
 
     fun hasSpecialPrices(): Boolean {
-        return finalPrice != 0.0 && finalPrice < price
+       // return finalPrice != 0.0 && finalPrice < price
+        return finalPrice != 0.0 && finalPrice < price && Math.round((100 - finalPrice / price * 100)).toString() != "0"
+
     }
 
     fun hasPrice(): Boolean {
@@ -264,7 +266,12 @@ class ProductTileData() : Parcelable, BaseObservable() {
         return Math.round((100 - finalPrice / price * 100)).toString() + "%"
 
     }
-
+    fun isDiscountPercentageZero(): Boolean {
+        if(Math.round((100 - finalPrice / price * 100)).toString() == "0"){
+            return false
+            }
+            return true
+    }
     fun isArEnabled(context: Context): Boolean {
         if (ApplicationConstants.ENABLE_AR_CORE) {
             if (arModelUrl.isNullOrEmpty()) {

@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -99,6 +100,7 @@ open class CatalogActivity : BaseActivity() {
             IntentFilter(BROADCAST_DEFAULT_UPDATE_CART_BADGE)
         )
         startInitialization(intent)
+        Log.d("TAG", "onCreate: CatalogActivity")
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -13,6 +13,7 @@
 
 package com.webkul.mobikul.handlers
 
+import android.util.Log
 import com.webkul.mobikul.activities.ProductDetailsActivity
 import com.webkul.mobikul.models.product.SwatchData
 import java.util.*
@@ -22,7 +23,7 @@ class CatalogAttributesSwatchHandler(val mContext: ProductDetailsActivity, val m
 
     fun onAttributeSelected(position: Int) {
         setSelectedAttribute(position)
-
+        Log.d("TAG", "recyclerViewOptions:3C ")
         if (mRecyclerViewTag + 1 < mContext.mContentViewBinding.data!!.configurableData.attributes?.size?:0) {
             mContext.initializeConfigurableAttributeOption(mRecyclerViewTag + 1)
         }

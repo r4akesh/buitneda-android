@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonIgnoreProperties(ignoreUnknown = true)
 class ServiceProviderReviewModel {
     var created_at: String = ""
-    var description: Any = ""
+    var description: String? = ""
     var photo: Any? = ""
     var rating: String = ""
     var review_id: String = ""

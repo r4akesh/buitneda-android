@@ -20,7 +20,8 @@ import com.webkul.mobikul.customviews.MaterialSearchView
 class RecentSearchesHandler(private val mMaterialSearchView: MaterialSearchView) {
 
     fun onClickSearch(query: String) {
-        mMaterialSearchView.setQuery(query)
+      //  mMaterialSearchView.setQuery(query)
+        mMaterialSearchView.setQuery(query,true)//here true pass coz we wanna directly search item
     }
 
     fun onClickDeleteSearch(query: String) {

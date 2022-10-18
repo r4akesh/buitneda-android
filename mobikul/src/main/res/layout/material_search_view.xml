@@ -157,7 +157,7 @@
                     android:paddingStart="@dimen/spacing_normal"
                     android:paddingTop="@dimen/spacing_normal"
                     android:paddingBottom="@dimen/spacing_normal"
-                    android:visibility="@{data.suggestProductArray.tags.size() != 0 ? View.VISIBLE : View.GONE}">
+                    android:visibility="gone">
 
                     <TextView
                         fontPath="fonts/Montserrat-SemiBold.ttf"
@@ -179,6 +179,7 @@
                         tools:targetApi="lollipop" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+            <!--    android:visibility="@{data.suggestProductArray.tags.size() != 0 ? View.VISIBLE : View.GONE}"-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

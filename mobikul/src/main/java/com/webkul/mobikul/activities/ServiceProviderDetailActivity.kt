@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -36,6 +37,7 @@ class ServiceProviderDetailActivity : BaseActivity() {
         mContentBinding = ActivityServiceProviderDetailBinding.inflate(layoutInflater)
         setContentView(mContentBinding.root)
         init()
+        Log.d("Kunal", "ServiceProviderDetailActivity")
     }
 
     private fun init() {

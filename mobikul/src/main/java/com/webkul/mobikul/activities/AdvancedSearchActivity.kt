@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
@@ -41,6 +42,7 @@ class AdvancedSearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_advanced_search)
         startInitialization()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
