@@ -40,7 +40,7 @@ class AccountInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         mContentViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_info)
         startInitialization()
-        Log.d("TAG", "git change")
+        Log.d("TAG", "git change2")
     }
 
     private fun startInitialization() {
