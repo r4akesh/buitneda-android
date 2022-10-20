@@ -47,8 +47,8 @@ class HomeTopSellingProduct() : Parcelable ,BaseModel(){
     @JsonProperty("entityId")
     val entityId: String? = null
 
-    @JsonProperty("rating")
-    val rating: Int? = null
+//    @JsonProperty("rating")
+//    val rating: Int? = null
 
     @JsonProperty("isAvailable")
     val isAvailable: Boolean? = null

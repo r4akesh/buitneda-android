@@ -87,12 +87,8 @@ class DeliveryboyMakeReviewHandler(private val mFragmentContext: DeliveryboyMake
     }
 
     private fun onErrorResponse(error: Throwable) {
-        AlertDialogHelper.showNewCustomDialog(
-                mFragmentContext.activity!! as BaseActivity,
-                mFragmentContext.getString(R.string.oops),
-                NetworkHelper.getErrorMessage(mFragmentContext.context, error),
-                false,
-                mFragmentContext.getString(R.string.try_again),
+        AlertDialogHelper.showNewCustomDialog( mFragmentContext.activity!! as BaseActivity, mFragmentContext.getString(R.string.oops), NetworkHelper.getErrorMessage(mFragmentContext.context, error),
+                false, mFragmentContext.getString(R.string.try_again),
                 DialogInterface.OnClickListener { dialogInterface: DialogInterface, _: Int ->
                     dialogInterface.dismiss()
                     callApi(mFragmentContext.mContentViewBinding.data!!)

@@ -43,13 +43,14 @@
             android:layout_marginEnd="@dimen/spacing_generic"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:weightSum="4"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/carousel_label"
                 fontPath="fonts/Montserrat-SemiBold.ttf"
                 android:layout_width="0dp"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
@@ -147,13 +148,14 @@
                 android:visibility="@{data.id.isEmpty() || data.productList.size() &lt; 3? View.GONE : View.VISIBLE}">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->handler.onClickViewAllBtn(data.label, data.id)}"
                    android:padding="5dp"
                     android:text="@string/all"
                     android:layout_gravity="center"
                     android:textStyle="bold"
+                    android:gravity="end"
                     android:drawablePadding="5dp"
                     android:drawableStart="@drawable/ic_icon_plus_circle"
                     android:textColor="@color/colorPrimary"

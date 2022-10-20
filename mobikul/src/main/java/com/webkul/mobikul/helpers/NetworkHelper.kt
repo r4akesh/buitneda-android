@@ -58,8 +58,10 @@ class NetworkHelper {
                     return context.getString(R.string.error_server)
                 else if (error is SocketTimeoutException || error is SocketException)
                     return context.getString(R.string.error_timeout)
-                else
-                    return context.getString(R.string.error_request)
+                else {
+                   // return error.toString()
+                     return context.getString(R.string.error_request)
+                }
             }
             return null
         }
