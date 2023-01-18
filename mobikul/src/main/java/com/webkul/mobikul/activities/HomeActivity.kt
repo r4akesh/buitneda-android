@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.webkul.mobikul.BuildConfig
 import com.webkul.mobikul.R
 import com.webkul.mobikul.broadcast_receivers.BottomMenuReceiver
@@ -73,6 +74,8 @@ class HomeActivity : BaseActivity(), OnMenuSelectListener {
             updateCartBadgeReceiver,
             IntentFilter(BROADCAST_DEFAULT_UPDATE_CART_BADGE)
         )
+
+
 
         startInitialization()
         Handler(Looper.myLooper()!!).postDelayed({
@@ -257,6 +260,10 @@ class HomeActivity : BaseActivity(), OnMenuSelectListener {
         updateCartCount(AppSharedPref.getCartCount(this))
 
         registerReceiver(bottomMenuReceiver,IntentFilter("bottom.menu.action"))
+
+
+
+
 
     }
 

@@ -242,6 +242,11 @@ class PaymentInfoFragment : BaseFragment() {
                         } else {
                             callWalletApi("reset", "0")
                             mContentViewBinding.toPayTotalAmount.text = reviewsAndPaymentsResponseModelData.cartTotal
+
+                            val str2 =  reviewsAndPaymentsResponseModelData.cartTotal
+                            val num2 = str2.replace(Regex("[^0-9]"), "")
+                            println(num2)
+                            num2.let { AppSharedPref.setTotAmt(context!!, it) }
                         }
                     }
                     callWalletApi("reset", "0")
@@ -274,6 +279,11 @@ class PaymentInfoFragment : BaseFragment() {
                                 }
                                 mContentViewBinding.walletDetailsLayout.visibility = View.VISIBLE
                                 mContentViewBinding.toPayTotalAmount.text = applyPaymentAmountResponseData.walletData.formattedLeftAmountToPay
+
+                                val str2 = applyPaymentAmountResponseData.walletData.formattedLeftAmountToPay
+                                val num2 = str2.replace(Regex("[^0-9]"), "")
+                                println(num2)
+                                num2.let { AppSharedPref.setTotAmt(context!!, it) }
                             } else {
                                 for (i in 0 until mContentViewBinding.paymentMethodRg.childCount) {
                                     mContentViewBinding.paymentMethodRg.getChildAt(i).isEnabled = true
@@ -282,7 +292,15 @@ class PaymentInfoFragment : BaseFragment() {
                                 if (applyPaymentAmountResponseData.walletData.unformattedAmountInWallet == 0.toDouble()) {
                                     mContentViewBinding.noAmountWalletMsg.visibility = View.VISIBLE
                                     mContentViewBinding.payWithWalletCb.visibility = View.GONE
+
+
+
+                                    val str2 = reviewsAndPaymentsResponseModelData.cartTotal
+                                    val num2 = str2.replace(Regex("[^0-9]"), "")
+                                    println(num2)
+
                                     mContentViewBinding.toPayTotalAmount.text = reviewsAndPaymentsResponseModelData.cartTotal
+                                    num2.let { AppSharedPref.setTotAmt(context!!, it) }
                                 }
                             }
                         } else {

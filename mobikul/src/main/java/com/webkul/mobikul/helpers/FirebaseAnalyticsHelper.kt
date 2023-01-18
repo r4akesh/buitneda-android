@@ -2,9 +2,14 @@ package com.webkul.mobikul.helpers
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
+
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.webkul.mobikul.models.catalog.CartItem
 import org.json.JSONObject
+
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 
 class FirebaseAnalyticsHelper {
@@ -21,6 +26,7 @@ class FirebaseAnalyticsHelper {
                 sContext = context
             }
         }
+
 
         fun logAppOpenEvent() {
             if (sFirebaseAnalytics != null)
@@ -177,5 +183,28 @@ class FirebaseAnalyticsHelper {
                 sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, params)
             }
         }
+
+        fun logRevenueEvent(incrementId: String, orderId: String, totAmt: String) {
+            try{
+                var vv=   Random.nextInt(9)
+                Log.d("FirebaseAnalyticsStart", "try: "+vv)
+                if (sFirebaseAnalytics != null) {
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.AFFILIATION, "purchase2")
+                    bundle.putString(FirebaseAnalytics.Param.COUPON, "")
+                    bundle.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
+                    bundle.putDouble(FirebaseAnalytics.Param.SHIPPING, 0.0)
+                    bundle.putDouble(FirebaseAnalytics.Param.TAX, 0.0)
+                    bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID,orderId)
+                    bundle.putDouble(FirebaseAnalytics.Param.VALUE, totAmt.toDouble())
+                    sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.PURCHASE, bundle)
+                    Log.d("FirebaseAnalyticsStartI", "try: "+totAmt.toDouble())
+                }
+            }
+            catch (e:Exception){
+                Log.d("FirebaseAnalyticsStart", "catch: "+e)
+            }
+        }
+
     }
 }

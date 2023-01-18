@@ -77,6 +77,8 @@ open class AppSharedPref {
         const val KEY_PRICE_PATTERN = "pattern"
         const val KEY_PRICE_PRECISION = "precision"
 
+        const val KEY_TOT_AMT = "totamtpay"
+
         /*Fingerprint*/
         private const val FINGERPRINT_PREF = "fingerprintPreference"
         private const val KEY_CUSTOMER_FINGER_USER_NAME = "fingerUsername"
@@ -144,6 +146,17 @@ open class AppSharedPref {
 
 
         /* Configuration Related functions */
+
+
+        @JvmStatic
+        fun getTotAmt(context: Context): String {
+            return getSharedPreference(context, CONFIGURATION_PREF).getString(KEY_TOT_AMT, DEFAULT_STORE_ID)?:DEFAULT_STORE_ID
+        }
+
+        fun setTotAmt(context: Context, amt: String) {
+            getSharedPreferenceEditor(context, CONFIGURATION_PREF).putString(KEY_TOT_AMT, amt).apply()
+        }
+
 
         @JvmStatic
         fun getWebsiteId(context: Context): String {

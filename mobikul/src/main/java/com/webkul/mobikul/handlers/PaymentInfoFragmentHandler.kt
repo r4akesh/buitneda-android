@@ -112,6 +112,7 @@ class PaymentInfoFragmentHandler(val mFragmentContext: PaymentInfoFragment) {
     private fun onSuccessfulResponse(saveOrderResponseModel: SaveOrderResponseModel) {
         mSaveOrderResponseModel = saveOrderResponseModel
         FirebaseAnalyticsHelper.logECommercePurchaseEvent(saveOrderResponseModel.incrementId!!,saveOrderResponseModel.orderId!!)
+        FirebaseAnalyticsHelper.logRevenueEvent(saveOrderResponseModel.incrementId!!,saveOrderResponseModel.orderId!!,AppSharedPref.getTotAmt(mFragmentContext.context!!))
         AppSharedPref.setQuoteId(mFragmentContext.context!!, 0)
         AppSharedPref.setCartCount(mFragmentContext.context!!, 0)
         if (mSaveOrderResponseModel.webview) {

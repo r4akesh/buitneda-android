@@ -70,6 +70,9 @@ class SplashScreenActivity : BaseActivity() {
         }
         //FirebaseAnalyticsHelper.logAppScreenView("Launch", "SplashScreenActivity.class")
         FirebaseAnalyticsHelper.logAppOpenEvent()
+     //   FirebaseAnalyticsHelper.logRevenueEvent()
+
+
 //        addAnimationListener()
         checkAction()
 
