@@ -55,10 +55,12 @@
         <activity
             android:name=".activities.BaseActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.SplashScreenActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,45 +82,54 @@
         <activity
             android:name=".activities.HomeActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Home" />
         <activity
             android:name=".activities.LoginAndSignUpActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.MyOrdersActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.ProductNotFound"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.MyDownloadableProductsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.MyWishListActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.MyReviewListActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AddressBookActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AccountInfoActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
@@ -127,6 +138,7 @@
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTop"
             android:resizeableActivity="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.NoActionBar"
@@ -134,154 +146,184 @@
         <activity
             android:name=".activities.ReviewDetailsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.BrandCatalogActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AuctionFragmentActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AddEditAddressActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.WishListSharingActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.CatalogActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.SubCategoryActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.webkul.mlkit.activities.CameraSearchActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AdvancedSearchActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.ProductDetailsActivity"
             android:label=""
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.SearchTermsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.CmsPageActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.CompareProductsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.ContactUsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.OrdersAndReturnsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.OtherNotificationActivity"
             android:label=""
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.CheckoutActivity"
             android:label=""
+            android:exported="false"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.WebPaymentActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.OrderPlacedActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme.OrderPlace"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.FullScreenImageScrollActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.webkul.arcore.activities.ArActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name="com.webkul.arcore.activities.CameraWithImageActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".activities.DashboardActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MediaPlayerWebviewActivity"
             android:screenOrientation="landscape"
+            android:exported="false"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".activities.DeliveryChatActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- Image Cropping Activity -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:exported="false"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".wallet.activities.WalletActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".wallet.activities.ManageWalletAmountActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".wallet.activities.TransferWalletAmountActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".wallet.activities.AddAccountDetailsActivity"
             android:launchMode="singleTop"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--

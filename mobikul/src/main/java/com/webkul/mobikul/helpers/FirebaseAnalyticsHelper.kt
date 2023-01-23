@@ -190,15 +190,16 @@ class FirebaseAnalyticsHelper {
                 Log.d("FirebaseAnalyticsStart", "try: "+vv)
                 if (sFirebaseAnalytics != null) {
                     val bundle = Bundle()
-                    bundle.putString(FirebaseAnalytics.Param.AFFILIATION, "purchase2")
+                    bundle.putString(FirebaseAnalytics.Param.AFFILIATION, "Google Store")
                     bundle.putString(FirebaseAnalytics.Param.COUPON, "")
-                    bundle.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
+                    bundle.putString(FirebaseAnalytics.Param.CURRENCY, "AOA")
                     bundle.putDouble(FirebaseAnalytics.Param.SHIPPING, 0.0)
                     bundle.putDouble(FirebaseAnalytics.Param.TAX, 0.0)
                     bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID,orderId)
                     bundle.putDouble(FirebaseAnalytics.Param.VALUE, totAmt.toDouble())
                     sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.PURCHASE, bundle)
                     Log.d("FirebaseAnalyticsStartI", "try: "+totAmt.toDouble())
+                    Log.d("FirebaseAnalyticsStartI", "try: "+orderId)
                 }
             }
             catch (e:Exception){
