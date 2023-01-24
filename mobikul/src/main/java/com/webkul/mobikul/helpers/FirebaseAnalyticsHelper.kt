@@ -195,7 +195,7 @@ class FirebaseAnalyticsHelper {
                     bundle.putString(FirebaseAnalytics.Param.CURRENCY, "AOA")
                     bundle.putDouble(FirebaseAnalytics.Param.SHIPPING, 0.0)
                     bundle.putDouble(FirebaseAnalytics.Param.TAX, 0.0)
-                    bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID,orderId)
+                    bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID,incrementId)
                     bundle.putDouble(FirebaseAnalytics.Param.VALUE, totAmt.toDouble())
                     sFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.PURCHASE, bundle)
                     Log.d("FirebaseAnalyticsStartI", "try: "+totAmt.toDouble())
